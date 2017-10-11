@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         CharSequence text = "";
         int duration = Toast.LENGTH_SHORT;
 
-        if(userName.equals("u1") && password.equals("p1"))
+        if(userName.equals("shirish") && password.equals("handsome"))
         {
             setContentView(R.layout.static_main_page);
         }else{
