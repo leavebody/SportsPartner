@@ -22,11 +22,11 @@ public class LoginController {
 
     private void setupEndpoints() {
         //login
-        put(API_CONTEXT + "/login", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/login", "application/json", (request, response) -> {
             try {
                 User user = userService.login(request.body());
                 response.status(200);
-                return user;
+                return true;
             } catch (Exception ex) {
                 logger.error("Failed to Login");
                 response.status(500);

@@ -21,27 +21,27 @@ public class SignUpController {
     }
 
     private void setupEndpoints() {
-        //signUp as person
+        //sign up as person
         post(API_CONTEXT + "/signup/type=person", "application/json", (request, response) -> {
             try {
                 userService.signUpPerson(request.body());
                 response.status(200);
                 return true;
             } catch (Exception ex) {
-                logger.error("Failed to SignUp");
+                logger.error("Failed to Sign Up");
                 response.status(500);
                 return false;
             }
         }, new JsonTransformer());
 
-        //signUp as ActivityProvider
-        post(API_CONTEXT + "/signup/type=activityprovider", "application/json", (request, response) -> {
+        //sign up as facility provider
+        post(API_CONTEXT + "/signup/type=facilityprovider", "application/json", (request, response) -> {
             try {
                 userService.signUpActivityProvider(request.body());
                 response.status(200);
                 return true;
             } catch (Exception ex) {
-                logger.error("Failed to SignUp");
+                logger.error("Failed to Sign Up");
                 response.status(500);
                 return false;
             }
