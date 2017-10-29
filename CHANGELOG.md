@@ -43,12 +43,12 @@ All notable changes to this project will be documented in this file.
   - Facility
   - Friend
 * Backend: Controller and Service for
-  - Sign in
+  - Sign In
   - Sign Up
   - View Profile
   - Activity (get activitydetail, get activity outline, get upcoming activity, get past activity)
 * Backend: Test for
-  - Sign in
+  - Sign In
   - Sign Up
   - View Profile
   - Activity (get activitydetail, get activity outline, get upcoming activity, get past activity)
