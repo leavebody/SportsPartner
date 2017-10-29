@@ -9,4 +9,4 @@ Our code consists of two part. The Server part is in ``/code/Server`` folder. Th
 - Use Intelij: Open ``/code/Server/pom.xml`` as project, then click Build->Build Project.
 
 ### Andriod
-- Use Android Studio(Version 171.4408382): Open ``code/Android/Sports Partner``, it will automatically build.
+- Use Android Studio(Version 171.4408382): Open ``code/Android/Sports Partner``, it will build automatically.
