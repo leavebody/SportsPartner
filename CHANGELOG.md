@@ -101,6 +101,14 @@ All notable changes to this project will be documented in this file.
   - CreateSportsActivity
   - SearchSportsActivity
   - SportsActivityDeatil
+* Android: xmls for:
+  - Profile
+  - Home
+  - CreateSportsActivity
+  - SearchSportsActivity
+  - SportsActivityDeatil 
+  - Navigation Bar
+  - ToolBar
 * Andoird: models for:
   - Profile
   - ProfileComment
@@ -108,3 +116,8 @@ All notable changes to this project will be documented in this file.
   - SportsActivityOutline
   - Sport
   - UserOutline
+* Android: Send volley requests and parse responds for:
+ - All the endpoints realted to sport activities 
+ - All the endpoints realted to user
+ - All the endpoints realted to profile
+
