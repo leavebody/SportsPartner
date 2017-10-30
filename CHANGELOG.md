@@ -42,14 +42,14 @@ All notable changes to this project will be documented in this file.
   - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#notification)
   - [FacilityProvider](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facilityprovider)
 * Backend: View Model for
-  - User
-  - Signup
-  - Login
-  - Person
-  - Interest
-  - ProfileComment
-  - Activity
-  - ActivityOutline
+  - [LoginVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#loginvo)
+  - [SignupVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#signupvo)
+  - [UserOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#useroutlinevo)
+  - [PersonVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#personvo)
+  - [ProfileCommentVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#profilecommentvo)
+  - [InterestVO] (https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#interestvo)
+  - [ActivityVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityvo)
+  - [ActivityOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityoutlinevo)
 * Backend: Dao and DaoImpl for
   - User
   - Sport
