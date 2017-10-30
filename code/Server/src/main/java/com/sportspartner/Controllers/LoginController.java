@@ -1,19 +1,14 @@
-package com.sportspartner.Controllers;
+package com.sportspartner.controllers;
 
-import com.sportspartner.Models.User;
-import com.sportspartner.Service.UserService;
-import com.sportspartner.Util.JsonTransformer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.sportspartner.util.JsonResponse;
+import com.sportspartner.service.UserService;
+import com.sportspartner.util.JsonTransformer;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-import static spark.Spark.put;
+import static spark.Spark.*;
 
 public class LoginController {
     private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private UserService userService;
-    private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     public LoginController(UserService userService) {
         this.userService = userService;
@@ -21,16 +16,17 @@ public class LoginController {
     }
 
     private void setupEndpoints() {
+
         //login
         post(API_CONTEXT + "/login", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
             try {
-                User user = userService.login(request.body());
+                reps = userService.login(request.body());
                 response.status(200);
-                return true;
-            } catch (Exception ex) {
-                logger.error("Failed to Login");
-                response.status(500);
-                return false;
+                return reps;
+            } catch (UserService.UserServiceException ex) {
+                response.status(200);
+                return reps;
             }
         }, new JsonTransformer());
 

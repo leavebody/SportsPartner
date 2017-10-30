@@ -1,4 +1,4 @@
-package com.sportspartner.Util;
+package com.sportspartner.util;
 
 import com.google.gson.Gson;
 import spark.Response;
