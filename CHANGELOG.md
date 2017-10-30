@@ -27,21 +27,21 @@ All notable changes to this project will be documented in this file.
   - [Sport](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#sport)
 * Backend: Model for
   - [User](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#user)
-  - Sport
-  - Person
-  - Interest
-  - ProfileComment
-  - Activity
-  - ActivityComment
-  - ActivityMember
-  - Authorization
-  - FriendList
-  - PendingFriendRequest
-  - Facility
-  - Friend
-  - Moments
-  - Notification
-  - FacilityProvider
+  - [Sport](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#sport)
+  - [Person](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#person)
+  - [Interest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#interest)
+  - [ProfileComment](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#profilecomment)
+  - [Activity](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#activity)
+  - [ActivityComment](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#activitycomment)
+  - [ActivityMember](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#activitymember)
+  - [Authorization](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#authorization)
+  - [FriendList](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#friendlist)
+  - [PendingFriendRequest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#pendingfriendrequest)
+  - [Facility](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facility)
+  - [Friend](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#friend)
+  - [Moment](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#moment)
+  - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#notification)
+  - [FacilityProvider](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facilityprovider)
 * Backend: View Model for
   - User
   - Signup
