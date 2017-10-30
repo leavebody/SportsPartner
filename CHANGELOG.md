@@ -59,17 +59,17 @@ All notable changes to this project will be documented in this file.
     get activity outlines
     get upcoming activities
     get past activities
-* Backend: Test for
+- Backend: Test for
   - Login
   - Sign up(as a person)
   - Profile:
-    get profile
-    update profile
-    get interests
-    update interests
-    get user outline
-    get profile comments
-    get all sports
+    - get profile
+    - update profile
+    - get interests
+    - update interests
+    - get user outline
+    - get profile comments
+    - get all sports
   - Activity:
     get activity details
     get activity outlines
