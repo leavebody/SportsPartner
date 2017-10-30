@@ -52,3 +52,17 @@ All notable changes to this project will be documented in this file.
   - Sign Up
   - View Profile
   - Activity (get activitydetail, get activity outline, get upcoming activity, get past activity)
+* Android: Activities for 
+  - Basic
+  - Home
+  - Profile
+  - CreateSportsActivity
+  - SearchSportsActivity
+  - SportsActivityDeatil
+* Andoird: models for:
+  - Profile
+  - ProfileComment
+  - SportsActivity
+  - SportsActivityOutline
+  - Sport
+  - UserOutline
