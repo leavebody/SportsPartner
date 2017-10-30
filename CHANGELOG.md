@@ -57,8 +57,8 @@ All notable changes to this project will be documented in this file.
   - Home
   - Profile
   - CreateSportsActivity
-  - SearchSportsActivity
-  - SportsActivityDeatil
+  - SearchSportsActivity
+  - SportsActivityDeatil
 * Andoird: models for:
   - Profile
   - ProfileComment
