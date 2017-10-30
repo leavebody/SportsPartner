@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file.
 * Backend: Model for
   - [User](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#user)
   - [Sport](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#sport)
-  - [Person](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#person)
+  - [Person](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#profile)
   - [Interest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#interest)
   - [ProfileComment](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#profilecomment)
   - [Activity](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#activity)
