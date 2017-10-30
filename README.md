@@ -6,7 +6,7 @@ Playing sports with others is a good way to experience the goodness of life. Now
 Our code consists of two part. The Server part is in ``/code/Server`` folder. The Android part is in ``/code/Android`` folder.
 
 ### Server
-- Build Project: In Intelij, open ``/code/Server/pom.xml`` as project, then click Build->Build Project. (Java Version:1.8)
+- Build project: In Intelij, open ``/code/Server/pom.xml`` as project, then click Build->Build Project. (Java Version:1.8)
 - Run the server: run ``/code/Server/src/main/java/com/sportspartner/main/Bootstrap.java``
 - Run the test: run the 4 files in ``/code/Server/src/test/java/com/sportspartner/unittest/``
 
