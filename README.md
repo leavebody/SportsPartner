@@ -6,7 +6,7 @@ Playing sports with others is a good way to experience the goodness of life. Now
 Our code consists of two part. The Server part is in ``/code/Server`` folder. The Android part is in ``/code/Android`` folder.
 
 ### Server
-- Use Intelij: Open ``/code/Server/pom.xml`` as project, then click Build->Build Project.
+- In Intelij, open ``/code/Server/pom.xml`` as project, then click Build->Build Project.
 - Java Version: 1.8
 
 ### Andriod
