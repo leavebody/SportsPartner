@@ -1,5 +1,5 @@
 # Sports Partner
-[![Backend](https://travis-ci.com/jhu-oose/2017-group-4.svg?token=qu7s5Cf7sE84eRpgCzqR&branch=master)]
+![Backend](https://travis-ci.com/jhu-oose/2017-group-4.svg?token=qu7s5Cf7sE84eRpgCzqR&branch=master)
 
 Playing sports with others is a good way to experience the goodness of life. Nowadays, many people want to play sports but they cannot find a companion. Sports Partner aims at sports enthusiasts who want to find sports partners. Users can create or join a sports activity with location and time specified. They can chat with fellows, share their moments and rate the activities and the sports facilities in our app. The goal of our app is to facilitate sports matching, promote social networking and encourage healthy lifestyle.
 
