@@ -38,7 +38,6 @@ All notable changes to this project will be documented in this file.
   - [FriendList](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#friendlist)
   - [PendingFriendRequest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#pendingfriendrequest)
   - [Facility](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facility)
-  - [Friend](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#friend)
   - [Moment](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#moment)
   - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#notification)
   - [FacilityProvider](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facilityprovider)
