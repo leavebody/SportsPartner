@@ -43,15 +43,38 @@ All notable changes to this project will be documented in this file.
   - Facility
   - Friend
 * Backend: Controller and Service for
-  - Sign In
-  - Sign Up
-  - View Profile
-  - Activity (get activitydetail, get activity outline, get upcoming activity, get past activity)
+  - Login
+  - Sign up(as a person or facility provider)
+  - Profile:
+    get profile
+    update profile
+    get interests
+    update interests
+    get user outline
+    get profile comments
+    create a new proflie comment
+    get all sports
+  - Activity:
+    get activity details
+    get activity outlines
+    get upcoming activities
+    get past activities
 * Backend: Test for
-  - Sign In
-  - Sign Up
-  - View Profile
-  - Activity (get activitydetail, get activity outline, get upcoming activity, get past activity)
+  - Login
+  - Sign up(as a person)
+  - Profile:
+    get profile
+    update profile
+    get interests
+    update interests
+    get user outline
+    get profile comments
+    get all sports
+  - Activity:
+    get activity details
+    get activity outlines
+    get upcoming activities
+    get past activities
 * Android: Activities for 
   - Basic
   - Home
