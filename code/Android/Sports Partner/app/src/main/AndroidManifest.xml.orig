@@ -27,7 +27,11 @@
             android:label="@string/title_activity_edit_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+<<<<<<< HEAD
             android:name=".activity.ProfileActivity"
+=======
+            android:name=".activity.FriendListActivity"
+>>>>>>> c0f54858a75f125adff5038214e44da49e1bc601
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -39,28 +43,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SearchSactivityActivity"
+            android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_friend_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.MomentActivity"
-            android:label="@string/title_activity_moment"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.FriendListActivity"
-            android:label="@string/title_activity_search_sportsactivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.CreateSactivityActivity"
-            android:label="@string/title_activity_create_sactivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SactivityDetailActivity"
-            android:label="@string/title_activity_sdetail"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.NotificationActivity"
-            android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
