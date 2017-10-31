@@ -30,7 +30,7 @@ public class ActivityTest {
 
     @AfterClass
     public static void tearDownAfterClass(){
-
+        stop();
     }
 
     @Before
