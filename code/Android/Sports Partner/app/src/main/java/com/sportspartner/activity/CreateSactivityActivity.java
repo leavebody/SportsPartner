@@ -145,13 +145,13 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     };
 
     //create
-    public void GotoCreateActivity(){
-
+    public void CreateActivity(View v){
+        //TODO
     }
 
     //cancel
-    public void CreateCancel(){
-
+    public void CreateCancel(View v){
+        //TODO
     }
 
 

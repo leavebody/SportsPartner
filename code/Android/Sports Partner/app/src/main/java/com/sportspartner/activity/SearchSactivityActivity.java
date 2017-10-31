@@ -138,4 +138,8 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         }
     };
 
+    //onclick
+    public void SearchActivity(View v){
+        //TODO onclick search button
+    }
 }
