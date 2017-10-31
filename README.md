@@ -25,7 +25,7 @@ Our code consists of two part. The Server part is in ``/code/Server`` folder. Th
 - Run the test: run the 4 files in ``/code/Server/src/test/java/com/sportspartner/unittest/``
 
 
-### Play with the Sports Partner App on Andorid
+## Play with the Sports Partner App on Andorid
 
 After you build both the Android and the server projects, you can play with our app!
 
