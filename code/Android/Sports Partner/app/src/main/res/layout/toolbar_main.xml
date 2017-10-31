@@ -1,0 +1,15 @@
+<android.support.design.widget.AppBarLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:titleTextAppearance="@style/Toolbar.TitleText"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange"
+        app:titleTextColor="@android:color/black"
+        app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"/>
+
+</android.support.design.widget.AppBarLayout>
