@@ -36,7 +36,7 @@ For the iterration 3, you can do following things in our app.
   Besides, you can see the upcomming activities in the bottom of this page. 
   - Scroll down to the bottom to refresh the page. You will see more upcomming activities as well as the history activities.
 - Navigation bar: Click the top left button to aourse the navigation bar, press the button then you will jump to the correspoding page.
-- Home Page:
+- Home Page: You can view your upcomming activities and recommend activities. If you want to creat or search certian activity, click the corresponding button.
 - Create new Activity Page: You can chose type of sports, date, time and write description for you activity. However, the ``Create`` and ``Cancel`` buttons do nothing at this moment.
 - Search new Activity Page: You can chose type of sports, date, time and write description for you activity. However, the ``Join`` button do nothing at this moment.
 - Other Pages: They are empty and need to be impelemented.
