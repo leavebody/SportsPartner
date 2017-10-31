@@ -2,5 +2,5 @@ language: java
 jdk:
  - oraclejdk8
 script: 
+  - cd $TRAVIS_BUILD_DIR/code/Server
   - mvn test
-  - cd code/Server
