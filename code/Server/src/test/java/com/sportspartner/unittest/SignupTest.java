@@ -6,6 +6,7 @@ import com.sportspartner.service.UserService;
 import com.sportspartner.dao.impl.*;
 import org.json.JSONObject;
 import org.junit.*;
+import spark.Spark;
 import spark.utils.IOUtils;
 
 import java.io.DataOutputStream;
@@ -14,9 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 public class SignupTest {
     HttpURLConnection connection = null;
@@ -27,12 +26,13 @@ public class SignupTest {
         port(Bootstrap.PORT);
         staticFileLocation("/public");
         new SignUpController(new UserService());
-        Thread.sleep(4000);
+        Thread.sleep(2000);
     }
 
     @AfterClass
-    public static void tearDownAfterClass(){
-
+    public static void tearDownAfterClass() throws Exception{
+        Spark.stop();
+        Thread.sleep(2000);
     }
 
     @Before
