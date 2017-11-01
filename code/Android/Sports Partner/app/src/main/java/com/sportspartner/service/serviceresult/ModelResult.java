@@ -1,7 +1,11 @@
 package com.sportspartner.service.serviceresult;
 
 /**
- * Created by xc on 10/26/17.
+ * The result of a network request.
+ * Other than the fields in its parent class,
+ * a model is added to help the request caller
+ * to get an arbitary class on demand.
+ * @author Xiaochen Li
  */
 
 public class ModelResult <T> extends BooleanResult {

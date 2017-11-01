@@ -3,9 +3,12 @@ package com.sportspartner.request;
 import android.content.Context;
 
 /**
- * Created by xc on 10/24/17.
+ * @author Xiaochen Li
  */
 
+/**
+ * The base class of all requests
+ */
 public class Request {
     //for tablet
     //protected static final String URL_CONTEXT = "http://10.194.75.125:8080/api.sportspartner.com/";

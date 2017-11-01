@@ -17,14 +17,26 @@ import com.sportspartner.util.VolleyCallback;
 
 
 /**
- * Created by xc on 10/23/17.
+ * @author Xiaochen Li
  */
 
 public class ActivityRequest extends com.sportspartner.request.Request{
+    /**
+     * Constructor
+     * @param c Caller context
+     */
     public ActivityRequest(Context c){
         super(c);
     }
 
+    /**
+     * Send request for a group of activity outlines
+     * @param callback
+     * @param type either "past" or "upcoming" or "recommend" for different types of search
+     * @param id the activity for whom
+     * @param limit The maximum number of results to return.
+     * @param offset The index of the first result to return.
+     */
     public void activitiesOutlineRequest(final VolleyCallback callback, String type, String id, int limit, int offset) {
 
         // Instantiate the RequestQueue.
@@ -50,10 +62,12 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         queue.add(nrRequest);
     }
 
-    /*
-    * @param type: either "full" for full activity or "outline" for activity outline
-    * id: the id for this activity
-    * */
+    /**
+     * Send request to get the detail of an activity
+     * @param callback
+     * @param type either "full" for full activity or "outline" for activity outline
+     * @param id the id for this activity
+     */
     public void activityInfoRequest(final VolleyCallback callback, String type, String id) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
@@ -77,6 +91,11 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         queue.add(nrRequest);
     }
 
+    /**
+     * Send a request to create an activity
+     * @param callback
+     * @param activity the activity to create
+     */
     public void createActivityRequest(final VolleyCallback callback, SActivity activity) {
 
 

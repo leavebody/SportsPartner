@@ -13,12 +13,21 @@ import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
 /**
- * Created by xc on 10/26/17.
+ * @author Xiaochen Li
  */
 
 public class ResourceRequest extends Request {
+    /**
+     * Constructor
+     * @param c
+     */
     public ResourceRequest(Context c) {super(c);}
 
+    /**
+     * Send a request for an image.
+     * @param callback
+     * @param path The path of the image in server.
+     */
     public void imageRequest(final VolleyCallback callback, String path) {
 
         JsonObject jsonRequestObject = new JsonObject();
@@ -47,6 +56,10 @@ public class ResourceRequest extends Request {
         queue.add(nrRequest);
     }
 
+    /**
+     * Send a request for a list of all sports.
+     * @param callback Caller context.
+     */
     public void allSportsRequest(final VolleyCallback callback) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);

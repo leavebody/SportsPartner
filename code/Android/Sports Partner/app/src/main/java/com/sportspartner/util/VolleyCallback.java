@@ -3,7 +3,8 @@ package com.sportspartner.util;
 import com.android.volley.NetworkResponse;
 
 /**
- * Created by xc on 10/21/17.
+ * Use this interface to handle callback function in the caller class.
+ * @author Xiaochen Li
  */
 
 public interface VolleyCallback{

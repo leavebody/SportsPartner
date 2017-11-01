@@ -6,7 +6,8 @@ import com.sportspartner.service.serviceresult.*;
 import java.util.ArrayList;
 
 /**
- * Created by xc on 10/21/17.
+ * Use this class to handle callback function in the caller class.
+ * @author Xiaochen Li
  */
 
 public class ActivityCallBack <M> {

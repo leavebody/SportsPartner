@@ -7,6 +7,7 @@ import com.sportspartner.service.UserService;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
 import org.junit.*;
+import spark.Spark;
 import spark.utils.IOUtils;
 
 import java.io.DataOutputStream;
@@ -26,12 +27,13 @@ public class LoginTest {
         port(Bootstrap.PORT);
         staticFileLocation("/public");
         new LoginController(new UserService());
-        Thread.sleep(4000);
+        Thread.sleep(2000);
     }
 
     @AfterClass
-    public static void tearDownAfterClass(){
-
+    public static void tearDownAfterClass() throws Exception{
+        Spark.stop();
+        Thread.sleep(2000);
     }
 
     @Before

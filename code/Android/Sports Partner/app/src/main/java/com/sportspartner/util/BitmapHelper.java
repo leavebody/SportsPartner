@@ -7,11 +7,17 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by xc on 10/27/17.
+ * Helper class for handling bitmap.
+ * @author Xiaochen Li
  */
 
 public final class BitmapHelper {
 
+    /**
+     * Transform a string to Bitmap
+     * @param encodedString The encoded string
+     * @return The result bitmap
+     */
     public static Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -24,6 +30,11 @@ public final class BitmapHelper {
         }
     }
 
+    /**
+     * Transform a Bitmap to a string
+     * @param bitmap The Bitmap to be transformed.
+     * @return The encoded string.
+     */
     public static String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);

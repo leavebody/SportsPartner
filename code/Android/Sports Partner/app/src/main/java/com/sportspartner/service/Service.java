@@ -7,21 +7,30 @@ import com.sportspartner.util.NetworkResponseRequest;
 
 
 /**
- * Created by xc on 10/25/17.
+ * The parent class of all services.
+ * @author Xiaochen Li
  */
 
 public class Service {
 
+    /**
+     * The helper method to process the result of a network request
+     * @param operation The name of the network request.
+     *                  This is used when the request returns false status and a toast
+     *                  is shown on screen to tell the user which operation is failed.
+     * @param response The network response to process
+     * @return A BooleanResult with status and message.
+     */
     protected static BooleanResult booleanRespProcess(NetworkResponse response, String operation){
         BooleanResult result = new BooleanResult();
-        boolean signupStatus = false;
+        boolean status;
 
         switch (response.statusCode){
             case 200:
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                signupStatus = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(signupStatus);
-                if(!signupStatus) {
+                status = (jsResp.get("response").getAsString().equals("true"));
+                result.setStatus(status);
+                if(!status) {
                     result.setMessage(operation+" failed: "+jsResp.get("message").getAsString());
                 }
 

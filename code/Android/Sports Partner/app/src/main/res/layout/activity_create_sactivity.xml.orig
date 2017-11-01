@@ -273,7 +273,11 @@
                     android:layout_height="50dp"
                     android:background="@color/background_blue"
                     android:gravity="center_vertical"
+<<<<<<< HEAD
                     android:onClick="GotoCreateActivity">
+=======
+                    android:onClick="CreateActivity">
+>>>>>>> e5775f4e61d50955a0237947d6bc79b6c07e172d
 
                     <ImageView
                         android:layout_width="50dp"

@@ -12,11 +12,18 @@ import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
 /**
- * Created by xc on 10/21/17.
+ * @author Xiaochen Li
  */
 
 public class UserService extends Service {
 
+    /**
+     * Login by email and password
+     * @param c Caller context
+     * @param email The email of the user
+     * @param password The password of the user.
+     * @param callback
+     */
     public static void login(final Context c, final String email, String password, final ActivityCallBack callback){
 
         UserRequest ur = new UserRequest(c);
@@ -27,6 +34,13 @@ public class UserService extends Service {
             }
         }, email, password);
     }
+
+    /**
+     * The helper method to process the result of login request.
+     * @param response The network response to process
+     * @return A BooleanResult.
+     * @see BooleanResult
+     */
     public static BooleanResult loginRespProcess(NetworkResponse response, Context c, String email){
         BooleanResult result = new BooleanResult();
         switch (response.statusCode){
@@ -50,39 +64,33 @@ public class UserService extends Service {
         return result;
     }
 
+    /**
+     * Sign up.
+     * @param c Caller context
+     * @param email The sign up email.
+     * @param password The password.
+     * @param confirmPassword The confirmed password.
+     * @param type The type of the request.
+     *             person represents the personal user and
+     *             facilityprovider represents the facility provider.
+     * @param callback
+     */
     public static void signup(Context c, String email, String password, String confirmPassword, String type, final ActivityCallBack callback){
 
         UserRequest ur = new UserRequest(c);
         ur.signUpVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.onSuccess(UserService.signupRespProcess(response));
+                callback.onSuccess(UserService.booleanRespProcess(response, "sign up"));
             }
         }, email, password, confirmPassword, type);
     }
 
-    public static BooleanResult signupRespProcess(NetworkResponse response){
-        BooleanResult result = new BooleanResult();
-        boolean signupStatus = false;
-
-        switch (response.statusCode){
-            case 200:
-
-                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                signupStatus = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(signupStatus);
-                if(!signupStatus) {
-                    result.setMessage("signup failed: "+jsResp.get("message").getAsString());
-                }
-
-                break;
-
-            default:
-                result.setMessage("bad response:"+response.statusCode);
-        }
-        return result;
-    }
-
+    /**
+     * Log out. End current login session.
+     * @param c
+     * @param callback
+     */
     public static void logOut(final Context c, final ActivityCallBack callback){
 
         UserRequest ur = new UserRequest(c);
@@ -93,6 +101,13 @@ public class UserService extends Service {
             }
         });
     }
+
+    /**
+     * The helper method to process the result of logout request.
+     * @param response The network response to process
+     * @return A BooleanResult.
+     * @see BooleanResult
+     */
     public static BooleanResult logOutRespProcess(NetworkResponse response, Context c){
         BooleanResult result = new BooleanResult();
         switch (response.statusCode){
