@@ -7,6 +7,7 @@ import com.sportspartner.main.Bootstrap;
 import com.sportspartner.service.*;
 import com.sportspartner.controllers.*;
 import org.junit.*;
+import spark.Spark;
 import spark.utils.IOUtils;
 
 import java.io.DataOutputStream;
@@ -15,9 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
+import static spark.Spark.*;
 
 public class ProfileTest {
     HttpURLConnection connection = null;
@@ -28,11 +27,13 @@ public class ProfileTest {
         port(Bootstrap.PORT);
         staticFileLocation("/public");
         new ProfileController(new ProfileService());
-        Thread.sleep(4000);
+        Thread.sleep(2000);
     }
 
     @AfterClass
-    public static void tearDownAfterClass(){
+    public static void tearDownAfterClass() throws Exception{
+        Spark.stop();
+        Thread.sleep(2000);
 
     }
 

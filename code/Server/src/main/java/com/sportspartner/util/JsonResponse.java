@@ -2,9 +2,9 @@ package com.sportspartner.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.oracle.javafx.jmx.json.JSONException;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
+import org.json.JSONException;
 
 import java.util.List;
 
