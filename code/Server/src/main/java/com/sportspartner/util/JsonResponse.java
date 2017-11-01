@@ -2,12 +2,15 @@ package com.sportspartner.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.json.JSONException;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
-import org.json.JSONException;
 
 import java.util.List;
 
+/**
+ *  Class for sending the response back to the front-end
+ */
 public class JsonResponse {
     private String response;
     private String message;
@@ -17,9 +20,6 @@ public class JsonResponse {
     private JsonObject profile;
     private JsonObject userOutline;
     private JsonObject activity;
-
-
-
 
     private String interest;
     private String authorization;

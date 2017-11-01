@@ -1,30 +1,30 @@
 package com.sportspartner.controllers;
 
-import com.sportspartner.util.JsonResponse;
 import com.sportspartner.service.UserService;
+import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
 
-import static spark.Spark.*;
+import static spark.Spark.delete;
 
-public class LoginController {
+public class LogoutController {
     private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private UserService userService;
 
-    public LoginController(UserService userService) {
+    public LogoutController(UserService userService) {
         this.userService = userService;
         setupEndpoints();
     }
 
     /**
-     * Set all endpoints for login
+     * Set all endpoints for logout
      */
     private void setupEndpoints() {
 
-        //login
-        post(API_CONTEXT + "/login", "application/json", (request, response) -> {
+        //logout
+        delete(API_CONTEXT + "/logout", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
-                reps = userService.login(request.body());
+                reps = userService.logOut(request.queryParams("userId"), request.queryParams("key"));
                 response.status(200);
                 return reps;
             } catch (UserService.UserServiceException ex) {

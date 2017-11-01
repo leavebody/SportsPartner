@@ -45,7 +45,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get a person's profile
+    /**
+     *  Test get a person's profile
+     */
     public void testProfileSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -71,7 +73,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get an non-existed person's profile
+    /**
+     *  Test get an non-existed person's profile
+     */
     public void testProfileFailure(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -97,7 +101,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test update a person's profile
+    /**
+     *  Test update a person's profile
+     */
     public void testProfileUpdate(){
         JsonObject parameters = new JsonObject();
         String responseBody = new String();
@@ -129,7 +135,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test fail to update a person's profile when the user has no authorization
+    /**
+     *  Test fail to update a person's profile when the user has no authorization
+     */
     public void testProfileUpdateFailure(){
         JsonObject parameters = new JsonObject();
         String responseBody = new String();
@@ -161,7 +169,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get a user outline successfully
+    /**
+     *  Test get a user outline successfully
+     */
     public void testUserOutlineSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -187,7 +197,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get an non-existed person's profile outline
+    /**
+     *  Test get an non-existed person's profile outline
+     */
     public void testUserOutlineFailure(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -213,7 +225,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get all sports
+    /**
+     *  Test get all sports
+     */
     public void testGetAllSports(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -238,7 +252,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get all interests of a user
+    /**
+     *  Test get all interests of a user
+     */
     public void testGetAllInterestsSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -264,7 +280,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get interests of an non-existed user
+    /**
+     *  Test get interests of an non-existed user
+     */
     public void testGetAllInterestsFailure(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -290,7 +308,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test update a user's interests
+    /**
+     *  Test update a user's interests
+     */
     public void testInterestsUpdate(){
         JsonObject parameters = new JsonObject();
         String responseBody = new String();
@@ -322,7 +342,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get profile comments
+    /**
+     *  Test get profile comments
+     */
     public void testGetProfileCommentsFailure() {
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -351,7 +373,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test get profile comments for an non-existed user
+    /**
+     *  Test get profile comments for an non-existed user
+     */
     public void testGetProfileCommentsSuccess() {
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -377,7 +401,9 @@ public class ProfileTest {
     }
 
     @Test
-    // Test leave a new profile comment without authorization: author is not in the same activity with the owner of the uset
+    /**
+     *  Test leave a new profile comment without authorization: author is not in the same activity with the owner of the uset
+     */
     public void testNewProfileCommentFailure() {
         JsonObject parameters = new JsonObject();
         String responseBody = new String();

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorizationDaoImpl implements AuthorizationDao {
+    /**
+     * Get all authorization items(userId, key) in database.
+     * @return list of Authorization objects.
+     */
     @Override
     public List<Authorization> getAllAuthorizations() {
         Connection c = new ConnectionUtil().connectDB();
@@ -41,6 +45,11 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         return authorizations;
     }
 
+    /**
+     * Check whether the authorization item is in database.
+     * @param authorization
+     * @return "true" or "false" for whether the database has the item
+     */
     @Override
     public boolean hasAuthorization(Authorization authorization) {
         Connection c = new ConnectionUtil().connectDB();
@@ -75,6 +84,11 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         return hasAuthorization;
     }
 
+    /**
+     * Create a new authorization item.
+     * @param authorization
+     * @return "true" or "false" for whether successfully created a new authorization
+     */
     @Override
     public boolean newAuthorization(Authorization authorization) {
         Connection c = new ConnectionUtil().connectDB();
@@ -107,6 +121,12 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         return indicator;
     }
 
+    /**
+     * Update the key of an authorization.
+     * @param authorization
+     * @param newKey
+     * @return "true" or "false" for whether successfully update the key
+     */
     @Override
     public boolean updateAuthorization(Authorization authorization, String newKey) {
         Connection c = new ConnectionUtil().connectDB();
@@ -142,6 +162,11 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         return indicator;
     }
 
+    /**
+     * Delete an authorization item from database.
+     * @param authorization
+     * @return "true" or "false" for whether successfully deleted the authorization item.
+     */
     @Override
     public boolean deleteAuthorization(Authorization authorization) {
         Connection c = new ConnectionUtil().connectDB();
