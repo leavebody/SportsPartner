@@ -29,15 +29,15 @@ Our code consists of two part. The Server part is in ``/code/Server`` folder. Th
 
 After you build both the Android and the server projects, you can play with our app!
 
-For the iterration 3, you can do following things in our app.
-- Signup: enter the your name and password, then the app will login automaticly.
-- Login: Since our app is in developing, we suggest you to Login with username: ``u1``, password: ''p1'' to explore the current functions.
+For the iterration 3, you can do the following things in our app.
+- Signup: enter your name and password, then the app will login automaticly.
+- Login: Since our app is still in developing, we suggest you login with username: ``u1``, password: ''p1'' to explore the current functions.
 - Profile: After you login in using ``u1``, you will jump to the profile page to view the basic info of ``u1``.
   Besides, you can see the upcomming activities in the bottom of this page. 
   - Scroll down to the bottom to refresh the page. You will see more upcomming activities as well as the history activities.
-- Navigation bar: Click the top left button to arouse the navigation bar, press the button then you will jump to the correspoding page.
-- Home Page: You can view your upcomming activities and recommend activities. If you want to creat or search certain activity, click the corresponding button.
-- Create new Activity Page: You can chose type of sports, date, time and write description for you activity. However, the ``Create`` and ``Cancel`` buttons do nothing at this moment.
-- Search new Activity Page: You can chose type of sports, date, time and write description for you activity. However, the ``Join`` button do nothing at this moment.
-- Other Pages: They are empty and need to be impelemented.
+- Navigation bar: Click on the top left button to arouse the navigation bar, press the button then you will jump to the correspoding page.
+- Home Page: You can view your upcomming activities and recommended activities. If you want to create or search certain activities, just click on the corresponding buttons.
+- Create new Activity Page: You can choose type of sports, date, time and write description for you activity. However, the ``Create`` and ``Cancel`` buttons do nothing at this moment.
+- Search new Activity Page: You can choose type of sports, date, time and write description for you activity. However, the ``Join`` button does nothing at this moment.
+- Other Pages: They are empty and needed to be impelemented.
 - Logout: Go to the navigation bar and click signout, you will successfully signout.
