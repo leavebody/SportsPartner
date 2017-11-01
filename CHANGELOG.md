@@ -117,7 +117,7 @@ All notable changes to this project will be documented in this file.
   - Sport
   - UserOutline
 * Android: Send volley requests and parse responds for:
-  - All the endpoints related to sport activities 
+  - All the endpoints related to sport activities 
   - All the endpoints related to user
   - All the endpoints related to profile
 
