@@ -15,11 +15,21 @@ import java.util.Locale;
  */
 
 public class MyPickDateListener extends MyonClickListener {
-
+    /**
+     * Constructor
+     * @param context The Activity which calls this listener
+     * @param myCalendar The Calendar object which the DatePickerDialog will depend on
+     *                   and updates the value of it.
+     * @param textView The textView in the Activity which should be updated
+     */
     public MyPickDateListener(Context context, Calendar myCalendar, TextView textView){
         super(context, myCalendar, textView);
     }
 
+    /**
+     * OnClick listener: will show a DatePickerDialog if is onclick
+     * @param v
+     */
     @Override
     public void onClick(View v){
         new DatePickerDialog(context, date, myCalendar
@@ -27,6 +37,12 @@ public class MyPickDateListener extends MyonClickListener {
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
+    /**
+     * The object of DatePickerDialog
+     * Set the onDateSet Listener:
+     * Change the value of myCalendar
+     * Update the textView
+     */
     final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,

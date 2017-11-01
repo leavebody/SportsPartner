@@ -1,7 +1,7 @@
 package com.sportspartner.models;
 
 /**
- * Created by xc on 10/26/17.
+ * @author Xiaochen Li
  */
 
 public class UserOutline {

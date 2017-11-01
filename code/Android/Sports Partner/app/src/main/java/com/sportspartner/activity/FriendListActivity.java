@@ -13,7 +13,12 @@ import android.view.ViewGroup;
 import com.sportspartner.R;
 
 public class FriendListActivity extends BasicActivity {
-
+    /**
+     * Load the FriendListActivity
+     * Find Widgets by Id
+     * Set onClick listener
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

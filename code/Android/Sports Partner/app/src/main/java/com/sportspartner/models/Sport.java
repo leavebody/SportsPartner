@@ -1,7 +1,7 @@
 package com.sportspartner.models;
 
 /**
- * Created by xc on 10/28/17.
+ * @author Xiaochen Li
  */
 
 public class Sport {

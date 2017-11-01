@@ -26,6 +26,10 @@ public class MyonClickListener implements View.OnClickListener{
     }
 
     @Override
+    public void onClick(View v){}
+
+    /*
+    @Override
     public void onClick(View v){
         new DatePickerDialog(context, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
@@ -50,4 +54,5 @@ public class MyonClickListener implements View.OnClickListener{
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(myCalendar.getTime()));
     }
+    */
 }

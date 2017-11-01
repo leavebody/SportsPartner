@@ -11,7 +11,12 @@ import android.view.ViewGroup;
 import com.sportspartner.R;
 
 public class EditProfileActivity extends BasicActivity {
-
+    /**
+     * Load the EditProfileActivity
+     * Find Widgets by Id
+     * Set onClick listener
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

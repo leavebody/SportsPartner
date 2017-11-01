@@ -3,11 +3,8 @@ package com.sportspartner.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +47,10 @@ public class HomeActivity extends BasicActivity {
     private boolean recommendFinished = false; // no more history activity to load
     private final int REFRESH_LIMIT = 3;
 
+    /**
+     * OnCreate function for this Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +77,9 @@ public class HomeActivity extends BasicActivity {
         refresh();
     }
 
+    /**
+     * Set the content of textView for two small titles in this page
+     */
     private void setTitle(){
         View viewComming = (View) findViewById(R.id.home_title_upcomming_activity);
         TextView titleupComming = (TextView) viewComming.findViewById(R.id.title);
@@ -86,16 +90,27 @@ public class HomeActivity extends BasicActivity {
         titleRecommend.setText("Recommend For You");
     }
 
+    /**
+     * Set the content of UpComing Activity
+     */
     private void setListCommingActivity(){
         upcommingListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         listCommingActivity.setAdapter(upcommingListAdapter);
     }
 
+    /**
+     * Set the content of UpComing Activity
+     */
     private void setListRecommend(){
         recommendListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         listHomeRecommend.setAdapter(recommendListAdapter);
     }
 
+    /**
+     * Handle the result of the respond from the server
+     * set the content of list of UpcommingActivity
+     * @param moreActivitiesResult
+     */
     private void loadUpcommingActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
         // handle the result of request here
         String message = moreActivitiesResult.getMessage();
@@ -122,6 +137,11 @@ public class HomeActivity extends BasicActivity {
         }
     }
 
+    /**
+     * Handle the result of the respond from the server
+     * set the content of list of Recommend
+     * @param moreActivitiesResult
+     */
     private void loadRecommendHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
         // handle the result of request here
         String message = moreActivitiesResult.getMessage();
@@ -148,27 +168,12 @@ public class HomeActivity extends BasicActivity {
         }
     }
 
-    /*public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }*/
-
+    /**
+     * Refresh: get the content of the list
+     * Sent the corresponding request to the server
+     * If not reach the end of the Upcoming Activity, get the content of Upcoming Activity
+     * Else, get the content of Recommend Activity
+     */
     private void refresh(){
         if (!upcommingFinished) {
             //get upcomming activities
@@ -194,6 +199,11 @@ public class HomeActivity extends BasicActivity {
         }
     }
 
+    /**
+     * Assign the setOnLoadmoreListener to the current Layout
+     * Set the Animate for the refresh
+     * In the Listener, call refresh() function
+     */
     private void setRefresh(){
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setAnimatingColor(getResources().getColor(R.color.background_blue)));
@@ -209,7 +219,8 @@ public class HomeActivity extends BasicActivity {
 
 
     /**
-     * Onclick listener for login button
+     * Onclick listener for Create button
+     * Go to the CreateSactivityActivity
      * @param v
      */
     public void GotoCreateActivity(View v){
@@ -217,6 +228,11 @@ public class HomeActivity extends BasicActivity {
         startActivity(intent);
     }
 
+    /**
+     * Onclick listener for Find button
+     * Go to the SearchSactivityActivity
+     * @param v
+     */
     public void GotoFindActivity(View v){
         Intent intent = new Intent(this, SearchSactivityActivity.class);
         startActivity(intent);

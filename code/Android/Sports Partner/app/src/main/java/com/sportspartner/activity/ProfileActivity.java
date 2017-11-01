@@ -63,7 +63,10 @@ public class ProfileActivity extends BasicActivity {
     private boolean historyFinished = false; // no more history activity to load
     private final int REFRESH_LIMIT = 3;
 
-
+    /**
+     * OnCreate method for this Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +117,9 @@ public class ProfileActivity extends BasicActivity {
         refresh();
     }
 
+    /**
+     * Set the text of textView of some titles
+     */
     private void setTitle(){
         titleBasicInfo.setText("Basic Info");
         titleComment.setText("Comments");
@@ -122,6 +128,11 @@ public class ProfileActivity extends BasicActivity {
         history.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Set the profileInfo:
+     * Sent the request
+     * Call the ProfileInfoHandler if success
+     */
     private void setProfileInfo(){
         //get basic info
         ProfileService.getProfileInfo(this, usermail, new ActivityCallBack<Profile>(){
@@ -132,6 +143,11 @@ public class ProfileActivity extends BasicActivity {
         });
     }
 
+    /**
+     * Handle the result of response from the server
+     * Fill the corresponding content of the UI
+     * @param userProfileResult The result from the server
+     */
     private void ProfileInfoHandler(ModelResult<Profile> userProfileResult) {
         // handle the result of request here
         String message = userProfileResult.getMessage();
@@ -162,17 +178,27 @@ public class ProfileActivity extends BasicActivity {
         participation.setRating((float)profile.getParticipation());
     }
 
+    /**
+     * Set the list content of UpcomingActivity
+     */
     private void setUpcommingActivity() {
         upcommingListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         upcommingActivityList.setAdapter(upcommingListAdapter);
     }
 
-
+    /**
+     * Set the list content of HistoryActivity
+     */
     private void setHistoryActivity(){
         historyListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         historyActivityList.setAdapter(historyListAdapter);
     }
 
+    /**
+     * Handle the result from the ActivityService
+     * Fill the content of list of UpcommingActivities
+     * @param moreActivitiesResult The result from the ActivityService
+     */
     private void loadUpcommingActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
         // handle the result of request here
         String message = moreActivitiesResult.getMessage();
@@ -199,6 +225,11 @@ public class ProfileActivity extends BasicActivity {
         }
     }
 
+    /**
+     * Handle the result from the ActivityService
+     * Fill the content of list of HistoryActivities
+     * @param moreActivitiesResult The result from the ActivityService
+     */
     private void loadHistoryActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
         // handle the result of request here
         String message = moreActivitiesResult.getMessage();
@@ -237,6 +268,12 @@ public class ProfileActivity extends BasicActivity {
         });
         */
 
+    /**
+     * Refresh: get the content of the list
+     * Sent the corresponding request to the server
+     * If not reach the end of the Upcoming Activity, get the content of Upcoming Activity
+     * Else, get the content of Recommend Activity
+     */
     private void refresh(){
         if (!upcommingFinished) {
             //get upcomming activities
@@ -262,6 +299,11 @@ public class ProfileActivity extends BasicActivity {
         }
     }
 
+    /**
+     * Assign the setOnLoadmoreListener to the current Layout
+     * Set the Animate for the refresh
+     * In the Listener, call refresh() function
+     */
     private void setRefresh(){
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setAnimatingColor(getResources().getColor(R.color.background_blue)));
@@ -275,6 +317,11 @@ public class ProfileActivity extends BasicActivity {
         });
     }
 
+    /**
+     * Set the visibility of the Edit button on the toolbar to visible
+     * @param menu The menu on the top right of the toolbar
+     * @return True if success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);

@@ -44,6 +44,10 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     //Activity Object
     private SActivity sActivity= new SActivity();
 
+    /**
+     * OnCreate Method of thie Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +85,12 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
 
     }
 
+     /**
+     * Show the NumberPicker Dialog
+     * Set the content of the textView according to selection result of the user
+     * @param strings    The String shows in the NumberPicker
+     * @param textView  The textView which should be changed
+     */
     //all types of listener
     private void showDialog(String[] strings, final TextView textView){
         final Dialog d = new Dialog(SearchSactivityActivity.this);
@@ -118,6 +128,12 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
 
     }
 
+    /**
+     * mySportListener:
+     * An object of OnClickListener,
+     * Set the content of the string, which will be shown in the Dialog
+     * Show a dialog
+     */
     private View.OnClickListener mySportListener = new View.OnClickListener() {
         public void onClick(View v) {
             String[] sports = new String[] { "Football", "Basketball", "Badminton", "Lacrosse", "Swimming", "Soccer", "Climbing", "Running"};
@@ -125,6 +141,12 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         }
     };
 
+    /**
+     * myCapacityListener:
+     * An object of OnClickListener,
+     * Set the content of the string, which will be shown in the Dialog
+     * Show a dialog
+     */
     private View.OnClickListener myCapacityListener = new View.OnClickListener() {
         public void onClick(View v) {
             String[] capacity = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -132,14 +154,22 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         }
     };
 
+    /**
+     * myLocationListener:
+     * Call the GOOGLE MAP API
+     */
     private View.OnClickListener myLocationListener = new View.OnClickListener() {
         public void onClick(View v) {
             //TODO GOOGLE MAP API
         }
     };
 
-    //onclick
+    /**
+     * Onclick Listener of "Search" button
+     * @param v
+     */
     public void SearchActivity(View v){
-        //TODO onclick search button
+        //TODO
     }
+
 }

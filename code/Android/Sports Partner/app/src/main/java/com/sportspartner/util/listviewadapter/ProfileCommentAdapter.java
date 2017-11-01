@@ -21,6 +21,11 @@ public class ProfileCommentAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<ProfileComment> commentItems;
 
+    /**
+     * Constructor
+     * @param context
+     * @param items
+     */
     public ProfileCommentAdapter(Context context, ArrayList<ProfileComment> items) {
         context = context;
         commentItems = items;

@@ -20,10 +20,21 @@ import java.util.Locale;
 
 public class MyPickTimeListener extends MyonClickListener {
 
+    /**
+     * Constructor of MyPickTimeListener
+     * @param context The Activity which calls this listener
+     * @param myCalendar The Calendar object which the DatePickerDialog will depend on
+     *                   and updates the value of it.
+     * @param textView The textView in the Activity which should be updated
+     */
     public MyPickTimeListener(Context context, Calendar myCalendar, TextView textView){
         super(context, myCalendar, textView);
     }
 
+    /**
+     * OnClick Listener: Show a TimePickerDialog
+     * @param v
+     */
     @Override
     public void onClick(View v){
         new TimePickerDialog(context, time, myCalendar
@@ -31,6 +42,12 @@ public class MyPickTimeListener extends MyonClickListener {
                 true).show();
     }
 
+    /**
+     * An object of TimePickerDialog.OnTimeSetListener
+     * onTimeSet Listener:
+     * update the value of myCalendar
+     * Update the content of the textView
+     */
     final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -40,6 +57,12 @@ public class MyPickTimeListener extends MyonClickListener {
         }
     };
 
+    /**
+     * Update the value of myCalendar
+     * Update the content of the textView
+     * @param textView The textView which will show the selected time
+     * @param myCalendar The Calendar object which will save the selected time
+     */
     private void updateView(TextView textView, Calendar myCalendar) {
         String myFormat = "h:mm a";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);

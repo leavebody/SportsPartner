@@ -28,12 +28,21 @@ public class MyActivityAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<SActivityOutline> activityItems;
 
+    /**
+     * The constructor of MyActivityAdapter
+     * @param context The Activity which calls this method
+     * @param items The context which will be filled into the list
+     */
     public MyActivityAdapter(Context context, ArrayList<SActivityOutline> items) {
         context = context;
         activityItems = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /**
+     * Set the height of ListView
+     * @param listView The listView of which we wants to change height
+     */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
@@ -55,21 +64,42 @@ public class MyActivityAdapter extends BaseAdapter {
         listView.requestLayout();
     }
 
+    /**
+     * Get the size of the content
+     * @return size
+     */
     @Override
     public int getCount() {
         return activityItems.size();
     }
 
+    /**
+     * Get the item in the specific position
+     * @param position The position of the item
+     * @return The item object
+     */
     @Override
     public Object getItem(int position) {
         return activityItems.get(position);
     }
 
+    /**
+     * Get the ItemId
+     * @param position The position of the item
+     * @return The item id
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Fill the content of the list
+     * @param position position of the content
+     * @param convertView
+     * @param parent The parent View
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -119,6 +149,10 @@ public class MyActivityAdapter extends BaseAdapter {
         return rowView;
     }
 
+    /**
+     * Add the item to the list
+     * @param added The item we want to add
+     */
     public void appendList(ArrayList<SActivityOutline> added){
         for (SActivityOutline sa : added) {
             activityItems.add(sa);

@@ -30,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";
     EditText emailField;
     EditText passwordField;
+
+    /**
+     * Load the LoginActivity
+     * Find Widgets by Id
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Handel the login result from the server
+     * Goto the profile page if success
+     * @param booleanResult
+     */
     private void loginHandler(BooleanResult booleanResult) {
         // handle the result here
         String message = booleanResult.getMessage();
@@ -69,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
     /**
      * Onclick listener for sign up button
      * @param v

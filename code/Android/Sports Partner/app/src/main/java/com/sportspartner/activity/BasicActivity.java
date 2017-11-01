@@ -30,7 +30,11 @@ import com.sportspartner.util.LoginDBHelper;
 
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    /**
+     * Load the Navigation Bar and the ToolBar
+     * Find the widget by Id
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,12 @@ public class BasicActivity extends AppCompatActivity
         setUserOutline();
     }
 
+    /**
+     * Get the userEmail from database,
+     * send the request to get ProfileOutline.
+     * When the response comes back form the server,
+     * it will call the userOutlineHandler
+     */
     private void setUserOutline(){
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
         String email = dbHelper.getEmail();
@@ -66,6 +76,11 @@ public class BasicActivity extends AppCompatActivity
             }
         });
     }
+
+    /**
+     * Fill the content of Navigation Bar according to the UserOutline
+     * @param result The response object returned from the server
+     */
     private void userOutlineHandler(ModelResult<UserOutline> result){
         String userName ;
 
@@ -107,6 +122,11 @@ public class BasicActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Load the ToolBar
+     * @param menu The menu on the top right of the toolbar
+     * @return If load success, return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -127,6 +147,9 @@ public class BasicActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * The onPressed action of the Drawer
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
@@ -137,7 +160,11 @@ public class BasicActivity extends AppCompatActivity
         }
     }
 
-
+    /**
+     * The action of the Navigation Item if selected
+     * @param item The item of the Navigation Bar
+     * @return Return true if success.
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -167,6 +194,7 @@ public class BasicActivity extends AppCompatActivity
         } else if (id == R.id.nav_signout) {
             signOut();
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 
@@ -175,6 +203,10 @@ public class BasicActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * SignOut function: send the signOut request,
+     * Show the "success" toast if success.
+     */
     private void signOut(){
         UserService.logOut(this, new ActivityCallBack(){
             @Override

@@ -12,6 +12,10 @@ import com.sportspartner.R;
 
 public class NotificationActivity extends BasicActivity {
 
+    /**
+     * OnCreate method for this Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

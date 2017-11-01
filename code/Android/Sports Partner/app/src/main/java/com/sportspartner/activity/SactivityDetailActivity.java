@@ -12,6 +12,10 @@ import com.sportspartner.R;
 
 public class SactivityDetailActivity extends AppCompatActivity {
 
+    /**
+     * OnCreate of this Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

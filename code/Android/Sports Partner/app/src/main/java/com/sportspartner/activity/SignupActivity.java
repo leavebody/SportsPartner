@@ -49,11 +49,22 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Onclick listener for "Back to login" button
+     * @param v
+     */
     public void backToLogin(View v) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Signup finciton:
+     * Check whether the user fill all the information
+     * Check whether the password match the confirmation password
+     * If true, Send the  request to create an new account
+     * @param type The userEmail which the user inputs
+     */
     private void signupUser(String type) {
         email = emailField.getText().toString();
         password = passwordField.getText().toString();
@@ -79,6 +90,11 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Handle the result from the Server
+     * @param signupResult
+     */
     private void signupHandler(BooleanResult signupResult) {
         // handle the result here
         String message = signupResult.getMessage();
