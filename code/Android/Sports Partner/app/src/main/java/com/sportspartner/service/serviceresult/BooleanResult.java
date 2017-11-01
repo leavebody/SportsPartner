@@ -1,10 +1,15 @@
 package com.sportspartner.service.serviceresult;
 
 /**
- * Created by xc on 10/21/17.
+ * The result of a network request. BooleanResult only contains "status" to
+ * indicate whether the request is processed successfully and a "message"
+ * to tell why it's not processed successfully.
+ *
+ * @author Xiaochen Li
  */
 
 public class BooleanResult {
+
     private boolean status;
     private String message;
 

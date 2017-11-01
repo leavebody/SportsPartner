@@ -8,7 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 /**
- * Created by xc on 10/23/17.
+ * The helper class to handle the login SQLite database
+ * @author Xiaochen Li
  */
 
 public class LoginDBHelper extends SQLiteOpenHelper {
@@ -38,8 +39,11 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    // main methods
-    public boolean isLogedIn() {
+    /**
+     * Check is the device is logged in.
+     * @return
+     */
+    public boolean isLoggedIn() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -63,6 +67,11 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         return logedin;
     }
 
+    /**
+     * Insert a new login record.
+     * @param email The eamil of the login session.
+     * @param key The key of the login session.
+     */
     public void insert(String email, String key){
         this.delete();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -75,12 +84,19 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         db.insert(SportPartnerDBContract.LoginDB.TABLE_NAME, null, values);
     }
 
+    /**
+     * Clear the login records.
+     */
     public void delete(){
         // clear the table
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(SportPartnerDBContract.LoginDB.TABLE_NAME, null, null);
     }
 
+    /**
+     * Get the email of the current login session.
+     * @return the email of the current login session
+     */
     public String getEmail(){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -106,6 +122,10 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         return email;
     }
 
+    /**
+     * Get the key of the current login session.
+     * @return the key of the current login session
+     */
     public String getKey(){
         SQLiteDatabase db = this.getReadableDatabase();
 

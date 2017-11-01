@@ -25,11 +25,18 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 /**
- * Created by xc on 10/27/17.
+ * @author Xiaochen Li
  */
 
 public class ResourceService extends Service {
 
+    /**
+     * Get an image.
+     * @param c Caller context
+     * @param uuid The uuid of the image.
+     * @param path The path of the image on the server.
+     * @param callback
+     */
     public static void getImage(final Context c, final String uuid, String path, final ActivityCallBack callback) {
 
         // find image in cache by uuid
@@ -54,7 +61,7 @@ public class ResourceService extends Service {
                 // TODO
             }
         }
-
+        // find it on server
         ResourceRequest request = new ResourceRequest(c);
         request.imageRequest(new VolleyCallback() {
             @Override
@@ -65,6 +72,11 @@ public class ResourceService extends Service {
 
     }
 
+    /**
+     * The helper method to process the result of get image request.
+     * @param response The network response to process
+     * @return A ModelResult with model type Bitmap, which is the bitmap of the image
+     */
     private static ModelResult<Bitmap> getImageRespProcess(NetworkResponse response, Context c, String uuid){
         ModelResult<Bitmap> result = new ModelResult();
         switch (response.statusCode){
@@ -106,18 +118,29 @@ public class ResourceService extends Service {
         return result;
     }
 
-    public static void getAllSports(final Context c, final String uuid, String path, final ActivityCallBack callback) {
+    /**
+     * Get an ArrayList of all sports in the APP.
+     * @param c Caller context.
+     * @param callback
+     */
+    public static void getAllSports(final Context c, final ActivityCallBack callback) {
 
         ResourceRequest request = new ResourceRequest(c);
-        request.imageRequest(new VolleyCallback() {
+        request.allSportsRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
                 callback.getModelOnSuccess(getAllSportsRespProcess(response));
             }
-        }, path);
+        });
 
     }
 
+    /**
+     * The helper method to process the result of get all sports request.
+     * @param response The network response to process
+     * @return A ModelResult with model type ArrayList<Sport>,
+     *          which is the requested sports data.
+     */
     private static ModelResult<ArrayList<Sport>> getAllSportsRespProcess(NetworkResponse response){
         ModelResult<ArrayList<Sport>> result = new ModelResult();
         switch (response.statusCode){
@@ -136,11 +159,7 @@ public class ResourceService extends Service {
                 } else {
                     result.setMessage("get all sports request failed: "+jsResp.get("message").getAsString());
                 }
-
-
-
                 break;
-
             default:
                 result.setMessage("bad response:"+response.statusCode);
         }
@@ -148,7 +167,11 @@ public class ResourceService extends Service {
     }
 
 
-
+    /**
+     * Clear the cache.
+     * @param c Caller context.
+     * @return A boolean indicating whether the clearance is successful.
+     */
     public static boolean clearCache(Context c) {
         try {
             File[] files = c.getApplicationContext().getCacheDir().listFiles();
@@ -164,5 +187,4 @@ public class ResourceService extends Service {
         // try stops clearing cache
         return false;
     }
-
 }

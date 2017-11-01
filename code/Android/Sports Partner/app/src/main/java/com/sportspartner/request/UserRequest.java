@@ -17,15 +17,25 @@ import com.sportspartner.util.VolleyCallback;
 
 
 /**
- * Created by xc on 10/21/17.
+ * @author Xiaochen Li
  */
 
 public class UserRequest extends com.sportspartner.request.Request{
 
+    /**
+     * Constructor.
+     * @param c Caller context.
+     */
     public UserRequest(Context c){
         super(c);
     }
 
+    /**
+     * Send a request to login.
+     * @param callback
+     * @param email The login email.
+     * @param password The password of the account.
+     */
     public void loginVolleyRequest(final VolleyCallback callback, String email, String password) {
         JsonObject jsonRequestObject = new JsonObject();
 
@@ -55,6 +65,10 @@ public class UserRequest extends com.sportspartner.request.Request{
         queue.add(nrRequest);
     }
 
+    /**
+     * Send a request to logout.
+     * @param callback
+     */
     public void logOutVolleyRequest(final VolleyCallback callback) {
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
         String userId = dbHelper.getEmail();
@@ -82,6 +96,16 @@ public class UserRequest extends com.sportspartner.request.Request{
         queue.add(nrRequest);
     }
 
+    /**
+     * Send a request to sign up.
+     * @param callback
+     * @param email The sign up email.
+     * @param password The password.
+     * @param confirmPassword The confirmed password.
+     * @param type The type of the request.
+     *             person represents the personal user and
+     *             facilityprovider represents the facility provider.
+     */
     public void signUpVolleyRequest(final VolleyCallback callback, String email, String password, String confirmPassword, String type) {
 
         JsonObject jsonRequestObject = new JsonObject();

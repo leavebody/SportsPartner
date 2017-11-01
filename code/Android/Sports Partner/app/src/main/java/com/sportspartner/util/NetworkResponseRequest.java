@@ -14,14 +14,16 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by xc on 10/19/17.
+ *  Once you get the NetworkResponseRequest object:
+ *  This is status code: response.statusCode
+ *  This is string response: NetworkResponseRequest.parseToString(response)
+ *  This is the JsonObject of the returned body: NetworkResponseRequest.parseToJsonObject(response)
+ *
+ * @author Xiaochen Li
  */
 
 public class NetworkResponseRequest extends Request<NetworkResponse> {
-    // Once we get the NetworkResponseRequest object:
-    // This is status code: response.statusCode
-    // This is string response: NetworkResponseRequest.parseToString(response)
-    // This is the JSONObject of the returned body: NetworkResponseRequest.parseToJSONObject(response)
+
 
     /** Charset for request. */
     private static final String PROTOCOL_CHARSET = "utf-8";
@@ -65,6 +67,11 @@ public class NetworkResponseRequest extends Request<NetworkResponse> {
         }
     }
 
+    /**
+     * Parse the response to string
+     * @param response
+     * @return The parsed string
+     */
     public static String parseToString(NetworkResponse response) {
         String parsed;
         try {
@@ -75,6 +82,13 @@ public class NetworkResponseRequest extends Request<NetworkResponse> {
         return parsed;
     }
 
+    /**
+     * Parse the response to JSONObject.
+     * @param response
+     * @return The parsed object
+     * @throws JSONException
+     * @deprecated please use Gson in this project.
+     */
     public static JSONObject parseToJSONObject(NetworkResponse response) throws JSONException {
         String parsedString = new String(response.data);
 
@@ -83,6 +97,11 @@ public class NetworkResponseRequest extends Request<NetworkResponse> {
         return jo;
     }
 
+    /**
+     * Parse the response to JsonObject.
+     * @param response
+     * @return The parsed object
+     */
     public static JsonObject parseToJsonObject(NetworkResponse response) {
         String parsedString = new String(response.data);
         Gson gson = new Gson();

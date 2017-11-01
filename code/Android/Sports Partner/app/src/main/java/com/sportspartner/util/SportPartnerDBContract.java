@@ -3,7 +3,7 @@ package com.sportspartner.util;
 import android.provider.BaseColumns;
 
 /**
- * Created by xc on 10/23/17.
+ * @author Xiaochen Li
  */
 
 public final class SportPartnerDBContract {
