@@ -12,7 +12,10 @@ import com.sportspartner.util.ConnectionUtil;
 
 public class UserDaoImpl implements UserDao {
 
-
+    /**
+     * get All Users of from the database
+     * @return List of Users
+     */
     public List<User> getAllUsers() {
 
         Connection c = new ConnectionUtil().connectDB();
@@ -47,6 +50,11 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    /**
+     * Search user by userId
+     * @param userId Id of user
+     * @return User Object
+     */
     public User getUser(String userId) {
 
         Connection c = new ConnectionUtil().connectDB();
@@ -82,6 +90,12 @@ public class UserDaoImpl implements UserDao {
         }
         return user;
     }
+
+    /**
+     *  Create a new user in the database
+     * @param user User Object
+     * @return true if the process succeeds, false if not
+     */
     public boolean newUser(User user){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -118,6 +132,11 @@ public class UserDaoImpl implements UserDao {
         }
         return result;
     }
+    /**
+     *  Update a new user in the database
+     * @param user User Object
+     * @return true if the process succeeds, false if not
+     */
     public boolean updateUser(User user){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -152,7 +171,11 @@ public class UserDaoImpl implements UserDao {
         }
         return result;
     }
-
+    /**
+     * Delete a new user in the database
+     * @param userId Id of User
+     * @return true if the process succeeds, false if not
+     */
     public boolean deleteUser(String userId){
 
         Connection c = new ConnectionUtil().connectDB();

@@ -1,9 +1,7 @@
 package com.sportspartner.modelvo;
 
-import com.sportspartner.model.Activity;
-import com.sportspartner.model.ActivityComment;
-import com.sportspartner.model.ActivityMember;
-import com.sportspartner.model.Sport;
+import com.sportspartner.model.*;
+import com.sportspartner.modelvo.UserOutlineVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +16,11 @@ public class ActivityVO {
     private Date startTime;
     private Date endTime;
     private String facilityId;
+    private String facilityName;
     private int capacity;
     private int size;
     private String creatorId;
-    private List <String> members;
+    private List <UserOutlineVO> members;
     private String detail;
     private List <ActivityComment> discussion;
 
@@ -69,7 +68,7 @@ public class ActivityVO {
         return creatorId;
     }
 
-    public List<String> getMembers() {
+    public List<UserOutlineVO> getMembers() {
         return members;
     }
     public String getDetail(){
@@ -108,6 +107,14 @@ public class ActivityVO {
         this.facilityId = facilityId;
     }
 
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
+    }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
@@ -120,7 +127,7 @@ public class ActivityVO {
         this.creatorId = creatorId;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(List<UserOutlineVO> members) {
         this.members = members;
     }
 
@@ -157,15 +164,10 @@ public class ActivityVO {
         this.sportIconPath = sport.getSportIconPath();
     }
 
-    public void setFromMembers (List<ActivityMember> members, String creatorId){
-        List <String> membersOutput = new ArrayList<>();
-        for (ActivityMember member :members){
-            String memberId = member.getUserId();
-            if(!memberId.equals(creatorId)){
-                membersOutput.add(memberId);
-            }
-        }
-        this.members = membersOutput;
+
+    public void setFromFacility(Facility facility){
+        this.facilityId = facility.getFacilityId();
+        this.facilityName = facility.getFacilityName();
     }
 
     public void setFromComments (List<ActivityComment> comments){

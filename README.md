@@ -15,7 +15,7 @@ Our code consists of two part. The Server part is in ``/code/Server`` folder. Th
 - Android Virtual Device: API 24, Android 7.0, resolution: 1080 x 1920 xxhdpi
 
 #### Build 
-- Use the Android Studio to open the ``/code/Android`` as an Android project.
+- Use the Android Studio to open the ``/code/Android/Sports Partner`` as an Android project.
 - Click Build->Make Project to bulid the project.
 - Click Run->run'app',and then choose an Android virtuale device to run the project.
 

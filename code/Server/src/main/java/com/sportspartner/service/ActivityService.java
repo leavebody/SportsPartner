@@ -15,6 +15,15 @@ public class ActivityService {
     private ActivityCommentDaoImpl activityCommentDaoImpl = new ActivityCommentDaoImpl();
     private SportDaoImpl sportDaoImpl = new SportDaoImpl();
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
+    private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
+
+    /**
+     * Get the detail of an activity
+     * @param activityId return an Id of an activity
+     * @return JsonResponse to the front-end
+     * @throws ActivityServiceException throws ActivityServiceException
+     */
     public JsonResponse getActivityDetail(String activityId) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try {
@@ -30,9 +39,22 @@ public class ActivityService {
                 // Sports Info
                 Sport sport = sportDaoImpl.getSport(activity.getSportId());
                 activityVO.setFromSport(sport);
+                // Facility Info
+                Facility facility = facilityDaoImpl.getFacility(activity.getFacilityId());
+                activityVO.setFromFacility(facility);
                 // Members Info
-                List<ActivityMember> members = activityMemberDaoImpl.getAllActivitymembers(activityId);
-                activityVO.setFromMembers(members, activity.getCreatorId());
+                List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
+                List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
+                for(ActivityMember activityMember:activityMembers){
+                    String memberId = activityMember.getUserId();
+                    if(!activityVO.getCreatorId().equals(memberId)){
+                        Person person = personDaoImpl.getPerson(memberId);
+                        UserOutlineVO userOutlineVO = new UserOutlineVO();
+                        userOutlineVO.setFromPerson(person);
+                        members.add(userOutlineVO);
+                    }
+                }
+                activityVO.setMembers(members);
                 //Comment Info
                 List<ActivityComment> comments = activityCommentDaoImpl.getAllActivityComments(activityId);
                 activityVO.setFromComments(comments);
@@ -51,6 +73,12 @@ public class ActivityService {
         return resp;
     }
 
+    /**
+     * Get the outline of an activity
+     * @param activityId Id of an activity
+     * @return JsonResponse to the front-end
+     * @throws ActivityServiceException throws ActivityServiceException
+     */
     public JsonResponse getActivityOutline(String activityId) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try{
@@ -72,6 +100,14 @@ public class ActivityService {
         return resp;
     }
 
+    /**
+     * Get the upcoming activity of a user
+     * @param userId Id of a user
+     * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
+     * @param limit The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
+     * @return Json Response to the front-end
+     * @throws ActivityServiceException throws ActivityServiceException
+     */
     public JsonResponse getUpcomingActivity(String userId, int offset, int limit) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try{
@@ -103,7 +139,14 @@ public class ActivityService {
         }
         return resp;
     }
-
+    /**
+     * Get the past activity of a user
+     * @param userId Id of a user
+     * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
+     * @param limit The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
+     * @return Json Response to the front-end
+     * @throws ActivityServiceException throws ActivityServiceException
+     */
     public JsonResponse getPastActivity(String userId, int offset, int limit) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try{
@@ -168,16 +211,29 @@ public class ActivityService {
     public void addActivityDiscussion(){
         //TODO
     }
-
+    /**
+     * Check whether a user exists
+     * @param userId Id of a user
+     * @return true means the user exists,  false means the user doesn't exist
+     */
     public boolean hasUser(String userId){
         User user = userDaoImpl.getUser(userId);
         return user!=null;
     }
+    /**
+     * Check whether an activity exists
+     * @param activityId Id of an activity
+     * @return true means the user exists,  false means the user doesn't exist
+     */
     public boolean hasActivity(String activityId){
         Activity activity = activityDaoImpl.getActivity(activityId);
         return activity!= null;
 
     }
+
+    /**
+     *  Exception class for Activity
+     */
     public static class ActivityServiceException extends Exception {
         public ActivityServiceException(String message, Throwable cause) {
             super(message, cause);

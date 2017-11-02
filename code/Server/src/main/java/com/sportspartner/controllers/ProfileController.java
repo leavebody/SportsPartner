@@ -16,7 +16,9 @@ public class ProfileController {
         this.profileService = profileService;
         setupEndpoints();
     }
-
+    /**
+     * Set all endpoints for profile
+     */
     private void setupEndpoints() {
         //get the profile
         get(API_CONTEXT + "/profile/:userId", "application/json", (request, response) -> {

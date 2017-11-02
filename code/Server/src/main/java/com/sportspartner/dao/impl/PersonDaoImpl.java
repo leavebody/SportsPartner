@@ -10,7 +10,10 @@ import java.util.List;
 import com.sportspartner.util.ConnectionUtil;
 
 public class PersonDaoImpl {
-
+    /**
+     *  Get all of the persons in the database
+     * @return List of all persons
+     */
     public List<Person> getAllPersons(){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -54,6 +57,11 @@ public class PersonDaoImpl {
         return persons;
     }
 
+    /**
+     * Get the person by searching userId in the database
+     * @param userId Id of the person
+     * @return Person Object
+     */
     public Person getPerson(String userId){
         Connection c = new ConnectionUtil().connectDB();
 
@@ -98,6 +106,11 @@ public class PersonDaoImpl {
         return person;
     }
 
+    /**
+     * Create a new Person in the database
+     * @param person Person Object
+     * @return true if the process succeeds; false if not
+     */
     public boolean newPerson(Person person){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -152,6 +165,11 @@ public class PersonDaoImpl {
         return result;
     }
 
+    /**
+     * Update a new Person in the database
+     * @param person Person Object
+     * @return true if the process succeeds; false if not
+     */
     public boolean updatePerson(Person person){
         Connection c = new ConnectionUtil().connectDB();
 
@@ -205,7 +223,11 @@ public class PersonDaoImpl {
         }
         return result;
     }
-
+    /**
+     *  Delete a new Person in the database
+     * @param userId Id of a person
+     * @return true if the process succeeds; false if not
+     */
     public boolean deletePerson(String userId){
 
         Connection c = new ConnectionUtil().connectDB();

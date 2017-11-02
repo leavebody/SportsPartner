@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
-
+    /**
+     * Get all of the pending requestes of receiver
+     * @param receiverId Id of receiver
+     * @return List of PendingFriendRequest
+     */
     @Override
     public List<PendingFriendRequest> getAllPendingRequests(String receiverId) {
         Connection c = new ConnectionUtil().connectDB();
@@ -41,6 +45,11 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
 
     }
 
+    /**
+     *  Judge whethe a pendingFriendRequest exists in the database
+     * @param pendingFriendRequest pendingFriendRequest Object
+     * @return true if the pendingFriendRequest exists ; false if not
+     */
     @Override
     public boolean hasPendingRequest(PendingFriendRequest pendingFriendRequest) {
         Connection c = new ConnectionUtil().connectDB();
@@ -76,6 +85,11 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
         return hasPendingRequest;
     }
 
+    /**
+     *  Create a new pendingFriendRequest in the database
+     * @param pendingFriendRequest  pendingFriendRequest Object
+     * @return true if the process succeeds; false if not
+     */
     @Override
     public boolean newPendingRequest(PendingFriendRequest pendingFriendRequest) {
         Connection c = new ConnectionUtil().connectDB();
@@ -110,7 +124,11 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
         return result;
 
     }
-
+    /**
+     *  Delete a new pendingFriendRequest in the database
+     * @param pendingFriendRequest  pendingFriendRequest Object
+     * @return true if the process succeeds; false if not
+     */
     @Override
     public boolean deletePendingRequest(PendingFriendRequest pendingFriendRequest) {
         Connection c = new ConnectionUtil().connectDB();

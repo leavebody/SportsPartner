@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileCommentDaoImpl implements ProfileCommentDao {
+    /**
+     * Get the all the ProfileComments of a user
+     * @param userId Id of person
+     * @return List of ProfileComment
+     */
     public List<ProfileComment> getAllProfileComments(String userId) {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
@@ -44,6 +49,12 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         }
         return profileComments;
     }
+
+    /**
+     *  Jugdge whether a profileComment exists in the database
+     * @param profileComment ProfileComment Object
+     * @return true if there exists; false if it doesn't
+     */
     public boolean hasProfileComment(ProfileComment profileComment){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -85,8 +96,13 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         }
         return isprofileCommentExist;
 
-
     }
+
+    /**
+     *  Create a new ProfileComment in the database
+     * @param profileComment ProfileComment Object
+     * @return true if the process succeeds; false if not
+     */
     public boolean newProfileComment(ProfileComment profileComment){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -129,6 +145,11 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         return result;
 
     }
+    /**
+     *  Update a new ProfileComment in the database
+     * @param profileComment ProfileComment Object
+     * @return true if the process succeeds; false if not
+     */
     public boolean updateProfileComment(ProfileComment profileComment){
         Connection c = new ConnectionUtil().connectDB();
 
@@ -167,6 +188,11 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         }
         return result;
     }
+    /**
+     *  Delete a new ProfileComment in the database
+     * @param profileComment ProfileComment Object
+     * @return true if the process succeeds; false if not
+     */
     public boolean deleteProfileComment(ProfileComment profileComment){
         Connection c = new ConnectionUtil().connectDB();
 
@@ -190,7 +216,6 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
             stmt.setString(5, content);
             rs = stmt.executeUpdate();
             if(rs>0){
-                System.out.println("Row "+ rs + "is DELETED.");
                 result = true;
             }
         } catch (Exception e) {

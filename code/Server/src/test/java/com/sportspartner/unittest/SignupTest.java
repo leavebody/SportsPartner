@@ -26,7 +26,7 @@ public class SignupTest {
         port(Bootstrap.PORT);
         staticFileLocation("/public");
         new SignUpController(new UserService());
-        Thread.sleep(2000);
+        Thread.sleep(4000);
     }
 
     @AfterClass
@@ -49,7 +49,9 @@ public class SignupTest {
     }
 
     @Test
-    // Test a successful sign up as a individual
+    /**
+     * Test a successful sign up as a individual
+     */
     public void testSignupSuccess(){
         JSONObject parameters;
         String responseBody = new String();
@@ -82,7 +84,9 @@ public class SignupTest {
     }
 
     @Test
-    // Test sign up for an existed userId
+    /**
+     *  Test sign up for an existed userId
+     */
     public void testSignupExistedUserId(){
         JSONObject parameters;
         String responseBody = new String();

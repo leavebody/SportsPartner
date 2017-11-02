@@ -14,7 +14,9 @@ public class SignUpController {
         this.userService = userService;
         setupEndpoints();
     }
-
+    /**
+     * Set all endpoints for sign up
+     */
     private void setupEndpoints() {
         //sign up as person
         post(API_CONTEXT + "/signup/:type", "application/json", (request, response) -> {
