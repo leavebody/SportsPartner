@@ -1,7 +1,9 @@
 package com.sportspartner.service;
 
 import com.sportspartner.dao.impl.FriendDaoImpl;
+import com.sportspartner.dao.impl.PendingFriendRequestDaoImpl;
 import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.model.PendingFriendRequest;
 import com.sportspartner.model.Person;
 import com.sportspartner.model.User;
 import com.sportspartner.modelvo.UserOutlineVO;
@@ -13,7 +15,7 @@ import java.util.List;
 public class FriendService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
-
+    private PendingFriendRequestDaoImpl pendingFriendRequestDao = new PendingFriendRequestDaoImpl();
     /**
      * Get the friendlist of a person
      * @param userId Id of a User
@@ -31,15 +33,31 @@ public class FriendService {
                 userOutlineVO.setFromPerson(person);
                 userOutlineVOList.add(userOutlineVO);
             }
-            resp.setResponse("true");
+            //resp.setResponse("true");
             resp.setFriendlist(userOutlineVOList);
         }catch(Exception ex){
             throw new FriendServiceException("Get friendList error", ex);
         }
-
-
         return resp;
     }
+
+    public JsonResponse sendFriendRequest(String recieverId, String senderId) throws  FriendServiceException{
+        JsonResponse resp = new JsonResponse();
+        try {
+               boolean succeed = pendingFriendRequestDao.newPendingRequest(new PendingFriendRequest(recieverId,senderId));
+               if (succeed){
+                    resp.setResponse("true");
+               }
+               else{
+                   resp.setResponse("false");
+               }
+
+            } catch (Exception ex) {
+            throw new FriendServiceException("New friendList error", ex);
+        }
+        return resp;
+    }
+
     /**
      * Exception Class for Friend
      */
