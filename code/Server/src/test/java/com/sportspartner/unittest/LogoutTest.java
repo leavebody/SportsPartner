@@ -41,6 +41,7 @@ public class LogoutTest {
 
     @After
     public void teardown(){
+        // Recover deleted authorization item.
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         Authorization authorization = new Authorization("u1", "nonono");
         if(!authorizationDaoImpl.hasAuthorization(authorization))
