@@ -1,11 +1,13 @@
 package com.sportspartner.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -96,6 +98,44 @@ public class ProfileActivity extends BasicActivity {
 
         historyActivityList = (ListView) findViewById(R.id.list_history_activities);
         upcommingActivityList = (ListView) findViewById(R.id.list_upcomming_activties);
+        final Intent intent = new Intent(this, SactivityDetailActivity.class);
+
+        //Set List OnClick Listener
+        upcommingActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = upcommingListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+
+                Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
+                toast.show();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
+
+        historyActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = historyListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+
+                Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
+                toast.show();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
 
         //find all the titles by Id
         View basic = findViewById(R.id.title_basic_info);
@@ -255,18 +295,6 @@ public class ProfileActivity extends BasicActivity {
             toast.show();
         }
     }
-
-    //TODO set listview onclick lisener
-    /*
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-            }
-
-        });
-        */
 
     /**
      * Refresh: get the content of the list

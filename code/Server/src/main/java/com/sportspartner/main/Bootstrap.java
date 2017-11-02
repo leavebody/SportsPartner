@@ -38,6 +38,9 @@ public class Bootstrap {
             ActivityService activityModel = new ActivityService();
             new ActivityController(activityModel);
 
+            FriendService friendService = new FriendService();
+            new FriendController(friendService);
+
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }

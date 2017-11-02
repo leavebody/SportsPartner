@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,48 @@ public class HomeActivity extends BasicActivity {
 
         listCommingActivity = (ListView) findViewById(R.id.list_home_upcoming);
         listHomeRecommend = (ListView) findViewById(R.id.list_home_recommend);
+        final Intent intent = new Intent(this, SactivityDetailActivity.class);
+
+        //set List onClick Listener
+        //Set List OnClick Listener
+        //TODO set listview onclick lisener
+        listCommingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = upcommingListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+                String activity = activityOutline.getSportName();
+
+                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
+                toast.show();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
+
+        listHomeRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = recommendListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+                String activity = activityOutline.getSportName();
+
+                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
+                toast.show();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
 
         setTitle();
         setListCommingActivity();
