@@ -6,6 +6,7 @@ import com.sportspartner.model.*;
 
 public class ActivityOutlineVO {
     private String activityId;
+    private String creatorId;
     private String status;
     private String sportIconUUID;
     private String sportIconPath;
@@ -18,8 +19,9 @@ public class ActivityOutlineVO {
 
     public ActivityOutlineVO(){}
 
-    public ActivityOutlineVO(String activityId, String status, String sportIconUUID, String sportIconPath, String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
+    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID, String sportIconPath, String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
         this.activityId = activityId;
+        this.creatorId = creatorId;
         this.status = status;
         this.sportIconUUID = sportIconUUID;
         this.sportIconPath = sportIconPath;
@@ -37,6 +39,22 @@ public class ActivityOutlineVO {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getFacilityId() {
+        return facilityId;
+    }
+
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
     }
 
     public String getStatus() {
@@ -113,6 +131,7 @@ public class ActivityOutlineVO {
 
     public void setFromActivity(Activity activity){
         this.activityId = activity.getActivityId();
+        this.creatorId = activity.getCreatorId();
         this.status = activity.getStatus();
         this.startTime = activity.getStartTime();
         this.endTime = activity.getEndTime();
