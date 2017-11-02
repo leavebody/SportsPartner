@@ -27,6 +27,7 @@ public class JsonResponse {
     private JsonArray sports;
     private JsonObject activityOutline;
     private JsonArray activityOutlines;
+    private JsonArray friendlist;
 
     public JsonResponse() {
     }
@@ -174,6 +175,19 @@ public class JsonResponse {
             for(ActivityOutlineVO activityOutlineVO: activityOutlineVOs){
                 String jsonString = gson.toJson(activityOutlineVO);
                 this.activityOutlines.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
+
+    public void setFriendlist( List <UserOutlineVO> userOutlineVOList){
+        this.friendlist = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for (UserOutlineVO userOutlineVO : userOutlineVOList){
+                String jsonString = gson.toJson(userOutlineVO);
+                this.friendlist.add(gson.fromJson(jsonString, JsonObject.class));
             }
         }catch(JSONException e){
             // TODO Auto-generated catch block

@@ -55,7 +55,6 @@ public class FriendDaoImpl implements FriendDao {
                 e.printStackTrace();
             }
         }
-        System.out.println(users.get(0));
         return users;
     }
 
