@@ -83,10 +83,11 @@ public class ActivityService extends Service {
         ModelResult<ArrayList<SActivityOutline>> result = new ModelResult<>();
         result.setStatus(true);
         ArrayList<SActivityOutline> activityList = new ArrayList<SActivityOutline>();
-        Date date = new Date(20, 10,23);
-        activityList.add(new SActivityOutline("01","Open","statuts", "None","Basketball",date, date,"location", 3, 10));
-        activityList.add(new SActivityOutline("02","Open","statuts", "None","Football",date, date,"location", 10, 12));
-        activityList.add(new SActivityOutline("03","Open","statuts", "None","Lacrosse",date, date,"location", 3, 10));
+        Date date1 = new Date(117, 10,23,10,30);
+        Date date2 = new Date(117,10,23,12,00);
+        activityList.add(new SActivityOutline("01","Open","statuts", "None","Basketball",date1, date2,"location", 10, 3));
+        activityList.add(new SActivityOutline("02","Open","statuts", "None","Football",date1, date2,"location", 12, 10));
+        activityList.add(new SActivityOutline("03","Open","statuts", "None","Lacrosse",date1, date2,"location", 10, 3));
         //activityList.add(new SActivityOutline("04","Open","statuts", "None","Badminton",date, date,"location", 4, 4));
         result.setModel(activityList);
         callback.getModelOnSuccess(result);
