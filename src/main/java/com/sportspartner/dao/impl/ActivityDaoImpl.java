@@ -10,6 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ActivityDaoImpl implements ActivityDao {
+    /**
+     * Get all activities in the databases.
+     * @return list of Activity objects
+     */
     @Override
     public List<Activity> getAllActivities() {
         Connection c = new ConnectionUtil().connectDB();
@@ -51,6 +55,11 @@ public class ActivityDaoImpl implements ActivityDao {
         return activities;
     }
 
+    /**
+     * Get an activity by activityId.
+     * @param activityId
+     * @return Activity object
+     */
     @Override
     public Activity getActivity(String activityId) {
         Connection c = new ConnectionUtil().connectDB();
@@ -92,6 +101,11 @@ public class ActivityDaoImpl implements ActivityDao {
         return activity;
     }
 
+    /**
+     * Create a new activity.
+     * @param activity
+     * @return "true" or "false" for whether successfully created a new activity.
+     */
     @Override
     public boolean newActivity(Activity activity) {
         Connection c = new ConnectionUtil().connectDB();
@@ -146,6 +160,11 @@ public class ActivityDaoImpl implements ActivityDao {
 
     }
 
+    /**
+     * Update an activity.
+     * @param activity
+     * @return "true" or "false" for whether successfully updated an activity.
+     */
     @Override
     public boolean updateActivity(Activity activity) {
         Connection c = new ConnectionUtil().connectDB();
@@ -198,6 +217,11 @@ public class ActivityDaoImpl implements ActivityDao {
         return result;
     }
 
+    /**
+     * Delete an activity from database by activityId.
+     * @param activity
+     * @return "true" or "false" for whether successfully delete the activity.
+     */
     @Override
     public boolean deleteActivity(Activity activity) {
         Connection c = new ConnectionUtil().connectDB();
@@ -251,6 +275,12 @@ public class ActivityDaoImpl implements ActivityDao {
         return result;
     }
 
+    /**
+     * Get a user's upcoming activities whose startTime is later than current time.
+     * @param userId
+     * @return a list of Activity objects
+     */
+    @Override
      public List<Activity> getUpcomingActivities(String userId){
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
@@ -293,6 +323,12 @@ public class ActivityDaoImpl implements ActivityDao {
          return activities;
      }
 
+    /**
+     * Get a user's upcoming activities whose endTime is earlier than current time.
+     * @param userId
+     * @return a list of Activity objects
+     */
+     @Override
      public List<Activity> getPastActivities(String userId){
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
@@ -300,7 +336,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND  \"startTime\" < CURRENT_TIMESTAMP;");
+                     "AND  \"endTime\" < CURRENT_TIMESTAMP;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {

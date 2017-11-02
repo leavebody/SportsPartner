@@ -16,6 +16,10 @@ public class ActivityController {
         this.activityService= activityService;
         setupEndpoints();
     }
+
+    /**
+     * Set all endpoints for activity
+     */
     private void setupEndpoints() {
         // get activity details
         get(API_CONTEXT + "/activity/:id", "application/json", (request, response) -> {
@@ -57,7 +61,7 @@ public class ActivityController {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = activityService.getPastActivity(request.queryParams("id"), Integer.parseInt(request.queryParams("offset")), Integer.parseInt(request.queryParams("limit")));
-                response.status(200);
+                    response.status(200);
                 return reps;
             } catch (Exception ex) {
                 response.status(200);

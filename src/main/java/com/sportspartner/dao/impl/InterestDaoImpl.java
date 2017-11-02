@@ -10,7 +10,10 @@ import java.util.List;
 
 public class InterestDaoImpl{
 
-
+    /**
+     *  Get the all of the interests from the database
+     * @return List of Interest
+     */
     public List<Interest> getAllInterests(){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -46,6 +49,11 @@ public class InterestDaoImpl{
         return interests;
     }
 
+    /**
+     * Get the Interest of a person from the database
+     * @param userId Id of the user
+     * @return List of Interest of a user
+     */
     public List<Interest> getInterest(String userId) {
 
         Connection c = new ConnectionUtil().connectDB();
@@ -81,6 +89,11 @@ public class InterestDaoImpl{
         return interests;
     }
 
+    /**
+     *  Create a new interest in the database
+     * @param interest Interest Object
+     * @return true if the process succeeds
+     */
     public boolean newInterest(Interest interest){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -111,6 +124,12 @@ public class InterestDaoImpl{
         return false;
     }
 
+    /**
+     *  update interest in the database
+     * @param interest old interest
+     * @param newInterest new interest
+     * @return true if the process succeeds
+     */
     public boolean updateInterest(Interest interest, String newInterest){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
@@ -142,6 +161,11 @@ public class InterestDaoImpl{
         return false;
     }
 
+    /**
+     * delete an interest from the database
+     * @param interest Interest Object
+     * @return true if the process succeeds.
+     */
     public boolean deleteInterest(Interest interest){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;

@@ -11,8 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 public class ProfileService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+
+    /**
+     *  Get the profile of a user
+     * @param userId Id of a user
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse getProfile(String userId) throws ProfileServiceException {
 
         JsonResponse resp = new JsonResponse();
@@ -40,6 +48,13 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     * Update profile of a user
+     * @param userId Id of a user
+     * @param body String from the front-end
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse updateProfile(String userId, String body) throws ProfileServiceException {
 
         JsonResponse resp = new JsonResponse();
@@ -47,6 +62,7 @@ public class ProfileService {
             JsonObject json = new Gson().fromJson(body, JsonObject.class);
             String requestId = json.get("userId").getAsString();
             String requestKey = json.get("key").getAsString();
+            // Check
             if (!userId.equals(requestId)) {
                 resp.setResponse("false");
                 resp.setMessage("Lack authorization to update profile");
@@ -73,9 +89,9 @@ public class ProfileService {
                         } else {
                             resp.setResponse("true");
                         }
-                        }
                     }
                 }
+            }
         }catch(Exception ex){
             throw new ProfileServiceException("Json format error", ex);
         }
@@ -83,6 +99,12 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     *  Get all the interests of a user
+     * @param userId Id of a user
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse getInterests(String userId) throws ProfileServiceException {
         /* Return the interests of a user as a comma-separated string */
         JsonResponse resp = new JsonResponse();
@@ -138,6 +160,12 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     * Get all comments on the profile os a user
+     * @param userId Id of user
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException ActivityServiceException
+     */
     public JsonResponse getProfileComment(String userId) throws ProfileServiceException{
         JsonResponse resp = new JsonResponse();
         try{
@@ -157,6 +185,13 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     *  Create a comment on profile for a User
+     * @param userId Id of the target User
+     * @param body String from the front-end, which contains the information about the authorId, login key, activityId and comment
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse newProfileComment(String userId, String body) throws ProfileServiceException {
         JsonResponse resp = new JsonResponse();
         try{
@@ -191,6 +226,12 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     * Get the profile outline of a user
+     * @param userId Id of a user
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse getUserOutline(String userId) throws ProfileServiceException {
 
         JsonResponse resp = new JsonResponse();
@@ -213,6 +254,11 @@ public class ProfileService {
         return resp;
     }
 
+    /**
+     * Get information about all of the sports
+     * @return JsonResponse to the front-end
+     * @throws ProfileServiceException throw ProfileServiceException
+     */
     public JsonResponse getAllSports() throws ProfileServiceException{
         JsonResponse resp = new JsonResponse();
         try {
@@ -225,25 +271,44 @@ public class ProfileService {
 //      System.out.println(resp);
         return resp;
     }
-
+    /**
+     * Check whether a user exists
+     * @param userId Id of a user
+     * @return true means the user exists,  false means the user doesn't exist
+     */
     public boolean hasUser(String userId){
         UserDaoImpl userDaoImpl = new UserDaoImpl();
         User user = userDaoImpl.getUser(userId);
         return user!= null;
     }
 
+    /**
+     * Check whether a user is authorized
+     * @param userId Id of a user
+     * @param key login key of a user
+     * @return true means the user is authorized,  false means the user isn't authorized
+     */
     public boolean isAuthorized(String userId, String key){
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
     }
 
+    /**
+     * Check whether a user is a member of the activity
+     * @param userId Id of a user
+     * @param activityId Id of an activity
+     * @return true means the user is a member,  false means the user is not
+     */
     public boolean isMember(String userId, String activityId){
         ActivityMemberDaoImpl activityMemberDaoimpl = new ActivityMemberDaoImpl();
         ActivityMember activityMember = new ActivityMember(activityId, userId);
         return activityMemberDaoimpl.hasActivityMember(activityMember);
     }
 
+    /**
+     *  Exception class for profile
+     */
     public static class ProfileServiceException extends Exception {
         public ProfileServiceException(String message, Throwable cause) {
             super(message, cause);

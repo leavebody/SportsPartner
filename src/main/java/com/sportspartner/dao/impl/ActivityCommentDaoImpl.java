@@ -11,6 +11,11 @@ import java.util.Date;
 
 public class ActivityCommentDaoImpl implements ActivityCommentDao{
 
+    /**
+     * Get all comments of an activity.
+     * @param activityId
+     * @return A list of ActivityComment objects.
+     */
     @Override
     public List<ActivityComment> getAllActivityComments(String activityId) {
         Connection c = new ConnectionUtil().connectDB();
@@ -46,6 +51,11 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         return activityComments;
     }
 
+    /**
+     * Check whether an activity has a specific comment.
+     * @param activityComment
+     * @return "true" or "false" for whether the comment exists or not.
+     */
     @Override
     public boolean hasActivityComment(ActivityComment activityComment) {
         Connection c = new ConnectionUtil().connectDB();
@@ -89,6 +99,11 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         return hasActivityComment;
     }
 
+    /**
+     * Create a new activity comment.
+     * @param activityComment
+     * @return "true" or "false" for whether successfully created the comment.
+     */
     @Override
     public boolean newActivityComment(ActivityComment activityComment) {
         Connection c = new ConnectionUtil().connectDB();
@@ -129,6 +144,11 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         return result;
     }
 
+    /**
+     * Update a comment of an activity.
+     * @param activityComment
+     * @return "true" or "false" for whehter successfully created an activity.
+     */
     @Override
     public boolean updateActivityComment(ActivityComment activityComment) {
         Connection c = new ConnectionUtil().connectDB();
@@ -169,6 +189,11 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         return result;
     }
 
+    /**
+     * Delete an activity comment.
+     * @param activityComment
+     * @return "true" or "false" for whether successfully delete the comment.
+     */
     @Override
     public boolean deleteActivityComment(ActivityComment activityComment) {
         Connection c = new ConnectionUtil().connectDB();

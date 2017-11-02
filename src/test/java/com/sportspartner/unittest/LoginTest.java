@@ -45,7 +45,9 @@ public class LoginTest {
     }
 
     @Test
-    // Test login for right input of userId and password
+    /**
+     *  Test login for right input of userId and password
+     */
     public void testLoginSuccess(){
         JSONObject parameters;
         String responseBody = new String();
@@ -79,7 +81,9 @@ public class LoginTest {
     }
 
     @Test
-    // Test login for wrong password input
+    /**
+     *  Test login for wrong password input
+     */
     public void testLoginFailure(){
         JSONObject parameters;
         String responseBody = new String();

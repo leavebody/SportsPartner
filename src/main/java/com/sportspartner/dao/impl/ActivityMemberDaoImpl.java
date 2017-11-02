@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityMemberDaoImpl implements ActivityMemberDao{
+    /**
+     * Get all members of an activity.
+     * @param activityId
+     * @return a list of ActivityMember objects
+     */
     @Override
     public List<ActivityMember> getAllActivitymembers(String activityId) {
         Connection c = new ConnectionUtil().connectDB();
@@ -40,6 +45,11 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         return activityMembers;
     }
 
+    /**
+     * Check whether an activity has a member specified by userId.
+     * @param activityMember
+     * @return "true" or "false" for whether the activity has the member
+     */
     @Override
     public boolean hasActivityMember(ActivityMember activityMember) {
         Connection c = new ConnectionUtil().connectDB();
@@ -75,6 +85,11 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         return hasActivityMember;
     }
 
+    /**
+     * Add a new member to activity.
+     * @param activityMember
+     * @return "true" or "false" for whether successfully add a new activity member
+     */
     @Override
     public boolean newActivityMember(ActivityMember activityMember) {
         Connection c = new ConnectionUtil().connectDB();
@@ -110,40 +125,11 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
 
     }
 
-    @Override
-    public boolean updateActivityMember(ActivityMember activityMember , String newUserId) {
-        Connection c = new ConnectionUtil().connectDB();
-
-        PreparedStatement stmt = null;
-        int rs;
-        String activityId = activityMember.getActivityId();
-        String userId = activityMember.getUserId();
-
-        boolean result = false;
-        try {
-            stmt = c.prepareStatement("UPDATE \"Activity_Member\" SET \"userId\" = ?  WHERE \"activityId\"=? AND \"userId\" = ?;");
-            stmt.setString(1, newUserId);
-            stmt.setString(2, activityId);
-            stmt.setString(3, userId);
-            rs = stmt.executeUpdate();
-            if(rs>0)
-                result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
+    /**
+     * Delete an activity member.
+     * @param activityMember
+     * @return "ture" or "false" for whether successfully delete an activity member.
+     */
     @Override
     public boolean deleteActivityMember(ActivityMember activityMember) {
         Connection c = new ConnectionUtil().connectDB();

@@ -11,7 +11,10 @@ import java.util.List;
 public class SportDaoImpl implements SportDao {
 
 
-
+    /**
+     * Get all the sports from the database
+     * @return list of sports
+     */
     public List<Sport> getAllSports() {
         Connection c = new ConnectionUtil().connectDB();
         List<Sport> sports = new ArrayList<Sport>();
@@ -48,6 +51,11 @@ public class SportDaoImpl implements SportDao {
         return sports;
     }
 
+    /**
+     *  Search the sport Object by sportId
+     * @param sportId Id of sport
+     * @return Sport Object
+     */
     public Sport getSport(String sportId) {
         Connection c = new ConnectionUtil().connectDB();
         Sport sport = new Sport();
@@ -84,7 +92,11 @@ public class SportDaoImpl implements SportDao {
         return sport;
 }
 
-
+    /**
+     *  Create a new Sports in the database
+     * @param sport Sport Object
+     * @return true if the process succeeds, false if not
+     */
     public boolean newSport(Sport sport){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
@@ -124,7 +136,11 @@ public class SportDaoImpl implements SportDao {
         }
     }
 
-
+    /**
+     *  Update a new Sports in the database
+     * @param sport Sport Object
+     * @return true if the process succeeds, false if not
+     */
     public boolean updateSport(Sport sport){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
@@ -163,6 +179,11 @@ public class SportDaoImpl implements SportDao {
             }
         }
     }
+    /**
+     *  Delete a new Sports in the database
+     * @param sportId Id of sport
+     * @return true if the process succeeds, false if not
+     */
     public boolean deleteSport(String sportId){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;

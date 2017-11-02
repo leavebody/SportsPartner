@@ -13,12 +13,13 @@ import java.sql.PreparedStatement;
 
 public class FriendDaoImpl implements FriendDao {
 
-
-
-
-
     public FriendDaoImpl(){}
 
+    /**
+     * Get all friends of a user.
+     * @param user the userId of the user
+     * @return a list of User objects for all friends of the user
+     */
     public List<User> getAllFriends(String user){
 
         Connection c = new ConnectionUtil().connectDB();
@@ -58,6 +59,12 @@ public class FriendDaoImpl implements FriendDao {
         return users;
     }
 
+    /**
+     * Check whether user1 has user2 as a friend.
+     * @param user1
+     * @param user2
+     * @return "true" or "false" for whether user2 is a friend of user1
+     */
     public boolean getFriend(String user1, String user2){
         Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
@@ -87,6 +94,13 @@ public class FriendDaoImpl implements FriendDao {
         }
         return indicator;
     }
+
+    /**
+     * Add a new friend user2 to user1's friend list.
+     * @param user1
+     * @param user2
+     * @return "true" or "false" for whether the user2 has been added to the user1's list
+     */
     public boolean newFriend(String user1, String user2){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
@@ -116,6 +130,13 @@ public class FriendDaoImpl implements FriendDao {
         return indicator;
 
         }
+
+    /**
+     * Delete a friend user2 from user1's friend list.
+     * @param user1
+     * @param user2
+     * @return "ture" or "false" for whether successfully deleted the friend.
+     */
     public boolean deleteFriend(String user1, String user2){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement;

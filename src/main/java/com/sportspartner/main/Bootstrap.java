@@ -1,10 +1,7 @@
 
 package com.sportspartner.main;
 
-import com.sportspartner.controllers.ActivityController;
-import com.sportspartner.controllers.LoginController;
-import com.sportspartner.controllers.ProfileController;
-import com.sportspartner.controllers.SignUpController;
+import com.sportspartner.controllers.*;
 import com.sportspartner.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +16,11 @@ public class Bootstrap {
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
 
+    /**
+     * Set the ip address and port , start different services
+     * @param args arguments of main function
+     * @throws Exception throw exception of Service
+     */
     public static void main(String[] args) throws Exception {
 
         ipAddress(IP_ADDRESS);
@@ -28,6 +30,7 @@ public class Bootstrap {
             UserService userModel = new UserService();
             new LoginController(userModel);
             new SignUpController(userModel);
+            new LogoutController(userModel);
 
             ProfileService profileModel = new ProfileService();
             new ProfileController(profileModel);
