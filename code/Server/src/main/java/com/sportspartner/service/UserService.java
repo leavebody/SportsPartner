@@ -2,6 +2,8 @@ package com.sportspartner.service;
 
 import java.util.UUID;
 import com.google.gson.Gson;
+import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.model.DeviceRegistration;
 import com.sportspartner.util.JsonResponse;
 
 import com.sportspartner.model.Person;
@@ -21,6 +23,7 @@ public class UserService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
+    private DeviceRegistrationDaoImpl deviceRegistrationDaoImpl = new DeviceRegistrationDaoImpl();
 
     /**
      *  Login
@@ -48,7 +51,8 @@ public class UserService {
             } else {
                 String key = UUID.randomUUID().toString();
                 Authorization authorization = new Authorization(loginVO.getUserId(), key);
-                if(authorizationDaoImpl.newAuthorization(authorization)){
+                DeviceRegistration deviceRegistration = new DeviceRegistration(loginVO.getUserId(),loginVO.getRegistrationId());
+                if(authorizationDaoImpl.newAuthorization(authorization)&&deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration)){
                     resp.setKey(key);
                     resp.setResponse("true");
                 }else{
@@ -60,7 +64,6 @@ public class UserService {
         } catch(Exception ex){
             throw new UserServiceException("Json format error", ex);
         }
-//      System.out.println(resp);
         return resp;
     }
 
@@ -118,10 +121,11 @@ public class UserService {
      * @return JsonRespnonse JsonRespnonse to the front-end
      * @throws UserServiceException throws UserServiceException
      */
-    public JsonResponse logOut(String userId, String key) throws UserServiceException{
+    public JsonResponse logOut(String userId, String key, String registrationId) throws UserServiceException{
         JsonResponse resp = new JsonResponse();
         Authorization authorization = new Authorization(userId, key);
-        if(authorizationDaoImpl.deleteAuthorization(authorization)){
+        DeviceRegistration deviceRegistration = new DeviceRegistration(userId,registrationId);
+        if(authorizationDaoImpl.deleteAuthorization(authorization) && deviceRegistrationDaoImpl.deleteDeviceRegistration(deviceRegistration)){
             resp.setResponse("true");
         }else{
             resp.setResponse("false");
