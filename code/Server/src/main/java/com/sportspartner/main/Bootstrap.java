@@ -30,7 +30,7 @@ public class Bootstrap {
     public static void main(String[] args) throws Exception {
 
 
-        /*
+    /*
         Sender sender = new Sender("AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U");
 
         Message.Builder builder= new Message.Builder();
@@ -55,7 +55,8 @@ public class Bootstrap {
             }
         }
         */
-        /*
+
+
         ipAddress(IP_ADDRESS);
         port(PORT);
         staticFileLocation("/public");
@@ -77,7 +78,7 @@ public class Bootstrap {
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }
-        */
+
                 /*
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");
