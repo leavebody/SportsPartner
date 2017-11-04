@@ -69,7 +69,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"address\":\"Guangdong\",\"gender\":\"male\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconPath\":\"server/res/icon/zihao@jhu.edu\",\"iconUUID\":\"ASD123\"}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"address\":\"Guangdong\",\"gender\":\"male\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconUUID\":\"ASD123\"}}", responseBody);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class ProfileTest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             JsonParser parser = new JsonParser();
-            parameters = parser.parse("{\"userId\":\"xuanzhang666@jhu.edu\",\"key\":\"007\",\"profile\":{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"address\":\"Inner Mongolia\",\"gender\":\"female\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconPath\":\"server/res/icon/xuanzhang666@jhu.edu\", \"iconUUID\": \"897WEM\"}}").getAsJsonObject();
+            parameters = parser.parse("{\"userId\":\"xuanzhang666@jhu.edu\",\"key\":\"007\",\"profile\":{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"address\":\"Inner Mongolia\",\"gender\":\"female\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0, \"iconUUID\": \"897WEM\"}}").getAsJsonObject();
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
@@ -149,7 +149,7 @@ public class ProfileTest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             JsonParser parser = new JsonParser();
-            parameters = parser.parse("{\"userId\":\"xuan@jhu.edu\",\"key\":\"005\",\"profile\":{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"address\":\"Inner Mongolia\",\"gender\":\"female\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconPath\":\"server/res/icon/xuanzhang666@jhu.edu\", \"iconUUID\": \"897WEM\"}}").getAsJsonObject();
+            parameters = parser.parse("{\"userId\":\"xuan@jhu.edu\",\"key\":\"005\",\"profile\":{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"address\":\"Inner Mongolia\",\"gender\":\"female\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconUUID\": \"897WEM\"}}").getAsJsonObject();
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
@@ -193,7 +193,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"userOutline\":{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"iconPath\":\"server/res/icon/zihao@jhu.edu\",\"iconUUID\":\"ASD123\"}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"userOutline\":{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"iconUUID\":\"ASD123\"}}", responseBody);
     }
 
     @Test
@@ -248,7 +248,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"sports\":[{\"sportId\":\"002\",\"sportName\":\"Basketball\",\"sportIconPath\":\"/image/sporticon/002.png\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconPath\":\"/image/sporticon/001.png\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"004\",\"sportName\":\"Baseball\",\"sportIconPath\":\"/image/sporticon/004.png\",\"sportIconUUID\":\"01fb369c-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"005\",\"sportName\":\"Soccer\",\"sportIconPath\":\"/image/sporticon/005.png\",\"sportIconUUID\":\"01fb389a-bc1c-11e7-abc4-cec278b6b50a\"}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"sports\":[{\"sportId\":\"002\",\"sportName\":\"Basketball\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"004\",\"sportName\":\"Baseball\",\"sportIconUUID\":\"01fb369c-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"005\",\"sportName\":\"Soccer\",\"sportIconUUID\":\"01fb389a-bc1c-11e7-abc4-cec278b6b50a\"}]}", responseBody);
     }
 
     @Test

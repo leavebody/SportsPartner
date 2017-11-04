@@ -9,7 +9,6 @@ public class ActivityOutlineVO {
     private String creatorId;
     private String status;
     private String sportIconUUID;
-    private String sportIconPath;
     private String sportName;
     private Date startTime;
     private Date endTime;
@@ -19,12 +18,11 @@ public class ActivityOutlineVO {
 
     public ActivityOutlineVO(){}
 
-    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID, String sportIconPath, String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
+    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
         this.activityId = activityId;
         this.creatorId = creatorId;
         this.status = status;
         this.sportIconUUID = sportIconUUID;
-        this.sportIconPath = sportIconPath;
         this.sportName = sportName;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -71,14 +69,6 @@ public class ActivityOutlineVO {
 
     public void setSportIconUUID(String sportIconUUID) {
         this.sportIconUUID = sportIconUUID;
-    }
-
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
     }
 
     public String getSportName() {
@@ -142,7 +132,6 @@ public class ActivityOutlineVO {
 
     public void setFromSport(Sport sport){
         this.sportName = sport.getSportName();
-        this.sportIconPath = sport.getSportIconPath();
         this.sportIconUUID = sport.getSportIconUUID();
     }
 }
