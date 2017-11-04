@@ -8,6 +8,7 @@ import com.sportspartner.model.Person;
 import com.sportspartner.model.User;
 import com.sportspartner.modelvo.UserOutlineVO;
 import com.sportspartner.util.JsonResponse;
+import com.google.android.gcm.server.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +45,23 @@ public class FriendService {
     public JsonResponse sendFriendRequest(String recieverId, String senderId) throws  FriendServiceException{
         JsonResponse resp = new JsonResponse();
         try {
-               boolean succeed = pendingFriendRequestDao.newPendingRequest(new PendingFriendRequest(recieverId,senderId));
-               if (succeed){
-                    resp.setResponse("true");
-               }
-               else{
-                   resp.setResponse("false");
-               }
+                boolean succeed = pendingFriendRequestDao.newPendingRequest(new PendingFriendRequest(recieverId,senderId));
+                Sender sender = new Sender("AIzaSyDd1V1gGOoRAiDO3WmKiaEEKWlO1Snc2WY");
+                Message message = new Message.Builder().build();
+                String devices = "";
+                Result result = sender.send(message, devices, 5);
+                if (result.getMessageId() != null) { String canonicalRegId = result.getCanonicalRegistrationId();
+                    if (canonicalRegId != null) {
+                    // same device has more than on registration ID: update database
+                        System.out.println("same device has more than on registration ID: update database");
+                    }
+                } else {
+                    String error = result.getErrorCodeName();
+                    if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
+                    // application has been removed from device - unregister database
+                        System.out.println("application has been removed from device - unregister database");
+                }
+            }
 
             } catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
