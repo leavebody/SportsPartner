@@ -198,6 +198,7 @@ public class ActivityTest {
             responseBody = IOUtils.toString(connection.getInputStream());
         }catch(IOException ioe){
             ioe.printStackTrace();
+            
         }
 
         //JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
