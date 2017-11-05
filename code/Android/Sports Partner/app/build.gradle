@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 26
@@ -9,11 +10,13 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        //multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -22,6 +25,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile group: 'com.google.gms', name: 'google-services', version: '3.1.0'
+    //compile group: 'com.google.gcm', name: 'gcm-server', version: '1.0.0'
+    //compile 'com.google.android.gms:play-services-gcm:9.0.0'
+    //compile "com.google.android.gms:play-services:7.5.0"
+    compile 'com.google.android.gms:play-services-gcm:11.0.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -36,7 +44,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-9'
+
 
 }
