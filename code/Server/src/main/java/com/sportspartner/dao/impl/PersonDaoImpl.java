@@ -36,10 +36,9 @@ public class PersonDaoImpl {
                 int punctualityCount = rs.getInt("punctualityCount");
                 double participation = rs.getDouble("participation");
                 int participationCount = rs.getInt("participationCount");
-                String iconPath = rs.getString("iconPath");
                 String iconUUID = rs.getString("iconUUID");
 
-                persons.add(new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconPath, iconUUID));
+                persons.add(new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconUUID));
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -83,10 +82,9 @@ public class PersonDaoImpl {
                 int punctualityCount = rs.getInt("punctualityCount");
                 double participation = rs.getDouble("participation");
                 int participationCount = rs.getInt("participationCount");
-                String iconPath = rs.getString("iconPath");
                 String iconUUID = rs.getString("iconUUID");
 
-                person = new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconPath, iconUUID);
+                person = new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconUUID);
 
             }
         } catch (Exception e) {
@@ -126,15 +124,14 @@ public class PersonDaoImpl {
         int punctualityCount = person.getPunctualityCount();
         double participation = person.getParticipation();
         int participationCount = person.getPunctualityCount();
-        String iconPath = person.getIconPath();
         String iconUUID = person.getIconUUID();
 
 
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Person\" (\"userId\", \"userName\", \"address\", \"gender\", \"age\", \"punctuality\", \"punctualityCount\", \"participation\", \"participationCount\", \"iconPath\", \"iconUUID\")"+
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            stmt = c.prepareStatement("INSERT INTO \"Person\" (\"userId\", \"userName\", \"address\", \"gender\", \"age\", \"punctuality\", \"punctualityCount\", \"participation\", \"participationCount\", \"iconUUID\")"+
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, userId);
             stmt.setString(2, userName);
             stmt.setString(3, address);
@@ -144,8 +141,7 @@ public class PersonDaoImpl {
             stmt.setInt(7, punctualityCount);
             stmt.setDouble(8, participation);
             stmt.setInt(9, participationCount);
-            stmt.setString(10, iconPath);
-            stmt.setString(11, iconUUID);
+            stmt.setString(10, iconUUID);
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
@@ -184,13 +180,12 @@ public class PersonDaoImpl {
         int punctualityCount = person.getPunctualityCount();
         double participation = person.getParticipation();
         int participationCount = person.getPunctualityCount();
-        String iconPath = person.getIconPath();
         String iconUUID = person.getIconUUID();
 
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("UPDATE \"Person\" SET \"userName\" = ?, \"address\" = ?, \"gender\" = ?, \"age\" = ?, \"punctuality\" = ?, \"punctualityCount\" = ?, \"participation\" = ?, \"participationCount\" = ?, \"iconPath\" = ?, \"iconUUID\" = ?" +
+            stmt = c.prepareStatement("UPDATE \"Person\" SET \"userName\" = ?, \"address\" = ?, \"gender\" = ?, \"age\" = ?, \"punctuality\" = ?, \"punctualityCount\" = ?, \"participation\" = ?, \"participationCount\" = ?, \"iconUUID\" = ?" +
                     "WHERE \"userId\"=?;");
             stmt.setString(1, userName);
             stmt.setString(2, address);
@@ -200,9 +195,8 @@ public class PersonDaoImpl {
             stmt.setInt(6, punctualityCount);
             stmt.setDouble(7, participation);
             stmt.setInt(8, participationCount);
-            stmt.setString(9, iconPath);
-            stmt.setString(10, iconUUID);
-            stmt.setString(11, userId);
+            stmt.setString(9, iconUUID);
+            stmt.setString(10, userId);
             rs = stmt.executeUpdate();
 
             if(rs>0)

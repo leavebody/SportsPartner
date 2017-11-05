@@ -78,7 +78,7 @@ public class ActivityTest {
         //assertEquals ("true",respond);
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activity\":{\"id\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"capacity\":4,\"size\":3,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"iconPath\":\"server/res/icon/xuanzhang666@jhu.edu\",\"iconUUID\":\"897WEM\"},{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"iconPath\":\"server/res/icon/zihao@jhu.edu\",\"iconUUID\":\"ASD123\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]}}", response);
+        assertEquals("{\"response\":\"true\",\"activity\":{\"id\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"capacity\":4,\"size\":3,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"iconUUID\":\"897WEM\"},{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"iconUUID\":\"ASD123\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]}}", response);
 
 
     }
@@ -143,7 +143,7 @@ public class ActivityTest {
         //String respond = responseJson.get("response").getAsString();
         //assertEquals ("\"true\"",respond);
         //String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":4,\"size\":3}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":4,\"size\":3}}", responseBody);
     }
     /**
      * test when GetActivityOutline fails
@@ -198,13 +198,14 @@ public class ActivityTest {
             responseBody = IOUtils.toString(connection.getInputStream());
         }catch(IOException ioe){
             ioe.printStackTrace();
+            
         }
 
         //JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         //String response =responseJson.getAsString();
         //String respond = responseJson.get("response").toString();
         //assertEquals ("\"true\"",respond);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a003\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2019 10:00:00 AM\",\"endTime\":\"Oct 25, 2019 11:30:00 AM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":1}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a003\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2019 10:00:00 AM\",\"endTime\":\"Oct 25, 2019 11:30:00 AM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":1}]}", responseBody);
     }
 
     /**
@@ -289,7 +290,7 @@ public class ActivityTest {
         }
 
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a002\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 10:00:00 AM\",\"endTime\":\"Oct 25, 2017 11:30:00 AM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":1},{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/003.png\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":4,\"size\":3},{\"activityId\":\"a004\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/001.png\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 26, 2017 10:00:00 AM\",\"endTime\":\"Oct 26, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":3,\"size\":3},{\"activityId\":\"a006\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/001.png\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 28, 2017 10:00:00 AM\",\"endTime\":\"Oct 28, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":2},{\"activityId\":\"a005\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\",\"sportIconPath\":\"/image/sporticon/002.png\",\"sportName\":\"Basketball\",\"startTime\":\"Oct 27, 2017 10:00:00 AM\",\"endTime\":\"Oct 27, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":6,\"size\":5}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a006\",\"creatorId\":\"zihao@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 28, 2017 10:00:00 AM\",\"endTime\":\"Oct 28, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":2},{\"activityId\":\"a005\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Basketball\",\"startTime\":\"Oct 27, 2017 10:00:00 AM\",\"endTime\":\"Oct 27, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":6,\"size\":5},{\"activityId\":\"a004\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 26, 2017 10:00:00 AM\",\"endTime\":\"Oct 26, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":3,\"size\":3},{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"capacity\":4,\"size\":3},{\"activityId\":\"a002\",\"creatorId\":\"u24\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 10:00:00 AM\",\"endTime\":\"Oct 25, 2017 11:30:00 AM\",\"facilityId\":\"001\",\"capacity\":2,\"size\":1}]}",responseBody);
     }
 
     /**

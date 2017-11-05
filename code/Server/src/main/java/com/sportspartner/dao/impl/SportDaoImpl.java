@@ -28,10 +28,9 @@ public class SportDaoImpl implements SportDao {
             while (rs.next()) {
                 String sportId = rs.getString("sportId");
                 String sportName = rs.getString("sportName");
-                String sportIconPath = rs.getString("sportIconPath");
                 String sportIconUUID = rs.getString("sportIconUUID");
 
-                sports.add(new Sport(sportId, sportName, sportIconPath, sportIconUUID));
+                sports.add(new Sport(sportId, sportName, sportIconUUID));
                 //TODO delete Get Print
                 //System.out.println("All: " + sportId + " " + sportName + " " + sportIcon);
             }
@@ -70,10 +69,9 @@ public class SportDaoImpl implements SportDao {
             rs.next();
             sportId = rs.getString("sportId");
             String sportName = rs.getString("sportName");
-            String sportIconPath = rs.getString("sportIconPath");
             String sportIconUUID = rs.getString("sportIconUUID");
 
-            sport = new Sport(sportId, sportName, sportIconPath, sportIconUUID);
+            sport = new Sport(sportId, sportName,sportIconUUID);
             //TODO delete get print
 
     } catch (Exception e) {
@@ -102,13 +100,12 @@ public class SportDaoImpl implements SportDao {
         PreparedStatement statement = null;
         int numUpdated = 0;
         try {
-            String sql = "INSERT INTO \"Sport\" (\"sportId\", \"sportName\", \"sportIconPath\", \"sportIconUUID\") " +
-                    "VALUES(?, ?, ?, ?)";
+            String sql = "INSERT INTO \"Sport\" (\"sportId\", \"sportName\",\"sportIconUUID\") " +
+                    "VALUES(?, ?, ?)";
             statement = c.prepareStatement(sql);
             statement.setString(1, sport.getSportId());
             statement.setString(2, sport.getSportName());
-            statement.setString(3,sport.getSportIconPath());
-            statement.setString(4, sport.getSportIconUUID());
+            statement.setString(3, sport.getSportIconUUID());
             numUpdated = statement.executeUpdate();
 
             if(numUpdated <= 0){
@@ -146,12 +143,11 @@ public class SportDaoImpl implements SportDao {
         PreparedStatement statement = null;
         int numUpdated = 0;
         try {
-            String sql = "UPDATE \"Sport\" set \"sportName\" = ?, \"sportIconPath\" = ?, \"sportIconUUID\" = ? WHERE \"sportId\" = ?";
+            String sql = "UPDATE \"Sport\" set \"sportName\" = ?,  \"sportIconUUID\" = ? WHERE \"sportId\" = ?";
             statement = c.prepareStatement(sql);
             statement.setString(3, sport.getSportId());
             statement.setString(1, sport.getSportName());
-            statement.setString(2,sport.getSportIconPath());
-            statement.setString(3, sport.getSportIconUUID());
+            statement.setString(2, sport.getSportIconUUID());
             numUpdated = statement.executeUpdate();
 
             if(numUpdated <= 0){

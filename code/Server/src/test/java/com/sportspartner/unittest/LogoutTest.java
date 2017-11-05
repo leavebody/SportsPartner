@@ -2,8 +2,10 @@ package com.sportspartner.unittest;
 
 import com.sportspartner.controllers.LogoutController;
 import com.sportspartner.dao.impl.AuthorizationDaoImpl;
+import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
 import com.sportspartner.main.Bootstrap;
 import com.sportspartner.model.Authorization;
+import com.sportspartner.model.DeviceRegistration;
 import com.sportspartner.service.UserService;
 import org.junit.*;
 import spark.Spark;
@@ -46,6 +48,10 @@ public class LogoutTest {
         Authorization authorization = new Authorization("u1", "nonono");
         if(!authorizationDaoImpl.hasAuthorization(authorization))
             authorizationDaoImpl.newAuthorization(authorization);
+        DeviceRegistrationDaoImpl deviceRegistrationDaoImpl = new DeviceRegistrationDaoImpl();
+        DeviceRegistration deviceRegistration = new DeviceRegistration("u1", "string");
+        if(!deviceRegistrationDaoImpl.hasDeviceRegistration(deviceRegistration))
+            deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration);
     }
 
     @Test
@@ -55,7 +61,7 @@ public class LogoutTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/logout?userId=u1&key=nonono");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/logout?userId=u1&key=nonono&registrationId=string");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("DELETE");
             connection.setRequestProperty("Accept", "application/json");

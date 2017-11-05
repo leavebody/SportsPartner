@@ -3,13 +3,11 @@ package com.sportspartner.model;
 public class Sport {
     private String sportId;
     private String sportName;
-    private String sportIconPath;
     private String sportIconUUID;
 
-    public Sport(String sportId, String sportName, String sportIconPath, String sportIconUUID) {
+    public Sport(String sportId, String sportName, String sportIconUUID) {
         this.sportId = sportId;
         this.sportName = sportName;
-        this.sportIconPath = sportIconPath;
         this.sportIconUUID = sportIconUUID;
     }
 
@@ -29,14 +27,6 @@ public class Sport {
 
     public void setSportName(String sportName) {
         this.sportName = sportName;
-    }
-
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
     }
 
     public String getSportIconUUID() {

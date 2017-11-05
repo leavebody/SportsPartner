@@ -28,6 +28,14 @@ public class MyActivityAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<SActivityOutline> activityItems;
 
+    public ArrayList<SActivityOutline> getActivityItems() {
+        return activityItems;
+    }
+
+    public SActivityOutline getActivityByindex(int position){
+        return activityItems.get(position);
+    }
+
     /**
      * The constructor of MyActivityAdapter
      * @param context The Activity which calls this method

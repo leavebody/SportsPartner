@@ -20,7 +20,8 @@ public class LoginDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + SportPartnerDBContract.LoginDB.TABLE_NAME + " (" +
                     SportPartnerDBContract.LoginDB.COLUMN_EMAIL_NAME + " TEXT PRIMARY KEY," +
-                    SportPartnerDBContract.LoginDB.COLUMN_KEY_NAME + " TEXT)";
+                    SportPartnerDBContract.LoginDB.COLUMN_KEY_NAME + " TEXT," +
+                    SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + SportPartnerDBContract.LoginDB.TABLE_NAME;
@@ -72,17 +73,19 @@ public class LoginDBHelper extends SQLiteOpenHelper {
      * @param email The eamil of the login session.
      * @param key The key of the login session.
      */
-    public void insert(String email, String key){
+    public void insert(String email, String key, String registerId){
         this.delete();
         SQLiteDatabase db = this.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(SportPartnerDBContract.LoginDB.COLUMN_EMAIL_NAME, email);
         values.put(SportPartnerDBContract.LoginDB.COLUMN_KEY_NAME, key);
+        values.put(SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME, registerId);
 
         // Insert the new row, returning the primary key value of the new row
         db.insert(SportPartnerDBContract.LoginDB.TABLE_NAME, null, values);
     }
+
 
     /**
      * Clear the login records.
@@ -149,6 +152,35 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return key;
+    }
+
+    /**
+     * Get the registrationId of the current login session.
+     * @return the registrationId of the current login session
+     */
+    public String getRegistrationId(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME
+        };
+
+        Cursor cursor = db.query(
+                SportPartnerDBContract.LoginDB.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        cursor.moveToLast();
+        String registration = cursor.getString(0);
+        cursor.close();
+
+        return registration;
     }
 
     // implement methods from superclass

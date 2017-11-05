@@ -35,12 +35,14 @@ public class UserRequest extends com.sportspartner.request.Request{
      * @param callback
      * @param email The login email.
      * @param password The password of the account.
+     * @param registrationId The registrationId of this device
      */
-    public void loginVolleyRequest(final VolleyCallback callback, String email, String password) {
+    public void loginVolleyRequest(final VolleyCallback callback, String email, String password, String registrationId) {
         JsonObject jsonRequestObject = new JsonObject();
 
         jsonRequestObject.addProperty("userId", email.trim().toLowerCase());
         jsonRequestObject.addProperty("password", password);
+        jsonRequestObject.addProperty("registrationId", registrationId);
 
 
         // Instantiate the RequestQueue.
@@ -73,10 +75,11 @@ public class UserRequest extends com.sportspartner.request.Request{
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
         String userId = dbHelper.getEmail();
         String key = dbHelper.getKey();
+        String registrationId = dbHelper.getRegistrationId();
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/login?userId="+userId+"&key="+key;
+        String url = URL_CONTEXT+"v1/login?userId="+userId+"&key="+key +"&registrationId="+registrationId;
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(Request.Method.DELETE, url, null,
                 new Response.Listener<NetworkResponse>() {

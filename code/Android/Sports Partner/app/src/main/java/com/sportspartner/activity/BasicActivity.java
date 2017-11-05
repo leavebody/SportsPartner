@@ -17,9 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
-import com.sportspartner.models.Profile;
 import com.sportspartner.models.UserOutline;
-import com.sportspartner.request.UserRequest;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
@@ -30,6 +28,7 @@ import com.sportspartner.util.LoginDBHelper;
 
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     /**
      * Load the Navigation Bar and the ToolBar
      * Find the widget by Id
@@ -44,7 +43,6 @@ public class BasicActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) toolbarLayout.findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
-
 
         // load drawer layout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
