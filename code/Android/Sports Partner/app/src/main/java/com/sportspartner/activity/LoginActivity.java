@@ -51,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void login(View v){
 
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+
+
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
