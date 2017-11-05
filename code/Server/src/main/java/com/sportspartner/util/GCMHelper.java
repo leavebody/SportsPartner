@@ -14,8 +14,21 @@ public class GCMHelper {
     private final static String senderKey = "AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U";
     private DeviceRegistrationDaoImpl deviceRegistrationDaoImpl =  new DeviceRegistrationDaoImpl();
 
-    public boolean SendGCMData(String userId, JsonObject datainput)  throws IOException {
 
+    public  boolean SendGCMData(String userId, String title, String content)  throws IOException {
+
+        Sender sender = new Sender(senderKey);
+        Message.Builder builder = new Message.Builder();
+        if (title == null ||content==null) return false;
+        builder.addData("title",title);
+        builder.addData("content",content);
+        Message message = builder.build();
+        List<String> devices = deviceRegistrationDaoImpl.getAllDeviceRegistrations(userId);
+        MulticastResult multicastResult = sender.send(message,devices, 5);
+        return (multicastResult.getSuccess() > 0);
+
+    }
+    public  boolean SendGCMDataGeneral(String userId, JsonObject datainput)  throws IOException {
 
         Sender sender = new Sender(senderKey);
         Message.Builder builder = new Message.Builder();

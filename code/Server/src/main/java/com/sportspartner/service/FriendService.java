@@ -8,7 +8,7 @@ import com.sportspartner.model.Person;
 import com.sportspartner.model.User;
 import com.sportspartner.modelvo.UserOutlineVO;
 import com.sportspartner.util.JsonResponse;
-import com.google.android.gcm.server.*;
+import com.sportspartner.util.GCMHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class FriendService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
-    private PendingFriendRequestDaoImpl pendingFriendRequestDao = new PendingFriendRequestDaoImpl();
+    private PendingFriendRequestDaoImpl pendingFriendRequestDaoImpl = new PendingFriendRequestDaoImpl();
     /**
      * Get the friendlist of a person
      * @param userId Id of a User
@@ -44,24 +44,27 @@ public class FriendService {
 
     public JsonResponse sendFriendRequest(String recieverId, String senderId) throws  FriendServiceException{
         JsonResponse resp = new JsonResponse();
+        GCMHelper gcmHelper = new GCMHelper();
         try {
-                boolean succeed = pendingFriendRequestDao.newPendingRequest(new PendingFriendRequest(recieverId,senderId));
-                Sender sender = new Sender("AIzaSyDd1V1gGOoRAiDO3WmKiaEEKWlO1Snc2WY");
-                Message message = new Message.Builder().build();
-                String devices = "";
-                Result result = sender.send(message, devices, 5);
-                if (result.getMessageId() != null) { String canonicalRegId = result.getCanonicalRegistrationId();
-                    if (canonicalRegId != null) {
-                    // same device has more than on registration ID: update database
-                        System.out.println("same device has more than on registration ID: update database");
-                    }
-                } else {
-                    String error = result.getErrorCodeName();
-                    if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
-                    // application has been removed from device - unregister database
-                        System.out.println("application has been removed from device - unregister database");
+                Person person = personDaoImpl.getPerson(senderId);
+                String senderName  = person.getUserName();
+                PendingFriendRequest request = new PendingFriendRequest(recieverId,senderId);
+                if (pendingFriendRequestDaoImpl.hasPendingRequest(request))
+                {
+                    resp.setResponse("false");
+                    resp.setMessage("Request has already been sent.");
                 }
-            }
+                else{
+                    boolean sendPendingRequestSucceed = pendingFriendRequestDaoImpl.newPendingRequest(request);
+                    boolean sendGCMSucceed = true; //gcmHelper.SendGCMData(recieverId,"New Friend Request",senderName+"sends you a new friend request");
+                    if (sendPendingRequestSucceed && sendGCMSucceed){
+                        resp.setResponse("true");
+                    }
+                    else{
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to send friend request.");
+                    }
+                }
 
             } catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
