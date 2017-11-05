@@ -10,12 +10,11 @@ public class PersonVO {
     private int age;
     private double punctuality;
     private double participation;
-    private String iconPath;
     private String iconUUID;
 
     public PersonVO(){}
 
-    public PersonVO(String userId, String userName, String address, String gender, int age, double punctuality, double participation, String iconPath, String iconUUID) {
+    public PersonVO(String userId, String userName, String address, String gender, int age, double punctuality, double participation, String iconUUID) {
         this.userId = userId;
         this.userName = userName;
         this.address = address;
@@ -23,7 +22,6 @@ public class PersonVO {
         this.age = age;
         this.punctuality = punctuality;
         this.participation = participation;
-        this.iconPath = iconPath;
         this.iconUUID = iconUUID;
     }
 
@@ -83,14 +81,6 @@ public class PersonVO {
         this.participation = participation;
     }
 
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
-
     public String getIconUUID() {
         return iconUUID;
     }
@@ -110,7 +100,6 @@ public class PersonVO {
         person.setAge(this.age);
         person.setPunctuality(this.punctuality);
         person.setParticipation(this.participation);
-        person.setIconPath(this.iconPath);
         person.setIconUUID(this.iconUUID);
 
     }
@@ -123,7 +112,6 @@ public class PersonVO {
         this.age = person.getAge();
         this.punctuality = person.getPunctuality();
         this.participation = person.getParticipation();
-        this.iconPath = person.getIconPath();
         this.iconUUID = person.getIconUUID();
     }
 }

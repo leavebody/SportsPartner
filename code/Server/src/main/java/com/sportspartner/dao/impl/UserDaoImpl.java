@@ -190,7 +190,6 @@ public class UserDaoImpl implements UserDao {
             stmt.setString(1, userId);
             rs = stmt.executeUpdate();
             if(rs>0){
-                System.out.println("Row "+ rs + "is DELETED.");
                 result = true;
             }
         } catch (Exception e) {

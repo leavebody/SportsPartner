@@ -3,15 +3,13 @@ import com.sportspartner.model.Person;
 public class UserOutlineVO {
     private String userId;
     private String userName;
-    private String iconPath;
     private String iconUUID;
 
     public UserOutlineVO(){}
 
-    public UserOutlineVO(String userId, String userName, String iconPath, String iconUUID) {
+    public UserOutlineVO(String userId, String userName, String iconUUID) {
         this.userId = userId;
         this.userName = userName;
-        this.iconPath = iconPath;
         this.iconUUID = iconUUID;
     }
 
@@ -31,14 +29,6 @@ public class UserOutlineVO {
         this.userName = userName;
     }
 
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
-
     public String getIconUUID() {
         return iconUUID;
     }
@@ -50,7 +40,6 @@ public class UserOutlineVO {
     public void setFromPerson(Person person){
         this.userId = person.getUserId();
         this.userName = person.getUserName();
-        this.iconPath = person.getIconPath();
         this.iconUUID = person.getIconUUID();
     }
 }

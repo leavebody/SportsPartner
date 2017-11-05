@@ -161,7 +161,6 @@ public class ActivityVO {
     public void setFromSport (Sport sport){
         this.sportName = sport.getSportName();
         this.sportIconUUID = sport.getSportIconUUID();
-        this.sportIconPath = sport.getSportIconPath();
     }
 
 

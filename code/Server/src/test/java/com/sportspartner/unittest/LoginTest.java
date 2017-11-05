@@ -2,7 +2,13 @@ package com.sportspartner.unittest;
 
 import com.google.gson.*;
 import com.sportspartner.controllers.LoginController;
+import com.sportspartner.dao.impl.AuthorizationDaoImpl;
+import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.dao.impl.UserDaoImpl;
 import com.sportspartner.main.Bootstrap;
+import com.sportspartner.model.Authorization;
+import com.sportspartner.model.DeviceRegistration;
 import com.sportspartner.service.UserService;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
@@ -20,6 +26,7 @@ import static spark.Spark.*;
 
 public class LoginTest {
     HttpURLConnection connection = null;
+    static String successUUID = null;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception{
@@ -32,6 +39,10 @@ public class LoginTest {
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception{
+        DeviceRegistrationDaoImpl deviceRegistrationDao = new DeviceRegistrationDaoImpl();
+        AuthorizationDaoImpl authorizationDao = new AuthorizationDaoImpl();
+        deviceRegistrationDao.deleteDeviceRegistration(new DeviceRegistration("u1","string!"));
+        authorizationDao.deleteAuthorization(new Authorization("u1",successUUID));
         Spark.stop();
         Thread.sleep(2000);
     }
@@ -60,6 +71,7 @@ public class LoginTest {
             parameters = new JSONObject();
             parameters.put("userId", "u1");
             parameters.put("password", "p1");
+            parameters.put("registrationId", "string!");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
@@ -77,6 +89,7 @@ public class LoginTest {
 
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response = responseJson.get("response").getAsString();
+        successUUID = responseJson.get("key").getAsString();
         assertEquals("true", response);
     }
 
@@ -96,6 +109,7 @@ public class LoginTest {
             parameters = new JSONObject();
             parameters.put("userId", "u1");
             parameters.put("password", "p2");
+            parameters.put("registrationId", "string!");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){

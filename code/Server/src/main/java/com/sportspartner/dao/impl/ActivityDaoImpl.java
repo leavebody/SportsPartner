@@ -288,7 +288,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND \"Activity_Member\".\"userId\"=? AND \"startTime\" > CURRENT_TIMESTAMP;");
+                     "AND \"Activity_Member\".\"userId\"=? AND \"startTime\" > CURRENT_TIMESTAMP ORDER BY \"startTime\" ASC;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {
@@ -336,7 +336,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND  \"endTime\" < CURRENT_TIMESTAMP;");
+                     "AND  \"endTime\" < CURRENT_TIMESTAMP ORDER BY \"startTime\" DESC;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {

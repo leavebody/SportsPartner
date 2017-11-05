@@ -10,7 +10,6 @@ public class Person extends User {
     private int punctualityCount;
     private double participation;
     private int participationCount;
-    private String iconPath;
     private String iconUUID;
 
     public Person(){}
@@ -19,7 +18,7 @@ public class Person extends User {
         this.userId = userId;
     }
 
-    public Person(String userId, String userName, String address, String gender, int age, double punctuality, int punctualityCount, double participation, int participationCount, String iconPath, String iconUUID) {
+    public Person(String userId, String userName, String address, String gender, int age, double punctuality, int punctualityCount, double participation, int participationCount, String iconUUID) {
         this.userId = userId;
         this.UserName = userName;
         this.address = address;
@@ -29,7 +28,6 @@ public class Person extends User {
         this.punctualityCount = punctualityCount;
         this.participation = participation;
         this.participationCount = participationCount;
-        this.iconPath = iconPath;
         this.iconUUID = iconUUID;
     }
 
@@ -105,14 +103,6 @@ public class Person extends User {
 
     public void setParticipationCount(int participationCount) {
         this.participationCount = participationCount;
-    }
-
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
     }
 
     public String getIconUUID() {
