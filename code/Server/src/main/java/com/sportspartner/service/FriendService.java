@@ -46,17 +46,30 @@ public class FriendService {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
         try {
-                Person person = personDaoImpl.getPerson(senderId);
-                String senderName  = person.getUserName();
+                Person sender = personDaoImpl.getPerson(senderId);
+                String senderName  = sender.getUserName();
                 PendingFriendRequest request = new PendingFriendRequest(recieverId,senderId);
                 if (pendingFriendRequestDaoImpl.hasPendingRequest(request))
                 {
                     resp.setResponse("false");
                     resp.setMessage("Request has already been sent.");
                 }
-                else{
+                else if(!gcmHelper.SendGCMData(recieverId,"New Friend Request",senderName+" sends you a new friend request")){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                } else if(!pendingFriendRequestDaoImpl.newPendingRequest(request)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to add pending request.");
+                }else if(!gcmHelper.SendGCMData(recieverId,"New Friend Request",senderName+" sends you a new friend request")){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                }else{
+                    resp.setResponse("true");
+                }
+                /*
+                    {
                     boolean sendPendingRequestSucceed = pendingFriendRequestDaoImpl.newPendingRequest(request);
-                    boolean sendGCMSucceed = true; //gcmHelper.SendGCMData(recieverId,"New Friend Request",senderName+"sends you a new friend request");
+                    boolean sendGCMSucceed = gcmHelper.SendGCMData(recieverId,"New Friend Request",senderName+" sends you a new friend request");
                     if (sendPendingRequestSucceed && sendGCMSucceed){
                         resp.setResponse("true");
                     }
@@ -65,13 +78,45 @@ public class FriendService {
                         resp.setMessage("Fail to send friend request.");
                     }
                 }
+                */
 
             } catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
         }
         return resp;
     }
-
+    public JsonResponse acceptFriendRequest(String recieverId, String senderId) throws  FriendServiceException{
+        JsonResponse resp = new JsonResponse();
+        GCMHelper gcmHelper = new GCMHelper();
+        try{
+            Person receiver = personDaoImpl.getPerson(recieverId);
+            String receiverName  = receiver.getUserName();
+            if(friendDaoImpl.getFriend(recieverId,senderId)||friendDaoImpl.getFriend(senderId,recieverId)){
+                resp.setResponse("false");
+                resp.setMessage("They are already friends.");
+            }
+            else if(!pendingFriendRequestDaoImpl.hasPendingRequest(new PendingFriendRequest(recieverId,senderId))){
+                resp.setResponse("false");
+                resp.setMessage("No such pending request.");
+            }
+            else if(!friendDaoImpl.newFriend(senderId,recieverId)){
+                resp.setResponse("false");
+                resp.setMessage("Fail to accept friendrequest.");
+            }
+            else if(!pendingFriendRequestDaoImpl.deletePendingRequest(new PendingFriendRequest(recieverId,senderId))){
+                resp.setResponse("false");
+                resp.setMessage("Fail to delete pendingfriendrequest.");
+            }else if(!gcmHelper.SendGCMData(senderId,"Friend Request Accepted",receiverName+" has accepted your request")){
+                resp.setResponse("false");
+                resp.setMessage("Fail to send GCM.");
+            }else{
+                resp.setResponse("true");
+            }
+        }catch (Exception ex) {
+            throw new FriendServiceException("New friendList error", ex);
+        }
+        return resp;
+    }
     /**
      * Exception Class for Friend
      */

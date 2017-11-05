@@ -29,7 +29,7 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-        post(API_CONTEXT + "/:receiverId/friendrequest/:senderId", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = friendService.sendFriendRequest(request.params(":receiverId"),request.params(":senderId"));
@@ -40,6 +40,16 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-
+        post(API_CONTEXT + "/acceptrequest/:receiverId/:senderId", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = friendService.acceptFriendRequest(request.params(":receiverId"),request.params(":senderId"));
+                response.status(200);
+                return reps;
+            } catch ( FriendService.FriendServiceException ex) {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
     }
 }
