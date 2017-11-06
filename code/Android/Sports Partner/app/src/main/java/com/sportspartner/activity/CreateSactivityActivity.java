@@ -1,13 +1,16 @@
 package com.sportspartner.activity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,9 +19,11 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 import com.sportspartner.util.listener.MyonClickListener;
@@ -48,6 +53,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     //Activity Object
     private SActivity sActivity= new SActivity();
 
+    // The object being sent and received from map
+    private PickPlaceResult pickPlaceResult;
 
     /**
      * Load the Create Sactivity Activities
@@ -175,10 +182,33 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      */
     private View.OnClickListener myLocationListener = new View.OnClickListener() {
         public void onClick(View v) {
-           //TODO GOOGLE MAP API
+            // start the map activity
+            Intent intent = new Intent(CreateSactivityActivity.this, MapActivity.class);
+            intent.putExtra("PickPlaceResult", pickPlaceResult);
+            startActivityForResult(intent, 1);
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                if (b != null) {
+                    pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
+                    if (pickPlaceResult.isFacility()){
+                        textLocation.setText(pickPlaceResult.getName());
+                    } else {
+                        textLocation.setText("latitude : " + pickPlaceResult.getLatLng().latitude
+                                + ", longitude : " + pickPlaceResult.getLatLng().longitude);
+                    }
+                }
+            } else if (resultCode == 0) {
+                Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     /**
      * On click listener of the Create button

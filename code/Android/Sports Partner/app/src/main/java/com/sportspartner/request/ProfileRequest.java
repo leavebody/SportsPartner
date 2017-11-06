@@ -83,9 +83,9 @@ public class ProfileRequest extends Request {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Context context = contextf.getApplicationContext();
-                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
+//                Context context = contextf.getApplicationContext();
+//                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+//                toast.show();
             }
         }
         );
