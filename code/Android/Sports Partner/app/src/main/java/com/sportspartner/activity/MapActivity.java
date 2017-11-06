@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -92,7 +93,10 @@ public class MapActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add test code here
+                BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
+                dialog.setContentView(R.layout.layout_dialog);
+
+                dialog.show();
             }
         });
 

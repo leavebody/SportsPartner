@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.sportspartner"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        //multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyCiLSewsCDaml2lNXdqIBm34s5oDKrpGVs")
+    }
+
+    buildTypes {
+        release {
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile group: 'com.google.gms', name: 'google-services', version: '3.1.0'
+    //compile group: 'com.google.gcm', name: 'gcm-server', version: '1.0.0'
+    //compile 'com.google.android.gms:play-services-gcm:9.0.0'
+    //compile "com.google.android.gms:play-services:7.5.0"
+    compile 'com.google.android.gms:play-services-gcm:11.0.0'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:cardview-v7:26.+'
+    compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.google.code.gson:gson:2.3'
+    testCompile 'junit:junit:4.12'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-9'
+
+<<<<<<< HEAD
+    compile 'com.google.android.gms:play-services:11.4.2'
+    compile "com.google.firebase:firebase-core:11.4.2"
+=======
+>>>>>>> dev
+
+}
