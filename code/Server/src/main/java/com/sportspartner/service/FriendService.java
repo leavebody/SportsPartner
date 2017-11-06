@@ -42,6 +42,13 @@ public class FriendService {
         return resp;
     }
 
+    /**
+     * Sender send to friend request to receiver
+     * @param receiverId Id of receiver
+     * @param senderId Id of sender
+     * @return JsonResponse to the front-end
+     * @throws FriendServiceException throws FriendServiceException
+     */
     public JsonResponse sendFriendRequest(String receiverId, String senderId) throws  FriendServiceException{
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -112,8 +119,8 @@ public class FriendService {
      *  Receiver decline the friend request from sender. A GCM message will be sent to the sender.
      * @param receiverId Id of receiver
      * @param senderId Id of the sender
-     * @return JsonResponse to the front-end throws FriendServiceException
-     * @throws FriendServiceException
+     * @return JsonResponse to the front-end
+     * @throws FriendServiceException throws FriendServiceException
      */
     public JsonResponse declineFriendRequest(String receiverId, String senderId) throws  FriendServiceException{
         JsonResponse resp = new JsonResponse();
@@ -142,6 +149,13 @@ public class FriendService {
         return resp;
     }
 
+    /**
+     * delete a friend from the friendlist
+     * @param userId1 Id of current user
+     * @param userId2 Id of target user
+     * @return JsonResponse to the front-end
+     * @throws FriendServiceException throws FriendServiceException
+     */
     public JsonResponse deleteFriend(String userId1, String userId2) throws  FriendServiceException{
         JsonResponse resp = new JsonResponse();
         try{
