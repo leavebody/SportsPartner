@@ -29,6 +29,10 @@ public class JsonResponse {
     private JsonArray activityOutlines;
     private JsonArray friendlist;
 
+    private String image;
+    private String iconUUID;
+    private String userType;
+
     public JsonResponse() {
     }
 
@@ -194,4 +198,27 @@ public class JsonResponse {
         }
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getIconUUID() {
+        return iconUUID;
+    }
+
+    public void setIconUUID(String iconUUID) {
+        this.iconUUID = iconUUID;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 }
