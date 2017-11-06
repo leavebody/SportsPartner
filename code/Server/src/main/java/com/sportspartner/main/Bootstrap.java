@@ -36,6 +36,31 @@ public class Bootstrap {
      */
     public static void main(String[] args) throws Exception {
 
+    /*
+        Sender sender = new Sender("AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U");
+
+        Message.Builder builder= new Message.Builder();
+        builder.addData("text","hello!");
+        Message message = builder.build();
+        String devices = "";
+        Result result = sender.send(message, devices, 5);
+        System.out.println(result.getErrorCodeName());
+
+        if (result.getMessageId() != null) {
+            String canonicalRegId = result.getCanonicalRegistrationId();
+            System.out.println(canonicalRegId);
+            if (canonicalRegId != null) {
+                // same device has more than on registration ID: update database
+                System.out.println("same device has more than on registration ID: update database!");
+            }
+        } else {
+            String error = result.getErrorCodeName();
+            if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
+                // application has been removed from device - unregister database
+                System.out.println("application has been removed from device - unregister database!");
+            }
+        }
+        */
 
         ipAddress(IP_ADDRESS);
         port(PORT);
@@ -58,9 +83,6 @@ public class Bootstrap {
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }
-
-
-
                 /*
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");

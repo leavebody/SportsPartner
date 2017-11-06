@@ -20,6 +20,7 @@ public class JsonResponse {
     private JsonObject profile;
     private JsonObject userOutline;
     private JsonObject activity;
+    private String type;
 
     private String interest;
     private String authorization;
@@ -34,6 +35,14 @@ public class JsonResponse {
     private String userType;
 
     public JsonResponse() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getResponse() {

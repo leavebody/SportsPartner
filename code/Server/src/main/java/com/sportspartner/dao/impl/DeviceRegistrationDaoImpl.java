@@ -16,19 +16,18 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
      * @return List of DeviceRegistration
      */
     @Override
-    public List<DeviceRegistration> getAllDeviceRegistrations(String userId) {
+    public List<String> getAllDeviceRegistrations(String userId) {
         Connection c = new ConnectionUtil().connectDB();
-        List<DeviceRegistration> deviceRegistrations = new ArrayList<DeviceRegistration>();
+        List<String> deviceRegistrations = new ArrayList<String>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = c.prepareStatement("SELECT * FROM \"Device_Registration\" WHERE \"userId\" = ? ;");
+            stmt = c.prepareStatement("SELECT \"registrationId\" FROM \"Device_Registration\" WHERE \"userId\" = ? ;");
             stmt.setString(1, userId);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                userId = rs.getString("userId");
                 String registrationId = rs.getString("registrationId");
-                deviceRegistrations.add(new DeviceRegistration(userId, registrationId));
+                deviceRegistrations.add(registrationId);
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());

@@ -12,6 +12,7 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.service.serviceresult.BooleanResult;
+import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
 public class SignupActivity extends AppCompatActivity {
     EditText emailField;
@@ -102,10 +103,12 @@ public class SignupActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG);
             toast.show();
         }
+        //get the token from GCM
+        String token = RegistrationIntentService.getToken();
         if (signupResult.isStatus()) {
             Toast toast = Toast.makeText(SignupActivity.this, "sign up successfully!", Toast.LENGTH_LONG);
             toast.show();
-            UserService.login(this, email, password, new ActivityCallBack(){
+            UserService.login(this, email, password, token, new ActivityCallBack(){
                 @Override
                 public void onSuccess(BooleanResult booleanResult) {
                     // TODO link to the main page activity of this user

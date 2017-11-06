@@ -10,6 +10,7 @@ import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
+import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
 /**
  * @author Xiaochen Li
@@ -24,7 +25,7 @@ public class UserService extends Service {
      * @param password The password of the user.
      * @param callback
      */
-    public static void login(final Context c, final String email, String password, final ActivityCallBack callback){
+    public static void login(final Context c, final String email, String password, String registrationId, final ActivityCallBack callback){
 
         UserRequest ur = new UserRequest(c);
         ur.loginVolleyRequest(new VolleyCallback(){
@@ -32,7 +33,7 @@ public class UserService extends Service {
             public void onSuccess(NetworkResponse response){
                 callback.onSuccess(UserService.loginRespProcess(response, c, email));
             }
-        }, email, password);
+        }, email, password, registrationId);
     }
 
     /**
@@ -52,7 +53,7 @@ public class UserService extends Service {
                 if(loginStatus) {
                     String key = jsResp.get("key").getAsString();
                     LoginDBHelper dbHelper = LoginDBHelper.getInstance(c);
-                    dbHelper.insert(email, key);
+                    dbHelper.insert(email, key, RegistrationIntentService.getToken());
                 } else {
                     result.setMessage("login failed: "+jsResp.get("message").getAsString());
                 }
