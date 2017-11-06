@@ -1,5 +1,7 @@
 package com.sportspartner.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.sportspartner.R;
 import com.sportspartner.models.FacilityMarker;
+import com.sportspartner.util.PickPlaceResult;
 
 import java.util.ArrayList;
 
@@ -67,6 +70,7 @@ public class MapActivity extends BasicActivity
 
     private ArrayList<FacilityMarker> facilityMarkers;
     private Marker mOnclickMarker;
+    BottomSheetDialog dialog;
 
 
     GoogleApiClient googleApiClient;
@@ -86,6 +90,9 @@ public class MapActivity extends BasicActivity
         ViewGroup content = findViewById(R.id.layout_home);
         getLayoutInflater().inflate(R.layout.activity_map, content, true);
 
+        dialog = new BottomSheetDialog(MapActivity.this);
+        dialog.setContentView(R.layout.map_marker_popup);
+
         //set title of toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Pick a place");
@@ -102,7 +109,7 @@ public class MapActivity extends BasicActivity
     @Override
     public void onLocationChanged(Location location) {
         // TODO delete this when I'm sure this works
-        Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -183,28 +190,49 @@ public class MapActivity extends BasicActivity
         }
     }
 
-    public boolean onFacilityMarkerClick(FacilityMarker facilityMarker){
-        BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
-
-        dialog.setContentView(R.layout.map_marker_popup);
+    public boolean onFacilityMarkerClick(final FacilityMarker facilityMarker){
 
         TextView facilityName = dialog.findViewById(R.id.facility_name);
+        Button createButton = dialog.findViewById(R.id.use_this);
+
         facilityName.setText(facilityMarker.getName());
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickPlaceResult result = new PickPlaceResult();
+                result.setLatLng(facilityMarker.getLatLng());
+                sendResultBack(result);
+            }
+        });
         dialog.show();
         return false;
     }
 
-    public boolean onNewMarkerClick(FacilityMarker facilityMarker){
-        BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
-
-        dialog.setContentView(R.layout.map_marker_popup);
+    public boolean onNewMarkerClick(final FacilityMarker facilityMarker){
 
         TextView facilityName = dialog.findViewById(R.id.facility_name);
         Button createButton = dialog.findViewById(R.id.use_this);
         facilityName.setText("mystery place"); // TODO logical address of this
         createButton.setText("USE THIS PLACE");
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickPlaceResult result = new PickPlaceResult();
+                result.setLatLng(facilityMarker.getLatLng());
+                sendResultBack(result);
+            }
+        });
         dialog.show();
         return false;
+    }
+
+    public void sendResultBack(PickPlaceResult result){
+        Intent intent = new Intent();
+        intent.putExtra("PickPlaceResult", result);
+        setResult(Activity.RESULT_OK, intent);
+        dialog.dismiss();
+        finish();
+
     }
 
     /**

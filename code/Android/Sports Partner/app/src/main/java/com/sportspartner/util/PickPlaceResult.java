@@ -1,22 +1,24 @@
-package com.sportspartner.models;
+package com.sportspartner.util;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
 
 /**
  * @author Xiaochen Li
  */
 
-public class FacilityMarker {
+public class PickPlaceResult implements Serializable {
     private double latitude;
     private double longtitude;
-    private String name;
-    private String id;
 
-    public FacilityMarker(double latitude, double longtitude, String name, String id) {
+    public PickPlaceResult(double latitude, double longtitude) {
         this.latitude = latitude;
         this.longtitude = longtitude;
-        this.name = name;
-        this.id = id;
+
+    }
+
+    public PickPlaceResult() {
     }
 
     public double getLatitude() {
@@ -33,22 +35,6 @@ public class FacilityMarker {
 
     public void setLongtitude(double longtitude) {
         this.longtitude = longtitude;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public LatLng getLatLng() {
