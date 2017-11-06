@@ -42,7 +42,7 @@ public class UserService {
             if (loginVO.isMissingField()) {
                 resp.setResponse("false");
                 resp.setMessage("Empty Input");
-            } else if (user==null) {
+            } else if (user == null) {
                 resp.setResponse("false");
                 resp.setMessage("No such user");
             } else if (!loginVO.isCorrectPassword(user)) {
@@ -51,17 +51,29 @@ public class UserService {
             } else {
                 String key = UUID.randomUUID().toString();
                 Authorization authorization = new Authorization(loginVO.getUserId(), key);
-                DeviceRegistration deviceRegistration = new DeviceRegistration(loginVO.getUserId(),loginVO.getRegistrationId());
-                if(authorizationDaoImpl.newAuthorization(authorization)&&deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration)){
-                    resp.setKey(key);
-                    resp.setResponse("true");
-                }else{
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create new authorization");
+                DeviceRegistration deviceRegistration = new DeviceRegistration(loginVO.getUserId(), loginVO.getRegistrationId());
+                if (deviceRegistrationDaoImpl.hasDeviceRegistration(deviceRegistration)) {
+                    if (authorizationDaoImpl.newAuthorization(authorization)) {
+                        resp.setKey(key);
+                        resp.setResponse("true");
+                    } else {
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to create new authorization");
+                    }
                 }
-
+                else{
+                    if (authorizationDaoImpl.newAuthorization(authorization)&&deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration)){
+                        resp.setKey(key);
+                        resp.setResponse("true");
+                    }
+                    else{
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to create new authorization");
+                    }
+                }
             }
-        } catch(Exception ex){
+        }
+        catch(Exception ex){
             throw new UserServiceException("Json format error", ex);
         }
         return resp;
@@ -129,7 +141,7 @@ public class UserService {
             resp.setResponse("true");
         }else{
             resp.setResponse("false");
-            resp.setMessage("Fail to delete autorization.");
+            resp.setMessage("Fail to delete authorization.");
         }
         return resp;
     }
