@@ -8,8 +8,10 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.sportspartner.R;
 import com.sportspartner.models.FacilityMarker;
 
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
-public class MapActivity extends AppCompatActivity
+public class MapActivity extends BasicActivity
         implements OnMapReadyCallback,
         com.google.android.gms.location.LocationListener,
         GoogleMap.OnMarkerClickListener,
@@ -74,31 +77,24 @@ public class MapActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
-        // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_map);
+        ViewGroup content = findViewById(R.id.layout_home);
+        getLayoutInflater().inflate(R.layout.activity_map, content, true);
+
+        //set title of toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Pick a place");
+
 
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        Button button = findViewById(R.id.clickthis);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
-                dialog.setContentView(R.layout.layout_dialog);
-
-                dialog.show();
-            }
-        });
 
     }
 
@@ -147,27 +143,26 @@ public class MapActivity extends AppCompatActivity
     public void onMapClick (LatLng point){
         if (mOnclickMarker != null) {
             mOnclickMarker.setPosition(point);
-            return;
+        } else {
+            MarkerOptions marker = new MarkerOptions()
+                    .position(point);
+            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mOnclickMarker = mMap.addMarker(marker);
+            mOnclickMarker.setTag(new FacilityMarker(point.latitude, point.longitude, null, null));
         }
-        MarkerOptions marker = new MarkerOptions()
-                .position(point)
-                .title("new facility")
-                .draggable(true);
-        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-        mOnclickMarker = mMap.addMarker(marker);
+        onMarkerClick(mOnclickMarker);
     }
 
     public void setMapMarkers(GoogleMap map){
         for(FacilityMarker f: facilityMarkers) {
             map.addMarker(new MarkerOptions()
-                    .position(new LatLng(f.getLatitude(), f.getLongtitude()))
-                    .title(f.getName()))
-                    .setTag(0);
+                    .position(new LatLng(f.getLatitude(), f.getLongtitude())))
+                    .setTag(f);
         }
     }
 
     public void getMarkers(){
-        facilityMarkers = new ArrayList<FacilityMarker>();
+        facilityMarkers = new ArrayList();
         facilityMarkers.add(new FacilityMarker(39.328, -76.617, "swimming", "id007"));
         facilityMarkers.add(new FacilityMarker(39.325, -76.611, "badminton", "id015"));
         facilityMarkers.add(new FacilityMarker(39.329, -76.617, "running", "id250"));
@@ -180,24 +175,37 @@ public class MapActivity extends AppCompatActivity
     public boolean onMarkerClick(final Marker marker) {
 
         // Retrieve the data from the marker.
-        Integer clickCount = (Integer) marker.getTag();
-
-        // Check if a click count was set, then display the click count.
-        if (clickCount != null) {
-            clickCount = clickCount + 1;
-            marker.setTag(clickCount);
-            Toast.makeText(this,
-                    marker.getTitle() +
-                            " has been clicked " + clickCount + " times.",
-                    Toast.LENGTH_SHORT).show();
+        FacilityMarker facilityMarker = (FacilityMarker) marker.getTag();
+        if (facilityMarker.getId()!=null){
+            return onFacilityMarkerClick(facilityMarker);
+        } else {
+            return onNewMarkerClick(facilityMarker);
         }
+    }
 
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
+    public boolean onFacilityMarkerClick(FacilityMarker facilityMarker){
+        BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
+
+        dialog.setContentView(R.layout.map_marker_popup);
+
+        TextView facilityName = dialog.findViewById(R.id.facility_name);
+        facilityName.setText(facilityMarker.getName());
+        dialog.show();
         return false;
     }
 
+    public boolean onNewMarkerClick(FacilityMarker facilityMarker){
+        BottomSheetDialog dialog = new BottomSheetDialog(MapActivity.this);
+
+        dialog.setContentView(R.layout.map_marker_popup);
+
+        TextView facilityName = dialog.findViewById(R.id.facility_name);
+        Button createButton = dialog.findViewById(R.id.use_this);
+        facilityName.setText("mystery place"); // TODO logical address of this
+        createButton.setText("USE THIS PLACE");
+        dialog.show();
+        return false;
+    }
 
     /**
      * Gets the current location of the device, and positions the map's camera.
