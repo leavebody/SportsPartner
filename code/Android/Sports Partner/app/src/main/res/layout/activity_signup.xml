@@ -93,7 +93,7 @@
             />
         <Button
             android:id="@+id/signupProvider"
-            android:text="sign up as facility provider"
+            android:text="sign up as isFacility provider"
             android:textAllCaps="false"
             android:textSize="15dp"
             android:textColor="#f00f"

@@ -70,13 +70,15 @@ public class MapActivity extends BasicActivity
 
     private ArrayList<FacilityMarker> facilityMarkers;
     private Marker mOnclickMarker;
-    BottomSheetDialog dialog;
+    private BottomSheetDialog dialog;
 
 
-    GoogleApiClient googleApiClient;
-    LocationRequest locationRequest;
-    Location mLastLocation;
-    FusedLocationProviderApi fusedLocationProviderApi;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private Location mLastLocation;
+    private FusedLocationProviderApi fusedLocationProviderApi;
+
+    private PickPlaceResult pickPlaceResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,13 @@ public class MapActivity extends BasicActivity
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
+        Bundle b = getIntent().getExtras();
+
+        if (b != null) {
+            pickPlaceResult = (PickPlaceResult) getIntent().getExtras()
+                    .getSerializable("PickPlaceResult");
         }
 
         ViewGroup content = findViewById(R.id.layout_home);
@@ -201,6 +210,8 @@ public class MapActivity extends BasicActivity
             public void onClick(View v) {
                 PickPlaceResult result = new PickPlaceResult();
                 result.setLatLng(facilityMarker.getLatLng());
+                result.setName(facilityMarker.getName());
+                result.setFacility(true);
                 sendResultBack(result);
             }
         });
@@ -219,6 +230,7 @@ public class MapActivity extends BasicActivity
             public void onClick(View v) {
                 PickPlaceResult result = new PickPlaceResult();
                 result.setLatLng(facilityMarker.getLatLng());
+                result.setFacility(false);
                 sendResultBack(result);
             }
         });
@@ -254,9 +266,15 @@ public class MapActivity extends BasicActivity
                             fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, MapActivity.this);
                             mLastLocation = fusedLocationProviderApi.getLastLocation(googleApiClient);
                             mLastKnownLocation = mLastLocation;
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            if (pickPlaceResult != null) {
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(pickPlaceResult.getLatitude(),
+                                                pickPlaceResult.getLongitude()), DEFAULT_ZOOM));
+                            } else {
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(mLastKnownLocation.getLatitude(),
+                                                mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }
                         } catch (SecurityException e){
                             Log.e(TAG, e.getMessage());
                             mMap.moveCamera(CameraUpdateFactory

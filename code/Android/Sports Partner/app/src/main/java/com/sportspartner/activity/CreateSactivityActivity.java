@@ -53,6 +53,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     //Activity Object
     private SActivity sActivity= new SActivity();
 
+    // The object being sent and received from map
+    private PickPlaceResult pickPlaceResult;
 
     /**
      * Load the Create Sactivity Activities
@@ -182,6 +184,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         public void onClick(View v) {
             // start the map activity
             Intent intent = new Intent(CreateSactivityActivity.this, MapActivity.class);
+            intent.putExtra("PickPlaceResult", pickPlaceResult);
             startActivityForResult(intent, 1);
         }
     };
@@ -193,9 +196,13 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             if (resultCode == Activity.RESULT_OK) {
                 Bundle b = data.getExtras();
                 if (b != null) {
-                    PickPlaceResult myobj = (PickPlaceResult) b.getSerializable("PickPlaceResult");
-                    textLocation.setText("latitude : " + myobj.getLatLng().latitude
-                            + ", longitude : " + myobj.getLatLng().longitude);
+                    pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
+                    if (pickPlaceResult.isFacility()){
+                        textLocation.setText(pickPlaceResult.getName());
+                    } else {
+                        textLocation.setText("latitude : " + pickPlaceResult.getLatLng().latitude
+                                + ", longitude : " + pickPlaceResult.getLatLng().longitude);
+                    }
                 }
             } else if (resultCode == 0) {
                 Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();

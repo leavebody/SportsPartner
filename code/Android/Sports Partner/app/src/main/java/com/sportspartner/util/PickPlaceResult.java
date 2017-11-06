@@ -10,15 +10,40 @@ import java.io.Serializable;
 
 public class PickPlaceResult implements Serializable {
     private double latitude;
-    private double longtitude;
+    private double longitude;
+    private boolean isFacility;
+    private String name;
 
-    public PickPlaceResult(double latitude, double longtitude) {
+    public PickPlaceResult(double latitude, double longitude) {
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longitude;
 
     }
 
+    public PickPlaceResult(double latitude, double longitude, boolean isFacility, String name) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isFacility = isFacility;
+        this.name = name;
+    }
+
     public PickPlaceResult() {
+    }
+
+    public boolean isFacility() {
+        return isFacility;
+    }
+
+    public void setFacility(boolean facility) {
+        isFacility = facility;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getLatitude() {
@@ -29,20 +54,20 @@ public class PickPlaceResult implements Serializable {
         this.latitude = latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public LatLng getLatLng() {
-        return new LatLng(latitude, longtitude);
+        return new LatLng(latitude, longitude);
     }
 
     public void setLatLng(LatLng latLng) {
         latitude = latLng.latitude;
-        longtitude = latLng.longitude;
+        longitude = latLng.longitude;
     }
 }

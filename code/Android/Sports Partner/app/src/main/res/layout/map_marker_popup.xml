@@ -25,7 +25,7 @@
             android:id="@+id/use_this"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="use this facility" />
+            android:text="use this isFacility" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
