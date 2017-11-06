@@ -70,7 +70,8 @@ public class FriendDaoImpl implements FriendDao {
         PreparedStatement statement = null;
         boolean indicator = false;
         try {
-            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?");
+            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?",ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             statement.setString(1, user1);
             statement.setString(2, user2);
             rs = statement.executeQuery();

@@ -11,10 +11,17 @@ import com.sportspartner.model.DeviceRegistration;
 import com.sportspartner.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.image.BufferedImage;
+import java.util.Base64;
 import java.util.List;
 import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
+
+import com.sportspartner.util.*;
+import org.sql2o.tools.IOUtils;
+
 
 public class Bootstrap {
     public static final String IP_ADDRESS = "localhost";
@@ -28,7 +35,6 @@ public class Bootstrap {
      * @throws Exception throw exception of Service
      */
     public static void main(String[] args) throws Exception {
-
 
     /*
         Sender sender = new Sender("AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U");
@@ -56,7 +62,6 @@ public class Bootstrap {
         }
         */
 
-
         ipAddress(IP_ADDRESS);
         port(PORT);
         staticFileLocation("/public");
@@ -78,7 +83,6 @@ public class Bootstrap {
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }
-
                 /*
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");
