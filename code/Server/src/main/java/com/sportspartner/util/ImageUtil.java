@@ -96,7 +96,7 @@ public class ImageUtil {
         g.dispose();
 
         // resize the image to 100*100px
-        BufferedImage scaledImage = Scalr.resize(img, 100);
+        BufferedImage scaledImage = Scalr.resize(newImg, 100);
 
         return scaledImage;
 
@@ -162,7 +162,7 @@ public class ImageUtil {
      * @return decoded image
      * @throws Exception Base64Decoder Exception
      */
-    public BufferedImage Base64ToImage(String base64String) throws Exception{
+    public BufferedImage base64ToImage(String base64String) throws Exception{
         byte[] decodedBytes = new BASE64Decoder().decodeBuffer(base64String);
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(decodedBytes));
         return image;
@@ -174,7 +174,7 @@ public class ImageUtil {
      * @return base64 string
      * @throws Exception Base64 Exception
      */
-    public String ImageToBase64(BufferedImage image) throws Exception{
+    public String imageToBase64(BufferedImage image) throws Exception{
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         String base64String = Base64.getEncoder().encodeToString(baos.toByteArray());
