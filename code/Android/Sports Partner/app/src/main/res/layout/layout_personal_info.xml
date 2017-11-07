@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:background="@color/background_blue"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
@@ -30,7 +30,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="Xuan Zhang"
-                android:textColor="@color/gray" />
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
@@ -50,7 +52,7 @@
 
                     <TextView
                         android:padding="3dip"
-                        android:text="Gender:"
+                        android:text="Gender"
                         android:textColor="@color/orange"
                         android:textStyle="bold" />
 
@@ -66,7 +68,7 @@
 
                     <TextView
                         android:padding="3dip"
-                        android:text="Age:"
+                        android:text="Age"
                         android:textColor="@color/orange"
                         android:textStyle="bold" />
 
@@ -82,7 +84,7 @@
 
                     <TextView
                         android:padding="3dip"
-                        android:text="City:"
+                        android:text="City"
                         android:textColor="@color/orange"
                         android:textStyle="bold" />
 
@@ -98,7 +100,7 @@
 
                     <TextView
                         android:padding="3dip"
-                        android:text="Interests:"
+                        android:text="Interests"
                         android:textColor="@color/orange"
                         android:textStyle="bold" />
 

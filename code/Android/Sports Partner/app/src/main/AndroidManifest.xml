@@ -21,15 +21,16 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".util.gcm_notification.MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -41,16 +42,19 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <!--gcm.play.android.samples.com.gcmquickstart-->
+        <!-- gcm.play.android.samples.com.gcmquickstart -->
         <service
             android:name=".util.gcm_notification.RegistrationIntentService"
             android:exported="false" />
-        <service android:name=".util.gcm_notification.MyInstanceIDService" android:exported="false">
+        <service
+            android:name=".util.gcm_notification.MyInstanceIDService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <activity android:name=".activity.LoginActivity">
+
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

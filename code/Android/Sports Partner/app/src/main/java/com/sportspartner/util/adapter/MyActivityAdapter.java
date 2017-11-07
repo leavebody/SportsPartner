@@ -1,4 +1,4 @@
-package com.sportspartner.util.listviewadapter;
+package com.sportspartner.util.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,10 +11,8 @@ import android.widget.TextView;
 
 import com.sportspartner.models.SActivityOutline;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 import com.sportspartner.R;

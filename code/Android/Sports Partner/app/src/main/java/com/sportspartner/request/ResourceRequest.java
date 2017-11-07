@@ -26,13 +26,12 @@ public class ResourceRequest extends Request {
     /**
      * Send a request for an image.
      * @param callback
-     * @param path The path of the image in server.
      */
-    public void imageRequest(final VolleyCallback callback, String path) {
+    public void imageRequest(final VolleyCallback callback) {
 
         JsonObject jsonRequestObject = new JsonObject();
 
-        jsonRequestObject.addProperty("path", path);
+        //jsonRequestObject.addProperty("path", path);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);

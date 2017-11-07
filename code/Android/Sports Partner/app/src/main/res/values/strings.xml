@@ -17,5 +17,6 @@
     <string name="title_activity_create_sactivity">CreateSactivityActivity</string>
     <string name="title_activity_sdetail">SactivityDetailActivity</string>
     <string name="title_activity_notification">NotificationActivity</string>
+    <string name="title_activity_welcome">welcomeActivity</string>
     <string name="title_activity_map">MapActivity</string>
 </resources>
