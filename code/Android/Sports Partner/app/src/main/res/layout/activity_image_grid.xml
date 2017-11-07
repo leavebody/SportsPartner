@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/top_bar"
-        layout="@layout/include_top_bar"/>
+        layout="@layout/top_bar_image_grid"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:maxLines="1"
-                    android:text="@string/ip_all_images"
+                    android:text="all"
                     android:textColor="#CFCFCF"
                     android:textSize="16sp"/>
 
@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="预览(3)"
+                android:text="preview"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"/>
