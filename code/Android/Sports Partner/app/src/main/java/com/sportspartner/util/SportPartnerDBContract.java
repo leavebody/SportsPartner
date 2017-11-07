@@ -16,6 +16,6 @@ public final class SportPartnerDBContract {
         public static final String TABLE_NAME = "login";
         public static final String COLUMN_EMAIL_NAME = "email";
         public static final String COLUMN_KEY_NAME = "key";
-        public static final String COLUMN_REGISTERID_NAME = "registerId";
+        public static final String COLUMN_REGISTRATIONID_NAME = "registerId";
     }
 }

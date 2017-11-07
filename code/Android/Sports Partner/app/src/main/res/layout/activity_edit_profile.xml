@@ -4,120 +4,238 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/background_blue"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="10">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:orientation="vertical">
+        <ImageView
+            android:id="@+id/profile_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignEnd="@+id/profile_name"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/portrait" />
 
-            <ImageView
-                android:id="@+id/profile_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/portrait" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_above="@+id/profile_name"
+            android:layout_alignEnd="@+id/profile_photo"
+            android:background="@drawable/edit" />
+
+        <EditText
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_photo"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/orange"
+            android:text="Xuan Zhang"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/background_blue"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="20">
 
             <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_below="@+id/profile_photo"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Xuan Zhang"
-                android:textColor="@color/gray" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="5"
+                android:gravity="left"
+                android:padding="10dip"
+                android:text="Gender"
+                android:textColor="@color/orange"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/text_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="11"
+                android:backgroundTint="@color/gray"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:text="Female"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="20">
 
-            <TableLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_weight="2" />
 
-                <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="5"
+                android:gravity="left"
+                android:padding="10dip"
+                android:text="Age"
+                android:textColor="@color/orange"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
-                    <TextView
-                        android:padding="3dip"
-                        android:text="Gender:"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold" />
+            <EditText
+                android:id="@+id/text_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="11"
+                android:backgroundTint="@color/gray"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:text="23"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/gender"
-                        android:padding="3dip"
-                        android:text="Female"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
 
-                <TableRow>
+        </LinearLayout>
 
-                    <TextView
-                        android:padding="3dip"
-                        android:text="Age:"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="20">
 
-                    <TextView
-                        android:id="@+id/age"
-                        android:padding="3dip"
-                        android:text="23"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
 
-                <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="5"
+                android:gravity="left"
+                android:padding="10dip"
+                android:text="City"
+                android:textColor="@color/orange"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
-                    <TextView
-                        android:padding="3dip"
-                        android:text="Live in:"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold" />
+            <EditText
+                android:id="@+id/text_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="11"
+                android:backgroundTint="@color/gray"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:text="Baltimore"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/location"
-                        android:padding="3dip"
-                        android:text="JHU, Baltimore"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
 
-                <TableRow>
-
-                    <TextView
-                        android:padding="3dip"
-                        android:text="Interests:"
-                        android:textColor="@color/orange"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/interests"
-                        android:padding="3dip"
-                        android:text="Badminton, Tennis"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-            </TableLayout>
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/background_blue"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="5"
+            android:gravity="left"
+            android:padding="10dip"
+            android:text="Interests"
+            android:textColor="@color/orange"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/text_interest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="11"
+            android:backgroundTint="@color/gray"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="Swimming"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:inputType="textMultiLine"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

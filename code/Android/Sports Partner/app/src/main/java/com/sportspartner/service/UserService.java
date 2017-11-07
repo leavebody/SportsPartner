@@ -12,6 +12,8 @@ import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
+import java.util.ArrayList;
+
 /**
  * @author Xiaochen Li
  */
@@ -54,6 +56,8 @@ public class UserService extends Service {
                     String key = jsResp.get("key").getAsString();
                     LoginDBHelper dbHelper = LoginDBHelper.getInstance(c);
                     dbHelper.insert(email, key, RegistrationIntentService.getToken());
+                    //ArrayList<String> list =  dbHelper.getAll();
+                    //System.out.println("loginRespProcess list size:"+ String.valueOf(list.size()));
                 } else {
                     result.setMessage("login failed: "+jsResp.get("message").getAsString());
                 }

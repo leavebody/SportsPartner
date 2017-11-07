@@ -20,10 +20,9 @@ import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
-import com.sportspartner.util.listviewadapter.MyActivityAdapter;
+import com.sportspartner.util.adapter.MyActivityAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HomeActivity extends BasicActivity {
     //userEmail

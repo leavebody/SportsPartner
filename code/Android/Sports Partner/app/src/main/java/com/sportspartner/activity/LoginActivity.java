@@ -1,20 +1,12 @@
 package com.sportspartner.activity;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,11 +16,8 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.util.PickPlaceResult;
-import com.sportspartner.util.gcm_notification.QuickstartPreferences;
+import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
-
-import static com.sportspartner.util.gcm_notification.RegistrationIntentService.*;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -51,27 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         emailField = (EditText)findViewById(R.id.loginEmail);
         passwordField = (EditText)findViewById(R.id.password);
 
-        /*mRegistrationProgressBar = (ProgressBar) findViewById(R.id.progressBar2);
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                    mInformationTextView.setText("GCM");//getString(R.string.gcm_send_message));
-                } else {
-                    mInformationTextView.setText("ERROR");//getString(R.string.token_error_message));
-                }
-            }
-        };
-        mInformationTextView = (TextView) findViewById(R.id.textView123);
-
-        // Registering BroadcastReceiver
-        registerReceiver();*/
-
         /**
          * checkPlayServices GCM
          */
@@ -80,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+
+
     }
 
     /*@Override
@@ -103,6 +73,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }*/
 
+    /**
+     * Check whether this device support GCM API
+     * @return Whether support or not
+     */
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -136,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
     /**
      * Handel the login result from the server
      * Goto the profile page if success
@@ -152,8 +125,16 @@ public class LoginActivity extends AppCompatActivity {
         if (booleanResult.isStatus()) {
             // TODO link to the main page activity of this user
             Context context = getApplicationContext();
-            Intent intent = new Intent(context, ProfileActivity.class);
+
+            //get userId from SQLite
+            LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
+            String email = dbHelper.getEmail();
+
+            //go to profile activity
+            Intent intent = new Intent(context, HomeActivity.class);
+            //intent.putExtra("userId", email);
             startActivity(intent);
+            onDestroy();
         }
     }
 
@@ -164,6 +145,14 @@ public class LoginActivity extends AppCompatActivity {
     public void signup(View v){
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+        onDestroy();
+    }
 
+    /**
+     * OnDestroy Method of this Activity
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
