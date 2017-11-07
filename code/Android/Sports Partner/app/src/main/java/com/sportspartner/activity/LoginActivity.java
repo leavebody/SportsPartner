@@ -1,5 +1,6 @@
 package com.sportspartner.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.service.serviceresult.BooleanResult;
+import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.gcm_notification.QuickstartPreferences;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
@@ -35,10 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private ProgressBar mRegistrationProgressBar;
-    private TextView mInformationTextView;
-    private boolean isReceiverRegistered;
 
     /**
      * Load the LoginActivity
@@ -124,7 +122,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
-
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         //Get device Token from GCM
@@ -138,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * Handel the login result from the server
