@@ -52,7 +52,7 @@ public class UserService {
                 String key = UUID.randomUUID().toString();
                 Authorization authorization = new Authorization(loginVO.getUserId(), key);
                 DeviceRegistration deviceRegistration = new DeviceRegistration(loginVO.getUserId(), loginVO.getRegistrationId());
-                if (!deviceRegistrationDaoImpl.hasDeviceRegistration(deviceRegistration)) {
+                if (deviceRegistrationDaoImpl.hasDeviceRegistration(deviceRegistration)) {
                     if (authorizationDaoImpl.newAuthorization(authorization)) {
                         resp.setKey(key);
                         resp.setResponse("true");
