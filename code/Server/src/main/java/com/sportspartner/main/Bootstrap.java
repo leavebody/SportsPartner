@@ -7,7 +7,9 @@ import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.sportspartner.controllers.*;
 import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.dao.impl.NotificationDaoImpl;
 import com.sportspartner.model.DeviceRegistration;
+import com.sportspartner.model.Notification;
 import com.sportspartner.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,10 @@ import java.util.List;
 import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
-
 import com.sportspartner.util.*;
 import org.sql2o.tools.IOUtils;
+import java.util.Date;
+import java.util.UUID;
 
 
 public class Bootstrap {
@@ -61,7 +64,6 @@ public class Bootstrap {
             }
         }
         */
-
         ipAddress(IP_ADDRESS);
         port(PORT);
         staticFileLocation("/public");
@@ -83,7 +85,21 @@ public class Bootstrap {
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }
-                /*
+
+        /*
+        String uuid = UUID.randomUUID().toString();
+        Date time = new Date(System.currentTimeMillis());
+        Notification notification = new Notification("u1",uuid,"title","detail","NORESPONSE","u24",time,1,0);
+        NotificationDaoImpl f1 = new NotificationDaoImpl();
+        boolean test = false;
+        test = f1.newNotification(notification);
+        System.out.println(test);
+        List<Notification> notifications = f1.getUnsentNotification("u1");
+        System.out.println(notifications.get(0).getNotificationTitle());
+        boolean test1 = f1.setNotificationSent("u1",uuid);
+        System.out.println(test1);
+        boolean test2 = f1.deleteNotification(notification);
+        System.out.println(test2);
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");
         f1.newAuthorization(newAuthorization);
