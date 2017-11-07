@@ -13,12 +13,14 @@ public class ActivityOutlineVO {
     private Date startTime;
     private Date endTime;
     private String facilityId;
+    private double longitude;
+    private double latitude;
     private int capacity;
     private int size;
 
     public ActivityOutlineVO(){}
 
-    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
+    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, double longitude, double latitude, int capacity, int size) {
         this.activityId = activityId;
         this.creatorId = creatorId;
         this.status = status;
@@ -27,6 +29,8 @@ public class ActivityOutlineVO {
         this.startTime = startTime;
         this.endTime = endTime;
         this.facilityId = facilityId;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.capacity = capacity;
         this.size = size;
     }
@@ -103,6 +107,22 @@ public class ActivityOutlineVO {
         this.facilityId = location;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -126,6 +146,8 @@ public class ActivityOutlineVO {
         this.startTime = activity.getStartTime();
         this.endTime = activity.getEndTime();
         this.facilityId = activity.getFacilityId();
+        this.longitude = activity.getLongitude();
+        this.latitude = activity.getLatitude();
         this.capacity = activity.getCapacity();
         this.size = activity.getSize();
     }
