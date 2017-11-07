@@ -11,10 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.sportspartner.activity.LoginActivity;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
-import com.sportspartner.activity.SignupActivity;
 
 
 /**
@@ -35,9 +33,11 @@ public class MyGcmListenerService extends GcmListenerService {
 // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        String title = data.getString("title");
+        String content = data.getString("content");
         Log.d(TAG, "From FROM: " + from);
-        Log.d(TAG, "Message: " + message);
+        Log.d(TAG, "Message: " + title);
+        Log.d(TAG, "Message: " + content);
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -57,16 +57,16 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        sendNotification(title, content);
         // [END_EXCLUDE]
     }
 
     /**
      * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
+     * @param title GCM title.
+     * @param content GCM content.
      */
-    private void sendNotification(String message) {
+    private void sendNotification(String title, String content) {
         Intent intent = new Intent(this, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -75,8 +75,8 @@ public class MyGcmListenerService extends GcmListenerService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.edit)
-                .setContentTitle("GCM Message")
-                .setContentText(message)
+                .setContentTitle(title)
+                .setContentText(content)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

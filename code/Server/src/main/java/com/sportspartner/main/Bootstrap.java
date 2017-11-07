@@ -36,6 +36,32 @@ public class Bootstrap {
      */
     public static void main(String[] args) throws Exception {
 
+
+        ipAddress(IP_ADDRESS);
+        port(PORT);
+        staticFileLocation("/public");
+        try {
+            UserService userModel = new UserService();
+            new LoginController(userModel);
+            new SignUpController(userModel);
+            new LogoutController(userModel);
+
+            ProfileService profileModel = new ProfileService();
+            new ProfileController(profileModel);
+
+            ActivityService activityModel = new ActivityService();
+            new ActivityController(activityModel);
+
+            FriendService friendService = new FriendService();
+            new FriendController(friendService);
+
+            ImageService imageService = new ImageService();
+            new ImageController(imageService);
+
+
+        } catch (Exception ex) {
+            logger.error("Failed to create a SportsPartnerService instance. Aborting");
+        }
     /*
         Sender sender = new Sender("AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U");
 
@@ -62,27 +88,19 @@ public class Bootstrap {
         }
         */
 
-        ipAddress(IP_ADDRESS);
-        port(PORT);
-        staticFileLocation("/public");
-        try {
-            UserService userModel = new UserService();
-            new LoginController(userModel);
-            new SignUpController(userModel);
-            new LogoutController(userModel);
 
-            ProfileService profileModel = new ProfileService();
-            new ProfileController(profileModel);
+//            ImageUtil imageUtil = new ImageUtil();
+//            BufferedImage image = imageUtil.getImage("./res/usericon/yujiaxiao0223@gmail.com_origin.png");
+//            BufferedImage image1 = imageUtil.resizeImage(image);
+//            imageUtil.saveImage(image1, "./res/usericon/yujiaxiao0223@gmail.com_small.png");
 
-            ActivityService activityModel = new ActivityService();
-            new ActivityController(activityModel);
+//        ImageUtil imageUtil = new ImageUtil();
+//        BufferedImage image = imageUtil.getImage("./res/usericon/shirish@gmail.com_origin.png");
+//        BufferedImage resizedimage = imageUtil.resizeImage(image);
+//        String base64 = imageUtil.imageToBase64(resizedimage);
+//        imageUtil.saveImage(imageUtil.base64ToImage(base64),"./res/usericon/shirish@gmail.com_small.png") ;
+//        imageUtil.saveImage(resizedimage,"./res/usericon/shirish1@gmail.com_small.png");
 
-            FriendService friendService = new FriendService();
-            new FriendController(friendService);
-
-        } catch (Exception ex) {
-            logger.error("Failed to create a SportsPartnerService instance. Aborting");
-        }
                 /*
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");

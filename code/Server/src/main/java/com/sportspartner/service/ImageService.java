@@ -1,5 +1,7 @@
 package com.sportspartner.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.sportspartner.dao.impl.IconDaoImpl;
 import com.sportspartner.model.Icon;
 import com.sportspartner.util.ImageUtil;
@@ -37,7 +39,7 @@ public class ImageService {
 
         try {
             BufferedImage image = imageUtil.getImage(imagePath);
-            String base64String = imageUtil.ImageToBase64(image);
+            String base64String = imageUtil.imageToBase64(image);
             resp.setImage(base64String);
             resp.setResponse("true");
         }catch(IOException ex){
@@ -48,9 +50,13 @@ public class ImageService {
         return resp;
     }
 
-    public JsonResponse newIcon(String spId, String object, String base64String) throws Exception{
+    public JsonResponse newIcon(String spId, String body) throws Exception{
         JsonResponse resp = new JsonResponse();
 
+        JsonObject json = new Gson().fromJson(body, JsonObject.class);
+        String object = json.get("object").getAsString();
+        //String base64String = imageUtil.imageToBase64(imageUtil.getImage(json.get("image").getAsString()));
+        String base64String = json.get("image").getAsString();
         // new database item
         String iconUUID = UUID.randomUUID().toString();
         String smallPath =  imageUtil.getImagePath(spId, object, "small");
@@ -62,7 +68,7 @@ public class ImageService {
         }
 
         // new image files in server
-        BufferedImage image = imageUtil.Base64ToImage(base64String);
+        BufferedImage image = imageUtil.base64ToImage(base64String);
         BufferedImage smallImage = imageUtil.resizeImage(image);
         if(!imageUtil.saveImage(smallImage, smallPath) || !imageUtil.saveImage(image, originPath)){
             resp.setResponse("false");

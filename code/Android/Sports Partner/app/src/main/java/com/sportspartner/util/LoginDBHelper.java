@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 
 /**
  * The helper class to handle the login SQLite database
@@ -21,7 +23,7 @@ public class LoginDBHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + SportPartnerDBContract.LoginDB.TABLE_NAME + " (" +
                     SportPartnerDBContract.LoginDB.COLUMN_EMAIL_NAME + " TEXT PRIMARY KEY," +
                     SportPartnerDBContract.LoginDB.COLUMN_KEY_NAME + " TEXT," +
-                    SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME + " TEXT)";
+                    SportPartnerDBContract.LoginDB.COLUMN_REGISTRATIONID_NAME + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + SportPartnerDBContract.LoginDB.TABLE_NAME;
@@ -34,7 +36,7 @@ public class LoginDBHelper extends SQLiteOpenHelper {
     }
 
     public static LoginDBHelper getInstance(Context context) {
-        if (instance==null) {
+        if (instance == null) {
             instance = new LoginDBHelper(context.getApplicationContext());
         }
         return instance;
@@ -42,6 +44,7 @@ public class LoginDBHelper extends SQLiteOpenHelper {
 
     /**
      * Check is the device is logged in.
+     *
      * @return
      */
     public boolean isLoggedIn() {
@@ -63,10 +66,30 @@ public class LoginDBHelper extends SQLiteOpenHelper {
                 null
         );
 
-        boolean logedin = cursor.getCount()==1;
+        boolean logedin = cursor.getCount() == 1;
         cursor.close();
         return logedin;
     }
+
+    public ArrayList<String> getAll() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + SportPartnerDBContract.LoginDB.TABLE_NAME, null);
+        ArrayList<String> list = new ArrayList<>();
+
+        if(cursor.moveToFirst())
+
+        {
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(cursor.getColumnIndex(SportPartnerDBContract.LoginDB.COLUMN_EMAIL_NAME));
+
+                list.add(name);
+                cursor.moveToNext();
+            }
+        }
+        return list;
+    }
+
+
 
     /**
      * Insert a new login record.
@@ -80,7 +103,7 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(SportPartnerDBContract.LoginDB.COLUMN_EMAIL_NAME, email);
         values.put(SportPartnerDBContract.LoginDB.COLUMN_KEY_NAME, key);
-        values.put(SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME, registerId);
+        values.put(SportPartnerDBContract.LoginDB.COLUMN_REGISTRATIONID_NAME, registerId);
 
         // Insert the new row, returning the primary key value of the new row
         db.insert(SportPartnerDBContract.LoginDB.TABLE_NAME, null, values);
@@ -95,6 +118,8 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(SportPartnerDBContract.LoginDB.TABLE_NAME, null, null);
     }
+
+
 
     /**
      * Get the email of the current login session.
@@ -164,7 +189,7 @@ public class LoginDBHelper extends SQLiteOpenHelper {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
-                SportPartnerDBContract.LoginDB.COLUMN_REGISTERID_NAME
+                SportPartnerDBContract.LoginDB.COLUMN_REGISTRATIONID_NAME
         };
 
         Cursor cursor = db.query(

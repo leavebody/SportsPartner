@@ -37,7 +37,7 @@ public class ResourceService extends Service {
      * @param path The path of the image on the server.
      * @param callback
      */
-    public static void getImage(final Context c, final String uuid, String path, final ActivityCallBack callback) {
+    public static void getImage(final Context c, final String uuid, final ActivityCallBack callback) {
 
         // find image in cache by uuid
         File cacheDir = c.getApplicationContext().getCacheDir();
@@ -68,7 +68,7 @@ public class ResourceService extends Service {
             public void onSuccess(NetworkResponse response) {
                 callback.getModelOnSuccess(getImageRespProcess(response, c, uuid));
             }
-        }, path);
+        });
 
     }
 

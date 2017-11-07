@@ -11,31 +11,41 @@ public class SActivity {
     private String id;
     private String status;
     private String sportIconUUID;
-    private String sportIconPath;
     private String sport;
-    private Date starttime;
-    private Date endtime;
-    private String place;
+    private Date startTime;
+    private Date endTime;
+    private String facilityId;
+    private String facilityName;
+    private Double longitude;
+    private Double latitude;
     private int capacity;
     private int size;
     private String creator;
+    private ArrayList<UserOutline> members;
+    private String detail;
+    private ArrayList<SactivityComment> discussion;
     //TODO more to add
 
 
     public SActivity() {}
 
-    public SActivity(String id, String status, String sportIconUUID, String sportIconPath, String sport, Date starttime, Date endtime, String place, int capacity, int size, String creator) {
+    public SActivity(String id, String status, String sportIconUUID, String sport, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, int capacity, int size, String creator, ArrayList<UserOutline> members, String detail, ArrayList<SactivityComment> discussion) {
         this.id = id;
         this.status = status;
         this.sportIconUUID = sportIconUUID;
-        this.sportIconPath = sportIconPath;
         this.sport = sport;
-        this.starttime = starttime;
-        this.endtime = endtime;
-        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.facilityId = facilityId;
+        this.facilityName = facilityName;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.capacity = capacity;
         this.size = size;
         this.creator = creator;
+        this.members = members;
+        this.detail = detail;
+        this.discussion = discussion;
     }
 
     public String getId() {
@@ -62,14 +72,6 @@ public class SActivity {
         this.sportIconUUID = sportIconUUID;
     }
 
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
-    }
-
     public String getSport() {
         return sport;
     }
@@ -78,28 +80,52 @@ public class SActivity {
         this.sport = sport;
     }
 
-    public Date getStarttime() {
-        return starttime;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndtime() {
-        return endtime;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public String getPlace() {
-        return place;
+    public String getFacilityId() {
+        return facilityId;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
+    }
+
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public int getCapacity() {
@@ -124,5 +150,29 @@ public class SActivity {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public ArrayList<UserOutline> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<UserOutline> members) {
+        this.members = members;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public ArrayList<SactivityComment> getDiscussion() {
+        return discussion;
+    }
+
+    public void setDiscussion(ArrayList<SactivityComment> discussion) {
+        this.discussion = discussion;
     }
 }

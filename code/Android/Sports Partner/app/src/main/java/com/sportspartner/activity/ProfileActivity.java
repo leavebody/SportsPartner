@@ -25,7 +25,7 @@ import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
-import com.sportspartner.util.listviewadapter.MyActivityAdapter;
+import com.sportspartner.util.adapter.MyActivityAdapter;
 import java.util.ArrayList;
 
 public class ProfileActivity extends BasicActivity {
@@ -80,9 +80,13 @@ public class ProfileActivity extends BasicActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
 
-        // get the userEmail from SQLite
+        //get userId
+        Intent myIntent = getIntent();
+        usermail = myIntent.getStringExtra("userId");
+
+        /*// get the userEmail from SQLite
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(ProfileActivity.this);
-        usermail= dbHelper.getEmail();
+        usermail= dbHelper.getEmail();*/
 
         //find all the widgets by Id
         View basicInfo = findViewById(R.id.personal_info);
