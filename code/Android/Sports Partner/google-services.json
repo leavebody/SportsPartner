@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "850704190460",
+    "firebase_url": "https://sports-partner-6616e.firebaseio.com",
+    "project_id": "sports-partner-6616e",
+    "storage_bucket": "sports-partner-6616e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850704190460:android:2a3d6cb6144e43d3",
+        "android_client_info": {
+          "package_name": "com.sportspartner.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850704190460-1l4u6uu5jjs60nagc0nq7kk43mfa834i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB61qafoY-kM8HkPr5QHifrqM3ZB9Alg6U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

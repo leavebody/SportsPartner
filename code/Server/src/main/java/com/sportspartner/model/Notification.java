@@ -5,16 +5,18 @@ public class Notification {
     private String notificationId;
     private String notificationTitle;
     private String notificationDetail;
-    private String notificationStates;
+    private String notificationType;
+    private int notificationStates;
     private int notificationPriority;
 
     public Notification(){}
 
-    public Notification(String userId, String notificationId, String notificationTitle, String notificationDetail, String notificationStates, int notificationPriority) {
+    public Notification(String userId, String notificationId, String notificationTitle, String notificationDetail, String notificationType, int notificationStates, int notificationPriority) {
         this.userId = userId;
         this.notificationId = notificationId;
         this.notificationTitle = notificationTitle;
         this.notificationDetail = notificationDetail;
+        this.notificationType = notificationType;
         this.notificationStates = notificationStates;
         this.notificationPriority = notificationPriority;
     }
@@ -49,13 +51,9 @@ public class Notification {
         this.notificationDetail = notificationDetail;
     }
 
-    public String getNotificationStates() {
-        return notificationStates;
-    }
+    public int getNotificationStates() { return notificationStates; }
 
-    public void setNotificationStates(String notificationStates) {
-        this.notificationStates = notificationStates;
-    }
+    public void setNotificationStates(int notificationStates) { this.notificationStates = notificationStates; }
 
     public int getNotificationPriority() {
         return notificationPriority;
@@ -64,4 +62,8 @@ public class Notification {
     public void setNotificationPriority(int notificationPriority) {
         this.notificationPriority = notificationPriority;
     }
+
+    public String getNotificationType() { return notificationType; }
+
+    public void setNotificationType(String notificationType) { this.notificationType = notificationType; }
 }

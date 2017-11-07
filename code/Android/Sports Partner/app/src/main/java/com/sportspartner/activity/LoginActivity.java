@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
-
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         //Get device Token from GCM

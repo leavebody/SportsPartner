@@ -67,15 +67,15 @@ public class FriendDaoImpl implements FriendDao {
     public boolean getFriend(String user1, String user2){
         Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         boolean indicator = false;
         try {
-            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?");
+            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?",ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             statement.setString(1, user1);
             statement.setString(2, user2);
             rs = statement.executeQuery();
-            rs.last();
-            if (rs.getRow() != 0) {
+            if (rs.next()) {
                 indicator = true;
             }
         }catch( Exception e ) {

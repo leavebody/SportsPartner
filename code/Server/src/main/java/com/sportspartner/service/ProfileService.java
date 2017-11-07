@@ -14,6 +14,7 @@ import java.util.UUID;
 
 public class ProfileService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
 
     /**
      *  Get the profile of a user
@@ -21,12 +22,11 @@ public class ProfileService {
      * @return JsonResponse to the front-end
      * @throws ProfileServiceException throw ProfileServiceException
      */
-    public JsonResponse getProfile(String userId) throws ProfileServiceException {
+    public JsonResponse getProfile(String userId, String requestorId, String requestorKey) throws ProfileServiceException {
 
         JsonResponse resp = new JsonResponse();
         try {
-
-            if (!hasUser(userId)) {
+            if (!hasUser(userId) || !hasUser(requestorId)) {
                 resp.setResponse("false");
                 resp.setMessage("No such user");
             }else{
@@ -40,11 +40,22 @@ public class ProfileService {
                     resp.setResponse("true");
                     resp.setProfile(personVO);
                 }
+                // check relationship between the user and the requestor
+                if(isAuthorized(requestorId, requestorKey)) {
+                    if (requestorId.equals(userId)) {
+                        resp.setUserType("SELF");
+                        return resp;
+                    } else if (friendDaoImpl.getFriend(userId, requestorId)
+                            || friendDaoImpl.getFriend(requestorId, userId)) {
+                        resp.setUserType("FRIEND");
+                        return resp;
+                    }
+                }
+                resp.setUserType("STRANGER");
             }
         } catch(Exception ex){
             throw new ProfileServiceException("Json format error", ex);
         }
-//      System.out.println(resp);
         return resp;
     }
 
@@ -271,6 +282,7 @@ public class ProfileService {
 //      System.out.println(resp);
         return resp;
     }
+
     /**
      * Check whether a user exists
      * @param userId Id of a user

@@ -4,6 +4,7 @@ import com.sportspartner.service.FriendService;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -29,7 +30,7 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-        post(API_CONTEXT + "/:receiverId/friendrequest/:senderId", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = friendService.sendFriendRequest(request.params(":receiverId"),request.params(":senderId"));
@@ -40,6 +41,38 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-
+        post(API_CONTEXT + "/acceptrequest/:receiverId/:senderId", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = friendService.acceptFriendRequest(request.params(":receiverId"),request.params(":senderId"));
+                response.status(200);
+                return reps;
+            } catch ( FriendService.FriendServiceException ex) {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
+        post(API_CONTEXT + "/declinerequest/:receiverId/:senderId", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = friendService.declineFriendRequest(request.params(":receiverId"),request.params(":senderId"));
+                response.status(200);
+                return reps;
+            } catch ( FriendService.FriendServiceException ex) {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
+        delete(API_CONTEXT + "/deletefriend/:userId1/:userId2", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = friendService.deleteFriend(request.params(":userId1"),request.params(":userId2"));
+                response.status(200);
+                return reps;
+            } catch ( FriendService.FriendServiceException ex) {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
     }
 }
