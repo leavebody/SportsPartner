@@ -1,9 +1,6 @@
 package com.sportspartner.util;
 
-import com.sportspartner.models.ProfileComment;
 import com.sportspartner.service.serviceresult.*;
-
-import java.util.ArrayList;
 
 /**
  * Use this class to handle callback function in the caller class.

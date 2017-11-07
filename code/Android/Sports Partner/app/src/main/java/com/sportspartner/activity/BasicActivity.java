@@ -26,6 +26,8 @@ import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 
+import java.util.ArrayList;
+
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -66,6 +68,8 @@ public class BasicActivity extends AppCompatActivity
      */
     private void setUserOutline(){
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
+        ArrayList<String> list =  dbHelper.getAll();
+        System.out.println("list size:"+ String.valueOf(list.size()));
         String email = dbHelper.getEmail();
         ProfileService.getProfileOutline(this, email, new ActivityCallBack<UserOutline>(){
             @Override
@@ -95,11 +99,11 @@ public class BasicActivity extends AppCompatActivity
             UserOutline userOutline = result.getModel();
             userName = userOutline.getUserName();
             String iconUUID = userOutline.getIconUUID();
-            String iconPath = userOutline.getIconPath();
+            //String iconPath = userOutline.getIconPath();
 
             userNameView.setText(userName);
 
-            ResourceService.getImage(this, iconUUID, iconPath, new ActivityCallBack<Bitmap>(){
+            ResourceService.getImage(this, iconUUID, new ActivityCallBack<Bitmap>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<Bitmap> result){
                     if (result.isStatus()) {

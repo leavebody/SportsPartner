@@ -1,4 +1,4 @@
-package com.sportspartner.util.listviewadapter;
+package com.sportspartner.util.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
