@@ -19,7 +19,6 @@ public class GCMHelper {
 
         Sender sender = new Sender(senderKey);
         Message.Builder builder = new Message.Builder();
-        builder.addData("id",notification.getNotificationId());
         builder.addData("title",notification.getNotificationTitle());
         builder.addData("detail",notification.getNotificationDetail());
         builder.addData("sender",notification.getNotificationSender());
