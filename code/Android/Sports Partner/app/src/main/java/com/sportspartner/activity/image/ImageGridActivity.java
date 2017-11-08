@@ -160,7 +160,7 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
             finish();
         } else if (id == com.lzy.imagepicker.R.id.ll_dir) {
             if (mImageFolders == null) {
-                Log.i("ImageGridActivity", "您的手机没有图片");
+                Log.i("ImageGridActivity", "there is no image in your phone");
                 return;
             }
             //点击文件夹按钮
