@@ -3,12 +3,13 @@
     package="com.sportspartner">
 
     <uses-permission android:name="android.permission.INTERNET" />
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-=======
     <uses-permission android:name="android.permission.WAKE_LOCK" />
->>>>>>> dev
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -20,15 +21,17 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".util.gcm_notification.MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -40,16 +43,19 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <!--gcm.play.android.samples.com.gcmquickstart-->
+        <!-- gcm.play.android.samples.com.gcmquickstart -->
         <service
             android:name=".util.gcm_notification.RegistrationIntentService"
             android:exported="false" />
-        <service android:name=".util.gcm_notification.MyInstanceIDService" android:exported="false">
+        <service
+            android:name=".util.gcm_notification.MyInstanceIDService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <activity android:name=".activity.LoginActivity">
+
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,6 +106,15 @@
             android:name=".activity.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< HEAD
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>
+=======
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -112,3 +127,4 @@
 
 
 </manifest>
+>>>>>>> a468f5fb8827e8f22239d873489d2aea2898ba4d
