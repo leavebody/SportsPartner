@@ -79,7 +79,7 @@ public class UserRequest extends com.sportspartner.request.Request{
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/login?userId="+userId+"&key="+key +"&registrationId="+registrationId;
+        String url = URL_CONTEXT+"v1/logout?userId="+userId+"&key="+key +"&registrationId="+registrationId;
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(Request.Method.DELETE, url, null,
                 new Response.Listener<NetworkResponse>() {
