@@ -34,6 +34,7 @@ public class JsonResponse {
     private String iconUUID;
     private String userType;
     private JsonArray members;
+    private String activityId;
 
     public JsonResponse() {
     }
@@ -243,5 +244,13 @@ public class JsonResponse {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 }

@@ -111,6 +111,20 @@ public class ActivityController {
 
         }, new JsonTransformer());
 
+        // create an activity
+        post(API_CONTEXT + "/activity", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = activityService.newActivity(request.body());
+                response.status(200);
+                return reps;
+            } catch (Exception ex) {
+                response.status(200);
+                return reps;
+            }
+
+        }, new JsonTransformer());
+
     }
 
 }
