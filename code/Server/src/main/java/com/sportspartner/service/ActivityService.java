@@ -1,4 +1,7 @@
 package com.sportspartner.service;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.sportspartner.dao.ActivityMemberDao;
 import com.sportspartner.dao.impl.*;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
@@ -175,6 +178,58 @@ public class ActivityService {
             }
         }catch(Exception ex){
             throw new ActivityServiceException("Json format error", ex);
+        }
+        return resp;
+    }
+
+    public JsonResponse getActivityMembers(String activityId) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try{
+            List<UserOutlineVO> userOutlineVOs = new ArrayList<UserOutlineVO>();
+            List<ActivityMember> activityMembers= activityMemberDaoImpl.getAllActivitymembers(activityId);
+            for(ActivityMember activityMember : activityMembers){
+                UserOutlineVO userOutlineVO = new UserOutlineVO();
+                userOutlineVO.setFromPerson(personDaoImpl.getPerson(activityMember.getUserId()));
+                userOutlineVOs.add(userOutlineVO);
+            }
+            resp.setMembers(userOutlineVOs);
+            resp.setResponse("true");
+        }catch(Exception ex){
+            throw new ActivityServiceException("Json format error", ex);
+        }
+        return resp;
+    }
+
+    public JsonResponse addActivityMember(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try{
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String userId = json.get("userId").getAsString();
+            if(activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))){
+                resp.setResponse("true");
+            }else{
+                resp.setMessage("Unable to create a new entry in database");
+                resp.setResponse("false");
+            }
+        }catch(Exception ex){
+            throw new ActivityServiceException("Json Format error", ex);
+        }
+        return resp;
+    }
+
+    public JsonResponse removeActivityMember(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try{
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String userId = json.get("userId").getAsString();
+            if(activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId))){
+                resp.setResponse("true");
+            }else{
+                resp.setMessage("Unable to delete the entry from database");
+                resp.setResponse("false");
+            }
+        }catch(Exception ex){
+            throw new ActivityServiceException("Json Format error", ex);
         }
         return resp;
     }

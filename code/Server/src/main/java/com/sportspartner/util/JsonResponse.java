@@ -33,6 +33,7 @@ public class JsonResponse {
     private String image;
     private String iconUUID;
     private String userType;
+    private JsonArray members;
 
     public JsonResponse() {
     }
@@ -188,6 +189,19 @@ public class JsonResponse {
             for(ActivityOutlineVO activityOutlineVO: activityOutlineVOs){
                 String jsonString = gson.toJson(activityOutlineVO);
                 this.activityOutlines.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
+
+    public void setMembers(List<UserOutlineVO> userOutlineVOs){
+        this.members = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(UserOutlineVO userOutlineVO: userOutlineVOs){
+                String jsonString = gson.toJson(userOutlineVO);
+                this.members.add(gson.fromJson(jsonString, JsonObject.class));
             }
         }catch(JSONException e){
             // TODO Auto-generated catch block
