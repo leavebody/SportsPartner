@@ -31,8 +31,6 @@ public class FriendDaoImpl implements FriendDao {
             statement.setString(1, user);
             statement.setString(2, user);
             rs = statement.executeQuery();
-
-
             while (rs.next()) {
                 String userId = rs.getString("userId");
                 String friendId = rs.getString("friendId");

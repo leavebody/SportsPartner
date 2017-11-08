@@ -17,6 +17,8 @@ public class ActivityVO {
     private Date endTime;
     private String facilityId;
     private String facilityName;
+    private double longitude;
+    private double latitude;
     private int capacity;
     private int size;
     private String creatorId;
@@ -115,6 +117,22 @@ public class ActivityVO {
         this.facilityName = facilityName;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
@@ -153,6 +171,8 @@ public class ActivityVO {
         this.startTime = activity.getStartTime();
         this.endTime = activity.getEndTime();
         this.facilityId = activity.getFacilityId();
+        this.longitude = activity.getLongitude();
+        this.latitude = activity.getLatitude();
         this.capacity = activity.getCapacity();
         this.size = activity.getSize();
         this.creatorId = activity.getCreatorId();

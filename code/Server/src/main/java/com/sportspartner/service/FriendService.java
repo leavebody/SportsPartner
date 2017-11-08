@@ -1,8 +1,10 @@
 package com.sportspartner.service;
 
 import com.sportspartner.dao.impl.FriendDaoImpl;
+import com.sportspartner.dao.impl.NotificationDaoImpl;
 import com.sportspartner.dao.impl.PendingFriendRequestDaoImpl;
 import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.model.Notification;
 import com.sportspartner.model.PendingFriendRequest;
 import com.sportspartner.model.Person;
 import com.sportspartner.model.User;
@@ -10,13 +12,17 @@ import com.sportspartner.modelvo.UserOutlineVO;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.GCMHelper;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class FriendService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
     private PendingFriendRequestDaoImpl pendingFriendRequestDaoImpl = new PendingFriendRequestDaoImpl();
+    private NotificationDaoImpl notificationDaoimpl = new NotificationDaoImpl();
     /**
      * Get the friendlist of a person
      * @param userId Id of a User
@@ -66,11 +72,35 @@ public class FriendService {
                 }else if(!pendingFriendRequestDaoImpl.newPendingRequest(request)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to add pending request.");
-                }else if(!gcmHelper.SendGCMData(receiverId,"New Friend Request",senderName+" sends you a new friend request")){
+                }
+                /*
+                else if(!gcmHelper.SendGCMData(receiverId,"New Friend Request",senderName+" sends you a new friend request")){
                     resp.setResponse("false");
                     resp.setMessage("Fail to send GCM.");
-                }else{
-                    resp.setResponse("true");
+                }
+                */
+                else{
+                    String notificationId  = UUID.randomUUID().toString();
+                    String notificationTitle = " New Friend Request";
+                    String notificationDetail = senderName+" sends you a new friend request";
+                    String notificationType = "RESPONSE";
+                    String notificationSender = senderId;
+                    Date time = new Date(System.currentTimeMillis());
+                    int notificationState = 1;
+                    int notificationPriority = 1;
+                    Notification notification = new Notification(receiverId,notificationId,notificationTitle,notificationDetail,notificationType,
+                            notificationSender,time,notificationState,notificationPriority);
+                    if(!notificationDaoimpl.newNotification(notification)){
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to store notification.");
+                    }
+                    else if(!gcmHelper.SendGCMNotification(notification)){
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to send GCM.");
+                    }
+                    else {
+                        resp.setResponse("true");
+                    }
                 }
             } catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
