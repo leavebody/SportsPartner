@@ -90,9 +90,9 @@ public class Bootstrap {
 
 
 //            ImageUtil imageUtil = new ImageUtil();
-//            BufferedImage image = imageUtil.getImage("./res/usericon/yujiaxiao0223@gmail.com_origin.png");
+//            BufferedImage image = imageUtil.getImage("./res/usericon/u1_origin.png");
 //            BufferedImage image1 = imageUtil.resizeImage(image);
-//            imageUtil.saveImage(image1, "./res/usericon/yujiaxiao0223@gmail.com_small.png");
+//            imageUtil.saveImage(image1, "./res/usericon/u1_small.png");
 
 //        ImageUtil imageUtil = new ImageUtil();
 //        BufferedImage image = imageUtil.getImage("./res/usericon/shirish@gmail.com_origin.png");
