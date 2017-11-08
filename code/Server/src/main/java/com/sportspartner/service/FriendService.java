@@ -134,13 +134,13 @@ public class FriendService {
             }else{
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = "Friend Request Accepted";
-                String notificationDetail = receiverName+" accepts your friend request";
+                String notificationDetail = receiverName+" has accepted your friend request";
                 String notificationType = "INTERACTION";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
                 int notificationPriority = 1;
-                Notification notification = new Notification(receiverId,notificationId,notificationTitle,notificationDetail,notificationType,
-                        senderId,time,notificationState,notificationPriority);
+                Notification notification = new Notification(senderId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        receiverId,time,notificationState,notificationPriority);
                 if(!notificationDaoimpl.newNotification(notification)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to store notification.");
@@ -158,7 +158,6 @@ public class FriendService {
         }
         return resp;
     }
-
     /**
      *  Receiver decline the friend request from sender. A GCM message will be sent to the sender.
      * @param receiverId Id of receiver
@@ -190,13 +189,13 @@ public class FriendService {
             else{
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = "Friend Request Declined";
-                String notificationDetail = receiverName+" declines your friend request";
+                String notificationDetail = receiverName+" has declined your friend request";
                 String notificationType = "INTERACTION";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
                 int notificationPriority = 1;
-                Notification notification = new Notification(receiverId,notificationId,notificationTitle,notificationDetail,notificationType,
-                        senderId,time,notificationState,notificationPriority);
+                Notification notification = new Notification(senderId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        receiverId,time,notificationState,notificationPriority);
                 if(!notificationDaoimpl.newNotification(notification)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to store notification.");
