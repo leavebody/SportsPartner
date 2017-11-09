@@ -23,4 +23,10 @@ public class MomentActivity extends BasicActivity {
         toolbar.setTitle("Moment");
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }

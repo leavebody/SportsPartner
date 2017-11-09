@@ -27,4 +27,10 @@ public class NotificationActivity extends BasicActivity {
         toolbar.setTitle("Notification");
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }

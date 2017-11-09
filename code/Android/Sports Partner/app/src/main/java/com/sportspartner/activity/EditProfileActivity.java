@@ -29,4 +29,10 @@ public class EditProfileActivity extends BasicActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }

@@ -360,4 +360,10 @@ public class MapActivity extends BasicActivity
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
 }

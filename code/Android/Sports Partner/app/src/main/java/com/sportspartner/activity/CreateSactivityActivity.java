@@ -23,13 +23,21 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.models.Sport;
+import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.ResourceService;
+import com.sportspartner.service.serviceresult.ModelResult;
+import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 import com.sportspartner.util.listener.MyonClickListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -52,9 +60,18 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
 
     //Activity Object
     private SActivity sActivity= new SActivity();
+    private ArrayList<Sport> listSports = new ArrayList<Sport>();
+    private int sportPosition;
+    private String facilityId;
+    private Double longitude;
+    private Double latitude;
+    private Double zipcode;
 
     // The object being sent and received from map
     private PickPlaceResult pickPlaceResult;
+
+    //myEmail
+    private String myEmail;
 
     /**
      * Load the Create Sactivity Activities
@@ -71,6 +88,19 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         //set title of toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Create a New Activity");
+
+        // get all sports
+        ResourceService.getAllSports(this, new ActivityCallBack<ArrayList<Sport>>() {
+            @Override
+            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
+                loadAllSportsHandler(result);
+            }
+        });
+
+        //set the title
+        View viewSmilar = (View) findViewById(R.id.title_similar_result);
+        TextView titleupComming = (TextView) viewSmilar.findViewById(R.id.title);
+        titleupComming.setText("Similar Activity");
 
         myStratTime = Calendar.getInstance();
         myEndTime = Calendar.getInstance();
@@ -99,6 +129,22 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
 
     }
 
+    private void loadAllSportsHandler(ModelResult<ArrayList<Sport>> result) {
+        // handle the result of request here
+        String message = result.getMessage();
+        Boolean status = result.isStatus();
+
+        if (status){
+            //if successfully get Activity, get the data
+            listSports = new ArrayList<>(result.getModel());
+        }
+        else {
+            //if failure, show a toast
+            Toast toast = Toast.makeText(CreateSactivityActivity.this, "Load sports Error: " + message, Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
     /**
      * Show the NumberPicker Dialog
      * Set the content of the textView according to selection result of the user
@@ -123,6 +169,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
+                sportPosition = np.getValue();
                 d.dismiss();
             }
         });
@@ -157,7 +204,11 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      */
     private View.OnClickListener mySportListener = new View.OnClickListener() {
         public void onClick(View v) {
-            String[] sports = new String[] { "Football", "Basketball", "Badminton", "Lacrosse", "Swimming", "Soccer", "Climbing", "Running"};
+            String[] sports = new String[listSports.size()];
+            for (int i = 0; i < listSports.size(); i++){
+                sports[i] = listSports.get(i).getSportName();
+            }
+            //String[] sports = new String[] { "Football", "Basketball", "Badminton", "Lacrosse", "Swimming", "Soccer", "Climbing", "Running"};
             showDialog(sports, textSport);
         }
     };
@@ -215,20 +266,151 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * Send the request to create the sports activity
      * @param v The Create layout
      */
-    public void CreateActivity(View v){
-        //TODO
+    public void CreateActivity(View v) throws ParseException {
+        boolean isValid = checkAllFileds();
+
+        if(isValid){
+            //ToDO faclity ID LO La Zipcode
+            String detail;
+
+            //get creatorId
+            LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
+            myEmail= dbHelper.getEmail();
+
+            //set detail
+            if(editDescription.getText().equals("")){
+                detail = "NULL";
+            }
+            else {
+                detail = String.valueOf(editDescription.getText());
+            }
+
+            //set the fields of sActivity
+            sActivity.setActivityId("NULL");
+            sActivity.setStatus("OPEN");
+            sActivity.setSportId(listSports.get(sportPosition).getSportId());
+            sActivity.setCapacity(Integer.parseInt((String)textCapacity.getText()));
+            sActivity.setSize(1);
+            sActivity.setCreatorId(myEmail);
+            sActivity.setDetail(detail);
+
+            ActivityService.createActivity(this, sActivity, new ActivityCallBack<String>(){
+                @Override
+                public void getModelOnSuccess(ModelResult<String> result) {
+                    loadCreateActivityHandler(result);
+                }
+            });
+        }
     }
 
     /**
-     * On click listener of the Cancel button
-     * Reset all the related content of textView
-     * @param v The Cancel layout
+     * Handle the create SActivity result from the server
+     * @param result The result from the server
      */
-    public void CreateCancel(View v){
-        //TODO
+    private void loadCreateActivityHandler(ModelResult<String> result) {
+        // handle the result of request here
+        String message = result.getMessage();
+        Boolean status = result.isStatus();
+
+        if (status){
+            //Todo
+            //if successfully get Activity, get the data
+            String id = result.getModel();
+            Toast.makeText(CreateSactivityActivity.this, "Create Sports Activity Success!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            //if failure, show a toast
+            Toast toast = Toast.makeText(CreateSactivityActivity.this, "Create SActivity Error: " + message, Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    /**
+     * check whether all the fields are valid
+     * @return true, if the above statement is true
+     */
+    private boolean checkAllFileds(){
+        boolean isFull = checkIfNull();
+        if (isFull){
+            try {
+                boolean isTimeValid = checkTime();
+                if (isTimeValid){
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * check whether all fields have been filled.
+     * @return True if filled
+     */
+    private Boolean checkIfNull() {
+        if (!textSport.getText().equals("")
+                & !textStartDate.getText().equals("") & !textEndDate.getText().equals("")
+                & !textStartTime.getText().equals("") & !textEndTime.getText().equals("")
+                & !textLocation.getText().equals("") & !textCapacity.getText().equals("")){
+            Toast.makeText(this,"sport:" + textSport.getText(), Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else {
+            Toast.makeText(this,"Please fill all the content!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    /**
+     * Check whether startTime is before EndTime
+     * @return True if the above statement is true
+     */
+    private boolean checkTime() throws ParseException {
+        Date start;
+        Date end;
+
+        String startString = (String) textStartDate.getText() + " " + (String) textStartTime.getText();
+        String endString = (String) textEndDate.getText() + " " + (String) textEndTime.getText();
+
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd hh:mm a");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+
+        try {
+            start = formatDate.parse(startString);
+            end = formatDate.parse(endString);
+        } catch (ParseException e) {
+            Toast.makeText(this, "Time Parse error:" + "You should choose both Date and Time\n" + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            return false;
+        }
+        String startDateString = format.format(start);
+        String endDateString = format.format(end);
+        if (start.before(end)){
+            sActivity.setStartTime(start);
+            sActivity.setEndTime(end);
+            Toast.makeText(this, "Start: "+startDateString + "\n End:" + endDateString, Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            Toast.makeText(this,"The startTime should before the endTime!", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
 
 }
 

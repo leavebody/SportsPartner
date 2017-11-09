@@ -30,13 +30,12 @@ import java.util.ArrayList;
 
 public class ResourceService extends Service {
 
-    /**
-     * Get an image.
-     * @param c Caller context
-     * @param uuid The uuid of the image.
-     * @param path The path of the image on the server.
-     * @param callback
-     */
+        /**
+         * Get an image.
+         * @param c Caller context
+         * @param uuid The uuid of the image.
+         * @param callback
+         */
     public static void getImage(final Context c, final String uuid, final ActivityCallBack callback) {
 
         // find image in cache by uuid

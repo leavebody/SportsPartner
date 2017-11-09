@@ -1,29 +1,21 @@
 package com.sportspartner.activity;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
-
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class SearchSactivityActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {
     //widget
@@ -57,6 +49,11 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         //set title of toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Search an Activity");
+
+        //set the title
+        View viewSmilar = (View) findViewById(R.id.title_search_result);
+        TextView titleupComming = (TextView) viewSmilar.findViewById(R.id.title);
+        titleupComming.setText("Search Results");
 
         myStratTime = Calendar.getInstance();
         myEndTime = Calendar.getInstance();
@@ -170,6 +167,12 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
      */
     public void SearchActivity(View v){
         //TODO
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
 }

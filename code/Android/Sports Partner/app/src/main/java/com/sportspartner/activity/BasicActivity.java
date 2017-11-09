@@ -1,5 +1,6 @@
 package com.sportspartner.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -172,27 +173,38 @@ public class BasicActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Context context = getApplicationContext();
 
         if (id == R.id.nav_home) {
             // Goto the Homepage
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_profile) {
             // Goto the ProfilePage
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent = new Intent(context, ProfileActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_friends) {
             // Goto the FriendList Page
-            Intent intent = new Intent(this, FriendListActivity.class);
+            Intent intent = new Intent(context, FriendListActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_moments) {
             // Goto the Moment Page
-            Intent intent = new Intent(this, MomentActivity.class);
+            Intent intent = new Intent(context, MomentActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_noti) {
             // Goto the Notification Page
-            Intent intent = new Intent(this, NotificationActivity.class);
+            Intent intent = new Intent(context, NotificationActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_signout) {
             signOut();
             Intent intent = new Intent(this, LoginActivity.class);

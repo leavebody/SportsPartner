@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,20 @@ import android.widget.Toast;
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
+import com.sportspartner.models.UserOutline;
 import com.sportspartner.request.ActivityRequest;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.util.adapter.Divider;
+import com.sportspartner.util.adapter.FriendAdapter;
+import com.sportspartner.util.adapter.MemberPhotoAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class SactivityDetailActivity extends BasicActivity {
     private TextView sport;
@@ -29,12 +42,14 @@ public class SactivityDetailActivity extends BasicActivity {
     private TextView capacity;
     //private TextView member
     private TextView description;
+    //recyclerView
+    private RecyclerView recyclerView;
+    private ArrayList<UserOutline> memberInfo = new ArrayList<>();
+    private MemberPhotoAdapter memberAdapter;
 
     //SActivity object
     private SActivity activityDetal = new SActivity();
     private String activityId;
-
-
 
 
     /**
@@ -55,6 +70,13 @@ public class SactivityDetailActivity extends BasicActivity {
         Intent myIntent = getIntent();
         String activityId = myIntent.getStringExtra("activityId");
 
+        ActivityService.getSActivity(this, activityId, new ActivityCallBack<SActivity>(){
+            @Override
+            public void getModelOnSuccess(ModelResult<SActivity> result){
+                loadSactivityHandler(result);
+            }
+        });
+
         Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
 
         //find widget by ID
@@ -67,10 +89,42 @@ public class SactivityDetailActivity extends BasicActivity {
         capacity = (TextView) findViewById(R.id.text_capacity);
         description = (TextView) findViewById(R.id.text_description);
 
+        //recyclerView
+        recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+
+        memberAdapter = new MemberPhotoAdapter(memberInfo);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
+        recyclerView.setAdapter(memberAdapter);
+
+        preparememberData();
+
         //fill the content
         setTitle();
         setActivityDetail();
         setComment();
+    }
+
+    private void loadSactivityHandler(ModelResult<SActivity> result) {
+        // handle the result of request here
+        String message = result.getMessage();
+        Boolean status = result.isStatus();
+
+        if (status){
+            //if successfully get Activity, get the data
+           activityDetal = result.getModel();
+        }
+        else {
+            //if failure, show a toast
+            Toast toast = Toast.makeText(SactivityDetailActivity.this, "Load activity Error: " + message, Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    private void preparememberData() {
+
     }
 
     private void setTitle() {
@@ -105,11 +159,23 @@ public class SactivityDetailActivity extends BasicActivity {
         }
 
         //set data to Android Widget
-        sport.setText(activityDetal.getSport());
+        sport.setText(activityDetal.getSportName());
         location.setText(activityDetal.getFacilityName());
         description.setText(activityDetal.getDetail());
         String size = activityDetal.getSize() + "/" + activityDetal.getCapacity();
         capacity.setText(size);
+
+        //Time and date
+        Date start = activityDetal.getStartTime();
+        Date end = activityDetal.getEndTime();
+        SimpleDateFormat sdf0 = new SimpleDateFormat("MM/dd/yy", Locale.US);
+        startDate.setText(sdf0.format(start.getTime()));
+        endDate.setText(sdf0.format(end.getTime()));
+        SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);
+        startTime.setText(sdf1.format(start.getTime()));
+        endTime.setText(sdf1.format(end.getTime()));
+
+        //member
 
     }
 
@@ -124,6 +190,13 @@ public class SactivityDetailActivity extends BasicActivity {
      */
     public void Join(View v){
         //TODO
+        // //ActivityService.
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
 }
