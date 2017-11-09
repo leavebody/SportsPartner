@@ -2,19 +2,23 @@ package com.sportspartner.service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.R;
+import com.sportspartner.models.MapApiResult;
 import com.sportspartner.models.Sport;
 import com.sportspartner.request.ResourceRequest;
 import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.BitmapHelper;
+import com.sportspartner.util.GeocodeRaw;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -32,12 +36,14 @@ import java.util.ArrayList;
 public class ResourceService extends Service {
     public final static String IMAGE_SMALL = "small";
     public final static String IMAGE_ORIGIN = "origin";
+
     /**
      * Get an image.
-     * @param c Caller context
-     * @param uuid The uuid of the image.
+     *
+     * @param c        Caller context
+     * @param uuid     The uuid of the image.
      * @param callback
-     * @param type The type of the requested image. 'small' for the small version of the icon, 'origin' for the original icon image.
+     * @param type     The type of the requested image. 'small' for the small version of the icon, 'origin' for the original icon image.
      */
     public static void getImage(final Context c, final String uuid, final String type, final ActivityCallBack callback) {
         if (!type.equals(IMAGE_ORIGIN) && !type.equals(IMAGE_SMALL)) {
@@ -50,9 +56,9 @@ public class ResourceService extends Service {
         // find image in cache by uuid
         File cacheDir = c.getApplicationContext().getCacheDir();
         String cacheDirPath = cacheDir.toString();
-        String imagePath = cacheDirPath+"/"+uuid+"-"+type+".image";
+        String imagePath = cacheDirPath + "/" + uuid + "-" + type + ".image";
         File imageFile = new File(imagePath);
-        if (imageFile.exists()){
+        if (imageFile.exists()) {
             try {
                 FileInputStream fos = new FileInputStream(imageFile);
                 String imageString = IOUtils.toString(fos);
@@ -65,7 +71,7 @@ public class ResourceService extends Service {
                 result.setModel(bmp);
                 callback.getModelOnSuccess(result);
                 return;
-            }catch (java.io.IOException e){
+            } catch (java.io.IOException e) {
                 // TODO
             }
         }
@@ -82,19 +88,20 @@ public class ResourceService extends Service {
 
     /**
      * The helper method to process the result of get image request.
+     *
      * @param response The network response to process
      * @return A ModelResult with model type Bitmap, which is the bitmap of the image
      */
-    private static ModelResult<Bitmap> getImageRespProcess(NetworkResponse response, Context c, String uuid, String type){
+    private static ModelResult<Bitmap> getImageRespProcess(NetworkResponse response, Context c, String uuid, String type) {
         ModelResult<Bitmap> result = new ModelResult<>();
-        switch (response.statusCode){
+        switch (response.statusCode) {
             case 200:
                 boolean status;
 
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
-                if(status) {
+                if (status) {
 
                     String bmpString = jsResp.get("image").getAsString();
                     result.setModel(BitmapHelper.StringToBitMap(bmpString));
@@ -102,7 +109,7 @@ public class ResourceService extends Service {
                     // store the image in cache
                     File cacheDir = c.getApplicationContext().getCacheDir();
                     String cacheDirPath = cacheDir.toString();
-                    String imagePath = cacheDirPath+"/"+uuid+"-"+type+".image";
+                    String imagePath = cacheDirPath + "/" + uuid + "-" + type + ".image";
                     File imageFile = new File(imagePath);
                     try {
                         if (!imageFile.exists()) {
@@ -112,16 +119,16 @@ public class ResourceService extends Service {
 
                         fos.write(bmpString.getBytes());
                         fos.close();
-                    } catch (java.io.IOException e){
+                    } catch (java.io.IOException e) {
                         // TODO
                     }
                 } else {
-                    result.setMessage("get image failed: "+jsResp.get("message").getAsString());
+                    result.setMessage("get image failed: " + jsResp.get("message").getAsString());
                 }
                 break;
 
             default:
-                result.setMessage("bad response:"+response.statusCode);
+                result.setMessage("bad response:" + response.statusCode);
         }
         return result;
     }
@@ -138,21 +145,21 @@ public class ResourceService extends Service {
         }, bmpString);
     }
 
-    private static BooleanResult uploadUserIconRespProcess(NetworkResponse response, Context c, String bmpString){
+    private static BooleanResult uploadUserIconRespProcess(NetworkResponse response, Context c, String bmpString) {
         BooleanResult result = new BooleanResult();
-        switch (response.statusCode){
+        switch (response.statusCode) {
             case 200:
                 boolean status;
 
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
-                if(status) {
+                if (status) {
                     String uuid = jsResp.get("iconUUID").getAsString();
                     // store the image in cache
                     File cacheDir = c.getApplicationContext().getCacheDir();
                     String cacheDirPath = cacheDir.toString();
-                    String imagePath = cacheDirPath+"/"+uuid+"-"+IMAGE_ORIGIN+".image";
+                    String imagePath = cacheDirPath + "/" + uuid + "-" + IMAGE_ORIGIN + ".image";
                     File imageFile = new File(imagePath);
                     try {
                         if (!imageFile.exists()) {
@@ -162,22 +169,24 @@ public class ResourceService extends Service {
 
                         fos.write(bmpString.getBytes());
                         fos.close();
-                    } catch (java.io.IOException e){
+                    } catch (java.io.IOException e) {
                         // TODO
                     }
                 } else {
-                    result.setMessage("upload image failed: "+jsResp.get("message").getAsString());
+                    result.setMessage("upload image failed: " + jsResp.get("message").getAsString());
                 }
                 break;
 
             default:
-                result.setMessage("bad response:"+response.statusCode);
+                result.setMessage("bad response:" + response.statusCode);
         }
         return result;
     }
+
     /**
      * Get an ArrayList of all sports in the APP.
-     * @param c Caller context.
+     *
+     * @param c        Caller context.
      * @param callback
      */
     public static void getAllSports(final Context c, final ActivityCallBack callback) {
@@ -194,38 +203,92 @@ public class ResourceService extends Service {
 
     /**
      * The helper method to process the result of get all sports request.
+     *
      * @param response The network response to process
      * @return A ModelResult with model type ArrayList<Sport>,
-     *          which is the requested sports data.
+     * which is the requested sports data.
      */
-    private static ModelResult<ArrayList<Sport>> getAllSportsRespProcess(NetworkResponse response){
+    private static ModelResult<ArrayList<Sport>> getAllSportsRespProcess(NetworkResponse response) {
         ModelResult<ArrayList<Sport>> result = new ModelResult();
-        switch (response.statusCode){
+        switch (response.statusCode) {
             case 200:
                 boolean status;
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
-                if(status) {
+                if (status) {
                     Gson gson = new Gson();
                     JsonArray jsArraySport = jsResp.getAsJsonArray("sports");
                     ArrayList<Sport> arraySport = gson.fromJson(jsArraySport,
-                            new TypeToken<ArrayList<Sport>>(){}.getType());
+                            new TypeToken<ArrayList<Sport>>() {
+                            }.getType());
 
                     result.setModel(arraySport);
                 } else {
-                    result.setMessage("get all sports request failed: "+jsResp.get("message").getAsString());
+                    result.setMessage("get all sports request failed: " + jsResp.get("message").getAsString());
                 }
                 break;
             default:
-                result.setMessage("bad response:"+response.statusCode);
+                result.setMessage("bad response:" + response.statusCode);
         }
         return result;
     }
 
+    /**
+     * Get the addresses and zipcode by latLng.
+     *
+     * @param c        Caller context.
+     * @param callback
+     */
+    public static void getGeocoding(final Context c, LatLng latLng, final ActivityCallBack callback) {
+        String key = c.getResources().getString(R.string.google_maps_web_key);
+        ResourceRequest request = new ResourceRequest(c);
+        request.geoCodingRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(getGeocodingRespProcess(response));
+            }
+        }, latLng, key);
+
+    }
+
+    /**
+     * The helper method to process the result of get all sports request.
+     *
+     * @param response The network response to process
+     * @return A ModelResult with model type ArrayList<Sport>,
+     * which is the requested sports data.
+     */
+    private static ModelResult<MapApiResult> getGeocodingRespProcess(NetworkResponse response) {
+        ModelResult<MapApiResult> result = new ModelResult();
+
+        JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
+        Gson gson = new Gson();
+        GeocodeRaw geocodeRaw = gson.fromJson(jsResp, GeocodeRaw.class);
+        Log.d("test",geocodeRaw.toString());
+        String returnedStatus = jsResp.get("status").getAsString();
+        if (returnedStatus.equals("OK")) {
+            result.setStatus(true);
+
+
+                JsonArray jsArraySport = jsResp.getAsJsonArray("sports");
+                ArrayList<Sport> arraySport = gson.fromJson(jsArraySport,
+                        new TypeToken<ArrayList<Sport>>() {
+                        }.getType());
+
+                //result.setModel(arraySport);
+
+        } else {
+            result.setStatus(false);
+            Log.d("ResourceService","geocoding: "+returnedStatus);
+            result.setMessage(returnedStatus);
+        }
+        return result;
+    }
 
     /**
      * Clear the cache.
+     *
      * @param c Caller context.
      * @return A boolean indicating whether the clearance is successful.
      */
@@ -240,7 +303,8 @@ public class ResourceService extends Service {
             }
             // if for completes all
             return true;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         // try stops clearing cache
         return false;
     }

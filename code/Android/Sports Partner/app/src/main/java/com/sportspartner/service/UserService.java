@@ -95,7 +95,7 @@ public class UserService extends Service {
      * @param callback
      */
     public static void logOut(final Context c, final ActivityCallBack callback){
-
+        LoginDBHelper.getInstance(c).delete();
         UserRequest ur = new UserRequest(c);
         ur.logOutVolleyRequest(new VolleyCallback(){
             @Override

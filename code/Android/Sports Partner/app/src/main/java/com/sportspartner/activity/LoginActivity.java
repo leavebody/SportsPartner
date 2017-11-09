@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.model.LatLng;
 import com.sportspartner.R;
+import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.util.ActivityCallBack;
@@ -67,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
+        ResourceService.getGeocoding(this,new LatLng(39.328,-76.62),new ActivityCallBack());
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         //Get device Token from GCM
