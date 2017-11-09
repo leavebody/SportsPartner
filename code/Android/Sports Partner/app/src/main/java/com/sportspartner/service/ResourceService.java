@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.Sport;
 import com.sportspartner.request.ResourceRequest;
 import com.sportspartner.service.serviceresult.BooleanResult;

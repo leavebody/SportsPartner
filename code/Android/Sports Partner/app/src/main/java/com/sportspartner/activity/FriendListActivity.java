@@ -67,4 +67,10 @@ public class FriendListActivity extends BasicActivity {
         friendAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }

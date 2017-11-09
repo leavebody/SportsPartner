@@ -363,6 +363,12 @@ public class ProfileActivity extends BasicActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }
 
 
