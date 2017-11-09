@@ -42,6 +42,7 @@ public class ImageController {
                 response.status(200);
                 return reps;
             }catch(Exception ex) {
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }

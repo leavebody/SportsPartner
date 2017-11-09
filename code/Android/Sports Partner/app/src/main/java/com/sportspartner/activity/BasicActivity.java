@@ -99,11 +99,10 @@ public class BasicActivity extends AppCompatActivity
             UserOutline userOutline = result.getModel();
             userName = userOutline.getUserName();
             String iconUUID = userOutline.getIconUUID();
-            //String iconPath = userOutline.getIconPath();
 
             userNameView.setText(userName);
 
-            ResourceService.getImage(this, iconUUID, new ActivityCallBack<Bitmap>(){
+            ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<Bitmap> result){
                     if (result.isStatus()) {

@@ -16,6 +16,9 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.view.CropImageView;
 import com.sportspartner.R;
+import com.sportspartner.service.ResourceService;
+import com.sportspartner.service.serviceresult.BooleanResult;
+import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.PicassoImageLoader;
 
 import java.io.File;
@@ -101,7 +104,7 @@ public class EditProfileActivity extends BasicActivity {
                     if(imgFile.exists()){
 
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        photoView.setImageBitmap(myBitmap);
+                        updateIcon(myBitmap);
 
                     }
                 }
@@ -109,5 +112,17 @@ public class EditProfileActivity extends BasicActivity {
                 Toast.makeText(this, "No data sent back", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void updateIcon(Bitmap bitmap) {
+        photoView.setImageBitmap(bitmap);
+        ResourceService.uploadUserIcon(this, bitmap, new ActivityCallBack(){
+            @Override
+            public void getBooleanOnSuccess(BooleanResult booleanResult){
+                if (!booleanResult.isStatus()){
+                    Toast.makeText(EditProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

@@ -77,7 +77,9 @@ public class ResourceRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/resource/icon/"+email;
-
+        System.out.println(url);
+        System.out.println(bitmapString.length());
+        System.out.println(bitmapString);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
