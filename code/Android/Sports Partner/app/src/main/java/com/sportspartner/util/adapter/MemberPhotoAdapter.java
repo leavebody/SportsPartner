@@ -70,7 +70,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
         UserOutline member = memberList.get(position);
         //TODO photo
         String iconUUID = member.getIconUUID();
-        ResourceService.getImage(holder.context, iconUUID, new ActivityCallBack<Bitmap>(){
+        ResourceService.getImage(holder.context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
             @Override
             public void getModelOnSuccess(ModelResult<Bitmap> result){
                 if (result.isStatus()) {
