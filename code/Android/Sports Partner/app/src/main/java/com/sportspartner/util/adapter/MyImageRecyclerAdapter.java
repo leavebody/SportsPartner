@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.adapter.ImageRecyclerAdapter;
@@ -25,19 +24,20 @@ import java.util.ArrayList;
 
 /**
  * @author Xiaochen Li
+ * Extends ImageRecyclerAdapter to translate the original text to English
  */
 
 public class MyImageRecyclerAdapter extends ImageRecyclerAdapter{
-    private static final int ITEM_TYPE_CAMERA = 0;  //第一个条目是相机
-    private static final int ITEM_TYPE_NORMAL = 1;  //第一个条目不是相机
+    private static final int ITEM_TYPE_CAMERA = 0;
+    private static final int ITEM_TYPE_NORMAL = 1;
     private ImagePicker imagePicker;
     private Activity mActivity;
-    private ArrayList<ImageItem> images;       //当前需要显示的所有的图片数据
-    private ArrayList<ImageItem> mSelectedImages; //全局保存的已经选中的图片数据
-    private boolean isShowCamera;         //是否显示拍照按钮
-    private int mImageSize;               //每个条目的大小
+    private ArrayList<ImageItem> images;
+    private ArrayList<ImageItem> mSelectedImages;
+    private boolean isShowCamera;
+    private int mImageSize;
     private LayoutInflater mInflater;
-    private ImageRecyclerAdapter.OnImageItemClickListener listener;   //图片被点击的监听
+    private ImageRecyclerAdapter.OnImageItemClickListener listener;
 
     public void setOnImageItemClickListener(ImageRecyclerAdapter.OnImageItemClickListener listener) {
         this.listener = listener;
@@ -127,7 +127,7 @@ public class MyImageRecyclerAdapter extends ImageRecyclerAdapter{
             mask = itemView.findViewById(com.lzy.imagepicker.R.id.mask);
             checkView=itemView.findViewById(com.lzy.imagepicker.R.id.checkView);
             cbCheck = (SuperCheckBox) itemView.findViewById(com.lzy.imagepicker.R.id.cb_check);
-            itemView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mImageSize)); //让图片是个正方形
+            itemView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mImageSize));
         }
 
         void bind(final int position){
@@ -143,17 +143,12 @@ public class MyImageRecyclerAdapter extends ImageRecyclerAdapter{
                 public void onClick(View v) {
                     cbCheck.setChecked(!cbCheck.isChecked());
                     int selectLimit = imagePicker.getSelectLimit();
-                    if (cbCheck.isChecked() && mSelectedImages.size() >= selectLimit) {
-                        Toast.makeText(mActivity.getApplicationContext(), mActivity.getString(com.lzy.imagepicker.R.string.ip_select_limit, selectLimit), Toast.LENGTH_SHORT).show();
-                        cbCheck.setChecked(false);
-                        mask.setVisibility(View.GONE);
-                    } else {
+
                         imagePicker.addSelectedImageItem(position, imageItem, cbCheck.isChecked());
                         mask.setVisibility(View.VISIBLE);
-                    }
+
                 }
             });
-            //根据是否多选，显示或隐藏checkbox
             if (imagePicker.isMultiMode()) {
                 cbCheck.setVisibility(View.VISIBLE);
                 boolean checked = mSelectedImages.contains(imageItem);
@@ -167,7 +162,7 @@ public class MyImageRecyclerAdapter extends ImageRecyclerAdapter{
             } else {
                 cbCheck.setVisibility(View.GONE);
             }
-            imagePicker.getImageLoader().displayImage(mActivity, imageItem.path, ivThumb, mImageSize, mImageSize); //显示图片
+            imagePicker.getImageLoader().displayImage(mActivity, imageItem.path, ivThumb, mImageSize, mImageSize);
         }
 
     }
@@ -182,7 +177,7 @@ public class MyImageRecyclerAdapter extends ImageRecyclerAdapter{
         }
 
         void bindCamera(){
-            mItemView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mImageSize)); //让图片是个正方形
+            mItemView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mImageSize));
             mItemView.setTag(null);
             mItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

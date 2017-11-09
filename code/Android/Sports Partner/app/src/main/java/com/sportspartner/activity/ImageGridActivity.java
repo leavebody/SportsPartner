@@ -1,25 +1,19 @@
-package com.sportspartner.activity.image;
+package com.sportspartner.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzy.imagepicker.DataHolder;
@@ -49,14 +43,14 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
 
     private ImagePicker imagePicker;
 
-    private boolean isOrigin = false;  //是否选中原图
-    private View mFooterBar;     //底部栏
-    private View mllDir; //文件夹切换按钮
-    private TextView mtvDir; //显示当前文件夹
-    private ImageFolderAdapter mImageFolderAdapter;    //图片文件夹的适配器
-    private FolderPopUpWindow mFolderPopupWindow;  //ImageSet的PopupWindow
-    private List<ImageFolder> mImageFolders;   //所有的图片文件夹
-    private boolean directPhoto = false; // 默认不是直接调取相机
+    private boolean isOrigin = false;  //origin image required?
+    private View mFooterBar;     //the foot bar
+    private View mllDir; //the button for folder change
+    private TextView mtvDir; //show current folder
+    private ImageFolderAdapter mImageFolderAdapter;
+    private FolderPopUpWindow mFolderPopupWindow;
+    private List<ImageFolder> mImageFolders;
+    private boolean directPhoto = false;
     private RecyclerView mRecyclerView;
     private MyImageRecyclerAdapter mRecyclerAdapter;
 
@@ -151,26 +145,25 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
                 Log.i("ImageGridActivity", "there is no image in your phone");
                 return;
             }
-            //点击文件夹按钮
+
             createPopupFolderList();
-            mImageFolderAdapter.refreshData(mImageFolders);  //刷新数据
+            mImageFolderAdapter.refreshData(mImageFolders);
             if (mFolderPopupWindow.isShowing()) {
                 mFolderPopupWindow.dismiss();
             } else {
                 mFolderPopupWindow.showAtLocation(mFooterBar, Gravity.NO_GRAVITY, 0, 0);
-                //默认选择当前选择的上一个，当目录很多时，直接定位到已选中的条目
+
                 int index = mImageFolderAdapter.getSelectIndex();
                 index = index == 0 ? index : index - 1;
                 mFolderPopupWindow.setSelection(index);
             }
         } else if (id == com.lzy.imagepicker.R.id.btn_back) {
-            //点击返回按钮
             finish();
         }
     }
 
     /**
-     * 创建弹出的ListView
+     * create popup list of all folders
      */
     private void createPopupFolderList() {
         mFolderPopupWindow = new FolderPopUpWindow(this, mImageFolderAdapter);
@@ -195,13 +188,10 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
         this.mImageFolders = imageFolders;
         imagePicker.setImageFolders(imageFolders);
         if (imageFolders.size() == 0) {
-//            mImageGridAdapter.refreshData(null);
             mRecyclerAdapter.refreshData(null);
         } else {
-//            mImageGridAdapter.refreshData(imageFolders.get(0).images);
             mRecyclerAdapter.refreshData(imageFolders.get(0).images);
         }
-//        mImageGridAdapter.setOnImageItemClickListener(this);
         mRecyclerAdapter.setOnImageItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, Utils.dp2px(this, 2), false));
@@ -212,7 +202,6 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
 
     @Override
     public void onImageItemClick(View view, ImageItem imageItem, int position) {
-        //根据是否有相机按钮确定位置
         position = imagePicker.isShowCamera() ? position - 1 : position;
         if (imagePicker.isMultiMode()) {
             Intent intent = new Intent(ImageGridActivity.this, ImagePreviewActivity.class);
@@ -254,20 +243,14 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
             if (resultCode == ImagePicker.RESULT_CODE_BACK) {
                 isOrigin = data.getBooleanExtra(ImagePreviewActivity.ISORIGIN, false);
             } else {
-                //从拍照界面返回
-                //点击 X , 没有选择照片
                 if (data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) == null) {
-                    //什么都不做 直接调起相机
                 } else {
-                    //说明是从裁剪页面过来的数据，直接返回就可以
                     setResult(ImagePicker.RESULT_CODE_ITEMS, data);
                 }
                 finish();
             }
         } else {
-            //如果是裁剪，因为裁剪指定了存储的Uri，所以返回的data一定为null
             if (resultCode == RESULT_OK && requestCode == ImagePicker.REQUEST_CODE_TAKE) {
-                //发送广播通知图片增加了
                 ImagePicker.galleryAddPic(this, imagePicker.getTakeImageFile());
 
                 String path = imagePicker.getTakeImageFile().getAbsolutePath();
@@ -279,11 +262,11 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
                 imagePicker.addSelectedImageItem(0, imageItem, true);
                 if (imagePicker.isCrop()) {
                     Intent intent = new Intent(ImageGridActivity.this, ImageCropActivity.class);
-                    startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP);  //单选需要裁剪，进入裁剪界面
+                    startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP);
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
-                    setResult(ImagePicker.RESULT_CODE_ITEMS, intent);   //单选不需要裁剪，返回数据
+                    setResult(ImagePicker.RESULT_CODE_ITEMS, intent);
                     finish();
                 }
             } else if (directPhoto) {

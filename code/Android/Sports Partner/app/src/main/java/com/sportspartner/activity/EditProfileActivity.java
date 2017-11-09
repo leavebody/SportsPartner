@@ -83,7 +83,7 @@ public class EditProfileActivity extends BasicActivity {
         imagePicker.setOutPutX(outputX);
         imagePicker.setOutPutY(outputY);
 
-        Intent intent = new Intent(this, com.sportspartner.activity.image.ImageGridActivity.class);
+        Intent intent = new Intent(this, ImageGridActivity.class);
         intent.putExtra(com.lzy.imagepicker.ui.ImageGridActivity.EXTRAS_IMAGES, new ArrayList< ImageItem >());
         startActivityForResult(intent, 100);
 

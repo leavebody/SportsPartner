@@ -119,7 +119,7 @@
             android:name=".activity.MapActivity"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".activity.image.ImageGridActivity"
+            android:name=".activity.ImageGridActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
