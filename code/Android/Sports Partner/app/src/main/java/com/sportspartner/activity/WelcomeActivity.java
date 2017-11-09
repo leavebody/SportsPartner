@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.firebase.auth.FirebaseAuth;
 import com.sportspartner.R;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;

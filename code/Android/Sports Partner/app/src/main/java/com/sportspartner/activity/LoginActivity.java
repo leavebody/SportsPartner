@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult booleanResult) {
+            public void getBooleanOnSuccess(BooleanResult booleanResult) {
                 loginHandler(booleanResult);
             }
         });
@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
             toast.show();
         }
         if (booleanResult.isStatus()) {
-            // TODO link to the main page activity of this user
             Context context = getApplicationContext();
 
             //get userId from SQLite
@@ -103,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
 
             //go to profile activity
             Intent intent = new Intent(context, HomeActivity.class);
-            //intent.putExtra("userId", email);
             startActivity(intent);
             finish();
         }

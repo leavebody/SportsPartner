@@ -139,5 +139,10 @@ public class Activity {
     public void setDescription(String description) {
         description = description;
     }
+
+    public void setFromFacility(Facility facility){
+        this.longitude = facility.getLongitude();
+        this.latitude = facility.getLatitude();
+    }
 }
 

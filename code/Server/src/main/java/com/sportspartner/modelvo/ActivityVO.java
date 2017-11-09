@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Date;
 
 public class ActivityVO {
-    private String id;
+    private String activityId;
     private String status;
     private String sportIconUUID;
     private String sportIconPath;
@@ -27,7 +27,7 @@ public class ActivityVO {
     private List <ActivityComment> discussion;
 
     public String getId() {
-        return id;
+        return activityId;
     }
 
     public String getStatus() {
@@ -77,8 +77,8 @@ public class ActivityVO {
         return detail;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String activityId) {
+        this.activityId = activityId;
     }
 
     public void setStatus(String status) {
@@ -162,11 +162,11 @@ public class ActivityVO {
     }
 
     public boolean isMissingField(){
-        return this.id.equals(null);
+        return this.activityId.equals(null);
     }
 
     public void setFromActivity(Activity activity){
-        this.id = activity.getActivityId();
+        this.activityId = activity.getActivityId();
         this.status = activity.getStatus();
         this.startTime = activity.getStartTime();
         this.endTime = activity.getEndTime();

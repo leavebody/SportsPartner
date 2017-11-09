@@ -18,7 +18,6 @@ public class NotificationDaoImpl implements NotificationDao{
         List <Notification> notifications = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Activity activity = null;
         try {
             stmt = c.prepareStatement("SELECT * FROM \"Notification\" WHERE \"receiverId\" = ? AND  \"notificationState\" = ?;");
             stmt.setString(1, receiverId);
@@ -58,7 +57,6 @@ public class NotificationDaoImpl implements NotificationDao{
     public boolean setNotificationSent(String receiverId, String notificationId) {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
-
         int rs;
         boolean result = false;
         try {

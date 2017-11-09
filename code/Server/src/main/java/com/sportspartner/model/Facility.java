@@ -1,32 +1,32 @@
 package com.sportspartner.model;
 
-public class Facility{
+public class Facility {
     private String facilityId;
-    private String providerId;
     private String facilityName;
+    private String iconUUID;
     private String sportId;
-    private String address;
-    private String placeId;
-    private String openTime;
-    private String description;
-    private String icon;
+    private double longitude;
+    private double latitude;
+    private String providerId;
     private double score;
     private int scoreCount;
+    private String openTime;
+    private String description;
 
     public Facility(){}
 
-    public Facility(String facilityId, String providerId, String facilityName, String sportId, String address, String placeId, String openTime, String description, String icon, double score, int scoreCount) {
+    public Facility(String facilityId, String facilityName, String iconUUID, String sportId, double longitude, double latitude, String providerId, double score, int scoreCount, String openTime, String description) {
         this.facilityId = facilityId;
-        this.providerId = providerId;
         this.facilityName = facilityName;
+        this.iconUUID = iconUUID;
         this.sportId = sportId;
-        this.address = address;
-        this.placeId = placeId;
-        this.openTime = openTime;
-        this.description = description;
-        this.icon = icon;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.providerId = providerId;
         this.score = score;
         this.scoreCount = scoreCount;
+        this.openTime = openTime;
+        this.description = description;
     }
 
     public String getFacilityId() {
@@ -37,20 +37,20 @@ public class Facility{
         this.facilityId = facilityId;
     }
 
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
-    }
-
     public String getFacilityName() {
         return facilityName;
     }
 
     public void setFacilityName(String facilityName) {
         this.facilityName = facilityName;
+    }
+
+    public String getIconUUID() {
+        return iconUUID;
+    }
+
+    public void setIconUUID(String iconUUID) {
+        this.iconUUID = iconUUID;
     }
 
     public String getSportId() {
@@ -61,44 +61,28 @@ public class Facility{
         this.sportId = sportId;
     }
 
-    public String getAddress() {
-        return address;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public String getPlaceId() {
-        return placeId;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public String getOpenTime() {
-        return openTime;
+    public String getProviderId() {
+        return providerId;
     }
 
-    public void setOpenTime(String openTime) {
-        this.openTime = openTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public double getScore() {
@@ -115,5 +99,21 @@ public class Facility{
 
     public void setScoreCount(int scoreCount) {
         this.scoreCount = scoreCount;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        this.openTime = openTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -100,11 +100,10 @@ public class BasicActivity extends AppCompatActivity
             UserOutline userOutline = result.getModel();
             userName = userOutline.getUserName();
             String iconUUID = userOutline.getIconUUID();
-            //String iconPath = userOutline.getIconPath();
 
             userNameView.setText(userName);
 
-            ResourceService.getImage(this, iconUUID, new ActivityCallBack<Bitmap>(){
+            ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<Bitmap> result){
                     if (result.isStatus()) {
@@ -224,7 +223,7 @@ public class BasicActivity extends AppCompatActivity
     private void signOut(){
         UserService.logOut(this, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult result){
+            public void getBooleanOnSuccess(BooleanResult result){
                 if (!result.isStatus()){
                     //if failure, show a toast
                     Toast toast = Toast.makeText(BasicActivity.this,

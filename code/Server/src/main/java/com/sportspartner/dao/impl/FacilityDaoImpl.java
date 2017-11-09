@@ -30,19 +30,18 @@ public class FacilityDaoImpl implements FacilityDao {
 
             while (rs.next()) {
                 String facilityId = rs.getString("facilityId");
-                String providerId = rs.getString("providerId");
                 String facilityName = rs.getString("facilityName");
+                String iconUUID = rs.getString("iconUUID");
                 String sportId = rs.getString("sportId");
-                String address = rs.getString("address");
-                String placeId = rs.getString("placeId");
-                String openTime = rs.getString("openTime");
-                String description = rs.getString("description");
-                String icon = rs.getString("icon");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                String providerId = rs.getString("providerId");
                 double score = rs.getDouble("score");
                 int scoreCount = rs.getInt("scoreCount");
+                String openTime = rs.getString("openTime");
+                String description = rs.getString("description");
 
-                facilities.add(new Facility(facilityId, providerId, facilityName, sportId, address,
-                        placeId, openTime, description, icon, score, scoreCount));
+                facilities.add(new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, providerId, score, scoreCount, openTime, description));
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -74,21 +73,19 @@ public class FacilityDaoImpl implements FacilityDao {
             statement.setString(1, facilityId);
             rs = statement.executeQuery();
 
-
-            while (rs.next()) {
-                String providerId = rs.getString("providerId");
+            if(rs.next()) {
                 String facilityName = rs.getString("facilityName");
+                String iconUUID = rs.getString("iconUUID");
                 String sportId = rs.getString("sportId");
-                String address = rs.getString("address");
-                String placeId = rs.getString("placeId");
-                String openTime = rs.getString("openTime");
-                String description = rs.getString("description");
-                String icon = rs.getString("icon");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                String providerId = rs.getString("providerId");
                 double score = rs.getDouble("score");
                 int scoreCount = rs.getInt("scoreCount");
+                String openTime = rs.getString("openTime");
+                String description = rs.getString("description");
 
-                facility = new Facility(facilityId, providerId, facilityName, sportId, address,
-                        placeId, openTime, description, icon, score, scoreCount);
+                facility = new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, providerId, score, scoreCount, openTime, description);
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -105,9 +102,139 @@ public class FacilityDaoImpl implements FacilityDao {
         return facility;
     }
 
-//
-//    public boolean newFacility(Facility facility){return true;}
-//    public boolean updateFacility(Facility facility){return true;}
-//    public boolean deleteFacility(String facilityId){return true;}
+
+      public boolean newFacility(Facility facility){
+          Connection c = new ConnectionUtil().connectDB();
+
+          PreparedStatement stmt = null;
+          int rs;
+          String facilityId = facility.getFacilityId();
+          String facilityName = facility.getFacilityName();
+          String iconUUID = facility.getIconUUID();
+          String sportId = facility.getSportId();
+          double longitude = facility.getLongitude();
+          double latitude = facility.getLatitude();
+          String providerId = facility.getProviderId();
+          double score = facility.getScore();
+          int scoreCount = facility.getScoreCount();
+          String openTime = facility.getOpenTime();
+          String description = facility.getDescription();
+          boolean result = false;
+
+          try {
+              stmt = c.prepareStatement("INSERT INTO \"Facility\" (\"facilityId\", \"facilityName\",\"iconUUID\", \"sportId\", \"longitude\", \"latitude\", \"providerId\", \"score\", \"scoreCount\", \"openTime\" , \"description\")"+
+                      "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)");
+              stmt.setString(1, facilityId);
+              stmt.setString(2, facilityName);
+              stmt.setString(3, iconUUID);
+              stmt.setString(4, sportId);
+              stmt.setDouble(5, longitude);
+              stmt.setDouble(6, latitude);
+              stmt.setString(7, providerId);
+              stmt.setDouble(8, score);
+              stmt.setInt(9, scoreCount);
+              stmt.setString(10,openTime);
+              stmt.setString(11,description);
+              rs = stmt.executeUpdate();
+              if(rs>0)
+                  result = true;
+          } catch (Exception e) {
+              e.printStackTrace();
+              System.err.println(e.getClass().getName() + ": " + e.getMessage());
+              System.exit(0);
+          } finally {
+              try {
+                  stmt.close();
+                  c.close();
+              } catch (SQLException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+          }
+          return result;
+      }
+
+
+      public boolean updateFacility(Facility facility){
+          Connection c = new ConnectionUtil().connectDB();
+
+          PreparedStatement stmt = null;
+          int rs;
+          String facilityId = facility.getFacilityId();
+          String facilityName = facility.getFacilityName();
+          String iconUUID = facility.getIconUUID();
+          String sportId = facility.getSportId();
+          double longitude = facility.getLongitude();
+          double latitude = facility.getLatitude();
+          String providerId = facility.getProviderId();
+          double score = facility.getScore();
+          int scoreCount = facility.getScoreCount();
+          String openTime = facility.getOpenTime();
+          String description = facility.getDescription();
+          boolean result = false;
+
+          try {
+              stmt = c.prepareStatement("UPDATE \"Facility\" SET \"facilityId\" = ? , \"facilityName\" = ? , \"iconUUID\" = ?,\"sportId\" = ? , \"longitude\" = ? , \"latitude\" = ?, " +
+                      " \"providerId\", \"score\" = ?,\"scoreCount\" = ? , \"openTime\" = ? , \"description\" = ? WHERE \"facilityId\"=? ;");
+              stmt.setString(1, facilityId);
+              stmt.setString(2, facilityName);
+              stmt.setString(3, iconUUID);
+              stmt.setString(4, sportId);
+              stmt.setDouble(5, longitude);
+              stmt.setDouble(6, latitude);
+              stmt.setString(7, providerId);
+              stmt.setDouble(8, score);
+              stmt.setInt(9, scoreCount);
+              stmt.setString(10,openTime);
+              stmt.setString(11,description);
+              rs = stmt.executeUpdate();
+              if(rs>0)
+                  result = true;
+          } catch (Exception e) {
+              e.printStackTrace();
+              System.err.println(e.getClass().getName() + ": " + e.getMessage());
+              System.exit(0);
+          } finally {
+              try {
+                  stmt.close();
+                  c.close();
+              } catch (SQLException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+          }
+          return result;
+      }
+
+     public boolean deleteFacility(String facilityId){
+         Connection c = new ConnectionUtil().connectDB();
+
+         PreparedStatement stmt = null;
+         int rs;
+         boolean result = false;
+
+         try {
+             stmt = c.prepareStatement("DELETE FROM \"Facility\" WHERE \"facilityId\"=? ");
+             stmt.setString(1, facilityId);
+
+             rs = stmt.executeUpdate();
+             if(rs>0){
+                 result = true;
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+             System.exit(0);
+         } finally {
+             try {
+                 stmt.close();
+                 c.close();
+             } catch (SQLException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+             }
+         }
+         return result;
+     }
 
 }
