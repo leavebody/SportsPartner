@@ -1,4 +1,4 @@
-package com.sportspartner.util;
+package com.sportspartner.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

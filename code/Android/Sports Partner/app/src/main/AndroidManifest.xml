@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -119,8 +118,10 @@
         <activity
             android:name=".activity.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".activity.image.ImageGridActivity"></activity>
-        <activity android:name=".activity.image.ImagePickerActivity"> </activity>
+        <activity
+            android:name=".activity.image.ImageGridActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
 
     </application>

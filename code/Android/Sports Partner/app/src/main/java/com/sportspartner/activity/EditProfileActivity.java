@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,8 +16,6 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.view.CropImageView;
 import com.sportspartner.R;
-import com.sportspartner.activity.image.ImageGridActivity;
-import com.sportspartner.activity.image.ImagePickerActivity;
 import com.sportspartner.util.PicassoImageLoader;
 
 import java.io.File;
@@ -89,7 +83,7 @@ public class EditProfileActivity extends BasicActivity {
         imagePicker.setOutPutX(outputX);
         imagePicker.setOutPutY(outputY);
 
-        Intent intent = new Intent(this, com.lzy.imagepicker.ui.ImageGridActivity.class);
+        Intent intent = new Intent(this, com.sportspartner.activity.image.ImageGridActivity.class);
         intent.putExtra(com.lzy.imagepicker.ui.ImageGridActivity.EXTRAS_IMAGES, new ArrayList< ImageItem >());
         startActivityForResult(intent, 100);
 
