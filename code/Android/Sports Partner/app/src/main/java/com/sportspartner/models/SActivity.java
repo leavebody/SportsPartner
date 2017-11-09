@@ -8,19 +8,21 @@ import java.util.Date;
  */
 
 public class SActivity {
-    private String id;
+    private String activityId;
     private String status;
     private String sportIconUUID;
-    private String sport;
+    private String sportName;
+    private String sportId;
     private Date startTime;
     private Date endTime;
     private String facilityId;
     private String facilityName;
     private Double longitude;
     private Double latitude;
+    private String zipcode;
     private int capacity;
     private int size;
-    private String creator;
+    private String creatorId;
     private ArrayList<UserOutline> members;
     private String detail;
     private ArrayList<SactivityComment> discussion;
@@ -29,31 +31,33 @@ public class SActivity {
 
     public SActivity() {}
 
-    public SActivity(String id, String status, String sportIconUUID, String sport, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, int capacity, int size, String creator, ArrayList<UserOutline> members, String detail, ArrayList<SactivityComment> discussion) {
-        this.id = id;
+    public SActivity(String activityId, String status, String sportIconUUID, String sportName, String sportId, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, String zipcode, int capacity, int size, String creatorId, ArrayList<UserOutline> members, String detail, ArrayList<SactivityComment> discussion) {
+        this.activityId = activityId;
         this.status = status;
         this.sportIconUUID = sportIconUUID;
-        this.sport = sport;
+        this.sportName = sportName;
+        this.sportId = sportId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.zipcode = zipcode;
         this.capacity = capacity;
         this.size = size;
-        this.creator = creator;
+        this.creatorId = creatorId;
         this.members = members;
         this.detail = detail;
         this.discussion = discussion;
     }
 
-    public String getId() {
-        return id;
+    public String getActivityId() {
+        return activityId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 
     public String getStatus() {
@@ -72,12 +76,20 @@ public class SActivity {
         this.sportIconUUID = sportIconUUID;
     }
 
-    public String getSport() {
-        return sport;
+    public String getSportName() {
+        return sportName;
     }
 
-    public void setSport(String sport) {
-        this.sport = sport;
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
+    }
+
+    public String getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(String sportId) {
+        this.sportId = sportId;
     }
 
     public Date getStartTime() {
@@ -128,6 +140,14 @@ public class SActivity {
         this.latitude = latitude;
     }
 
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -144,12 +164,12 @@ public class SActivity {
         this.size = size;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 
     public ArrayList<UserOutline> getMembers() {

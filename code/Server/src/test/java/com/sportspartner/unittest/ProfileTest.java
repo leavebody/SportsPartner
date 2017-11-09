@@ -51,10 +51,10 @@ public class ProfileTest {
     public void testProfileSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
-        String userId = "zihao@jhu.edu";
+        String userId = "zxiao10@jhu.edu";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/profile/" + userId);
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/profile/" + userId+"?requestorId=u1&requestorKey=none");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
@@ -69,7 +69,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"zihao@jhu.edu\",\"userName\":\"zihao xiao\",\"address\":\"Guangdong\",\"gender\":\"male\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconUUID\":\"ASD123\"}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"address\":\"Baltimore\",\"gender\":\"male\",\"age\":23,\"punctuality\":4.9,\"participation\":5.0,\"iconUUID\":\"007\"},\"userType\":\"STRANGER\"}", responseBody);
     }
 
     @Test

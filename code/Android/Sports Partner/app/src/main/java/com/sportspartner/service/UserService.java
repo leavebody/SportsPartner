@@ -12,8 +12,6 @@ import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
-import java.util.ArrayList;
-
 /**
  * @author Xiaochen Li
  */
@@ -33,7 +31,7 @@ public class UserService extends Service {
         ur.loginVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.onSuccess(UserService.loginRespProcess(response, c, email));
+                callback.getBooleanOnSuccess(UserService.loginRespProcess(response, c, email));
             }
         }, email, password, registrationId);
     }
@@ -86,7 +84,7 @@ public class UserService extends Service {
         ur.signUpVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.onSuccess(UserService.booleanRespProcess(response, "sign up"));
+                callback.getBooleanOnSuccess(UserService.booleanRespProcess(response, "sign up"));
             }
         }, email, password, confirmPassword, type);
     }
@@ -97,14 +95,14 @@ public class UserService extends Service {
      * @param callback
      */
     public static void logOut(final Context c, final ActivityCallBack callback){
-
         UserRequest ur = new UserRequest(c);
         ur.logOutVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.onSuccess(UserService.logOutRespProcess(response, c));
+                callback.getBooleanOnSuccess(UserService.logOutRespProcess(response, c));
             }
         });
+        LoginDBHelper.getInstance(c).delete();
     }
 
     /**

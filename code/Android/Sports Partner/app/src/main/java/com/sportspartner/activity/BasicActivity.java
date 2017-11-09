@@ -1,8 +1,10 @@
 package com.sportspartner.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String userEmail;
 
     /**
      * Load the Navigation Bar and the ToolBar
@@ -70,8 +73,8 @@ public class BasicActivity extends AppCompatActivity
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
         ArrayList<String> list =  dbHelper.getAll();
         System.out.println("list size:"+ String.valueOf(list.size()));
-        String email = dbHelper.getEmail();
-        ProfileService.getProfileOutline(this, email, new ActivityCallBack<UserOutline>(){
+        userEmail = dbHelper.getEmail();
+        ProfileService.getProfileOutline(this, userEmail, new ActivityCallBack<UserOutline>(){
             @Override
             public void getModelOnSuccess(ModelResult<UserOutline> result){
                 userOutlineHandler(result);
@@ -99,11 +102,10 @@ public class BasicActivity extends AppCompatActivity
             UserOutline userOutline = result.getModel();
             userName = userOutline.getUserName();
             String iconUUID = userOutline.getIconUUID();
-            //String iconPath = userOutline.getIconPath();
 
             userNameView.setText(userName);
 
-            ResourceService.getImage(this, iconUUID, new ActivityCallBack<Bitmap>(){
+            ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<Bitmap> result){
                     if (result.isStatus()) {
@@ -172,27 +174,40 @@ public class BasicActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Context context = getApplicationContext();
 
         if (id == R.id.nav_home) {
             // Goto the Homepage
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_profile) {
             // Goto the ProfilePage
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent = new Intent(context, ProfileActivity.class);
+            intent.putExtra("userId", userEmail);
+            Log.d("BasicActivity","email: "+userEmail);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_friends) {
             // Goto the FriendList Page
-            Intent intent = new Intent(this, FriendListActivity.class);
+            Intent intent = new Intent(context, FriendListActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_moments) {
             // Goto the Moment Page
-            Intent intent = new Intent(this, MomentActivity.class);
+            Intent intent = new Intent(context, MomentActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_noti) {
             // Goto the Notification Page
-            Intent intent = new Intent(this, NotificationActivity.class);
+            Intent intent = new Intent(context, NotificationActivity.class);
             startActivity(intent);
+            if(!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_signout) {
             signOut();
             Intent intent = new Intent(this, LoginActivity.class);
@@ -212,7 +227,7 @@ public class BasicActivity extends AppCompatActivity
     private void signOut(){
         UserService.logOut(this, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult result){
+            public void getBooleanOnSuccess(BooleanResult result){
                 if (!result.isStatus()){
                     //if failure, show a toast
                     Toast toast = Toast.makeText(BasicActivity.this,

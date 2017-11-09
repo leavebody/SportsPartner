@@ -10,6 +10,10 @@ public class Icon {
 
     public Icon(){}
 
+    public Icon(String spId,String object){
+        this.spId = spId;
+        this.object = object;
+    }
     public Icon(String spId, String iconUUID, String smallPath, String originPath, String object) {
         this.spId = spId;
         this.iconUUID = iconUUID;

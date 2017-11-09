@@ -63,6 +63,7 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SignupActivity"
@@ -115,7 +116,13 @@
 
         <activity
             android:name=".activity.MapActivity"
-            android:label="@string/title_activity_map"></activity>
+            android:label="@string/title_activity_map" />
+        <activity
+            android:name=".activity.ImageGridActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+
     </application>
 
 

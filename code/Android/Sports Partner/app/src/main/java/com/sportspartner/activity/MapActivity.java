@@ -118,7 +118,7 @@ public class MapActivity extends BasicActivity
     @Override
     public void onLocationChanged(Location location) {
         // TODO delete this when I'm sure this works
-        //Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -359,5 +359,11 @@ public class MapActivity extends BasicActivity
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 }

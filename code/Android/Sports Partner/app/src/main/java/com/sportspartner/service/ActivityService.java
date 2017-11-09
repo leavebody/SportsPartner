@@ -75,7 +75,7 @@ public class ActivityService extends Service {
         /*ActivityRequest request = new ActivityRequest(c);
         request.activitiesOutlineRequest(new VolleyCallback() {
             @Override
-            public void onSuccess(NetworkResponse response) {
+            public void getBooleanOnSuccess(NetworkResponse response) {
                 callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
             }
         }, "recommend", email, limit, offset);*/

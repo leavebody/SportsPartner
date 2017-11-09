@@ -1,9 +1,13 @@
 package com.sportspartner.activity;
 
+/**
+ * Created by yujiaxiao on 11/8/17.
+ */
+
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,21 +15,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.model.LatLng;
 import com.sportspartner.R;
-
+import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.service.serviceresult.BooleanResult;
+import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
-
 
 public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";
     EditText emailField;
     EditText passwordField;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
 
     /**
      * Load the LoginActivity
@@ -39,17 +41,6 @@ public class LoginActivity extends AppCompatActivity {
 
         emailField = (EditText)findViewById(R.id.loginEmail);
         passwordField = (EditText)findViewById(R.id.password);
-
-        /**
-         * checkPlayServices GCM
-         */
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-
-
     }
 
     /*@Override
@@ -74,24 +65,6 @@ public class LoginActivity extends AppCompatActivity {
     }*/
 
     /**
-     * Check whether this device support GCM API
-     * @return Whether support or not
-     */
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Onclick listener for login button
      * @param v
      */
@@ -104,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult booleanResult) {
+            public void getBooleanOnSuccess(BooleanResult booleanResult) {
                 loginHandler(booleanResult);
             }
         });
@@ -123,18 +96,16 @@ public class LoginActivity extends AppCompatActivity {
             toast.show();
         }
         if (booleanResult.isStatus()) {
-            // TODO link to the main page activity of this user
             Context context = getApplicationContext();
 
             //get userId from SQLite
             LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
             String email = dbHelper.getEmail();
-            Log.d("testttt", "132");
+
             //go to profile activity
             Intent intent = new Intent(context, HomeActivity.class);
-            //intent.putExtra("userId", email);
             startActivity(intent);
-            //onDestroy();
+            finish();
         }
     }
 
@@ -145,14 +116,13 @@ public class LoginActivity extends AppCompatActivity {
     public void signup(View v){
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
-        onDestroy();
+        finish();
     }
 
-    /**
-     * OnDestroy Method of this Activity
-     */
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 }
+

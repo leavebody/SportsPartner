@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
 
         UserService.signup(this, email, password, confirmPassword, type, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult signupResult) {
+            public void getBooleanOnSuccess(BooleanResult signupResult) {
                 signupHandler(signupResult);
             }
         });
@@ -110,7 +110,7 @@ public class SignupActivity extends AppCompatActivity {
             toast.show();
             UserService.login(this, email, password, token, new ActivityCallBack(){
                 @Override
-                public void onSuccess(BooleanResult booleanResult) {
+                public void getBooleanOnSuccess(BooleanResult booleanResult) {
                     // TODO link to the main page activity of this user
                     Context context = getApplicationContext();
                     Intent intent = new Intent(context, ProfileActivity.class);
@@ -118,6 +118,12 @@ public class SignupActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
 }

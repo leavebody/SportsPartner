@@ -57,7 +57,7 @@ public class MyPickDateListener extends MyonClickListener {
     };
 
     private void updateView(TextView textView, Calendar myCalendar) {
-        String myFormat = "MM/dd/yy";
+        String myFormat = "yyyy.MM.dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(myCalendar.getTime()));
     }
