@@ -2,6 +2,7 @@ package com.sportspartner.request;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -36,8 +37,8 @@ public class ResourceRequest extends Request {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/resource/"+iconUUID+"type="+type;
-
+        String url = URL_CONTEXT+"v1/resource/"+iconUUID+"?type="+type;
+        Log.d("imageRequest",url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override
@@ -77,9 +78,6 @@ public class ResourceRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/resource/icon/"+email;
-        System.out.println(url);
-        System.out.println(bitmapString.length());
-        System.out.println(bitmapString);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
