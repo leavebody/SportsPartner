@@ -61,7 +61,7 @@ public class ImageService {
         String iconUUID = UUID.randomUUID().toString();
         String smallPath =  imageUtil.getImagePath(spId, object, "small");
         String originPath = imageUtil.getImagePath(spId, object, "origin");
-        if(!iconDaoImpl.newIcon(new Icon(spId, iconUUID, smallPath, originPath, object))){
+        if(!iconDaoImpl.updateIcon(new Icon(spId, iconUUID, smallPath, originPath, object))){
             resp.setResponse("false");
             resp.setMessage("fail to create a new icon item in database");
             return resp;

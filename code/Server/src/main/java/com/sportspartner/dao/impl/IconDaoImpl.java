@@ -54,7 +54,7 @@ public class IconDaoImpl implements IconDao {
      * @param icon Icon object
      * @return true or false for whether it is successfully written to DB
      */
-    public boolean newIcon(Icon icon){
+    public boolean updateIcon(Icon icon){
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -65,18 +65,15 @@ public class IconDaoImpl implements IconDao {
         String iconUUID = icon.getIconUUID();
         String small = icon.getSmallPath();
         String origin = icon.getOriginPath();
-        String object = icon.getObject();
 
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Icon\" (\"spId\", \"iconUUID\", \"small\", \"origin\", \"object\")"+
-                    "VALUES (?, ?, ?, ?, ?)");
-            stmt.setString(1, spId);
-            stmt.setString(2, iconUUID);
-            stmt.setString(3, small);
-            stmt.setString(4, origin);
-            stmt.setString(5, object);
+            stmt = c.prepareStatement("UPDATE \"Icon\" SET \"iconUUID\" = ?, \"small\" = ?, \"origin\" = ?" +
+                    "WHERE \"spId\"=?;");
+            stmt.setString(1, iconUUID);
+            stmt.setString(2, small);
+            stmt.setString(3, origin);
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
@@ -95,5 +92,6 @@ public class IconDaoImpl implements IconDao {
         }
         return result;
     }
+
 }
 

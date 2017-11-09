@@ -127,12 +127,12 @@ public class ProfileService {
             else{
                 InterestDaoImpl interestDaoImpl = new InterestDaoImpl();
                 List<Interest> interests = interestDaoImpl.getInterest(userId);
-                List<String> interestNames = new ArrayList<String>();
+                List<Sport> sports = new ArrayList<Sport>();
                 SportDaoImpl sportDaoImpl = new SportDaoImpl();
                 for(Interest interest : interests){
-                    interestNames.add(sportDaoImpl.getSport(interest.getSportId()).getSportName());
+                    sports.add(sportDaoImpl.getSport(interest.getSportId()));
                 }
-                resp.setInterest(interestNames);
+                resp.setInterests(sports);
             }
         }catch(Exception ex){
             throw new ProfileServiceException("Get interests error", ex);
