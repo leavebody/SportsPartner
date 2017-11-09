@@ -39,12 +39,15 @@ public class ProfileRequest extends Request {
      * @param email The email of the user
      */
     public void profileInfoVolleyRequest(final VolleyCallback callback, String email) {
-
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
+        String userId = dbHelper.getEmail();
+        String key = dbHelper.getKey();
+        Log.d("ProfileRequestKey",key);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/profile/"+email;
-        Log.d("ProfileRequest", url);
+        String url = URL_CONTEXT+"v1/profile/"+email+"?"+"requestorId="+userId+"&requestorKey="+key;
+        Log.d("ProfileRequest",url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override

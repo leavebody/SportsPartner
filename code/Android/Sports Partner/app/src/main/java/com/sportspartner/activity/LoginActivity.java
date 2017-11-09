@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
     public void signup(View v){
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
-        onDestroy();
+        finish();
     }
 
     @Override
