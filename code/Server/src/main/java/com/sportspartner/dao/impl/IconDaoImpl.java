@@ -95,5 +95,34 @@ public class IconDaoImpl implements IconDao {
         }
         return result;
     }
+
+    @Override
+    public boolean deleteIcon(String spId) {
+        Connection c = new ConnectionUtil().connectDB();
+        PreparedStatement stmt = null;
+        int rs;
+        try {
+            stmt = c.prepareStatement("DELETE FROM \"Icon\" WHERE \"spId\"=?");
+            stmt.setString(1, spId);
+            rs = stmt.executeUpdate();
+            if(rs>0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return false;
+    
+    }
 }
 
