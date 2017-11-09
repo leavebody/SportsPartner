@@ -1,8 +1,10 @@
 package com.sportspartner.service;
 
 import com.sportspartner.dao.impl.FriendDaoImpl;
+import com.sportspartner.dao.impl.NotificationDaoImpl;
 import com.sportspartner.dao.impl.PendingFriendRequestDaoImpl;
 import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.model.Notification;
 import com.sportspartner.model.PendingFriendRequest;
 import com.sportspartner.model.Person;
 import com.sportspartner.model.User;
@@ -11,12 +13,15 @@ import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.GCMHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class FriendService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
     private PendingFriendRequestDaoImpl pendingFriendRequestDaoImpl = new PendingFriendRequestDaoImpl();
+    private NotificationDaoImpl notificationDaoimpl = new NotificationDaoImpl();
     /**
      * Get the friendlist of a person
      * @param userId Id of a User
@@ -66,11 +71,34 @@ public class FriendService {
                 }else if(!pendingFriendRequestDaoImpl.newPendingRequest(request)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to add pending request.");
-                }else if(!gcmHelper.SendGCMData(receiverId,"New Friend Request",senderName+" sends you a new friend request")){
+                }
+                /*
+                else if(!gcmHelper.SendGCMData(receiverId,"New Friend Request",senderName+" sends you a new friend request")){
                     resp.setResponse("false");
                     resp.setMessage("Fail to send GCM.");
-                }else{
-                    resp.setResponse("true");
+                }
+                */
+                else{
+                    String notificationId  = UUID.randomUUID().toString();
+                    String notificationTitle = " New Friend Request";
+                    String notificationDetail = senderName+" sends you a new friend request";
+                    String notificationType = "INTERACTION";
+                    Date time = new Date(System.currentTimeMillis());
+                    int notificationState = 1;
+                    int notificationPriority = 1;
+                    Notification notification = new Notification(receiverId,notificationId,notificationTitle,notificationDetail,notificationType,
+                            senderId,time,notificationState,notificationPriority);
+                    if(!notificationDaoimpl.newNotification(notification)){
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to store notification.");
+                    }
+                    else if(!gcmHelper.SendGCMNotification(notification)){
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to send GCM.");
+                    }
+                    else {
+                        resp.setResponse("true");
+                    }
                 }
             } catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
@@ -103,18 +131,33 @@ public class FriendService {
             }else if(!pendingFriendRequestDaoImpl.deletePendingRequest(new PendingFriendRequest(receiverId,senderId))){
                 resp.setResponse("false");
                 resp.setMessage("Fail to delete pending friend request.");
-            }else if(!gcmHelper.SendGCMData(senderId,"Friend Request Accepted",receiverName+" has accepted your request")){
-                resp.setResponse("false");
-                resp.setMessage("Fail to send GCM.");
             }else{
-                resp.setResponse("true");
+                String notificationId  = UUID.randomUUID().toString();
+                String notificationTitle = "Friend Request Accepted";
+                String notificationDetail = receiverName+" has accepted your friend request";
+                String notificationType = "INTERACTION";
+                Date time = new Date(System.currentTimeMillis());
+                int notificationState = 1;
+                int notificationPriority = 1;
+                Notification notification = new Notification(senderId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        receiverId,time,notificationState,notificationPriority);
+                if(!notificationDaoimpl.newNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to store notification.");
+                }
+                else if(!gcmHelper.SendGCMNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                }
+                else {
+                    resp.setResponse("true");
+                }
             }
         }catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);
         }
         return resp;
     }
-
     /**
      *  Receiver decline the friend request from sender. A GCM message will be sent to the sender.
      * @param receiverId Id of receiver
@@ -137,11 +180,33 @@ public class FriendService {
             }else if(!pendingFriendRequestDaoImpl.deletePendingRequest(new PendingFriendRequest(receiverId,senderId))){
                 resp.setResponse("false");
                 resp.setMessage("Fail to delete pending friend request.");
-            }else if(!gcmHelper.SendGCMData(senderId,"Friend Request Declined :(",receiverName+" has declined your request :(")){
+            }
+                /*
+                if(!gcmHelper.SendGCMData(senderId,"Friend Request Declined :(",receiverName+" has declined your request :(")){
                 resp.setResponse("false");
                 resp.setMessage("Fail to send GCM.");
-            }else{
-                resp.setResponse("true");
+                */
+            else{
+                String notificationId  = UUID.randomUUID().toString();
+                String notificationTitle = "Friend Request Declined";
+                String notificationDetail = receiverName+" has declined your friend request";
+                String notificationType = "INTERACTION";
+                Date time = new Date(System.currentTimeMillis());
+                int notificationState = 1;
+                int notificationPriority = 1;
+                Notification notification = new Notification(senderId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        receiverId,time,notificationState,notificationPriority);
+                if(!notificationDaoimpl.newNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to store notification.");
+                }
+                else if(!gcmHelper.SendGCMNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                }
+                else {
+                    resp.setResponse("true");
+                }
             }
         }catch (Exception ex) {
             throw new FriendServiceException("New friendList error", ex);

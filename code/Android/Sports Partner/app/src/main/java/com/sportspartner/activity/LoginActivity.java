@@ -129,12 +129,12 @@ public class LoginActivity extends AppCompatActivity {
             //get userId from SQLite
             LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
             String email = dbHelper.getEmail();
-
+            Log.d("testttt", "132");
             //go to profile activity
             Intent intent = new Intent(context, HomeActivity.class);
             //intent.putExtra("userId", email);
             startActivity(intent);
-            onDestroy();
+            //onDestroy();
         }
     }
 

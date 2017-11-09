@@ -33,6 +33,8 @@ public class JsonResponse {
     private String image;
     private String iconUUID;
     private String userType;
+    private JsonArray members;
+    private String activityId;
 
     public JsonResponse() {
     }
@@ -194,6 +196,19 @@ public class JsonResponse {
         }
     }
 
+    public void setMembers(List<UserOutlineVO> userOutlineVOs){
+        this.members = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(UserOutlineVO userOutlineVO: userOutlineVOs){
+                String jsonString = gson.toJson(userOutlineVO);
+                this.members.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
+
     public void setFriendlist( List <UserOutlineVO> userOutlineVOList){
         this.friendlist = new JsonArray();
         Gson gson = new Gson();
@@ -229,5 +244,13 @@ public class JsonResponse {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 }

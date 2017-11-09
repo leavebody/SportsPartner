@@ -14,6 +14,8 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
 
+import java.util.Date;
+
 
 /**
  * Created by yujiaxiao on 11/3/17.
@@ -34,10 +36,20 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String title = data.getString("title");
-        String content = data.getString("content");
+        String detail = data.getString("detail");
+        String sender = data.getString("sender");
+        String type  = data.getString("type");
+        String timeString  = data.getString("time");
+        String priorityString = data.getString("priority");
+        Date date = new Date(Long.valueOf(timeString));
+        int priority = Integer.valueOf(priorityString);
         Log.d(TAG, "From FROM: " + from);
-        Log.d(TAG, "Message: " + title);
-        Log.d(TAG, "Message: " + content);
+        Log.d(TAG, "Title: " + title);
+        Log.d(TAG, "Detail: " + detail);
+        Log.d(TAG, "Sender: " + sender);
+        Log.d(TAG, "Type: " + type);
+        Log.d(TAG, "Time: " + date.toString());
+        Log.d(TAG, "Priority: " + priorityString);
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -57,7 +69,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(title, content);
+        sendNotification(title, detail);
         // [END_EXCLUDE]
     }
 

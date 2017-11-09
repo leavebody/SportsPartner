@@ -1,30 +1,36 @@
 package com.sportspartner.model;
 
+import java.util.Date;
+
 public class Notification {
-    private String userId;
+    private String receiverId;
     private String notificationId;
     private String notificationTitle;
     private String notificationDetail;
     private String notificationType;
-    private int notificationStates;
+    private String notificationSender;
+    private Date time;
+    private int notificationState;
     private int notificationPriority;
 
     public Notification(){}
 
-    public Notification(String userId, String notificationId, String notificationTitle, String notificationDetail, String notificationType, int notificationStates, int notificationPriority) {
-        this.userId = userId;
+    public Notification(String receiverId, String notificationId, String notificationTitle, String notificationDetail, String notificationType, String notificationSender, Date time, int notificationState, int notificationPriority) {
+        this.receiverId = receiverId;
         this.notificationId = notificationId;
         this.notificationTitle = notificationTitle;
         this.notificationDetail = notificationDetail;
         this.notificationType = notificationType;
-        this.notificationStates = notificationStates;
+        this.notificationSender = notificationSender;
+        this.time = time;
+        this.notificationState = notificationState;
         this.notificationPriority = notificationPriority;
     }
 
-    public String getUserId() { return userId; }
+    public String getReceiverId() { return receiverId; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setReceiverId(String userId) {
+        this.receiverId = userId;
     }
 
     public String getNotificationId() {
@@ -51,9 +57,9 @@ public class Notification {
         this.notificationDetail = notificationDetail;
     }
 
-    public int getNotificationStates() { return notificationStates; }
+    public int getNotificationState() { return notificationState; }
 
-    public void setNotificationStates(int notificationStates) { this.notificationStates = notificationStates; }
+    public void setNotificationState(int notificationState) { this.notificationState = notificationState; }
 
     public int getNotificationPriority() {
         return notificationPriority;
@@ -66,4 +72,11 @@ public class Notification {
     public String getNotificationType() { return notificationType; }
 
     public void setNotificationType(String notificationType) { this.notificationType = notificationType; }
+    public String getNotificationSender() { return notificationSender; }
+
+    public void setNotificationSender(String notificationSender) { this.notificationSender = notificationSender; }
+
+    public Date getTime() { return time; }
+
+    public void setTime(Date time) { this.time = time; }
 }

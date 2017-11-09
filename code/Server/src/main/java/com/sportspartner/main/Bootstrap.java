@@ -7,7 +7,9 @@ import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.sportspartner.controllers.*;
 import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.dao.impl.NotificationDaoImpl;
 import com.sportspartner.model.DeviceRegistration;
+import com.sportspartner.model.Notification;
 import com.sportspartner.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,10 @@ import java.util.List;
 import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
-
 import com.sportspartner.util.*;
 import org.sql2o.tools.IOUtils;
+import java.util.Date;
+import java.util.UUID;
 
 
 public class Bootstrap {
@@ -90,9 +93,9 @@ public class Bootstrap {
 
 
 //            ImageUtil imageUtil = new ImageUtil();
-//            BufferedImage image = imageUtil.getImage("./res/usericon/yujiaxiao0223@gmail.com_origin.png");
+//            BufferedImage image = imageUtil.getImage("./res/usericon/u1_origin.png");
 //            BufferedImage image1 = imageUtil.resizeImage(image);
-//            imageUtil.saveImage(image1, "./res/usericon/yujiaxiao0223@gmail.com_small.png");
+//            imageUtil.saveImage(image1, "./res/usericon/u1_small.png");
 
 //        ImageUtil imageUtil = new ImageUtil();
 //        BufferedImage image = imageUtil.getImage("./res/usericon/shirish@gmail.com_origin.png");
@@ -101,7 +104,26 @@ public class Bootstrap {
 //        imageUtil.saveImage(imageUtil.base64ToImage(base64),"./res/usericon/shirish@gmail.com_small.png") ;
 //        imageUtil.saveImage(resizedimage,"./res/usericon/shirish1@gmail.com_small.png");
 
+
+
+
+        /*
+        String uuid = UUID.randomUUID().toString();
+        Date time = new Date(System.currentTimeMillis());
+        Notification notification = new Notification("u1",uuid,"title","detail","NORESPONSE","u24",time,1,0);
+        NotificationDaoImpl f1 = new NotificationDaoImpl();
+        boolean test = false;
+        test = f1.newNotification(notification);
+        System.out.println(test);
+        List<Notification> notifications = f1.getUnsentNotification("u1");
+        System.out.println(notifications.get(0).getNotificationTitle());
+        boolean test1 = f1.setNotificationSent("u1",uuid);
+        System.out.println(test1);
+        boolean test2 = f1.deleteNotification(notification);
+        System.out.println(test2);
+=======
                 /*
+>>>>>>> b1dbb4760d833629960482b9d02c32ab2ba773bb
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");
         f1.newAuthorization(newAuthorization);
