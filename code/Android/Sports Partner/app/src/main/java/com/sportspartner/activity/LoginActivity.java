@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult booleanResult) {
+            public void getBooleanOnSuccess(BooleanResult booleanResult) {
                 loginHandler(booleanResult);
             }
         });

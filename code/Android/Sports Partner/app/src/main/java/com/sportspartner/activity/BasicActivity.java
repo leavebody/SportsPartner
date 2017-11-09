@@ -212,7 +212,7 @@ public class BasicActivity extends AppCompatActivity
     private void signOut(){
         UserService.logOut(this, new ActivityCallBack(){
             @Override
-            public void onSuccess(BooleanResult result){
+            public void getBooleanOnSuccess(BooleanResult result){
                 if (!result.isStatus()){
                     //if failure, show a toast
                     Toast toast = Toast.makeText(BasicActivity.this,

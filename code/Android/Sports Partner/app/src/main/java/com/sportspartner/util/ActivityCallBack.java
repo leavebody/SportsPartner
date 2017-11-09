@@ -8,7 +8,7 @@ import com.sportspartner.service.serviceresult.*;
  */
 
 public class ActivityCallBack <M> {
-    public void onSuccess(BooleanResult booleanResult){}
+    public void getBooleanOnSuccess(BooleanResult booleanResult){}
     public void getModelOnSuccess(ModelResult<M> modelResult){}
 }
 

@@ -177,7 +177,7 @@ public class ProfileService extends Service {
         request.updateProfileVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.onSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getBooleanOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, profile, email);
     }
@@ -239,7 +239,7 @@ public class ProfileService extends Service {
         request.updateInterestsVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.onSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getBooleanOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, interests, email);
     }
