@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
-        ResourceService.getGeocoding(this,new LatLng(39.328,-76.62),new ActivityCallBack());
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         //Get device Token from GCM

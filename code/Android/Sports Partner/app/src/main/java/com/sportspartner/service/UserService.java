@@ -95,7 +95,6 @@ public class UserService extends Service {
      * @param callback
      */
     public static void logOut(final Context c, final ActivityCallBack callback){
-        LoginDBHelper.getInstance(c).delete();
         UserRequest ur = new UserRequest(c);
         ur.logOutVolleyRequest(new VolleyCallback(){
             @Override
@@ -103,6 +102,7 @@ public class UserService extends Service {
                 callback.getBooleanOnSuccess(UserService.logOutRespProcess(response, c));
             }
         });
+        LoginDBHelper.getInstance(c).delete();
     }
 
     /**
