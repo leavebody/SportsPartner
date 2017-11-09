@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 public class BasicActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String userEmail;
 
     /**
      * Load the Navigation Bar and the ToolBar
@@ -71,8 +73,8 @@ public class BasicActivity extends AppCompatActivity
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
         ArrayList<String> list =  dbHelper.getAll();
         System.out.println("list size:"+ String.valueOf(list.size()));
-        String email = dbHelper.getEmail();
-        ProfileService.getProfileOutline(this, email, new ActivityCallBack<UserOutline>(){
+        userEmail = dbHelper.getEmail();
+        ProfileService.getProfileOutline(this, userEmail, new ActivityCallBack<UserOutline>(){
             @Override
             public void getModelOnSuccess(ModelResult<UserOutline> result){
                 userOutlineHandler(result);
@@ -183,6 +185,8 @@ public class BasicActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             // Goto the ProfilePage
             Intent intent = new Intent(context, ProfileActivity.class);
+            intent.putExtra("userId", userEmail);
+            Log.d("BasicActivity","email: "+userEmail);
             startActivity(intent);
             if(!(this instanceof HomeActivity))
                 this.finish();
