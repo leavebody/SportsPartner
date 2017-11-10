@@ -11,14 +11,14 @@ public class Profile implements Serializable {
     private String userName;
     private String iconUUID;
     private String gender;
-    private String age;
+    private int age;
     private String address;
     private double punctuality;
     private double participation;
 
     public Profile(){}
 
-    public Profile(String userId, String userName, String iconUUID, String gender, String age, String address, double punctuality, double participation) {
+    public Profile(String userId, String userName, String iconUUID, String gender, int age, String address, double punctuality, double participation) {
         this.userId = userId;
         this.userName = userName;
         this.iconUUID = iconUUID;
@@ -61,11 +61,11 @@ public class Profile implements Serializable {
         this.gender = gender;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 

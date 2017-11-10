@@ -1,13 +1,9 @@
 package com.sportspartner.util.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,14 +17,10 @@ import com.sportspartner.util.ActivityCallBack;
 import java.util.ArrayList;
 
 /**
- * Created by yujiaxiao on 11/9/17.
+ * Created by yujiaxiao on 11/10/17.
  */
 
-public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyViewHolder>{
-
-    protected ArrayList<Sport> listInterests;
-    protected Intent myIntent;
-    protected Context context;
+public class EditInterestAdapter extends InterestAdapter {
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
@@ -48,32 +40,39 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
         // Handles the row being being clicked
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition(); // gets item position
+            if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                Sport sport = listInterests.get(position);
+                if (sport.getSelected()){
+                    sport.setSelected(false);
+                    selectedIcon.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    sport.setSelected(true);
+                    selectedIcon.setVisibility(View.VISIBLE);
+                }
+            }
 
         }
+
     }
 
-    public InterestAdapter(){}
+    public EditInterestAdapter(){}
 
 
-    public InterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        this.listInterests = listInterests;
-        this.context = context;
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_interest, parent, false);
-
-        return new MyViewHolder(itemView, parent.getContext());
+    public EditInterestAdapter(ArrayList<Sport> listInterests, Context context) {
+        super();
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final InterestAdapter.MyViewHolder holder, int position) {
         Sport sport = listInterests.get(position);
 
+        if (sport.getSelected())
+            holder.selectedIcon.setVisibility(View.VISIBLE);
+
         holder.name.setText(sport.getSportName());
-        //Todo set profile photo
+        //set photo
         String iconUUID = sport.getSportIconUUID();
         ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
             @Override
@@ -91,13 +90,4 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     }
 
-    @Override
-    public int getItemCount() {
-        return listInterests.size();
-    }
-
-    public void updateInterests(ArrayList<Sport> sports) {
-        this.listInterests = sports;
-        notifyDataSetChanged();
-    }
 }

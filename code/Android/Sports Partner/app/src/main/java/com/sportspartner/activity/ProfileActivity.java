@@ -116,7 +116,7 @@ public class ProfileActivity extends BasicActivity {
 
         //set Adapter
         interestAdapter = new InterestAdapter(sports, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
@@ -237,7 +237,7 @@ public class ProfileActivity extends BasicActivity {
         }
 
         profileName.setText(profile.getUserName());
-        age.setText(profile.getAge());
+        age.setText(String.valueOf(profile.getAge()));
         gender.setText(profile.getGender());
         location.setText(profile.getAddress());
         puntuality.setRating((float)profile.getPunctuality());
@@ -282,7 +282,7 @@ public class ProfileActivity extends BasicActivity {
         });
 
         profileName.setText(profile.getUserName());
-        age.setText(profile.getAge());
+        age.setText(String.valueOf(profile.getAge()));
         gender.setText(profile.getGender());
         location.setText(profile.getAddress());
         puntuality.setRating((float)profile.getPunctuality());

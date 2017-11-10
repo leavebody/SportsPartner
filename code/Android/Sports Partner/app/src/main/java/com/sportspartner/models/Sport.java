@@ -10,6 +10,7 @@ public class Sport implements Serializable {
     private String sportId;
     private String sportName;
     private String sportIconUUID;
+    private Boolean isSelected = false;
 
     public Sport() {
     }
@@ -18,6 +19,13 @@ public class Sport implements Serializable {
         this.sportId = sportId;
         this.sportName = sportName;
         this.sportIconUUID = sportIconUUID;
+    }
+
+    public Sport(String sportId, String sportName, String sportIconUUID, Boolean isSelected) {
+        this.sportId = sportId;
+        this.sportName = sportName;
+        this.sportIconUUID = sportIconUUID;
+        this.isSelected = isSelected;
     }
 
     public String getSportId() {
@@ -42,6 +50,14 @@ public class Sport implements Serializable {
 
     public void setSportIconUUID(String sportIconUUID) {
         this.sportIconUUID = sportIconUUID;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 }
 

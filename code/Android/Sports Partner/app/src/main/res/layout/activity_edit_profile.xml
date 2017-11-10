@@ -214,21 +214,14 @@
             android:textSize="15dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/text_interest"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="11"
-            android:backgroundTint="@color/gray"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:text="Swimming"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:inputType="textMultiLine"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
 
         <TextView
             android:layout_width="0dp"
