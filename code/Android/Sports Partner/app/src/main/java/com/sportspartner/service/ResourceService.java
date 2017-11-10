@@ -261,27 +261,33 @@ public class ResourceService extends Service {
      */
     private static ModelResult<MapApiResult> getGeocodingRespProcess(NetworkResponse response) {
         ModelResult<MapApiResult> result = new ModelResult();
+        MapApiResult apiResult = new MapApiResult();
 
         JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
         Gson gson = new Gson();
         GeocodeRaw geocodeRaw = gson.fromJson(jsResp, GeocodeRaw.class);
-        Log.d("test",geocodeRaw.toString());
-        String returnedStatus = jsResp.get("status").getAsString();
-        if (returnedStatus.equals("OK")) {
+
+        if (geocodeRaw.status.equals("OK")) {
             result.setStatus(true);
+            String zipcode=null;
+            ArrayList<String> addresses = new ArrayList<>();
 
-
-                JsonArray jsArraySport = jsResp.getAsJsonArray("sports");
-                ArrayList<Sport> arraySport = gson.fromJson(jsArraySport,
-                        new TypeToken<ArrayList<Sport>>() {
-                        }.getType());
-
-                //result.setModel(arraySport);
+            for (GeocodeRaw.Result result1 : geocodeRaw.results) {
+                addresses.add(result1.formatted_address);
+                for (GeocodeRaw.Result.Address_component component : result1.address_components){
+                    if (zipcode==null && component.types.size()==1 && component.types.get(0).equals("postal_code")){
+                        zipcode=component.long_name;
+                    }
+                }
+            }
+            apiResult.setZipcode(zipcode);
+            apiResult.setAddresses(addresses);
+            result.setModel(apiResult);
 
         } else {
             result.setStatus(false);
-            Log.d("ResourceService","geocoding: "+returnedStatus);
-            result.setMessage(returnedStatus);
+            Log.d("ResourceService","geocoding: "+geocodeRaw.status);
+            result.setMessage(geocodeRaw.status);
         }
         return result;
     }
