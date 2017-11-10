@@ -25,13 +25,14 @@ public class SActivity {
     private String creatorId;
     private ArrayList<UserOutline> members;
     private String detail;
+    private String description;
     private ArrayList<SactivityComment> discussion;
     //TODO more to add
 
 
     public SActivity() {}
 
-    public SActivity(String activityId, String status, String sportIconUUID, String sportName, String sportId, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, String zipcode, int capacity, int size, String creatorId, ArrayList<UserOutline> members, String detail, ArrayList<SactivityComment> discussion) {
+    public SActivity(String activityId, String status, String sportIconUUID, String sportName, String sportId, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, String zipcode, int capacity, int size, String creatorId, ArrayList<UserOutline> members, String detail, String description, ArrayList<SactivityComment> discussion) {
         this.activityId = activityId;
         this.status = status;
         this.sportIconUUID = sportIconUUID;
@@ -49,6 +50,7 @@ public class SActivity {
         this.creatorId = creatorId;
         this.members = members;
         this.detail = detail;
+        this.description = description;
         this.discussion = discussion;
     }
 
@@ -186,6 +188,14 @@ public class SActivity {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public ArrayList<SactivityComment> getDiscussion() {

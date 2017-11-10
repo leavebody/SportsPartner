@@ -1,23 +1,24 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
+
 /**
  * @author Xiaochen Li
  */
 
-public class Sport {
+public class Sport implements Serializable {
     private String sportId;
     private String sportName;
-    private String sportIconPath;
     private String sportIconUUID;
 
-    public Sport(String sportId, String sportName, String sportIconPath, String sportIconUUID) {
-        this.sportId = sportId;
-        this.sportName = sportName;
-        this.sportIconPath = sportIconPath;
-        this.sportIconUUID = sportIconUUID;
+    public Sport() {
     }
 
-    public Sport(){}
+    public Sport(String sportId, String sportName, String sportIconUUID) {
+        this.sportId = sportId;
+        this.sportName = sportName;
+        this.sportIconUUID = sportIconUUID;
+    }
 
     public String getSportId() {
         return sportId;
@@ -33,14 +34,6 @@ public class Sport {
 
     public void setSportName(String sportName) {
         this.sportName = sportName;
-    }
-
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
     }
 
     public String getSportIconUUID() {

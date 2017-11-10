@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sportspartner.models.Profile;
 import com.sportspartner.models.ProfileComment;
+import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.request.ProfileRequest;
 import com.sportspartner.service.serviceresult.ModelResult;
@@ -204,8 +205,8 @@ public class ProfileService extends Service {
      * @return A ModelResult with model type String,
      *          which is the interests of the user, separated by ","
      */
-    private static ModelResult<String> getInterestsRespProcess(NetworkResponse response){
-        ModelResult<String> result = new ModelResult<>();
+    private static ModelResult<ArrayList<Sport>> getInterestsRespProcess(NetworkResponse response){
+        ModelResult<ArrayList<Sport>> result = new ModelResult<>();
         switch (response.statusCode){
             case 200:
                 boolean status = false;
@@ -214,9 +215,15 @@ public class ProfileService extends Service {
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
-                    result.setModel(jsResp.get("interests").getAsString());
+                    JsonArray comment = jsResp.getAsJsonArray("interests");
+                    Gson gson = new Gson();
+
+                    ArrayList<Sport> al = gson.fromJson(comment, new TypeToken<ArrayList<Sport>>(){}.getType());
+                    result.setModel(al);
+                    //jsResp.getAsJsonArray("profileComments");
+                    //result.setModel(jsResp.get("interests").getAsString());
                 } else {
-                    result.setMessage("get profile failed: "+jsResp.get("message").getAsString());
+                    result.setMessage("get interests failed: "+jsResp.get("message").getAsString());
                 }
 
                 break;

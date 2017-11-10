@@ -1,16 +1,15 @@
 package com.sportspartner.models;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Created by yujiaxiao on 10/21/17.
  */
 
-public class Profile {
+public class Profile implements Serializable {
     private String userId;
     private String userName;
     private String iconUUID;
-    private String iconPath;
     private String gender;
     private String age;
     private String address;
@@ -19,6 +18,16 @@ public class Profile {
 
     public Profile(){}
 
+    public Profile(String userId, String userName, String iconUUID, String gender, String age, String address, double punctuality, double participation) {
+        this.userId = userId;
+        this.userName = userName;
+        this.iconUUID = iconUUID;
+        this.gender = gender;
+        this.age = age;
+        this.address = address;
+        this.punctuality = punctuality;
+        this.participation = participation;
+    }
 
     public String getUserId() {
         return userId;
@@ -42,14 +51,6 @@ public class Profile {
 
     public void setIconUUID(String iconUUID) {
         this.iconUUID = iconUUID;
-    }
-
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
     }
 
     public String getGender() {
