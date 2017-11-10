@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -225,7 +226,9 @@ public class ProfileActivity extends BasicActivity {
         if (status){
             //if successfully get the data, then get the data
             sports= result.getModel();
-            interestAdapter.notifyDataSetChanged();
+            Log.d("count",""+interestAdapter.getItemCount());
+            interestAdapter.updateInterests(sports);
+            Log.d("count",""+interestAdapter.getItemCount());
         }
         else{
             //if failure, show a toast
