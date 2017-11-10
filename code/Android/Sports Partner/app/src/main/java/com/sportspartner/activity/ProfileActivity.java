@@ -60,7 +60,6 @@ public class ProfileActivity extends BasicActivity {
     private TextView gender;
     private TextView age;
     private TextView location;
-    private TextView interest;
     private ListView historyActivityList;
     private ListView upcommingActivityList;
     private RatingBar puntuality;
@@ -107,15 +106,23 @@ public class ProfileActivity extends BasicActivity {
         gender = (TextView) basicInfo.findViewById(R.id.gender);
         age = (TextView) basicInfo.findViewById(R.id.age);
         location = (TextView) basicInfo.findViewById(R.id.location);
-        interest = (TextView) basicInfo.findViewById(R.id.interests);
+        recyclerView = (RecyclerView) basicInfo.findViewById(R.id.RecyclerView);
 
         puntuality = (RatingBar) findViewById(R.id.rating_punctuality);
         participation = (RatingBar) findViewById(R.id.rating_participation);
 
         historyActivityList = (ListView) findViewById(R.id.list_history_activities);
         upcommingActivityList = (ListView) findViewById(R.id.list_upcomming_activties);
+
         final Intent intent = new Intent(this, SactivityDetailActivity.class);
-        recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+
+        //set Adapter
+        interestAdapter = new InterestAdapter(sports, this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
+        recyclerView.setAdapter(interestAdapter);
 
         //Set List OnClick Listener
         upcommingActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,12 +206,12 @@ public class ProfileActivity extends BasicActivity {
             }
         });
 
-        ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>(){
+        /*ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>(){
             @Override
             public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result){
                 ProfileInterestHandler(result);
             }
-        });
+        });*/
 
     }
 
@@ -221,12 +228,7 @@ public class ProfileActivity extends BasicActivity {
         if (status){
             //if successfully get the data, then get the data
             sports= result.getModel();
-            interestAdapter = new InterestAdapter(sports, this);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
-            recyclerView.setAdapter(interestAdapter);
+            interestAdapter.notifyDataSetChanged();
         }
         else{
             //if failure, show a toast

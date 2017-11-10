@@ -166,9 +166,11 @@ public class SactivityDetailActivity extends BasicActivity {
         capacity.setText(size);
 
         //Time and date
-        Date start = activityDetal.getStartTime();
-        Date end = activityDetal.getEndTime();
-        SimpleDateFormat sdf0 = new SimpleDateFormat("MM/dd/yy", Locale.US);
+        Date start = new Date();
+        start = activityDetal.getStartTime();
+        Date end = new Date();
+        end = activityDetal.getEndTime();
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.mm.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
         SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);

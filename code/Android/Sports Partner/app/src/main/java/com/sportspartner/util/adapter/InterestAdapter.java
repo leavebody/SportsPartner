@@ -68,9 +68,9 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
         Sport sport = listInterests.get(position);
 
         holder.name.setText(sport.getSportName());
-        //set profile photo
+        //Todo set profile photo
         String iconUUID = sport.getSportIconUUID();
-        ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
+        /*ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
             @Override
             public void getModelOnSuccess(ModelResult<Bitmap> result){
                 if (result.isStatus()) {
@@ -82,7 +82,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
                     toast.show();
                 }
             }
-        });
+        });*/
 
     }
 

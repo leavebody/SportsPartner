@@ -220,8 +220,6 @@ public class ProfileService extends Service {
 
                     ArrayList<Sport> al = gson.fromJson(comment, new TypeToken<ArrayList<Sport>>(){}.getType());
                     result.setModel(al);
-                    //jsResp.getAsJsonArray("profileComments");
-                    //result.setModel(jsResp.get("interests").getAsString());
                 } else {
                     result.setMessage("get interests failed: "+jsResp.get("message").getAsString());
                 }
