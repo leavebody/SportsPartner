@@ -94,10 +94,7 @@ public class ProfileActivity extends BasicActivity {
         //get userId
         Intent myIntent = getIntent();
         usermail = myIntent.getStringExtra("userId");
-
-        /*// get the userEmail from SQLite
-        LoginDBHelper dbHelper = LoginDBHelper.getInstance(ProfileActivity.this);
-        usermail= dbHelper.getEmail();*/
+        
 
         //find all the widgets by Id
         View basicInfo = findViewById(R.id.personal_info);
@@ -206,12 +203,12 @@ public class ProfileActivity extends BasicActivity {
             }
         });
 
-        /*ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>(){
+        ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>(){
             @Override
             public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result){
                 ProfileInterestHandler(result);
             }
-        });*/
+        });
 
     }
 
