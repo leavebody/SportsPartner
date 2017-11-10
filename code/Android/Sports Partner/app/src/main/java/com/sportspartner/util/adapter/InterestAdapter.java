@@ -90,4 +90,9 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
     public int getItemCount() {
         return listInterests.size();
     }
+
+    public void updateInterests(ArrayList<Sport> sports) {
+        this.listInterests = sports;
+        notifyDataSetChanged();
+    }
 }
