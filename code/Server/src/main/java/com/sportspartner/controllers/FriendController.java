@@ -41,7 +41,7 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-        post(API_CONTEXT + "/acceptrequest/:receiverId/:senderId", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = friendService.acceptFriendRequest(request.params(":receiverId"),request.params(":senderId"));
@@ -52,7 +52,7 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
-        post(API_CONTEXT + "/declinerequest/:receiverId/:senderId", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = friendService.declineFriendRequest(request.params(":receiverId"),request.params(":senderId"));

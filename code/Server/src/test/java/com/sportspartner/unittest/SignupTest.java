@@ -42,9 +42,11 @@ public class SignupTest {
     public void teardown() throws Exception{
         String userId = "xuanzhang888@jhu.edu";
         UserDaoImpl userDaoImpl = new UserDaoImpl();
+        IconDaoImpl iconDaoImpl = new IconDaoImpl();
         if(userDaoImpl.getUser(userId)!=null) {
             new PersonDaoImpl().deletePerson(userId);
             userDaoImpl.deleteUser(userId);
+            iconDaoImpl.deleteIcon(userId);
             Thread.sleep(2000);
         }
     }

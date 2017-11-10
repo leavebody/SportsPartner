@@ -54,7 +54,7 @@ public class IconDaoImpl implements IconDao {
      * @param icon Icon object
      * @return true or false for whether it is successfully written to DB
      */
-    public boolean newIcon(Icon icon){
+    public boolean updateIcon(Icon icon){
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -70,13 +70,11 @@ public class IconDaoImpl implements IconDao {
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Icon\" (\"spId\", \"iconUUID\", \"small\", \"origin\", \"object\")"+
-                    "VALUES (?, ?, ?, ?, ?)");
-            stmt.setString(1, spId);
-            stmt.setString(2, iconUUID);
+            stmt = c.prepareStatement("UPDATE \"Icon\" SET \"iconUUID\" = ?, \"small\" = ?, \"origin\" = ?" +
+                    "WHERE \"spId\"=?;");
+            stmt.setString(1, iconUUID);
             stmt.setString(3, small);
             stmt.setString(4, origin);
-            stmt.setString(5, object);
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
@@ -94,6 +92,78 @@ public class IconDaoImpl implements IconDao {
             }
         }
         return result;
+    }
+
+    /**
+     * Add a new entry to Icon table.
+     * @param icon Icon object.
+     * @return true or false for whether successfully added the entry.
+     */
+    public boolean newIcon(Icon icon){
+        Connection c = new ConnectionUtil().connectDB();
+
+        PreparedStatement stmt = null;
+        int rs;
+
+        String spId = icon.getSpId();
+        String object = icon.getObject();
+
+        boolean result = false;
+
+        try {
+            stmt = c.prepareStatement("INSERT INTO \"Icon\" ( \"spId\",\"object\")" +
+                    "VALUES (?, ?);");
+            stmt.setString(1, spId);
+            stmt.setString(2, object);
+            rs = stmt.executeUpdate();
+            if(rs>0)
+                result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+    /**
+     * Delete an icon from database.
+     * @param spId Sport Partner Id.
+     * @return true or false whether successfully delete the icon.
+     */
+    public boolean deleteIcon(String spId) {
+        Connection c = new ConnectionUtil().connectDB();
+        PreparedStatement stmt = null;
+        int rs;
+        try {
+            stmt = c.prepareStatement("DELETE FROM \"Icon\" WHERE \"spId\"=?");
+            stmt.setString(1, spId);
+            rs = stmt.executeUpdate();
+            if(rs>0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return false;
+
     }
 }
 

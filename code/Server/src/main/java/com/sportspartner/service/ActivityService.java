@@ -1,13 +1,14 @@
 package com.sportspartner.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.sportspartner.dao.ActivityMemberDao;
 import com.sportspartner.dao.impl.*;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
+import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,8 @@ public class ActivityService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
-
+    private PendingJoinActivityRequestDaoImpl pendingJoinActivityRequestDaoImpl = new PendingJoinActivityRequestDaoImpl();
+    private NotificationDaoImpl notificationDaoImpl = new NotificationDaoImpl();
     /**
      * Get the detail of an activity
      *
@@ -29,7 +31,7 @@ public class ActivityService {
      * @return JsonResponse to the front-end
      * @throws ActivityServiceException throws ActivityServiceException
      */
-    public JsonResponse getActivityDetail(String activityId) throws ActivityServiceException {
+    public JsonResponse getActivityDetail(String activityId, String requestorId, String requestorKey) throws ActivityServiceException {
         JsonResponse resp = new JsonResponse();
         try {
             if (!hasActivity(activityId)) {
@@ -69,6 +71,18 @@ public class ActivityService {
                     resp.setResponse("true");
                     resp.setActivity(activityVO);
                 }
+
+                // check relationship between the user and the requestor
+                if(isAuthorized(requestorId, requestorKey)) {
+                    if (requestorId.equals(activityVO.getCreatorId())) {
+                        resp.setUserType("CREATOR");
+                        return resp;
+                    } else if (activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, requestorId))) {
+                        resp.setUserType("MEMBER");
+                        return resp;
+                    }
+                }
+                resp.setUserType("STRANGER");
             }
         } catch (Exception ex) {
             throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
@@ -305,12 +319,112 @@ public class ActivityService {
         }
         return resp;
     }
+
+
+    /**
+     * Creator of an activity accept a new join application.
+     * A join activity request notification will be removed from notification list.
+     * And a new member will be added to the activity.
+     * @param activityId The UUID of the acitivity.
+     * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
+     * @return JsonResponse object
+     * @throws ActivityServiceException
+     */
+    public JsonResponse acceptJoinActivityRequest(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        GCMHelper gcmHelper = new GCMHelper();
+        try{
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String creatorId = json.get("creatorId").getAsString();
+            String creatorKey = json.get("creatorKey").getAsString();
+            String userId = json.get("userId").getAsString();
+            String creatorName = personDaoImpl.getPerson(creatorId).getUserName();
+            if(!isAuthorized(creatorId, creatorKey)){
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization.");
+            }else if(!activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))){
+                resp.setResponse("false");
+                resp.setMessage("Fail to add a new member to the activity.");
+            }else if(!pendingJoinActivityRequestDaoImpl.deletePendingRequest(new PendingJoinActivityRequest(activityId, userId, creatorId))){
+                resp.setResponse("false");
+                resp.setMessage("Fail to delete pending join activity application.");
+            }else{
+                String notificationId  = UUID.randomUUID().toString();
+                String notificationTitle = "Join Activity Application Accepted";
+                String notificationDetail = "Your application for joining the following activity has been accepted by" + creatorName;
+                String notificationType = "INTERACTION";
+                Date time = new Date(System.currentTimeMillis());
+                int notificationState = 1;
+                int notificationPriority = 1;
+                Notification notification = new Notification(creatorId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        userId,time,notificationState,notificationPriority);
+                if(!notificationDaoImpl.newNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to store notification.");
+                }
+                else if(!gcmHelper.SendGCMNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                }
+                else {
+                    resp.setResponse("true");
+                }
+            }
+        }catch (Exception ex) {
+            throw new ActivityServiceException("acceptJoinActivityRequest error", ex);
+        }
+        return resp;
+
+    }
+
+    public JsonResponse declineJoinActivityRequest(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        GCMHelper gcmHelper = new GCMHelper();
+        try{
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String creatorId = json.get("creatorId").getAsString();
+            String creatorKey = json.get("creatorKey").getAsString();
+            String userId = json.get("userId").getAsString();
+            String creatorName = personDaoImpl.getPerson(creatorId).getUserName();
+            if(!isAuthorized(creatorId, creatorKey)){
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization.");
+            }else if(!pendingJoinActivityRequestDaoImpl.deletePendingRequest(new PendingJoinActivityRequest(activityId, userId, creatorId))){
+                resp.setResponse("false");
+                resp.setMessage("Fail to delete pending join activity application.");
+            }else{
+                String notificationId  = UUID.randomUUID().toString();
+                String notificationTitle = "Join Activity Application Declined";
+                String notificationDetail = "Your application for joining the following activity has been declined by" + creatorName;
+                String notificationType = "INTERACTION";
+                Date time = new Date(System.currentTimeMillis());
+                int notificationState = 1;
+                int notificationPriority = 1;
+                Notification notification = new Notification(creatorId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        userId,time,notificationState,notificationPriority);
+                if(!notificationDaoImpl.newNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to store notification.");
+                }
+                else if(!gcmHelper.SendGCMNotification(notification)){
+                    resp.setResponse("false");
+                    resp.setMessage("Fail to send GCM.");
+                }
+                else {
+                    resp.setResponse("true");
+                }
+            }
+        }catch (Exception ex) {
+            throw new ActivityServiceException("declineJoinActivityRequest error", ex);
+        }
+        return resp;
+
+    }
+
     public void searchActivity(){
         //TODO
     }
-    public void joinActivity(){
-        //TODO
-    }
+
     public void cancelActivity(){
         //TODO
     }

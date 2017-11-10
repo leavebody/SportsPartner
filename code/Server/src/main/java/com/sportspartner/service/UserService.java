@@ -106,7 +106,7 @@ public class UserService {
                 userDaoImpl.newUser(user);
                 if(signupVO.getType().equals("PERSON")){
                     Person person = signupVO.cast2Person();
-                    Icon icon  =  new Icon(user.getUserId(),"","","","USER");
+                    Icon icon  =  new Icon(user.getUserId(),"USER");
                     if(!(personDaoImpl.newPerson(person) && iconDaoImpl.newIcon(icon))){
                         resp.setResponse("false");
                         resp.setMessage("Cannot create items in the database");
