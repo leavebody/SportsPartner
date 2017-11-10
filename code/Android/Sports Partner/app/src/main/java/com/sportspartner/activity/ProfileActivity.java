@@ -94,7 +94,7 @@ public class ProfileActivity extends BasicActivity {
         //get userId
         Intent myIntent = getIntent();
         usermail = myIntent.getStringExtra("userId");
-        
+
 
         //find all the widgets by Id
         View basicInfo = findViewById(R.id.personal_info);
