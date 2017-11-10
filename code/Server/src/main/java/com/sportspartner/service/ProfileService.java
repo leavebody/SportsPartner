@@ -133,6 +133,7 @@ public class ProfileService {
                     sports.add(sportDaoImpl.getSport(interest.getSportId()));
                 }
                 resp.setInterests(sports);
+                resp.setResponse("true");
             }
         }catch(Exception ex){
             throw new ProfileServiceException("Get interests error", ex);
