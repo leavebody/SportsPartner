@@ -1,6 +1,7 @@
 package com.sportspartner.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,13 +10,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +44,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.sportspartner.R;
 import com.sportspartner.models.FacilityMarker;
+import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.util.PickPlaceResult;
+import com.sportspartner.util.adapter.AddressesListViewAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 /**
@@ -220,21 +233,55 @@ public class MapActivity extends BasicActivity
     }
 
     public boolean onNewMarkerClick(final FacilityMarker facilityMarker){
+        LayoutInflater inflater = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        View customView = inflater.inflate(R.layout.dialog_edit_address_on_map, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(customView);
+        AlertDialog alertDialog = builder.create();
 
-        TextView facilityName = dialog.findViewById(R.id.facility_name);
-        Button createButton = dialog.findViewById(R.id.use_this);
-        facilityName.setText("mystery place"); // TODO logical address of this
-        createButton.setText("USE THIS PLACE");
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PickPlaceResult result = new PickPlaceResult();
-                result.setLatLng(facilityMarker.getLatLng());
-                result.setFacility(false);
-                sendResultBack(result);
-            }
-        });
-        dialog.show();
+        ArrayList<String> addresses = new ArrayList<>();
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address18");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address1");
+        addresses.add("address10");
+        addresses.add("address1");
+        addresses.add("address100");
+        AddressesListViewAdapter adapter = new AddressesListViewAdapter(this, addresses);
+        ListView addressesList = customView.findViewById(R.id.addresses);
+        addressesList.setAdapter(adapter);
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.TOP;
+        //wmlp.x = 100;   //x position
+        wmlp.y = 100;
+        alertDialog.getWindow().setAttributes(wmlp);
+
+        alertDialog.show();
+
+//        TextView facilityName = dialog.findViewById(R.id.facility_name);
+//        Button createButton = dialog.findViewById(R.id.use_this);
+//        facilityName.setText("mystery place"); // TODO logical address of this
+//        createButton.setText("USE THIS PLACE");
+//        createButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PickPlaceResult result = new PickPlaceResult();
+//                result.setLatLng(facilityMarker.getLatLng());
+//                result.setFacility(false);
+//                sendResultBack(result);
+//            }
+//        });
+//        dialog.show();
         return false;
     }
 
@@ -366,4 +413,6 @@ public class MapActivity extends BasicActivity
         super.onBackPressed();
         finish();
     }
+
+
 }

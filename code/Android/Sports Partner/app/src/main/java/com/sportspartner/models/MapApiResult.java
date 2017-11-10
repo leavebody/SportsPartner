@@ -25,4 +25,12 @@ public class MapApiResult {
     public void setAddresses(ArrayList<String> addresses) {
         this.addresses = addresses;
     }
+
+    @Override
+    public String toString() {
+        return "MapApiResult{" +
+                "zipcode='" + zipcode + '\'' +
+                ", addresses=" + addresses +
+                '}';
+    }
 }
