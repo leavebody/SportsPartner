@@ -15,15 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
-import java.util.Base64;
-import java.util.List;
+
 import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
 import com.sportspartner.util.*;
 import org.sql2o.tools.IOUtils;
-import java.util.Date;
-import java.util.UUID;
 
 
 public class Bootstrap {
@@ -38,7 +35,6 @@ public class Bootstrap {
      * @throws Exception throw exception of Service
      */
     public static void main(String[] args) throws Exception {
-
 
         ipAddress(IP_ADDRESS);
         port(PORT);
@@ -92,10 +88,10 @@ public class Bootstrap {
         */
 
 
-//            ImageUtil imageUtil = new ImageUtil();
-//            BufferedImage image = imageUtil.getImage("./res/usericon/u1_origin.png");
-//            BufferedImage image1 = imageUtil.resizeImage(image);
-//            imageUtil.saveImage(image1, "./res/usericon/u1_small.png");
+//        ImageUtil imageUtil = new ImageUtil();
+//        BufferedImage image = imageUtil.getImage("./res/usericon/zxiao10@jhu.edu_origin.png");
+//        BufferedImage image1 = imageUtil.resizeImage(image);
+//        imageUtil.saveImage(image1, "./res/usericon/zxiao10@jhu.edu_small.png");
 
 //        ImageUtil imageUtil = new ImageUtil();
 //        BufferedImage image = imageUtil.getImage("./res/usericon/shirish@gmail.com_origin.png");

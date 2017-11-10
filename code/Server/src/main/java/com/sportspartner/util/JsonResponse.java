@@ -22,7 +22,7 @@ public class JsonResponse {
     private JsonObject activity;
     private String type;
 
-    private String interest;
+    private JsonArray interests;
     private String authorization;
     private JsonArray profileComments;
     private JsonArray sports;
@@ -115,12 +115,21 @@ public class JsonResponse {
         }
     }
 
-    public String getInterest() {
-        return interest;
+    public JsonArray getInterests() {
+        return interests;
     }
 
-    public void setInterest(List<String> sportNames) {
-        this.interest = String.join(",", sportNames);
+    public void setInterests(List<Sport> sports) {
+        this.interests = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(Sport sport: sports){
+                String jsonString = gson.toJson(sport);
+                this.interests.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
     }
 
     public String getAuthorization() {

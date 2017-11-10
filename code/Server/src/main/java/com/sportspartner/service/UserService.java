@@ -2,18 +2,9 @@ package com.sportspartner.service;
 
 import java.util.UUID;
 import com.google.gson.Gson;
-import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
-import com.sportspartner.model.DeviceRegistration;
+import com.sportspartner.dao.impl.*;
+import com.sportspartner.model.*;
 import com.sportspartner.util.JsonResponse;
-
-import com.sportspartner.model.Person;
-import com.sportspartner.dao.impl.PersonDaoImpl;
-
-import com.sportspartner.model.User;
-import com.sportspartner.dao.impl.UserDaoImpl;
-
-import com.sportspartner.model.Authorization;
-import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 
 import com.sportspartner.modelvo.LoginVO;
 import com.sportspartner.modelvo.SignupVO;
@@ -24,6 +15,7 @@ public class UserService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
     private DeviceRegistrationDaoImpl deviceRegistrationDaoImpl = new DeviceRegistrationDaoImpl();
+    private IconDaoImpl iconDaoImpl = new IconDaoImpl();
 
     /**
      *  Login
@@ -109,12 +101,19 @@ public class UserService {
                 resp.setMessage("User type is invalid");
             }
             else{
-                resp.setResponse("true");
+
                 user = signupVO.cast2User();
                 userDaoImpl.newUser(user);
                 if(signupVO.getType().equals("PERSON")){
                     Person person = signupVO.cast2Person();
-                    personDaoImpl.newPerson(person);
+                    Icon icon  =  new Icon(user.getUserId(),"USER");
+                    if(!(personDaoImpl.newPerson(person) && iconDaoImpl.newIcon(icon))){
+                        resp.setResponse("false");
+                        resp.setMessage("Cannot create items in the database");
+                    }
+                    else{
+                        resp.setResponse("true");
+                    }
                 }
                 else if(signupVO.getType().equals("PROVIDER")) {
                     //TODO

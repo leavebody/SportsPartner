@@ -12,6 +12,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyCiLSewsCDaml2lNXdqIBm34s5oDKrpGVs")
+        resValue "string", "google_maps_web_key", (project.findProperty("GOOGLE_MAPS_WEB_API_KEY") ?: "AIzaSyBWkFWRJaXQUO-wHuNFVzgW2lbmNOV89_s")
+
     }
 
     buildTypes {

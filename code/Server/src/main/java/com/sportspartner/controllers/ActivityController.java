@@ -25,7 +25,7 @@ public class ActivityController {
             JsonResponse reps = new JsonResponse();
             try {
                 if(request.queryParams("content").equals("full")){
-                    reps = activityService.getActivityDetail(request.params(":id"));
+                    reps = activityService.getActivityDetail(request.params(":id"), request.queryParams("requestorId"),request.queryParams("requestorKey"));
                 }else if(request.queryParams("content").equals("outline")){
                     reps = activityService.getActivityOutline(request.params(":id"));
                 }else{
