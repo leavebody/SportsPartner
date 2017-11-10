@@ -24,6 +24,10 @@ import com.sportspartner.util.adapter.MyActivityAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * @author yujia xiao
+ * @author Xiaochen Li
+ */
 public class HomeActivity extends BasicActivity {
     //userEmail
     private String usermail;

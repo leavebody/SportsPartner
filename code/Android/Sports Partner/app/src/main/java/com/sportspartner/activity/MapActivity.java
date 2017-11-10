@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -44,7 +47,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.sportspartner.R;
 import com.sportspartner.models.FacilityMarker;
+import com.sportspartner.models.MapApiResult;
 import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.service.ResourceService;
+import com.sportspartner.service.serviceresult.ModelResult;
+import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.adapter.AddressesListViewAdapter;
 
@@ -233,6 +240,7 @@ public class MapActivity extends BasicActivity
     }
 
     public boolean onNewMarkerClick(final FacilityMarker facilityMarker){
+        final PickPlaceResult pickPlaceResult = new PickPlaceResult();
         LayoutInflater inflater = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         View customView = inflater.inflate(R.layout.dialog_edit_address_on_map, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -240,48 +248,64 @@ public class MapActivity extends BasicActivity
         AlertDialog alertDialog = builder.create();
 
         ArrayList<String> addresses = new ArrayList<>();
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address18");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address1");
-        addresses.add("address10");
-        addresses.add("address1");
-        addresses.add("address100");
-        AddressesListViewAdapter adapter = new AddressesListViewAdapter(this, addresses);
-        ListView addressesList = customView.findViewById(R.id.addresses);
-        addressesList.setAdapter(adapter);
-        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-        wmlp.gravity = Gravity.TOP;
-        //wmlp.x = 100;   //x position
-        wmlp.y = 100;
-        alertDialog.getWindow().setAttributes(wmlp);
+        final AddressesListViewAdapter adapter = new AddressesListViewAdapter(this, addresses);
 
+        final ListView addressesList = customView.findViewById(R.id.addresses);
+        final EditText addressText = customView.findViewById(R.id.address_field);
+        Button useThisBtn = customView.findViewById(R.id.use_this_address);
+
+        ResourceService.getGeocoding(this, facilityMarker.getLatLng(), new ActivityCallBack<MapApiResult>(){
+            @Override
+            public void getModelOnSuccess(ModelResult<MapApiResult> modelResult) {
+                if (!modelResult.isStatus()){
+                    Toast.makeText(MapActivity.this, modelResult.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d("MapActivity",
+                            String.format("Geo location api filed. Latlng:%s, message:%s",
+                                    facilityMarker.getLatLng(),
+                                    modelResult.getMessage()));
+                    return;
+                }
+                pickPlaceResult.setZipCode(modelResult.getModel().getZipcode());
+                ArrayList<String> addresses = modelResult.getModel().getAddresses();
+                final AddressesListViewAdapter adapter = new AddressesListViewAdapter(MapActivity.this, addresses);
+                addressesList.setAdapter(adapter);
+                if (adapter.getCount()>4){
+                    ViewGroup.LayoutParams params = addressesList.getLayoutParams();
+                    DisplayMetrics displayMetrics = MapActivity.this.getResources().getDisplayMetrics();
+                    params.height = Math.round(225 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+                    addressesList.setLayoutParams(params);
+                    addressesList.requestLayout();
+                }
+                addressesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, final View view,
+                                            int position, long id) {
+                        addressText.setText(adapter.getText(position));
+                    }
+
+                });
+            }
+        });
+
+        useThisBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickPlaceResult.setLatLng(facilityMarker.getLatLng());
+                pickPlaceResult.setName(addressText.getText().toString());
+                pickPlaceResult.setFacility(false);
+                sendResultBack(pickPlaceResult);
+            }
+        });
+
+
+//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+//        wmlp.gravity = Gravity.TOP;
+//        wmlp.y = 100;
+//        alertDialog.getWindow().setAttributes(wmlp);
         alertDialog.show();
 
-//        TextView facilityName = dialog.findViewById(R.id.facility_name);
-//        Button createButton = dialog.findViewById(R.id.use_this);
-//        facilityName.setText("mystery place"); // TODO logical address of this
-//        createButton.setText("USE THIS PLACE");
-//        createButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PickPlaceResult result = new PickPlaceResult();
-//                result.setLatLng(facilityMarker.getLatLng());
-//                result.setFacility(false);
-//                sendResultBack(result);
-//            }
-//        });
-//        dialog.show();
         return false;
     }
 

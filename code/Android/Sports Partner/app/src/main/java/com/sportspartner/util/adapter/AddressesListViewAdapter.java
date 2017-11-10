@@ -8,11 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sportspartner.R;
-import com.sportspartner.models.SActivityOutline;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * @author Xiaochen Li
@@ -73,6 +69,10 @@ public class AddressesListViewAdapter extends BaseAdapter {
         sportName.setText((String) getItem(position));
 
         return rowView;
+    }
+
+    public String getText(int position){
+        return (String) getItem(position);
     }
 
 }

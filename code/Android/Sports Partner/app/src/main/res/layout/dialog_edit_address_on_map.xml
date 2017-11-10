@@ -5,8 +5,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="use this address"/>
+        android:text="use this address"
+        android:id="@+id/use_this_address"/>
     <EditText
+        android:id="@+id/address_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ListView
