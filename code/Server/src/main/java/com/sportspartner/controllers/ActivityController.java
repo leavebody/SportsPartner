@@ -125,6 +125,21 @@ public class ActivityController {
 
         }, new JsonTransformer());
 
+        //update an activity info
+        put(API_CONTEXT + "/activity/:activityId", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = activityService.updateActivity(request.params(":activityId"),request.body());
+                response.status(200);
+                return reps;
+            } catch (Exception ex) {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
+
+
+
         // accept a join activity application
         post(API_CONTEXT + "/acceptjoinactivityapplication/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();

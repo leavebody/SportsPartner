@@ -36,7 +36,7 @@ public class SportDaoImpl implements SportDao {
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": getAllSport " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -76,7 +76,7 @@ public class SportDaoImpl implements SportDao {
 
     } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": getSport " + e.getMessage());
-            System.exit(0);
+            
     }finally {
             try {
                 rs.close();
@@ -114,7 +114,7 @@ public class SportDaoImpl implements SportDao {
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": Insert" + e.getMessage());
-            System.exit(0);
+            
             return false;
         }finally {
             try {
@@ -156,7 +156,7 @@ public class SportDaoImpl implements SportDao {
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": Update " + e.getMessage());
-            System.exit(0);
+            
             return false;
         }finally {
             try {
@@ -196,7 +196,7 @@ public class SportDaoImpl implements SportDao {
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": Delete " + e.getMessage());
-            System.exit(0);
+            
             return false;
         }finally {
             try {

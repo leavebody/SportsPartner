@@ -36,6 +36,8 @@ public class JsonResponse {
     private JsonArray members;
     private String activityId;
 
+    private JsonArray facilities;
+
     public JsonResponse() {
     }
 
@@ -261,5 +263,22 @@ public class JsonResponse {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
+    }
+
+    public JsonArray getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(List<FacilityOutlineMapVO> facilities) {
+        this.facilities = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for (FacilityOutlineMapVO facilityOutlineMapVO : facilities){
+                String jsonString = gson.toJson(facilityOutlineMapVO);
+                this.facilities.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
     }
 }

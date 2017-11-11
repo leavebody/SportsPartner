@@ -19,6 +19,7 @@ public class FriendController {
 
     private void setupEndpoints(){
 
+        // get all friends of the user
         get(API_CONTEXT + "/:userId/friends", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
@@ -30,6 +31,8 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
+
+        // send a friend request
         post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
@@ -41,6 +44,8 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
+
+        // accept a freind request
         post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
@@ -52,6 +57,8 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
+
+        // decline a friend request
         post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
@@ -63,6 +70,8 @@ public class FriendController {
                 return reps;
             }
         }, new JsonTransformer());
+
+        // delete a friend
         delete(API_CONTEXT + "/deletefriend/:userId1/:userId2", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {

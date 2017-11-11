@@ -43,7 +43,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
         }finally{
             try {
                 rs.close();
@@ -78,7 +78,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {
@@ -113,7 +113,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {
@@ -149,7 +149,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {

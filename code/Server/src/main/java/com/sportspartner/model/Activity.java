@@ -155,5 +155,6 @@ public class Activity {
         this.latitude = facility.getLatitude();
         this.address = facility.getAddress();
     }
+
 }
 

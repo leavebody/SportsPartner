@@ -40,15 +40,17 @@ public class FriendService {
                 userOutlineVOList.add(userOutlineVO);
             }
             //resp.setResponse("true");
+            resp.setResponse("true");
             resp.setFriendlist(userOutlineVOList);
         }catch(Exception ex){
             throw new FriendServiceException("Get friendList error", ex);
+
         }
         return resp;
     }
 
     /**
-     * Sender send to friend request to receiver
+     * Sender send a friend request to receiver
      * @param receiverId Id of receiver
      * @param senderId Id of sender
      * @return JsonResponse to the front-end
