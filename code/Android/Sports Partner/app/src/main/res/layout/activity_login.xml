@@ -90,20 +90,20 @@
             android:id="@+id/button2" />
 
         <!--<ProgressBar
-            android:id="@+id/progressBar2"
+            andridd:idid@+id/progressBar2"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/button2"
-            android:layout_below="@+id/button2"
+            android:layout_alignEndid@+id/button2"
+            android:layout_belowid@+id/button2"
             android:layout_marginTop="34dp" />
 
         <TextView
-            android:id="@+id/textView123"
+            andridd:idid@+id/textView123"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/progressBar2"
-            android:layout_toStartOf="@+id/loginEmail"
+            android:layout_alignTopid@+id/progressBar2"
+            android:layout_toStartOfid@+id/loginEmail"
             android:text="1234567" />-->
     </RelativeLayout>
 

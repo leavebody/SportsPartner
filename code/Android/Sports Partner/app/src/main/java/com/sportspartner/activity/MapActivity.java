@@ -11,22 +11,15 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,20 +37,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.sportspartner.R;
 import com.sportspartner.models.FacilityMarker;
 import com.sportspartner.models.MapApiResult;
-import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.adapter.AddressesListViewAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 /**
@@ -195,13 +185,25 @@ public class MapActivity extends BasicActivity
     public void setMapMarkers(GoogleMap map){
         for(FacilityMarker f: facilityMarkers) {
             map.addMarker(new MarkerOptions()
-                    .position(new LatLng(f.getLatitude(), f.getLongtitude())))
+                    .position(new LatLng(f.getLatitude(), f.getLongitude())))
                     .setTag(f);
         }
     }
 
     public void getMarkers(){
         facilityMarkers = new ArrayList();
+        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<FacilityMarker>(){
+            @Override
+            public void getModelOnSuccess(ModelResult<FacilityMarker> modelResult){
+                if (!modelResult.isStatus()){
+                    Log.d("MapActivity", "get all facility markers bad response: "+modelResult.getMessage());
+                    Toast.makeText(MapActivity.this,
+                            "get all facility markers bad response: "+modelResult.getMessage(),Toast.LENGTH_LONG);
+                    return;
+                }
+
+            }
+        });
         facilityMarkers.add(new FacilityMarker(39.328, -76.617, "swimming", "id007"));
         facilityMarkers.add(new FacilityMarker(39.325, -76.611, "badminton", "id015"));
         facilityMarkers.add(new FacilityMarker(39.329, -76.617, "running", "id250"));
@@ -215,7 +217,7 @@ public class MapActivity extends BasicActivity
 
         // Retrieve the data from the marker.
         FacilityMarker facilityMarker = (FacilityMarker) marker.getTag();
-        if (facilityMarker.getId()!=null){
+        if (facilityMarker.getFacilityId()!=null){
             return onFacilityMarkerClick(facilityMarker);
         } else {
             return onNewMarkerClick(facilityMarker);
@@ -224,16 +226,16 @@ public class MapActivity extends BasicActivity
 
     public boolean onFacilityMarkerClick(final FacilityMarker facilityMarker){
 
-        TextView facilityName = dialog.findViewById(R.id.facility_name);
+        TextView name = dialog.findViewById(R.id.facility_name);
         Button createButton = dialog.findViewById(R.id.use_this);
 
-        facilityName.setText(facilityMarker.getName());
+        name.setText(facilityMarker.getFacilityName());
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PickPlaceResult result = new PickPlaceResult();
                 result.setLatLng(facilityMarker.getLatLng());
-                result.setName(facilityMarker.getName());
+                result.setName(facilityMarker.getFacilityName());
                 result.setFacility(true);
                 sendResultBack(result);
             }
@@ -340,7 +342,7 @@ public class MapActivity extends BasicActivity
                         try {
                             fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, MapActivity.this);
                             mLastLocation = fusedLocationProviderApi.getLastLocation(googleApiClient);
-                            if (pickPlaceResult != null) {
+                            if (pickPlaceResult != null && pickPlaceResult.notZero()) {
                                 point = pickPlaceResult.getLatLng();
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         point, DEFAULT_ZOOM));

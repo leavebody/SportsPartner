@@ -64,7 +64,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     private SActivity sActivity= new SActivity();
     private ArrayList<Sport> listSports = new ArrayList<Sport>();
     private int sportPosition;
-    private String facilityId;
+    private String id;
     private Double longitude;
     private Double latitude;
     private String zipcode;
@@ -257,8 +257,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
 
                     if (pickPlaceResult.isFacility()){
-                        //Todo get facilityId
-                        facilityId = "NULL";
+                        //Todo get id
+                        id = "NULL";
                         latitude = 0.0;
                         longitude = 0.0;
                         zipcode = "00000";
@@ -266,7 +266,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                     } else {
                         //Todo Zipcode
                         zipcode = pickPlaceResult.getZipCode();
-                        facilityId = "NULL";
+                        id = "NULL";
                         latitude = pickPlaceResult.getLatLng().latitude;
                         longitude = pickPlaceResult.getLatLng().longitude;
 //                        Double latiDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().latitude)
@@ -318,7 +318,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setSize(1);
             sActivity.setCreatorId(myEmail);
             sActivity.setDescription(detail);
-            sActivity.setFacilityId(facilityId);
+            sActivity.setFacilityId(id);
             sActivity.setLatitude(latitude);
             sActivity.setLongitude(longitude);
             sActivity.setZipcode(zipcode);

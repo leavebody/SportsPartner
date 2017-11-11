@@ -154,7 +154,7 @@ public class SactivityDetailActivity extends BasicActivity {
 
         //set data to Android Widget
         sport.setText(activityDetal.getSportName());
-        location.setText(activityDetal.getFacilityName());
+        location.setText(activityDetal.getFacilitiName());
         description.setText(activityDetal.getDetail());
         String size = activityDetal.getSize() + "/" + activityDetal.getCapacity();
         capacity.setText(size);
