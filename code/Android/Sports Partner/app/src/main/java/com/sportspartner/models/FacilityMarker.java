@@ -8,20 +8,20 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class FacilityMarker {
     private double latitude;
-    private double longtitude;
-    private String name;
-    private String id;
+    private double longitude;
+    private String facilityName;
+    private String facilityId;
 
-    public FacilityMarker(double latitude, double longtitude, String name, String id) {
+    public FacilityMarker(double latitude, double longitude, String name, String id) {
         this.latitude = latitude;
-        this.longtitude = longtitude;
-        this.name = name;
-        this.id = id;
+        this.longitude = longitude;
+        this.facilityName = name;
+        this.facilityId = id;
     }
     public FacilityMarker(LatLng latLng, String name, String id) {
         setLatLng(latLng);
-        this.name = name;
-        this.id = id;
+        this.facilityName = name;
+        this.facilityId = id;
     }
     public double getLatitude() {
         return latitude;
@@ -31,36 +31,46 @@ public class FacilityMarker {
         this.latitude = latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public String getName() {
-        return name;
+    public String getFacilityName() {
+        return facilityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
     }
 
-    public String getId() {
-        return id;
+    public String getFacilityId() {
+        return facilityId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
     }
 
     public LatLng getLatLng() {
-        return new LatLng(latitude, longtitude);
+        return new LatLng(latitude, longitude);
     }
 
     public void setLatLng(LatLng latLng) {
         latitude = latLng.latitude;
-        longtitude = latLng.longitude;
+        longitude = latLng.longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "FacilityMarker{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", facilityName='" + facilityName + '\'' +
+                ", facilityId='" + facilityId + '\'' +
+                '}';
     }
 }

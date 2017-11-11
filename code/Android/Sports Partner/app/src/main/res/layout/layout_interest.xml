@@ -33,7 +33,7 @@
         android:textStyle="bold"/>
 
     <!--<com.vj.widgets.AutoResizeTextView
-        android:id="@+id/sportName"
+        andridd:idid@+id/sportName"
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:ellipsize="none"
