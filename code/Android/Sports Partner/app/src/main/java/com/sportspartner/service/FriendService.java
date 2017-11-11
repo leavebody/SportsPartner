@@ -53,7 +53,7 @@ public class FriendService extends Service{
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
-                    JsonArray comment = jsResp.getAsJsonArray("friends");
+                    JsonArray comment = jsResp.getAsJsonArray("friendlist");
                     Gson gson = new Gson();
 
                     ArrayList<UserOutline> al = gson.fromJson(comment, new TypeToken<ArrayList<UserOutline>>(){}.getType());

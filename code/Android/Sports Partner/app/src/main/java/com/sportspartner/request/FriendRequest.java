@@ -1,6 +1,7 @@
 package com.sportspartner.request;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -36,6 +37,7 @@ public class FriendRequest extends Request{
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/"+userId+"/friends";
+        Log.d("friendListVolleyRequest", url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override

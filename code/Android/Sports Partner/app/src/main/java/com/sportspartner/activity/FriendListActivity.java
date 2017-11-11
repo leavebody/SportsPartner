@@ -42,7 +42,7 @@ public class FriendListActivity extends BasicActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
 
-        friendAdapter = new FriendAdapter(friendList);
+        friendAdapter = new FriendAdapter(friendList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -76,6 +76,7 @@ public class FriendListActivity extends BasicActivity {
                 if (status){
                     //if successfully get the data, then get the data
                     friendList = new ArrayList<>(result.getModel());
+                    friendAdapter.updateFriendList(friendList);
                 }
                 else{
                     //if failure, show a toast
@@ -84,7 +85,7 @@ public class FriendListActivity extends BasicActivity {
                 }
             }
         });
-        friendAdapter.notifyDataSetChanged();
+
     }
 
     @Override

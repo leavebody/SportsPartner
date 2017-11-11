@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +29,7 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
     protected Intent myIntent;
     protected Context context;
 
-    public class MyViewHolder extends InterestAdapter.MyViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
         public TextView name;
         public ImageView selectedIcon;
@@ -38,7 +37,7 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
         private Context context;
 
         public MyViewHolder(View view, Context context) {
-            super(view, context);
+            super(view);
             this.photo = (ImageView) view.findViewById(R.id.sportIcon);
             this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);

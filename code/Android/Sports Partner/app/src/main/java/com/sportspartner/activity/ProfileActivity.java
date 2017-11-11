@@ -27,10 +27,13 @@ import com.sportspartner.R;
 import com.sportspartner.models.Profile;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
+import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.FriendAdapter;
 import com.sportspartner.util.adapter.InterestAdapter;
@@ -41,12 +44,14 @@ import java.util.ArrayList;
 public class ProfileActivity extends BasicActivity {
     //userEmail
     private String usermail;
+    private String myEmail;
 
     //the main view of this activity
     RefreshLayout refreshLayout;
 
     private Profile profile = new Profile();
     private ArrayList<Sport> sports = new ArrayList<Sport>();
+    private String userType;
 
     // ListView adapters
     private InterestAdapter interestAdapter;
@@ -96,6 +101,8 @@ public class ProfileActivity extends BasicActivity {
         Intent myIntent = getIntent();
         usermail = myIntent.getStringExtra("userId");
 
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
+        myEmail = dbHelper.getEmail();
 
         //find all the widgets by Id
         View basicInfo = findViewById(R.id.personal_info);
@@ -258,6 +265,7 @@ public class ProfileActivity extends BasicActivity {
         if (status){
             //if successfully get the data, then get the data
             profile = userProfileResult.getModel();
+            userType = userProfileResult.getUserType();
         }
         else{
             //if failure, show a toast
@@ -425,6 +433,7 @@ public class ProfileActivity extends BasicActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            //Todo change to break
             case R.id.toolbar_edit:
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 intent.putExtra("interest",sports);
@@ -432,6 +441,32 @@ public class ProfileActivity extends BasicActivity {
                 this.startActivity(intent);
                 finish();
                 break;
+                /*switch (userType){
+                    case "SELF":
+                        Intent intent = new Intent(this, EditProfileActivity.class);
+                        intent.putExtra("interest",sports);
+                        intent.putExtra("profile",profile);
+                        this.startActivity(intent);
+                        finish();
+                        break;
+                    case "FRIEND":
+                        //Todo delete the friend request
+                        break;
+                    case "STRANGER":
+                        FriendService.sendFriendRequest(this, usermail, myEmail, new ActivityCallBack(){
+                            @Override
+                            public void getBooleanOnSuccess(BooleanResult booleanResult){
+                                if (!booleanResult.isStatus()){
+                                    Toast.makeText(ProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                        break;
+                    default:
+                        Toast.makeText(this,"UserType Error",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                break;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -449,7 +484,29 @@ public class ProfileActivity extends BasicActivity {
         super.onCreateOptionsMenu(menu);
         //change the visibility of toolbar edit button
         MenuItem editItem = menu.getItem(0);
+
+        //Todo change to switch
+        editItem.setIcon(R.drawable.edit);
         editItem.setVisible(true);
+
+        /*switch (userType){
+            case "SELF":
+                editItem.setIcon(R.drawable.edit);
+                editItem.setVisible(true);
+                break;
+            case "FRIEND":
+                editItem.setIcon(R.drawable.delete);
+                editItem.setVisible(true);
+                break;
+            case "STRANGER":
+                editItem.setIcon(R.drawable.add);
+                editItem.setVisible(true);
+                break;
+            default:
+                Toast.makeText(this,"UserType Error",Toast.LENGTH_SHORT).show();
+                break;
+        }*/
+
         return true;
     }
 
