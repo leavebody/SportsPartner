@@ -18,7 +18,11 @@ public class FacilityMarker {
         this.name = name;
         this.id = id;
     }
-
+    public FacilityMarker(LatLng latLng, String name, String id) {
+        setLatLng(latLng);
+        this.name = name;
+        this.id = id;
+    }
     public double getLatitude() {
         return latitude;
     }

@@ -114,6 +114,8 @@ public class MapActivity extends BasicActivity
         if (b != null) {
             pickPlaceResult = (PickPlaceResult) getIntent().getExtras()
                     .getSerializable("PickPlaceResult");
+        } else {
+            pickPlaceResult = new PickPlaceResult();
         }
 
         ViewGroup content = findViewById(R.id.layout_home);
@@ -179,12 +181,13 @@ public class MapActivity extends BasicActivity
     public void onMapClick (LatLng point){
         if (mOnclickMarker != null) {
             mOnclickMarker.setPosition(point);
+            mOnclickMarker.setTag(new FacilityMarker(point, null, null));
         } else {
             MarkerOptions marker = new MarkerOptions()
                     .position(point);
             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             mOnclickMarker = mMap.addMarker(marker);
-            mOnclickMarker.setTag(new FacilityMarker(point.latitude, point.longitude, null, null));
+            mOnclickMarker.setTag(new FacilityMarker(point, null, null));
         }
         onMarkerClick(mOnclickMarker);
     }
@@ -240,19 +243,36 @@ public class MapActivity extends BasicActivity
     }
 
     public boolean onNewMarkerClick(final FacilityMarker facilityMarker){
-        final PickPlaceResult pickPlaceResult = new PickPlaceResult();
+        pickPlaceResult.setLatLng(facilityMarker.getLatLng());
+        pickPlaceResult.setFacility(false);
+
         LayoutInflater inflater = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         View customView = inflater.inflate(R.layout.dialog_edit_address_on_map, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(customView);
         AlertDialog alertDialog = builder.create();
 
-        ArrayList<String> addresses = new ArrayList<>();
-        final AddressesListViewAdapter adapter = new AddressesListViewAdapter(this, addresses);
-
         final ListView addressesList = customView.findViewById(R.id.addresses);
         final EditText addressText = customView.findViewById(R.id.address_field);
+        if (pickPlaceResult!= null && pickPlaceResult.getName()!= null){
+            addressText.setText(pickPlaceResult.getName());
+        }
         Button useThisBtn = customView.findViewById(R.id.use_this_address);
+
+        useThisBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickPlaceResult.setName(addressText.getText().toString());
+                sendResultBack(pickPlaceResult);
+            }
+        });
+//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+//        wmlp.gravity = Gravity.TOP;
+//        wmlp.y = 100;
+//        alertDialog.getWindow().setAttributes(wmlp);
+        alertDialog.show();
+
 
         ResourceService.getGeocoding(this, facilityMarker.getLatLng(), new ActivityCallBack<MapApiResult>(){
             @Override
@@ -288,24 +308,6 @@ public class MapActivity extends BasicActivity
             }
         });
 
-        useThisBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickPlaceResult.setLatLng(facilityMarker.getLatLng());
-                pickPlaceResult.setName(addressText.getText().toString());
-                pickPlaceResult.setFacility(false);
-                sendResultBack(pickPlaceResult);
-            }
-        });
-
-
-//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-//        wmlp.gravity = Gravity.TOP;
-//        wmlp.y = 100;
-//        alertDialog.getWindow().setAttributes(wmlp);
-        alertDialog.show();
-
         return false;
     }
 
@@ -320,6 +322,7 @@ public class MapActivity extends BasicActivity
 
     /**
      * Gets the current location of the device, and positions the map's camera.
+     * Set up the marker of selected location.
      */
 
     private void getDeviceLocation() {
@@ -333,18 +336,31 @@ public class MapActivity extends BasicActivity
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle arg0) {
+                        LatLng point;
                         try {
                             fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, MapActivity.this);
                             mLastLocation = fusedLocationProviderApi.getLastLocation(googleApiClient);
-                            mLastKnownLocation = mLastLocation;
                             if (pickPlaceResult != null) {
+                                point = pickPlaceResult.getLatLng();
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(pickPlaceResult.getLatitude(),
-                                                pickPlaceResult.getLongitude()), DEFAULT_ZOOM));
+                                        point, DEFAULT_ZOOM));
+                                if (pickPlaceResult.isFacility()){
+                                    //TODO open the card of this facility
+                                } else {
+                                    if (mOnclickMarker != null) {
+                                        mOnclickMarker.setPosition(point);
+                                    } else {
+                                        MarkerOptions marker = new MarkerOptions()
+                                                .position(point);
+                                        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                                        mOnclickMarker = mMap.addMarker(marker);
+                                        mOnclickMarker.setTag(new FacilityMarker(point.latitude, point.longitude, null, null));
+                                    }
+                                }
                             } else {
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(mLastKnownLocation.getLatitude(),
-                                                mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                        new LatLng(mLastLocation.getLatitude(),
+                                                mLastLocation.getLongitude()), DEFAULT_ZOOM));
                             }
                         } catch (SecurityException e){
                             Log.e(TAG, e.getMessage());
