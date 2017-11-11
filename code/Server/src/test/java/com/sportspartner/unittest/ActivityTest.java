@@ -78,7 +78,7 @@ public class ActivityTest {
         //assertEquals ("true",respond);
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":0.0,\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]}}", response);
+        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"STRANGER\"}", response);
 
 
     }
@@ -143,7 +143,7 @@ public class ActivityTest {
         //String respond = responseJson.get("response").getAsString();
         //assertEquals ("\"true\"",respond);
         //String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":0.0,\"capacity\":6,\"size\":5}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}}", responseBody);
     }
     /**
      * test when GetActivityOutline fails
@@ -204,7 +204,7 @@ public class ActivityTest {
         //String response =responseJson.getAsString();
         //String respond = responseJson.get("response").toString();
         //assertEquals ("\"true\"",respond);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a003\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2019 10:00:00 AM\",\"endTime\":\"Oct 25, 2019 11:30:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":2,\"size\":1}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"e781007a-b58a-4596-bec0-23f28e907b9f\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 11, 2017 4:31:00 PM\",\"endTime\":\"Nov 12, 2017 5:31:00 PM\",\"facilityId\":\"NULL\",\"longitude\":-122.08470895886423,\"latitude\":37.4277097302242,\"capacity\":2,\"size\":1},{\"activityId\":\"a003\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2019 10:00:00 AM\",\"endTime\":\"Oct 25, 2019 11:30:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":2,\"size\":1}]}", responseBody);
     }
 
     /**
@@ -244,7 +244,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_upcoming" + "?id=u5&offset=0&limit=5");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_upcoming" + "?id=u10&offset=0&limit=5");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
@@ -289,7 +289,7 @@ public class ActivityTest {
         }
 
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a006\",\"creatorId\":\"zihao@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 28, 2017 10:00:00 AM\",\"endTime\":\"Oct 28, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":2,\"size\":2},{\"activityId\":\"a005\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Basketball\",\"startTime\":\"Oct 27, 2017 10:00:00 AM\",\"endTime\":\"Oct 27, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":6,\"size\":5},{\"activityId\":\"a004\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 26, 2017 10:00:00 AM\",\"endTime\":\"Oct 26, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":3,\"size\":3},{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":0.0,\"capacity\":6,\"size\":5},{\"activityId\":\"a002\",\"creatorId\":\"u24\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 10:00:00 AM\",\"endTime\":\"Oct 25, 2017 11:30:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":2,\"size\":1}]}",responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"0113faac-8317-4a1a-b4f1-43bcd5d1718a\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Nov 9, 2017 4:26:00 PM\",\"endTime\":\"Nov 9, 2017 6:26:00 PM\",\"facilityId\":\"NULL\",\"longitude\":-122.08191677927972,\"latitude\":37.422482000301194,\"capacity\":9,\"size\":1},{\"activityId\":\"a006\",\"creatorId\":\"zihao@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 28, 2017 10:00:00 AM\",\"endTime\":\"Oct 28, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":2,\"size\":2},{\"activityId\":\"a005\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Basketball\",\"startTime\":\"Oct 27, 2017 10:00:00 AM\",\"endTime\":\"Oct 27, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":6,\"size\":5},{\"activityId\":\"a004\",\"creatorId\":\"xuanzhang666@jhu.edu\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Oct 26, 2017 10:00:00 AM\",\"endTime\":\"Oct 26, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":3,\"size\":3},{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}]}",responseBody);
     }
 
     /**
@@ -330,7 +330,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_past" + "?id=u5&offset=0&limit=5");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_past" + "?id=u10&offset=0&limit=5");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
