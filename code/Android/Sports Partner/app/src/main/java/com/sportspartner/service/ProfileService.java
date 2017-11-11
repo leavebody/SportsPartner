@@ -52,12 +52,15 @@ public class ProfileService extends Service {
             case 200:
                 boolean status = false;
 
+
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
                     Gson gson = new Gson();
                     result.setModel(gson.fromJson(jsResp.get("profile"), Profile.class));
+                    String userType = (jsResp.get("userType").getAsString());
+                    result.setUserType(userType);
 
                 } else {
                     result.setMessage("get profile failed: "+jsResp.get("message").getAsString());
