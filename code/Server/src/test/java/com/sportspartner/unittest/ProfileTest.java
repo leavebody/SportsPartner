@@ -276,7 +276,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"interest\":\"Swimming,Tennis\"}", responseBody);
+        assertEquals("{\"response\":\"true\",\"interests\":[{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\"}]}", responseBody);
     }
 
     @Test
