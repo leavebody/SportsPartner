@@ -20,7 +20,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/portrait" />
+                android:background="@drawable/anonymous" />
 
             <TextView
                 android:id="@+id/profile_name"
@@ -29,7 +29,7 @@
                 android:layout_below="@+id/profile_photo"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Xuan Zhang"
+                android:text=""
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
@@ -59,7 +59,7 @@
                     <TextView
                         android:id="@+id/gender"
                         android:padding="3dip"
-                        android:text="Female"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textStyle="bold"/>
                 </TableRow>
@@ -75,7 +75,7 @@
                     <TextView
                         android:id="@+id/age"
                         android:padding="3dip"
-                        android:text="23"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                 </TableRow>
@@ -91,7 +91,7 @@
                     <TextView
                         android:id="@+id/location"
                         android:padding="3dip"
-                        android:text="JHU, Baltimore"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                 </TableRow>
