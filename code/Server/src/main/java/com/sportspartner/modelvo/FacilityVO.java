@@ -15,13 +15,14 @@ public class FacilityVO {
     private String sportIconUUID;
     private double longitude;
     private double latitude;
+    private String address;
     private double score;
     private String openTime;
     private String description;
 
     public FacilityVO(){}
 
-    public FacilityVO(String facilityId, String facilityName, String providerId, String providerName, String iconUUID, String sportId, String sportName, String sportIconUUID, double longitude, double latitude, double score, String openTime, String description) {
+    public FacilityVO(String facilityId, String facilityName, String providerId, String providerName, String iconUUID, String sportId, String sportName, String sportIconUUID, double longitude, double latitude, String address, double score, String openTime, String description) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.providerId = providerId;
@@ -32,6 +33,7 @@ public class FacilityVO {
         this.sportIconUUID = sportIconUUID;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.score = score;
         this.openTime = openTime;
         this.description = description;
@@ -117,6 +119,14 @@ public class FacilityVO {
         this.latitude = latitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public double getScore() {
         return score;
     }
@@ -149,6 +159,7 @@ public class FacilityVO {
         this.sportId = facility.getSportId();
         this.longitude= facility.getLongitude();
         this.latitude= facility.getLatitude();
+        this.address = facility.getAddress();
         this.score= facility.getScore();
         this.openTime= facility.getOpenTime();
         this.description= facility.getDescription();

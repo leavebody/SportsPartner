@@ -11,6 +11,7 @@ public class Activity {
     private double longitude;
     private double latitude;
     private String zipcode;
+    private String address;
     private Date startTime;
     private Date endTime;
     private int capacity;
@@ -20,7 +21,7 @@ public class Activity {
     public Activity() {
     }
 
-    public Activity(String activityId, String creatorId, String facilityId, String status, String sportId, double longitude, double latitude, String zipcode, Date startTime, Date endTime, int capacity, int size, String description) {
+    public Activity(String activityId, String creatorId, String facilityId, String status, String sportId, double longitude, double latitude, String zipcode, String address, Date startTime, Date endTime, int capacity, int size, String description) {
         this.activityId = activityId;
         this.creatorId = creatorId;
         this.facilityId = facilityId;
@@ -29,6 +30,7 @@ public class Activity {
         this.longitude = longitude;
         this.latitude = latitude;
         this.zipcode = zipcode;
+        this.address = address;
         this.startTime = startTime;
         this.endTime = endTime;
         this.capacity = capacity;
@@ -100,6 +102,14 @@ public class Activity {
         this.zipcode = zipcode;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -143,6 +153,7 @@ public class Activity {
     public void setFromFacility(Facility facility){
         this.longitude = facility.getLongitude();
         this.latitude = facility.getLatitude();
+        this.address = facility.getAddress();
     }
 }
 
