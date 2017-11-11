@@ -95,7 +95,6 @@ public class ActivityDaoImpl implements ActivityDao {
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
             try {
                 rs.close();

@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FacilityDaoImpl implements FacilityDao {
-    Connection c = new ConnectionUtil().connectDB();
-
     /**
      * Get all facilities in the database.
      * @return a list of Facility objects.
      */
     public List<Facility> getAllFacilities(){
+        Connection c = new ConnectionUtil().connectDB();
         List<Facility> facilities = new ArrayList<Facility>();
 
         ResultSet rs = null;
@@ -66,6 +65,7 @@ public class FacilityDaoImpl implements FacilityDao {
      * @return Facility object
      */
     public Facility getFacility(String facilityId){
+        Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
         PreparedStatement statement;
         Facility facility = null;
