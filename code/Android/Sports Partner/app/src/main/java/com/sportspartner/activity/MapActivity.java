@@ -130,7 +130,7 @@ public class MapActivity extends BasicActivity
     @Override
     public void onLocationChanged(Location location) {
         // TODO delete this when I'm sure this works
-        Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "location :" + location.getLatitude() + " , " + location.getLongitude(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -153,7 +153,6 @@ public class MapActivity extends BasicActivity
     public void onMapReady(GoogleMap map) {
         mMap = map;
 
-        getMarkers();
         setMapMarkers(mMap);
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
@@ -182,34 +181,26 @@ public class MapActivity extends BasicActivity
         onMarkerClick(mOnclickMarker);
     }
 
-    public void setMapMarkers(GoogleMap map){
-        for(FacilityMarker f: facilityMarkers) {
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(f.getLatitude(), f.getLongitude())))
-                    .setTag(f);
-        }
-    }
-
-    public void getMarkers(){
-        facilityMarkers = new ArrayList();
-        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<FacilityMarker>(){
+    public void setMapMarkers(final GoogleMap map){
+        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<ArrayList<FacilityMarker>>(){
             @Override
-            public void getModelOnSuccess(ModelResult<FacilityMarker> modelResult){
+            public void getModelOnSuccess(ModelResult<ArrayList<FacilityMarker>> modelResult){
                 if (!modelResult.isStatus()){
                     Log.d("MapActivity", "get all facility markers bad response: "+modelResult.getMessage());
                     Toast.makeText(MapActivity.this,
                             "get all facility markers bad response: "+modelResult.getMessage(),Toast.LENGTH_LONG);
                     return;
                 }
-
+                facilityMarkers = modelResult.getModel();
+                for(FacilityMarker f: facilityMarkers) {
+                    map.addMarker(new MarkerOptions()
+                            .position(new LatLng(f.getLatitude(), f.getLongitude())))
+                            .setTag(f);
+                }
             }
         });
-        facilityMarkers.add(new FacilityMarker(39.328, -76.617, "swimming", "id007"));
-        facilityMarkers.add(new FacilityMarker(39.325, -76.611, "badminton", "id015"));
-        facilityMarkers.add(new FacilityMarker(39.329, -76.617, "running", "id250"));
-        facilityMarkers.add(new FacilityMarker(39.330, -76.613, "sleeping", "id002"));
-        facilityMarkers.add(new FacilityMarker(39.323, -76.617, "basketball", "id010"));
     }
+
 
     /** Called when the user clicks a marker. */
     @Override

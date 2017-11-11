@@ -1,6 +1,7 @@
 package com.sportspartner.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.google.gson.Gson;
@@ -8,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sportspartner.models.FacilityMarker;
+import com.sportspartner.request.FacilityRequest;
 import com.sportspartner.request.ResourceRequest;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
@@ -30,8 +32,8 @@ public class FacilityService extends Service {
      */
     public static void getAllFacilityMarkers(final Context c, final ActivityCallBack callback) {
 
-        ResourceRequest request = new ResourceRequest(c);
-        request.allSportsRequest(new VolleyCallback() {
+        FacilityRequest request = new FacilityRequest(c);
+        request.allFacilitiesRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
                 callback.getModelOnSuccess(getAllFacilityMarkersRespProcess(response));
@@ -61,7 +63,6 @@ public class FacilityService extends Service {
                     ArrayList<FacilityMarker> arrayMarker = gson.fromJson(jsArrayMarker,
                             new TypeToken<ArrayList<FacilityMarker>>() {
                             }.getType());
-
                     result.setModel(arrayMarker);
                 } else {
                     result.setMessage("get all facility markers request failed: " + jsResp.get("message").getAsString());

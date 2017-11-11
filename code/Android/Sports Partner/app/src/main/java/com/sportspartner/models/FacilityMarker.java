@@ -63,4 +63,14 @@ public class FacilityMarker {
         latitude = latLng.latitude;
         longitude = latLng.longitude;
     }
+
+    @Override
+    public String toString() {
+        return "FacilityMarker{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", facilityName='" + facilityName + '\'' +
+                ", facilityId='" + facilityId + '\'' +
+                '}';
+    }
 }

@@ -42,7 +42,7 @@ public class SactivityDetailActivity extends BasicActivity {
     private MemberPhotoAdapter memberAdapter;
 
     //SActivity object
-    private SActivity activityDetal = new SActivity();
+    private SActivity activityDetail = new SActivity();
     private String activityId;
 
 
@@ -101,7 +101,7 @@ public class SactivityDetailActivity extends BasicActivity {
 
         if (status){
             //if successfully get Activity, get the data
-           activityDetal = result.getModel();
+           activityDetail = result.getModel();
         }
         else {
             //if failure, show a toast
@@ -137,8 +137,8 @@ public class SactivityDetailActivity extends BasicActivity {
 
         if (status){
             //if successfully get the data, then get the data
-            activityDetal = sActivityResult.getModel();
-            if (activityDetal == null){
+            activityDetail = sActivityResult.getModel();
+            if (activityDetail == null){
                 Log.d("Date", "null");
             }
             else  {
@@ -153,18 +153,18 @@ public class SactivityDetailActivity extends BasicActivity {
         }
 
         //set data to Android Widget
-        sport.setText(activityDetal.getSportName());
-        location.setText(activityDetal.getFacilitiName());
-        description.setText(activityDetal.getDetail());
-        String size = activityDetal.getSize() + "/" + activityDetal.getCapacity();
+        sport.setText(activityDetail.getSportName());
+        location.setText(activityDetail.getFacilitiName());
+        description.setText(activityDetail.getDetail());
+        String size = activityDetail.getSize() + "/" + activityDetail.getCapacity();
         capacity.setText(size);
 
         //Time and date
         //Date start = new Date();
-        Date start = activityDetal.getStartTime();
-        Log.d("Date", activityDetal.getStartTime().toString());
+        Date start = activityDetail.getStartTime();
+        Log.d("Date", activityDetail.getStartTime().toString());
         Date end = new Date();
-        end = activityDetal.getEndTime();
+        end = activityDetail.getEndTime();
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.mm.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
