@@ -40,9 +40,11 @@ public class FriendService {
                 userOutlineVOList.add(userOutlineVO);
             }
             //resp.setResponse("true");
+            resp.setResponse("true");
             resp.setFriendlist(userOutlineVOList);
         }catch(Exception ex){
             throw new FriendServiceException("Get friendList error", ex);
+
         }
         return resp;
     }
