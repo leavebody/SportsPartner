@@ -24,7 +24,6 @@ public class ActivityService {
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
     private PendingJoinActivityRequestDaoImpl pendingJoinActivityRequestDaoImpl = new PendingJoinActivityRequestDaoImpl();
     private NotificationDaoImpl notificationDaoImpl = new NotificationDaoImpl();
-    int counter=0;
     /**
      * Get the detail of an activity
      *
@@ -34,8 +33,6 @@ public class ActivityService {
      */
     public JsonResponse getActivityDetail(String activityId, String requestorId, String requestorKey) throws ActivityServiceException {
         JsonResponse resp = new JsonResponse();
-        counter += 1;
-        System.out.println(counter);
         try {
             if (!hasActivity(activityId)) {
                 resp.setResponse("false");
