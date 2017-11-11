@@ -57,6 +57,9 @@ public class Bootstrap {
             ImageService imageService = new ImageService();
             new ImageController(imageService);
 
+            FacilityService facilityService = new FacilityService();
+            new FacilityController(facilityService);
+
 
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");

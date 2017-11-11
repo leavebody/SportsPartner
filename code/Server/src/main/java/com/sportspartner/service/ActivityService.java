@@ -77,10 +77,8 @@ public class ActivityService {
                     resp.setActivity(activityVO);
                 }
 
-                System.out.println(requestorId + requestorKey);
                 // check relationship between the user and the requestor
                 if(isAuthorized(requestorId, requestorKey)) {
-                    System.out.println(requestorId);
                     if (requestorId.equals(activityVO.getCreatorId())) {
                         resp.setUserType("CREATOR");
                         return resp;
@@ -327,6 +325,39 @@ public class ActivityService {
         return resp;
     }
 
+    /**
+     * Update an activity's info.
+     * @param activityId The UUID of an activity.
+     * @param body The Json string from controller, containing an ActivityVO object, requestorId and requestorKey.
+     * @return JsonResponse object
+     * @throws ActivityServiceException
+     */
+    public JsonResponse updateActivity(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try {
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String requestorId = json.get("requestorId").getAsString();
+            String requestorKey = json.get("requestorKey").getAsString();
+
+            if (!isAuthorized(requestorId, requestorKey) || requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization to update activity info");
+            } else {
+                Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
+                boolean isUpdate = activityDaoImpl.updateActivity(activity);
+                if (!isUpdate) {
+                    resp.setResponse("false");
+                    resp.setMessage("Update failed");
+                } else {
+                    resp.setResponse("true");
+                }
+            }
+        }catch(Exception ex){
+            throw new ActivityServiceException("Activity Service updateActivity error", ex);
+        }
+//      System.out.println(resp);
+        return resp;
+    }
 
     /**
      * Creator of an activity accept a new join application.
@@ -384,6 +415,14 @@ public class ActivityService {
 
     }
 
+    /**
+     * Creator of the activity decline join application.
+     * The requestor will receive a request and the notification will disappear from creator's notification center.
+     * @param activityId The UUID of the activity.
+     * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
+     * @return JsonResponse Object
+     * @throws ActivityServiceException
+     */
     public JsonResponse declineJoinActivityRequest(String activityId, String body) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
