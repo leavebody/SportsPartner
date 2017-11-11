@@ -35,7 +35,7 @@ public class IconDaoImpl implements IconDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -81,7 +81,7 @@ public class IconDaoImpl implements IconDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -121,7 +121,7 @@ public class IconDaoImpl implements IconDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -152,7 +152,7 @@ public class IconDaoImpl implements IconDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();

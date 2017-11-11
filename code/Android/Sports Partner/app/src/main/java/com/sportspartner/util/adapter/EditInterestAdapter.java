@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +23,22 @@ import java.util.ArrayList;
 
 public class EditInterestAdapter extends InterestAdapter {
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends InterestAdapter.MyViewHolder implements View.OnClickListener{
         public ImageView photo;
         public TextView name;
         public ImageView selectedIcon;
+        public LinearLayout sportLinearLayout;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
-            super(view);
+            super(view, context);
             this.photo = (ImageView) view.findViewById(R.id.sportIcon);
             this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
+            this.sportLinearLayout = (LinearLayout) view.findViewById(R.id.sport_LinearLayout);
+            sportLinearLayout.setClickable(true);
+
             view.setOnClickListener(this);
         }
 
@@ -61,7 +66,7 @@ public class EditInterestAdapter extends InterestAdapter {
 
 
     public EditInterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        super();
+        super(listInterests, context);
     }
 
     @Override

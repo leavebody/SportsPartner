@@ -1,6 +1,7 @@
 package com.sportspartner.request;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -69,9 +70,16 @@ public class ActivityRequest extends com.sportspartner.request.Request{
      * @param id the id for this activity
      */
     public void activityInfoRequest(final VolleyCallback callback, String type, String id) {
+        //get key and email
+        LoginDBHelper db = LoginDBHelper.getInstance(contextf);
+        String userEmail = db.getEmail();
+        String key = db.getKey();
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/activity/"+id+"?content="+type;
+        String url = URL_CONTEXT+"v1/activity/"+id+"?content="+type+"&requestorId="+userEmail+"&requestorKey="+key;
+
+        Log.d("activityInfoRequest", url);
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {

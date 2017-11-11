@@ -3,7 +3,6 @@ package com.sportspartner.util.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
 
     public InterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        this.listInterests = listInterests;
+        this.listInterests = new ArrayList<>(listInterests);
         this.context = context;
     }
 
@@ -93,7 +92,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return listInterests.size();
+         return listInterests.size();
     }
 
     public void updateInterests(ArrayList<Sport> sports) {
