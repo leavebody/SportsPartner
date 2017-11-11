@@ -1,11 +1,15 @@
 package com.sportspartner.util.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +25,16 @@ import java.util.ArrayList;
  * Created by yujiaxiao on 11/10/17.
  */
 
-public class EditInterestAdapter extends InterestAdapter {
+public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapter.MyViewHolder> {
+    protected ArrayList<Sport> listInterests;
+    protected Intent myIntent;
+    protected Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
         public TextView name;
         public ImageView selectedIcon;
-        public LinearLayout sportLinearLayout;
+        public RelativeLayout sportRelativeLayout;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
@@ -36,8 +43,8 @@ public class EditInterestAdapter extends InterestAdapter {
             this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
-            this.sportLinearLayout = (LinearLayout) view.findViewById(R.id.sport_LinearLayout);
-            sportLinearLayout.setClickable(true);
+            this.sportRelativeLayout = (RelativeLayout) view.findViewById(R.id.sport_RelativeLayout);
+            sportRelativeLayout.setClickable(true);
 
             view.setOnClickListener(this);
         }
@@ -66,11 +73,20 @@ public class EditInterestAdapter extends InterestAdapter {
 
 
     public EditInterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        super(listInterests, context);
+        this.listInterests = new ArrayList<>(listInterests);
+        this.context = context;
     }
 
     @Override
-    public void onBindViewHolder(final InterestAdapter.MyViewHolder holder, int position) {
+    public EditInterestAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_interest, parent, false);
+
+        return new EditInterestAdapter.MyViewHolder(itemView, parent.getContext());
+    }
+
+    @Override
+    public void onBindViewHolder(final EditInterestAdapter.MyViewHolder holder, int position) {
         Sport sport = listInterests.get(position);
 
         if (sport.getSelected())
@@ -93,6 +109,16 @@ public class EditInterestAdapter extends InterestAdapter {
             }
         });
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return listInterests.size();
+    }
+
+    public void updateInterests(ArrayList<Sport> sports) {
+        this.listInterests = sports;
+        notifyDataSetChanged();
     }
 
 }

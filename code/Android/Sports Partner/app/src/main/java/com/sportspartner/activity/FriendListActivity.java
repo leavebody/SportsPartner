@@ -6,9 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.UserOutline;
+import com.sportspartner.service.FriendService;
+import com.sportspartner.service.serviceresult.ModelResult;
+import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.FriendAdapter;
 
@@ -50,9 +54,8 @@ public class FriendListActivity extends BasicActivity {
     }
 
 
-
     private void preparefriendData() {
-        UserOutline friend1 = new UserOutline("p1", "Xuan Zhang", "1234");
+        /*UserOutline friend1 = new UserOutline("p1", "Xuan Zhang", "1234");
         friendList.add(friend1);
 
         UserOutline friend2 = new UserOutline("p2", "Xiaochen Li", "1234");
@@ -62,8 +65,25 @@ public class FriendListActivity extends BasicActivity {
         friendList.add(friend3);
 
         UserOutline friend4 = new UserOutline("p4", "Yujia Xiao", "1234");
-        friendList.add(friend4);
+        friendList.add(friend4);*/
+        FriendService.getFriendList(this, new ActivityCallBack<ArrayList<UserOutline>>(){
+            @Override
+            public void getModelOnSuccess(ModelResult<ArrayList<UserOutline>> result){
+                // handle the result of request here
+                String message = result.getMessage();
+                Boolean status = result.isStatus();
 
+                if (status){
+                    //if successfully get the data, then get the data
+                    friendList = new ArrayList<>(result.getModel());
+                }
+                else{
+                    //if failure, show a toast
+                    Toast toast = Toast.makeText(FriendListActivity.this, "Load ProfileInfo Error: " + message, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
         friendAdapter.notifyDataSetChanged();
     }
 
