@@ -34,6 +34,8 @@ import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 import com.sportspartner.util.listener.MyonClickListener;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,7 +67,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     private String facilityId;
     private Double longitude;
     private Double latitude;
-    private Double zipcode;
+    private String zipcode;
 
     // The object being sent and received from map
     private PickPlaceResult pickPlaceResult;
@@ -169,8 +171,11 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
-                sportPosition = np.getValue();
+                sportPosition = np.getValue()%listSports.size();
                 d.dismiss();
+                Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
+                Log.d("CreateActivity sport",String.valueOf(listSports.get(sportPosition).getSportName()));
+                Log.d("CreateActivity sportId",String.valueOf(listSports.get(sportPosition).getSportId()));
             }
         });
         b2.setOnClickListener(new View.OnClickListener()
@@ -249,10 +254,27 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 if (b != null) {
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
                     if (pickPlaceResult.isFacility()){
+                        //Todo get facilityId
+                        facilityId = "NULL";
+                        latitude = 0.0;
+                        longitude = 0.0;
+                        zipcode = "00000";
                         textLocation.setText(pickPlaceResult.getName());
                     } else {
-                        textLocation.setText("latitude : " + pickPlaceResult.getLatLng().latitude
-                                + ", longitude : " + pickPlaceResult.getLatLng().longitude);
+                        //Todo Zipcode
+                        zipcode = pickPlaceResult.getZipCode();
+                        facilityId = "NULL";
+                        latitude = pickPlaceResult.getLatLng().latitude;
+                        longitude = pickPlaceResult.getLatLng().longitude;
+//                        Double latiDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().latitude)
+//                                .setScale(3, RoundingMode.HALF_UP)
+//                                .doubleValue();
+//
+//                        Double lonDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().longitude)
+//                                .setScale(3, RoundingMode.HALF_UP)
+//                                .doubleValue();
+
+                        textLocation.setText(pickPlaceResult.getName());
                     }
                 }
             } else if (resultCode == 0) {
@@ -292,7 +314,11 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setCapacity(Integer.parseInt((String)textCapacity.getText()));
             sActivity.setSize(1);
             sActivity.setCreatorId(myEmail);
-            sActivity.setDetail(detail);
+            sActivity.setDescription(detail);
+            sActivity.setFacilityId(facilityId);
+            sActivity.setLatitude(latitude);
+            sActivity.setLongitude(longitude);
+            sActivity.setZipcode(zipcode);
 
             ActivityService.createActivity(this, sActivity, new ActivityCallBack<String>(){
                 @Override
@@ -360,7 +386,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 & !textStartDate.getText().equals("") & !textEndDate.getText().equals("")
                 & !textStartTime.getText().equals("") & !textEndTime.getText().equals("")
                 & !textLocation.getText().equals("") & !textCapacity.getText().equals("")){
-            Toast.makeText(this,"sport:" + textSport.getText(), Toast.LENGTH_LONG).show();
             return true;
         }
         else {
@@ -396,7 +421,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         if (start.before(end)){
             sActivity.setStartTime(start);
             sActivity.setEndTime(end);
-            Toast.makeText(this, "Start: "+startDateString + "\n End:" + endDateString, Toast.LENGTH_LONG).show();
             return true;
         }
         else{

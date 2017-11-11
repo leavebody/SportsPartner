@@ -252,7 +252,7 @@ public class ActivityService extends Service {
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
-                    result.setModel(jsResp.get("id").getAsString());
+                    result.setModel(jsResp.get("activityId").getAsString());
                 } else {
                     result.setMessage("create activity request failed: "+jsResp.get("message").getAsString());
                 }
