@@ -35,6 +35,7 @@ public class FacilityDaoImpl implements FacilityDao {
                 String sportId = rs.getString("sportId");
                 double longitude = rs.getDouble("longitude");
                 double latitude = rs.getDouble("latitude");
+                String zipcode = rs.getString("zipcode");
                 String address = rs.getString("address");
                 String providerId = rs.getString("providerId");
                 double score = rs.getDouble("score");
@@ -42,7 +43,7 @@ public class FacilityDaoImpl implements FacilityDao {
                 String openTime = rs.getString("openTime");
                 String description = rs.getString("description");
 
-                facilities.add(new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, address, providerId, score, scoreCount, openTime, description));
+                facilities.add(new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, zipcode, address, providerId, score, scoreCount, openTime, description));
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -80,6 +81,7 @@ public class FacilityDaoImpl implements FacilityDao {
                 String sportId = rs.getString("sportId");
                 double longitude = rs.getDouble("longitude");
                 double latitude = rs.getDouble("latitude");
+                String zipcode = rs.getString("zipcode");
                 String address = rs.getString("address");
                 String providerId = rs.getString("providerId");
                 double score = rs.getDouble("score");
@@ -87,7 +89,7 @@ public class FacilityDaoImpl implements FacilityDao {
                 String openTime = rs.getString("openTime");
                 String description = rs.getString("description");
 
-                facility = new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, address, providerId, score, scoreCount, openTime, description);
+                facility = new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, zipcode, address, providerId, score, scoreCount, openTime, description);
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -116,6 +118,7 @@ public class FacilityDaoImpl implements FacilityDao {
           String sportId = facility.getSportId();
           double longitude = facility.getLongitude();
           double latitude = facility.getLatitude();
+          String zipcode = facility.getZipcode();
           String address = facility.getAddress();
           String providerId = facility.getProviderId();
           double score = facility.getScore();
@@ -125,20 +128,21 @@ public class FacilityDaoImpl implements FacilityDao {
           boolean result = false;
 
           try {
-              stmt = c.prepareStatement("INSERT INTO \"Facility\" (\"facilityId\", \"facilityName\",\"iconUUID\", \"sportId\", \"longitude\", \"latitude\", \"address\", \"providerId\", \"score\", \"scoreCount\", \"openTime\" , \"description\")"+
-                      "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)");
+              stmt = c.prepareStatement("INSERT INTO \"Facility\" (\"facilityId\", \"facilityName\",\"iconUUID\", \"sportId\", \"longitude\", \"latitude\", \"zipcode\", \"address\", \"providerId\", \"score\", \"scoreCount\", \"openTime\" , \"description\")"+
+                      "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)");
               stmt.setString(1, facilityId);
               stmt.setString(2, facilityName);
               stmt.setString(3, iconUUID);
               stmt.setString(4, sportId);
               stmt.setDouble(5, longitude);
               stmt.setDouble(6, latitude);
-              stmt.setString(7, address);
-              stmt.setString(8, providerId);
-              stmt.setDouble(9, score);
-              stmt.setInt(10, scoreCount);
-              stmt.setString(11,openTime);
-              stmt.setString(12,description);
+              stmt.setString(7, zipcode);
+              stmt.setString(8, address);
+              stmt.setString(9, providerId);
+              stmt.setDouble(10, score);
+              stmt.setInt(11, scoreCount);
+              stmt.setString(12,openTime);
+              stmt.setString(13,description);
               rs = stmt.executeUpdate();
               if(rs>0)
                   result = true;
@@ -170,6 +174,7 @@ public class FacilityDaoImpl implements FacilityDao {
           String sportId = facility.getSportId();
           double longitude = facility.getLongitude();
           double latitude = facility.getLatitude();
+          String zipcode = facility.getZipcode();
           String address = facility.getAddress();
           String providerId = facility.getProviderId();
           double score = facility.getScore();
@@ -180,19 +185,20 @@ public class FacilityDaoImpl implements FacilityDao {
 
           try {
               stmt = c.prepareStatement("UPDATE \"Facility\" SET \"facilityId\" = ? , \"facilityName\" = ? , \"iconUUID\" = ?,\"sportId\" = ? , \"longitude\" = ? , \"latitude\" = ?, " +
-                      " \"address\"=?, \"providerId\", \"score\" = ?,\"scoreCount\" = ? , \"openTime\" = ? , \"description\" = ? WHERE \"facilityId\"=? ;");
+                      " \"zipcode\"=?,\"address\"=?, \"providerId\"=?, \"score\" = ?,\"scoreCount\" = ? , \"openTime\" = ? , \"description\" = ? WHERE \"facilityId\"=? ;");
               stmt.setString(1, facilityId);
               stmt.setString(2, facilityName);
               stmt.setString(3, iconUUID);
               stmt.setString(4, sportId);
               stmt.setDouble(5, longitude);
               stmt.setDouble(6, latitude);
-              stmt.setString(7, address);
-              stmt.setString(8, providerId);
-              stmt.setDouble(9, score);
-              stmt.setInt(10, scoreCount);
-              stmt.setString(11,openTime);
-              stmt.setString(12,description);
+              stmt.setString(7, zipcode);
+              stmt.setString(8, address);
+              stmt.setString(9, providerId);
+              stmt.setDouble(10, score);
+              stmt.setInt(11, scoreCount);
+              stmt.setString(12,openTime);
+              stmt.setString(13,description);
               rs = stmt.executeUpdate();
               if(rs>0)
                   result = true;

@@ -74,10 +74,8 @@ public class ActivityService {
                     resp.setActivity(activityVO);
                 }
 
-                System.out.println(requestorId + requestorKey);
                 // check relationship between the user and the requestor
                 if(isAuthorized(requestorId, requestorKey)) {
-                    System.out.println(requestorId);
                     if (requestorId.equals(activityVO.getCreatorId())) {
                         resp.setUserType("CREATOR");
                         return resp;
@@ -324,7 +322,6 @@ public class ActivityService {
         return resp;
     }
 
-
     /**
      * Creator of an activity accept a new join application.
      * A join activity request notification will be removed from notification list.
@@ -381,6 +378,14 @@ public class ActivityService {
 
     }
 
+    /**
+     * Creator of the activity decline join application.
+     * The requestor will receive a request and the notification will disappear from creator's notification center.
+     * @param activityId The UUID of the activity.
+     * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
+     * @return JsonResponse Object
+     * @throws ActivityServiceException
+     */
     public JsonResponse declineJoinActivityRequest(String activityId, String body) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();

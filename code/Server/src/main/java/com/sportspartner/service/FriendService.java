@@ -48,7 +48,7 @@ public class FriendService {
     }
 
     /**
-     * Sender send to friend request to receiver
+     * Sender send a friend request to receiver
      * @param receiverId Id of receiver
      * @param senderId Id of sender
      * @return JsonResponse to the front-end
