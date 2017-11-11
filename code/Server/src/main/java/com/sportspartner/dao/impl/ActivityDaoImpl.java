@@ -140,7 +140,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
         try {
             stmt = c.prepareStatement("INSERT INTO \"Activity\" (\"activityId\", \"creatorId\",\"facilityId\", \"status\", \"sportId\", \"longitude\", \"latitude\", \"zipcode\", \"address\", \"startTime\", \"endTime\" , \"capacity\",\"size\",\"description\")"+
-                    "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)");
+                    "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, activityId);
             stmt.setString(2, creatorId);
             stmt.setString(3, facilityId);

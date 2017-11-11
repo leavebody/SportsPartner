@@ -47,7 +47,9 @@ public class ActivityService {
                 activityVO.setFromSport(sport);
                 // Facility Info
                 Facility facility = facilityDaoImpl.getFacility(activity.getFacilityId());
-                activityVO.setFromFacility(facility);
+                if(facility!=null){
+                    activityVO.setFromFacility(facility);
+                }
                 // Members Info
                 List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
                 List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
@@ -72,8 +74,10 @@ public class ActivityService {
                     resp.setActivity(activityVO);
                 }
 
+                System.out.println(requestorId + requestorKey);
                 // check relationship between the user and the requestor
                 if(isAuthorized(requestorId, requestorKey)) {
+                    System.out.println(requestorId);
                     if (requestorId.equals(activityVO.getCreatorId())) {
                         resp.setUserType("CREATOR");
                         return resp;
@@ -297,7 +301,7 @@ public class ActivityService {
                 String activityId = UUID.randomUUID().toString();
                 activity.setActivityId(activityId);
 
-                // get the location of the activity
+                // set the location of the activity
                 String facilityId = activity.getFacilityId();
                 if (!facilityId.equals("NULL")) {
                     Facility facility = facilityDaoImpl.getFacility(facilityId);
