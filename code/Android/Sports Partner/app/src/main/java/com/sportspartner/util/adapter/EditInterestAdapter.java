@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class EditInterestAdapter extends InterestAdapter {
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends InterestAdapter.MyViewHolder implements View.OnClickListener{
         public ImageView photo;
         public TextView name;
         public ImageView selectedIcon;
@@ -31,7 +31,7 @@ public class EditInterestAdapter extends InterestAdapter {
         private Context context;
 
         public MyViewHolder(View view, Context context) {
-            super(view);
+            super(view, context);
             this.photo = (ImageView) view.findViewById(R.id.sportIcon);
             this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);

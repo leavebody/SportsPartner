@@ -46,7 +46,7 @@ public class FacilityDaoImpl implements FacilityDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
         }finally{
             try {
                 rs.close();
@@ -91,7 +91,7 @@ public class FacilityDaoImpl implements FacilityDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
         }finally{
             try {
                 rs.close();
@@ -145,7 +145,7 @@ public class FacilityDaoImpl implements FacilityDao {
           } catch (Exception e) {
               e.printStackTrace();
               System.err.println(e.getClass().getName() + ": " + e.getMessage());
-              System.exit(0);
+              
           } finally {
               try {
                   stmt.close();
@@ -199,7 +199,7 @@ public class FacilityDaoImpl implements FacilityDao {
           } catch (Exception e) {
               e.printStackTrace();
               System.err.println(e.getClass().getName() + ": " + e.getMessage());
-              System.exit(0);
+              
           } finally {
               try {
                   stmt.close();
@@ -230,7 +230,7 @@ public class FacilityDaoImpl implements FacilityDao {
          } catch (Exception e) {
              e.printStackTrace();
              System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             System.exit(0);
+             
          } finally {
              try {
                  stmt.close();
