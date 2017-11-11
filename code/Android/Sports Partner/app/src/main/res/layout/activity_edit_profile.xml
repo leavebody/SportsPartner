@@ -42,6 +42,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:backgroundTint="@color/orange"
+            android:singleLine="true"
             android:text=""
             android:textColor="@color/white" />
 

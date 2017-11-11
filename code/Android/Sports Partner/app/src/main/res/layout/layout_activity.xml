@@ -95,6 +95,7 @@
                 android:id="@+id/activity_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:text="Johns Hopkins Swimming Poll"
                 android:textColor="@color/black"

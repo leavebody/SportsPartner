@@ -117,7 +117,7 @@ public class SactivityDetailActivity extends BasicActivity {
     private void setTitle() {
         View viewComming = (View) findViewById(R.id.title_activityDissucss);
         TextView titleupComming = (TextView) viewComming.findViewById(R.id.title);
-        titleupComming.setText("UpComing Activity");
+        titleupComming.setText("Discussion");
     }
 
     private  void setActivityDetail(){
