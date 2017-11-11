@@ -323,6 +323,40 @@ public class ActivityService {
     }
 
     /**
+     * Update an activity's info.
+     * @param activityId The UUID of an activity.
+     * @param body The Json string from controller, containing an ActivityVO object, requestorId and requestorKey.
+     * @return JsonResponse object
+     * @throws ActivityServiceException
+     */
+    public JsonResponse updateActivity(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try {
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String requestorId = json.get("requestorId").getAsString();
+            String requestorKey = json.get("requestorKey").getAsString();
+
+            if (!isAuthorized(requestorId, requestorKey) || requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization to update activity info");
+            } else {
+                Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
+                boolean isUpdate = activityDaoImpl.updateActivity(activity);
+                if (!isUpdate) {
+                    resp.setResponse("false");
+                    resp.setMessage("Update failed");
+                } else {
+                    resp.setResponse("true");
+                }
+            }
+        }catch(Exception ex){
+            throw new ActivityServiceException("Activity Service updateActivity error", ex);
+        }
+//      System.out.println(resp);
+        return resp;
+    }
+
+    /**
      * Creator of an activity accept a new join application.
      * A join activity request notification will be removed from notification list.
      * And a new member will be added to the activity.
