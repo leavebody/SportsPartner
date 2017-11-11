@@ -12,6 +12,7 @@ public class BooleanResult {
 
     private boolean status;
     private String message;
+    private String userType;
 
     public final boolean isStatus() {
         return status;
@@ -27,5 +28,13 @@ public class BooleanResult {
 
     public final void setMessage(String message) {
         this.message = message;
+    }
+
+    public final String getUserType() {
+        return userType;
+    }
+
+    public final void setUserType(String userType) {
+        this.userType = userType;
     }
 }

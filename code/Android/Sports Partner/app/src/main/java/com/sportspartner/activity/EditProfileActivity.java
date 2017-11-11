@@ -36,6 +36,7 @@ import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.EditInterestAdapter;
+import com.sportspartner.util.adapter.InterestAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,9 +61,11 @@ public class EditProfileActivity extends BasicActivity {
     private String interestsUpdated = "";
     private String userEmail;
     private ArrayList<Sport> allSports = new ArrayList<Sport>();
+    private ArrayList<Sport> interestSportUpdate = new ArrayList<Sport>();
 
     //Adapter
-    EditInterestAdapter interestAdapter;
+    InterestAdapter interestAdapter;
+    EditInterestAdapter editInterestAdapter;
 
     //widget
     private ImageView photoView;
@@ -109,7 +112,7 @@ public class EditProfileActivity extends BasicActivity {
         userName.setText(profile.getUserName());
 
         //set adapter
-        interestAdapter = new EditInterestAdapter(interests,this);
+        interestAdapter = new InterestAdapter(interests,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         interestRecyclerView.setLayoutManager(mLayoutManager);
         interestRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -197,7 +200,7 @@ public class EditProfileActivity extends BasicActivity {
 
         //Todo set RecyclerView adapter
         //set adapter
-        interestAdapter = new EditInterestAdapter(allSports, this);
+        editInterestAdapter = new EditInterestAdapter(allSports, this);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -213,8 +216,10 @@ public class EditProfileActivity extends BasicActivity {
                 for (Sport sport : allSports){
                     if (sport.getSelected()){
                         interestsUpdated += sport.getSportName() + ",";
+                        interestSportUpdate.add(sport);
                     }
                 }
+
                 interestsUpdated = interestsUpdated.substring(0, interestsUpdated.length() - 1);
                 Log.d("interestsUpdated",interestsUpdated);
 
@@ -233,7 +238,7 @@ public class EditProfileActivity extends BasicActivity {
                         }
                     }
                 });
-
+                interestAdapter.updateInterests(interestSportUpdate);
                 dialog.dismiss();
             }
         });
