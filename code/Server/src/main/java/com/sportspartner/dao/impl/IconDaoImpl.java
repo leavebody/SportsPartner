@@ -73,8 +73,9 @@ public class IconDaoImpl implements IconDao {
             stmt = c.prepareStatement("UPDATE \"Icon\" SET \"iconUUID\" = ?, \"small\" = ?, \"origin\" = ?" +
                     "WHERE \"spId\"=?;");
             stmt.setString(1, iconUUID);
-            stmt.setString(3, small);
-            stmt.setString(4, origin);
+            stmt.setString(2, small);
+            stmt.setString(3, origin);
+            stmt.setString(4, spId);
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
