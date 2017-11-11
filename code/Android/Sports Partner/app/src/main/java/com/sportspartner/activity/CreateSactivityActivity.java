@@ -1,24 +1,17 @@
 package com.sportspartner.activity;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.sportspartner.R;
@@ -26,23 +19,19 @@ import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
-import com.sportspartner.util.listener.MyonClickListener;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class CreateSactivityActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {
     //Android widget

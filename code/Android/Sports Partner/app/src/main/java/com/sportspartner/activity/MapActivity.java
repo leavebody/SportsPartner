@@ -42,8 +42,8 @@ import com.sportspartner.models.FacilityMarker;
 import com.sportspartner.models.MapApiResult;
 import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.adapter.AddressesListViewAdapter;
 

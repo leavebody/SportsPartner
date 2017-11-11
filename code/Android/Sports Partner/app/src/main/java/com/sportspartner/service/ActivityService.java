@@ -10,8 +10,6 @@ import com.google.gson.reflect.TypeToken;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.request.ActivityRequest;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 

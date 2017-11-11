@@ -8,21 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.model.LatLng;
 import com.sportspartner.R;
-import com.sportspartner.models.MapApiResult;
-import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
@@ -84,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println(token);
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
-            @Override
-            public void getBooleanOnSuccess(BooleanResult booleanResult) {
+            public void getModelOnSuccess(ModelResult booleanResult) {
                 loginHandler(booleanResult);
             }
         });
@@ -96,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
      * Goto the profile page if success
      * @param booleanResult
      */
-    private void loginHandler(BooleanResult booleanResult) {
+    private void loginHandler(ModelResult booleanResult) {
         // handle the result here
         String message = booleanResult.getMessage();
         if (message != null) {

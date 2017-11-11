@@ -30,9 +30,8 @@ import com.sportspartner.models.Profile;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.EditInterestAdapter;
@@ -226,7 +225,7 @@ public class EditProfileActivity extends BasicActivity {
                 //Update interests
                 ProfileService.updateInterests(EditProfileActivity.this,profile.getUserId(),interestsUpdated, new ActivityCallBack(){
                     @Override
-                    public void getBooleanOnSuccess(BooleanResult booleanResult) {
+                    public void getModelOnSuccess(ModelResult booleanResult) {
                         String message = booleanResult.getMessage();
                         if (booleanResult.isStatus()) {
                             Toast toast = Toast.makeText(EditProfileActivity.this, "Update Interests Success!", Toast.LENGTH_LONG);
@@ -323,8 +322,7 @@ public class EditProfileActivity extends BasicActivity {
     private void updateIcon(Bitmap bitmap) {
         photoView.setImageBitmap(bitmap);
         ResourceService.uploadUserIcon(this, bitmap, new ActivityCallBack(){
-            @Override
-            public void getBooleanOnSuccess(BooleanResult booleanResult){
+            public void getModelOnSuccess(ModelResult booleanResult){
                 if (!booleanResult.isStatus()){
                     Toast.makeText(EditProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -379,14 +377,13 @@ public class EditProfileActivity extends BasicActivity {
 
         //update
         ProfileService.updateProfile(this, userEmail, profile, new ActivityCallBack(){
-            @Override
-            public void getBooleanOnSuccess(BooleanResult booleanResult) {
+            public void getModelOnSuccess(ModelResult booleanResult) {
                 updateProfileHandler(booleanResult);
             }
         });
     }
 
-    private void updateProfileHandler(BooleanResult booleanResult) {
+    private void updateProfileHandler(ModelResult booleanResult) {
         // handle the result here
         String message = booleanResult.getMessage();
         if (booleanResult.isStatus()) {

@@ -14,9 +14,6 @@ import com.sportspartner.R;
 import com.sportspartner.models.MapApiResult;
 import com.sportspartner.models.Sport;
 import com.sportspartner.request.ResourceRequest;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.BitmapHelper;
 import com.sportspartner.util.GeocodeRaw;
 import com.sportspartner.util.NetworkResponseRequest;
@@ -140,13 +137,13 @@ public class ResourceService extends Service {
         request.imageUploadRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(uploadUserIconRespProcess(response, c, bmpString));
+                callback.getModelOnSuccess(uploadUserIconRespProcess(response, c, bmpString));
             }
         }, bmpString);
     }
 
-    private static BooleanResult uploadUserIconRespProcess(NetworkResponse response, Context c, String bmpString) {
-        BooleanResult result = new BooleanResult();
+    private static ModelResult uploadUserIconRespProcess(NetworkResponse response, Context c, String bmpString) {
+        ModelResult result = new ModelResult();
         switch (response.statusCode) {
             case 200:
                 boolean status;

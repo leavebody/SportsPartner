@@ -1,7 +1,6 @@
 package com.sportspartner.service;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.google.gson.Gson;
@@ -10,9 +9,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sportspartner.models.FacilityMarker;
 import com.sportspartner.request.FacilityRequest;
-import com.sportspartner.request.ResourceRequest;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
