@@ -15,12 +15,13 @@ public class ActivityOutlineVO {
     private String facilityId;
     private double longitude;
     private double latitude;
+    private String address;
     private int capacity;
     private int size;
 
     public ActivityOutlineVO(){}
 
-    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, double longitude, double latitude, int capacity, int size) {
+    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, double longitude, double latitude, String address, int capacity, int size) {
         this.activityId = activityId;
         this.creatorId = creatorId;
         this.status = status;
@@ -31,6 +32,7 @@ public class ActivityOutlineVO {
         this.facilityId = facilityId;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.capacity = capacity;
         this.size = size;
     }
@@ -123,6 +125,14 @@ public class ActivityOutlineVO {
         this.latitude = latitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -148,6 +158,7 @@ public class ActivityOutlineVO {
         this.facilityId = activity.getFacilityId();
         this.longitude = activity.getLongitude();
         this.latitude = activity.getLatitude();
+        this.address = activity.getAddress();
         this.capacity = activity.getCapacity();
         this.size = activity.getSize();
     }

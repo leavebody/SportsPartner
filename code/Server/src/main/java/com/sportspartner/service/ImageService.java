@@ -2,7 +2,9 @@ package com.sportspartner.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 import com.sportspartner.dao.impl.IconDaoImpl;
+import com.sportspartner.model.Authorization;
 import com.sportspartner.model.Icon;
 import com.sportspartner.util.ImageUtil;
 import com.sportspartner.util.JsonResponse;
@@ -50,10 +52,19 @@ public class ImageService {
         return resp;
     }
 
-    public JsonResponse newIcon(String spId, String body) throws Exception{
+    public JsonResponse updateIcon(String spId, String body) throws Exception{
         JsonResponse resp = new JsonResponse();
 
         JsonObject json = new Gson().fromJson(body, JsonObject.class);
+
+        String userId = json.get("userId").getAsString();
+        String key = json.get("key").getAsString();
+        // Check
+        if(!isAuthorized(userId, key)) {
+            resp.setResponse("false");
+            resp.setMessage("Lack authorization to upload an icon");
+            return resp;
+        }
         String object = json.get("object").getAsString();
         //String base64String = imageUtil.imageToBase64(imageUtil.getImage(json.get("image").getAsString()));
         String base64String = json.get("image").getAsString();
@@ -78,5 +89,16 @@ public class ImageService {
             resp.setIconUUID(iconUUID);
         }
         return resp;
+    }
+    /**
+     * Check whether a user is authorized
+     * @param userId Id of a user
+     * @param key login key of a user
+     * @return true means the user is authorized,  false means the user isn't authorized
+     */
+    public boolean isAuthorized(String userId, String key){
+        Authorization authorization = new Authorization(userId, key);
+        AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
+        return authorizationDaoImpl.hasAuthorization(authorization);
     }
 }

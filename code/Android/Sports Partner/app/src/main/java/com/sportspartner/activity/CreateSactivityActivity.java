@@ -129,6 +129,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         textLocation.setOnClickListener(myLocationListener);
         textCapacity.setOnClickListener(myCapacityListener);
 
+        pickPlaceResult = new PickPlaceResult();
+
     }
 
     private void loadAllSportsHandler(ModelResult<ArrayList<Sport>> result) {
@@ -253,6 +255,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 Bundle b = data.getExtras();
                 if (b != null) {
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
+
                     if (pickPlaceResult.isFacility()){
                         //Todo get facilityId
                         facilityId = "NULL";
@@ -262,20 +265,19 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                         textLocation.setText(pickPlaceResult.getName());
                     } else {
                         //Todo Zipcode
-                        zipcode = "00000";
+                        zipcode = pickPlaceResult.getZipCode();
                         facilityId = "NULL";
                         latitude = pickPlaceResult.getLatLng().latitude;
                         longitude = pickPlaceResult.getLatLng().longitude;
-                        Double latiDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().latitude)
-                                .setScale(3, RoundingMode.HALF_UP)
-                                .doubleValue();
+//                        Double latiDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().latitude)
+//                                .setScale(3, RoundingMode.HALF_UP)
+//                                .doubleValue();
+//
+//                        Double lonDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().longitude)
+//                                .setScale(3, RoundingMode.HALF_UP)
+//                                .doubleValue();
 
-                        Double lonDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().longitude)
-                                .setScale(3, RoundingMode.HALF_UP)
-                                .doubleValue();
-
-                        textLocation.setText("lat : " + latiDouble
-                                + ", lon : " + lonDouble);
+                        textLocation.setText(pickPlaceResult.getName());
                     }
                 }
             } else if (resultCode == 0) {

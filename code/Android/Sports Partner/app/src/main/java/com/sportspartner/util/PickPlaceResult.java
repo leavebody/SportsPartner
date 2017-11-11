@@ -13,18 +13,14 @@ public class PickPlaceResult implements Serializable {
     private double longitude;
     private boolean isFacility;
     private String name;
+    private String zipCode;
 
-    public PickPlaceResult(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public PickPlaceResult(double latitude, double longitude, boolean isFacility, String name) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.isFacility = isFacility;
-        this.name = name;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public PickPlaceResult() {

@@ -11,11 +11,12 @@ public class FacilityOutlineVO {
     private String sportUUID;
     private double longitude;
     private double latitude;
+    private String address;
     private double score;
 
     public FacilityOutlineVO(){}
 
-    public FacilityOutlineVO(String facility, String facilityName, String sportId, String sportName, String sportUUID, double longitude, double latitude, double score) {
+    public FacilityOutlineVO(String facility, String facilityName, String sportId, String sportName, String sportUUID, double longitude, double latitude, String address, double score) {
         this.facility = facility;
         this.facilityName = facilityName;
         this.sportId = sportId;
@@ -23,6 +24,7 @@ public class FacilityOutlineVO {
         this.sportUUID = sportUUID;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.score = score;
     }
 
@@ -82,6 +84,14 @@ public class FacilityOutlineVO {
         this.latitude = latitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public double getScore() {
         return score;
     }
@@ -96,6 +106,7 @@ public class FacilityOutlineVO {
          this.sportId = facility.getSportId();
          this.longitude = facility.getLongitude();
          this.latitude = facility.getLatitude();
+         this.address = facility.getAddress();
          this.score = facility.getScore();
     }
 

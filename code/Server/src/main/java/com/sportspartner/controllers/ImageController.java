@@ -38,7 +38,7 @@ public class ImageController {
         post(API_CONTEXT + "/resource/icon/:spId", "application/json", (request, response)->{
             JsonResponse reps = new JsonResponse();
             try{
-                reps = imageService.newIcon(request.params("spId"), request.body());
+                reps = imageService.updateIcon(request.params("spId"), request.body());
                 response.status(200);
                 return reps;
             }catch(Exception ex) {

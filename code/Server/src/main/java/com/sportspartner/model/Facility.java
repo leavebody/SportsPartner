@@ -7,6 +7,7 @@ public class Facility {
     private String sportId;
     private double longitude;
     private double latitude;
+    private String address;
     private String providerId;
     private double score;
     private int scoreCount;
@@ -15,13 +16,14 @@ public class Facility {
 
     public Facility(){}
 
-    public Facility(String facilityId, String facilityName, String iconUUID, String sportId, double longitude, double latitude, String providerId, double score, int scoreCount, String openTime, String description) {
+    public Facility(String facilityId, String facilityName, String iconUUID, String sportId, double longitude, double latitude, String address, String providerId, double score, int scoreCount, String openTime, String description) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.iconUUID = iconUUID;
         this.sportId = sportId;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.providerId = providerId;
         this.score = score;
         this.scoreCount = scoreCount;
@@ -75,6 +77,14 @@ public class Facility {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getProviderId() {
