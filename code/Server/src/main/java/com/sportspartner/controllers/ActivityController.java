@@ -125,6 +125,34 @@ public class ActivityController {
 
         }, new JsonTransformer());
 
+        // accept a join activity application
+        post(API_CONTEXT + "/acceptjoinactivityapplication/:id", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = activityService.acceptJoinActivityRequest(request.params("id"),request.body());
+                response.status(200);
+                return reps;
+            } catch (Exception ex) {
+                response.status(200);
+                return reps;
+            }
+
+        }, new JsonTransformer());
+
+        // decline a join activity application
+        post(API_CONTEXT + "/declinejoinactivityapplication/:id", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = activityService.declineJoinActivityRequest(request.params("id"),request.body());
+                response.status(200);
+                return reps;
+            } catch (Exception ex) {
+                response.status(200);
+                return reps;
+            }
+
+        }, new JsonTransformer());
+
     }
 
 }
