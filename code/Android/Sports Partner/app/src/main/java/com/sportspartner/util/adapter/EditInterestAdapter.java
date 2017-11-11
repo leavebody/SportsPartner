@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class EditInterestAdapter extends InterestAdapter {
         public ImageView photo;
         public TextView name;
         public ImageView selectedIcon;
+        public LinearLayout sportLinearLayout;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
@@ -34,6 +36,9 @@ public class EditInterestAdapter extends InterestAdapter {
             this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
+            this.sportLinearLayout = (LinearLayout) view.findViewById(R.id.sport_LinearLayout);
+            sportLinearLayout.setClickable(true);
+
             view.setOnClickListener(this);
         }
 
@@ -61,7 +66,7 @@ public class EditInterestAdapter extends InterestAdapter {
 
 
     public EditInterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        super();
+        super(listInterests, context);
     }
 
     @Override

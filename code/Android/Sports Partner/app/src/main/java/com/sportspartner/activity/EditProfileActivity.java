@@ -1,7 +1,6 @@
 package com.sportspartner.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -36,7 +36,6 @@ import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.EditInterestAdapter;
-import com.sportspartner.util.adapter.InterestAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class EditProfileActivity extends BasicActivity {
     //profile
     private Profile profile = new Profile();
     private ArrayList<Sport> interests = new ArrayList<Sport>();
-    private ArrayList<Sport> interestsUpdated = new ArrayList<Sport>();
+    private String interestsUpdated = "";
     private String userEmail;
     private ArrayList<Sport> allSports = new ArrayList<Sport>();
 
@@ -72,6 +71,7 @@ public class EditProfileActivity extends BasicActivity {
     private EditText age;
     private EditText city;
     private RecyclerView interestRecyclerView;
+    private LinearLayout LinearRecycler;
 
     /**
      * Load the EditProfileActivity
@@ -91,19 +91,20 @@ public class EditProfileActivity extends BasicActivity {
 
         final Intent intent = getIntent();
         profile = (Profile) intent.getSerializableExtra("profile");
-        interests = (ArrayList<Sport>) intent.getSerializableExtra("interest");
+        interests = new ArrayList<Sport>((ArrayList<Sport>) intent.getSerializableExtra("interest"));
 
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
         gender = (EditText) findViewById(R.id.text_gender);
-        age = (EditText) findViewById(R.id.text_age);
+        age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
         interestRecyclerView = findViewById(R.id.RecyclerView);
+        LinearRecycler = findViewById(R.id.ListView_Recycler);
 
         //set all the contents
         gender.setText(profile.getGender());
-        age.setText(profile.getAge());
+        age.setText(Integer.toString(profile.getAge()));
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
 
@@ -112,7 +113,7 @@ public class EditProfileActivity extends BasicActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         interestRecyclerView.setLayoutManager(mLayoutManager);
         interestRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        interestRecyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
+        //interestRecyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
         interestRecyclerView.setAdapter(interestAdapter);
 
         /**
@@ -120,7 +121,7 @@ public class EditProfileActivity extends BasicActivity {
          * * get all  sports
          * * show the interests select dialog
          */
-        interestRecyclerView.setOnClickListener(new View.OnClickListener() {
+        LinearRecycler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // get all sports
@@ -135,13 +136,13 @@ public class EditProfileActivity extends BasicActivity {
                             //if successfully get Activity, get the data
                             allSports = new ArrayList<>(result.getModel());
 
-                            for (Sport sport : interests){
+                            /*for (Sport sport : interests){
                                 int index = allSports.indexOf(sport);
                                 sport.setSelected(true);
                                 allSports.set(index,sport);
-                            }
+                            }*/
 
-                           /* HashMap<String, Sport> mapAllSports = new HashMap<>();
+                            HashMap<String, Sport> mapAllSports = new HashMap<>();
                             for (Sport sport : allSports){
                                 mapAllSports.put(sport.getSportId(),sport);
                             }
@@ -153,14 +154,12 @@ public class EditProfileActivity extends BasicActivity {
                             }
 
                             //get new allSports array
-                            allSports = newallSports = new ArrayList<>();
+                            allSports = new ArrayList<>();
                             Iterator mapIterator = mapAllSports.entrySet().iterator();
                             while (mapIterator.hasNext()) {
-                                allSports
                                 Map.Entry pair = (Map.Entry)mapIterator.next();
-                                mapIterator.remove(); // avoids a ConcurrentModificationException
-                            }*/
-
+                                allSports.add((Sport) pair.getValue());
+                            }
 
                             EditProfileActivity.this.showDialog();
                         }
@@ -213,9 +212,29 @@ public class EditProfileActivity extends BasicActivity {
             //update the interestUpdated object according to the multi choose
                 for (Sport sport : allSports){
                     if (sport.getSelected()){
-                        interestsUpdated.add(sport);
+                        interestsUpdated += sport.getSportName() + ",";
                     }
                 }
+                interestsUpdated = interestsUpdated.substring(0, interestsUpdated.length() - 1);
+                Log.d("interestsUpdated",interestsUpdated);
+
+                //Update interests
+                ProfileService.updateInterests(EditProfileActivity.this,profile.getUserId(),interestsUpdated, new ActivityCallBack(){
+                    @Override
+                    public void getBooleanOnSuccess(BooleanResult booleanResult) {
+                        String message = booleanResult.getMessage();
+                        if (booleanResult.isStatus()) {
+                            Toast toast = Toast.makeText(EditProfileActivity.this, "Update Interests Success!", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        else{
+                            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    }
+                });
+
+                dialog.dismiss();
             }
         });
 

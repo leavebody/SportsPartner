@@ -16,7 +16,6 @@
             android:id="@+id/profile_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignEnd="@+id/profile_name"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
@@ -25,23 +24,29 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_above="@+id/profile_name"
+            android:layout_alignBottom="@+id/profile_photo"
             android:layout_alignEnd="@+id/profile_photo"
             android:background="@drawable/edit" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/orange">
 
         <EditText
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_photo"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:backgroundTint="@color/orange"
             android:text="Xuan Zhang"
             android:textColor="@color/white" />
 
     </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -120,7 +125,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/text_age"
+                android:id="@+id/edit_age"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -214,13 +219,20 @@
             android:textSize="15dp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/RecyclerView"
+        <LinearLayout
+            android:id="@+id/ListView_Recycler"
+            android:clickable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="11"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_weight="11">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
 
 
         <TextView

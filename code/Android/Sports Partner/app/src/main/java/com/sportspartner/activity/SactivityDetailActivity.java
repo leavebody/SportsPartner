@@ -2,13 +2,11 @@ package com.sportspartner.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,19 +14,15 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
-import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
-import com.sportspartner.request.ActivityRequest;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.serviceresult.ModelResult;
 import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.adapter.Divider;
-import com.sportspartner.util.adapter.FriendAdapter;
 import com.sportspartner.util.adapter.MemberPhotoAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -68,14 +62,7 @@ public class SactivityDetailActivity extends BasicActivity {
 
         // gets the previously created intent
         Intent myIntent = getIntent();
-        String activityId = myIntent.getStringExtra("activityId");
-
-        ActivityService.getSActivity(this, activityId, new ActivityCallBack<SActivity>(){
-            @Override
-            public void getModelOnSuccess(ModelResult<SActivity> result){
-                loadSactivityHandler(result);
-            }
-        });
+        activityId = myIntent.getStringExtra("activityId");
 
         Toast.makeText(this, activityId, Toast.LENGTH_SHORT).show();
 
@@ -151,11 +138,18 @@ public class SactivityDetailActivity extends BasicActivity {
         if (status){
             //if successfully get the data, then get the data
             activityDetal = sActivityResult.getModel();
+            if (activityDetal == null){
+                Log.d("Date", "null");
+            }
+            else  {
+                Log.d("Date", "not full");
+            }
         }
         else{
             //if failure, show a toast
             Toast toast = Toast.makeText(SactivityDetailActivity.this, "Load detail Error: " + message, Toast.LENGTH_LONG);
             toast.show();
+            return;
         }
 
         //set data to Android Widget
@@ -166,8 +160,9 @@ public class SactivityDetailActivity extends BasicActivity {
         capacity.setText(size);
 
         //Time and date
-        Date start = new Date();
-        start = activityDetal.getStartTime();
+        //Date start = new Date();
+        Date start = activityDetal.getStartTime();
+        Log.d("Date", activityDetal.getStartTime().toString());
         Date end = new Date();
         end = activityDetal.getEndTime();
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.mm.dd", Locale.US);
