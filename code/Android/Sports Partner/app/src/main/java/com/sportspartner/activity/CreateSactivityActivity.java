@@ -129,6 +129,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         textLocation.setOnClickListener(myLocationListener);
         textCapacity.setOnClickListener(myCapacityListener);
 
+        pickPlaceResult = new PickPlaceResult();
+
     }
 
     private void loadAllSportsHandler(ModelResult<ArrayList<Sport>> result) {
@@ -253,6 +255,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 Bundle b = data.getExtras();
                 if (b != null) {
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
+
                     if (pickPlaceResult.isFacility()){
                         //Todo get facilityId
                         facilityId = "NULL";
