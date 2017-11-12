@@ -13,7 +13,7 @@ public class ConnectionUtil {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
-                    .getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/rdkxzlvf", "rdkxzlvf", "At7YAFMgJqq1aMAcqMTY9CixdC_toDeM");
+                    .getConnection("jdbc:postgres://ahtajjtgbpbnic:108f9970bc1a9d49234867433c7b32f5494c553c3795b16d3585c1ba02c8f504@ec2-54-225-94-143.compute-1.amazonaws.com:5432/d90iv6g3rmligc");
             //c = DriverManager.getConnection(System.getenv("JDBC_DATABASE_URL"));
         } catch ( Exception e ) {
             System.err.println( "nao ni mei"+e.getClass().getName()+": "+ e.getMessage() );

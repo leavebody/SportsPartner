@@ -26,8 +26,8 @@
       <file leaf-file-name="ConnectionUtil.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sportspartner/util/ConnectionUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="210">
+              <caret line="15" column="193" selection-start-line="15" selection-start-column="193" selection-end-line="15" selection-end-column="193" />
               <folding />
             </state>
           </provider>
@@ -335,8 +335,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sportspartner/util/ConnectionUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="15" column="193" selection-start-line="15" selection-start-column="193" selection-end-line="15" selection-end-column="193" />
           <folding />
         </state>
       </provider>
