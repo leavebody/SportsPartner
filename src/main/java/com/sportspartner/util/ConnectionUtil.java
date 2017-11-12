@@ -13,7 +13,7 @@ public class ConnectionUtil {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
-                    .getConnection("jdbc:postgres://npvilmribuqyfn:4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb@ec2-50-17-217-166.compute-1.amazonaws.com:5432/ddv402olp7iu27", "npvilmribuqyfn", "4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb");
+                    .getConnection("postgres://npvilmribuqyfn:4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb@ec2-50-17-217-166.compute-1.amazonaws.com:5432/ddv402olp7iu27", "npvilmribuqyfn", "4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb");
             //c = DriverManager.getConnection(System.getenv("JDBC_DATABASE_URL"));
         } catch ( Exception e ) {
             System.err.println( "nao ni mei"+e.getClass().getName()+": "+ e.getMessage() );
