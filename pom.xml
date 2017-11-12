@@ -64,14 +64,6 @@
             <version>1.0.0</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/com.google.gcm/gcm-server -->
-        <dependency>
-            <groupId>com.google.gcm</groupId>
-            <artifactId>gcm-server</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
         <dependency>
             <groupId>org.imgscalr</groupId>
@@ -94,7 +86,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -121,7 +112,7 @@
                 <version>2.0.0</version>
                 <configuration>
                     <jdkVersion>1.8</jdkVersion>
-                    <appName>sportspartner2017</appName>
+                    <appName>oosesportspartner</appName>
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <web>java -jar ./target/sportspartner-1.0-jar-with-dependencies.jar</web>
