@@ -143,7 +143,7 @@ public class ResourceService extends Service {
     }
 
     private static ModelResult uploadUserIconRespProcess(NetworkResponse response, Context c, String bmpString) {
-        ModelResult result = new ModelResult();
+        ModelResult<String> result = new ModelResult<>();
         switch (response.statusCode) {
             case 200:
                 boolean status;
@@ -153,6 +153,7 @@ public class ResourceService extends Service {
                 result.setStatus(status);
                 if (status) {
                     String uuid = jsResp.get("iconUUID").getAsString();
+                    result.setModel(uuid);
                     // store the image in cache
                     File cacheDir = c.getApplicationContext().getCacheDir();
                     String cacheDirPath = cacheDir.toString();

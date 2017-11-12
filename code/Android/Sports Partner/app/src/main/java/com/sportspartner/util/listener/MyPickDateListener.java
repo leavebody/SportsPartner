@@ -61,7 +61,5 @@ public class MyPickDateListener extends MyonClickListener {
         String myFormat = "yyyy.MM.dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(myCalendar.getTime()));
-        Log.d("DatePicker",sdf.format(myCalendar.getTime()));
-        Log.d("DatePicker",myCalendar.getTime().toString());
     }
 }

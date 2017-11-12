@@ -42,7 +42,6 @@ public class ProfileRequest extends Request {
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
         String userId = dbHelper.getEmail();
         String key = dbHelper.getKey();
-        Log.d("ProfileRequestKey",key);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
@@ -150,7 +149,6 @@ public class ProfileRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/profile/"+email;
-
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.PUT, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
