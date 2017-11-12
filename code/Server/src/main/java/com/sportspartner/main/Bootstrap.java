@@ -24,6 +24,7 @@ import org.sql2o.tools.IOUtils;
 
 
 public class Bootstrap {
+    //localhost
     public static final String IP_ADDRESS = "localhost";
     public static final int PORT = 8080;
 
