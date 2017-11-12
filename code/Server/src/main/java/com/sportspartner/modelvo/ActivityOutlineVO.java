@@ -101,14 +101,6 @@ public class ActivityOutlineVO {
         this.endTime = endTime;
     }
 
-    public String getLocation() {
-        return facilityId;
-    }
-
-    public void setLocation(String location) {
-        this.facilityId = location;
-    }
-
     public double getLongitude() {
         return longitude;
     }
