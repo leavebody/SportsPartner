@@ -7,19 +7,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.request.FriendRequest;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
 import java.util.ArrayList;
 
 /**
- * Created by yujiaxiao on 11/10/17.
+ * @author Yujia Xiao
+ * @author Xiaochen Li
  */
 
 public class FriendService extends Service{
@@ -83,7 +80,7 @@ public class FriendService extends Service{
         request.sendFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(FriendService.sendFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.sendFriendRequestRespProcess(response));
             }
         },receiverId, senderId);
 
@@ -93,8 +90,8 @@ public class FriendService extends Service{
      * @param response The network response to process
      * @return A BooleanResult
      * */
-    private static BooleanResult sendFriendRequestRespProcess(NetworkResponse response) {
-        BooleanResult result = new BooleanResult();
+    private static ModelResult sendFriendRequestRespProcess(NetworkResponse response) {
+        ModelResult result = new ModelResult();
         switch (response.statusCode){
             case 200:
                 boolean status = false;
@@ -125,7 +122,7 @@ public class FriendService extends Service{
         request.sendFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(FriendService.acceptFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.acceptFriendRequestRespProcess(response));
             }
         },receiverId, senderId);
 
@@ -135,8 +132,8 @@ public class FriendService extends Service{
      * @param response The network response to process
      * @return A BooleanResult
      * */
-    private static BooleanResult acceptFriendRequestRespProcess(NetworkResponse response) {
-        BooleanResult result = new BooleanResult();
+    private static ModelResult acceptFriendRequestRespProcess(NetworkResponse response) {
+        ModelResult result = new ModelResult();
         switch (response.statusCode){
             case 200:
                 boolean status = false;
@@ -167,7 +164,7 @@ public class FriendService extends Service{
         request.declineFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(FriendService.declineFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.declineFriendRequestRespProcess(response));
             }
         },receiverId, senderId);
 
@@ -177,8 +174,8 @@ public class FriendService extends Service{
      * @param response The network response to process
      * @return A BooleanResult
      * */
-    private static BooleanResult declineFriendRequestRespProcess(NetworkResponse response) {
-        BooleanResult result = new BooleanResult();
+    private static ModelResult declineFriendRequestRespProcess(NetworkResponse response) {
+        ModelResult result = new ModelResult();
         switch (response.statusCode){
             case 200:
                 boolean status = false;

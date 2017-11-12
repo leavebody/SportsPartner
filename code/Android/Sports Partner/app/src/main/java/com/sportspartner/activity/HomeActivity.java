@@ -17,8 +17,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.sportspartner.R;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.service.ActivityService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.adapter.MyActivityAdapter;
 

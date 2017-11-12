@@ -66,4 +66,8 @@ public class PickPlaceResult implements Serializable {
         latitude = latLng.latitude;
         longitude = latLng.longitude;
     }
+
+    public boolean notZero(){
+        return Math.abs(latitude)>0.00001 || Math.abs(longitude)>0.00001;
+    }
 }

@@ -1,15 +1,15 @@
-package com.sportspartner.service.serviceresult;
+package com.sportspartner.service;
 
 /**
- * The result of a network request. BooleanResult only contains "status" to
- * indicate whether the request is processed successfully and a "message"
- * to tell why it's not processed successfully.
- *
+ * The result of a network request.
+ * Other than the fields in its parent class,
+ * a model is added to help the request caller
+ * to get an arbitary class on demand.
  * @author Xiaochen Li
  */
 
-public class BooleanResult {
-
+public class ModelResult <T> {
+    private T model;
     private boolean status;
     private String message;
     private String userType;
@@ -36,5 +36,13 @@ public class BooleanResult {
 
     public final void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public T getModel() {
+        return model;
+    }
+
+    public void setModel(T model) {
+        this.model = model;
     }
 }

@@ -16,7 +16,7 @@ public class SActivity {
     private Date startTime;
     private Date endTime;
     private String facilityId;
-    private String facilityName;
+    private String facilitiName;
     private Double longitude;
     private Double latitude;
     private String zipcode;
@@ -27,32 +27,6 @@ public class SActivity {
     private String detail;
     private String description;
     private ArrayList<SactivityComment> discussion;
-    //TODO more to add
-
-
-    public SActivity() {}
-
-    public SActivity(String activityId, String status, String sportIconUUID, String sportName, String sportId, Date startTime, Date endTime, String facilityId, String facilityName, Double longitude, Double latitude, String zipcode, int capacity, int size, String creatorId, ArrayList<UserOutline> members, String detail, String description, ArrayList<SactivityComment> discussion) {
-        this.activityId = activityId;
-        this.status = status;
-        this.sportIconUUID = sportIconUUID;
-        this.sportName = sportName;
-        this.sportId = sportId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.facilityId = facilityId;
-        this.facilityName = facilityName;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.zipcode = zipcode;
-        this.capacity = capacity;
-        this.size = size;
-        this.creatorId = creatorId;
-        this.members = members;
-        this.detail = detail;
-        this.description = description;
-        this.discussion = discussion;
-    }
 
     public String getActivityId() {
         return activityId;
@@ -118,12 +92,12 @@ public class SActivity {
         this.facilityId = facilityId;
     }
 
-    public String getFacilityName() {
-        return facilityName;
+    public String getFacilitiName() {
+        return facilitiName;
     }
 
-    public void setFacilityName(String facilityName) {
-        this.facilityName = facilityName;
+    public void setFacilitiName(String facilitiName) {
+        this.facilitiName = facilitiName;
     }
 
     public Double getLongitude() {

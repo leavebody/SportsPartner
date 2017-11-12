@@ -15,8 +15,8 @@ import com.sportspartner.R;
 import com.sportspartner.activity.ProfileActivity;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 
 import java.util.ArrayList;
 

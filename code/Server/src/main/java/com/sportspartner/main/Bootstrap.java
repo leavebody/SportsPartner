@@ -25,7 +25,7 @@ import org.sql2o.tools.IOUtils;
 
 
 public class Bootstrap {
-    public static final String IP_ADDRESS = "localhost";
+    public static final String IP_ADDRESS = "0.0.0.0";
     public static final int PORT = 8080;
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
