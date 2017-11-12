@@ -11,28 +11,20 @@ import 	java.util.GregorianCalendar;
 
 public class SActivityOutline {
     private String activityId;
+    private String creatorId;
     private String status;
     private String sportIconUUID;
-    private String sportIconPath;
     private String sportName;
     private Date startTime;
     private Date endTime;
     private String facilityId;
+    private double longitude;
+    private double latitude;
+    private String address;
     private int capacity;
     private int size;
 
-    public SActivityOutline(String activityId, String status, String sportIconUUID, String sportIconPath, String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
-        this.activityId = activityId;
-        this.status = status;
-        this.sportIconUUID = sportIconUUID;
-        this.sportIconPath = sportIconPath;
-        this.sportName = sportName;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.facilityId = facilityId;
-        this.capacity = capacity;
-        this.size = size;
-    }
+    public SActivityOutline(){}
 
     public String getActivityId() {
         return activityId;
@@ -40,6 +32,22 @@ public class SActivityOutline {
 
     public void setActivityId(String activityId) {
         this.activityId = activityId;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getFacilityId() {
+        return facilityId;
+    }
+
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
     }
 
     public String getStatus() {
@@ -56,14 +64,6 @@ public class SActivityOutline {
 
     public void setSportIconUUID(String sportIconUUID) {
         this.sportIconUUID = sportIconUUID;
-    }
-
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
     }
 
     public String getSportName() {
@@ -90,12 +90,28 @@ public class SActivityOutline {
         this.endTime = endTime;
     }
 
-    public String getFacilityId() {
-        return facilityId;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setFacilityId(String facilityId) {
-        this.facilityId = facilityId;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getCapacity() {
@@ -113,4 +129,5 @@ public class SActivityOutline {
     public void setSize(int size) {
         this.size = size;
     }
+
 }
