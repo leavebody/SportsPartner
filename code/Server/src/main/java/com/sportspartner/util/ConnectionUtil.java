@@ -12,11 +12,11 @@ public class ConnectionUtil {
         Connection c = null;
         try {
             Class.forName("org.postgresql.Driver");
-            //c = DriverManager
-            //        .getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/rdkxzlvf", "rdkxzlvf", "At7YAFMgJqq1aMAcqMTY9CixdC_toDeM");
-            c = DriverManager.getConnection(System.getenv("JDBC_DATABASE_URL"));
+            c = DriverManager
+                    .getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/rdkxzlvf", "rdkxzlvf", "At7YAFMgJqq1aMAcqMTY9CixdC_toDeM");
+            //c = DriverManager.getConnection(System.getenv("JDBC_DATABASE_URL"));
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.err.println( "nao ni mei"+e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
         return c;

@@ -8,6 +8,7 @@ import java.util.Date;
  */
 
 public class SActivity {
+    private String address;
     private String activityId;
     private String status;
     private String sportIconUUID;
@@ -27,6 +28,15 @@ public class SActivity {
     private String detail;
     private String description;
     private ArrayList<SactivityComment> discussion;
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getActivityId() {
         return activityId;
