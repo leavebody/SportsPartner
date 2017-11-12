@@ -16,12 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
 import com.sportspartner.util.*;
 import org.sql2o.tools.IOUtils;
 
+import static spark.Spark.*;
 
 
 public class Bootstrap {
@@ -40,6 +38,7 @@ public class Bootstrap {
 
         ipAddress(IP_ADDRESS);
         port(PORT);
+
         staticFileLocation("/public");
         try {
             UserService userModel = new UserService();

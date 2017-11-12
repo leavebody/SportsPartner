@@ -1,10 +1,12 @@
 package com.sportspartner.util.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.sportspartner.R;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ResourceService;
 
 /**
  * Created by yujiaxiao on 10/21/17.
@@ -40,7 +45,7 @@ public class MyActivityAdapter extends BaseAdapter {
      * @param items The context which will be filled into the list
      */
     public MyActivityAdapter(Context context, ArrayList<SActivityOutline> items) {
-        context = context;
+        this.context = context;
         activityItems = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -117,8 +122,7 @@ public class MyActivityAdapter extends BaseAdapter {
             //convertView = inflater.inflate(R.layout.layout_activity, parent, false);
 
         //get element from the layout
-        //TODO picture, time
-        //ImageView activityPhoto = (ImageView) convertView.findViewById(R.id.activity_photo);
+        final ImageView activityPhoto = (ImageView) rowView.findViewById(R.id.activity_photo);
         TextView sportName = (TextView) rowView.findViewById(R.id.sport_name);
         TextView activityDate = (TextView) rowView.findViewById(R.id.activity_date);
         TextView activityTime = (TextView) rowView.findViewById(R.id.activity_time);
@@ -128,8 +132,16 @@ public class MyActivityAdapter extends BaseAdapter {
         //populate each element with relevant data
         SActivityOutline activity = (SActivityOutline) getItem(position);
 
-        //TODO picture
-        //Picasso.with(context).load(activity.getSportPic()).placeholder(R.mipmap.ic_launcher).into(activityPhoto);
+        ResourceService.getImage(context, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
+                new ActivityCallBack<Bitmap>(){
+                    @Override
+                    public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                        if (modelResult.isStatus()) {
+                            activityPhoto.setImageBitmap(modelResult.getModel());
+                        }
+                    }
+                });
+
         sportName.setText(activity.getSportName());
 
         //Parse time
@@ -139,18 +151,11 @@ public class MyActivityAdapter extends BaseAdapter {
 
         activityDate.setText(startDate);
         activityTime.setText(endDate);
-        //TODO wait the change of backend
-        //activityLocation.setText(activity.getLocation());
-        activityLocation.setText("JHU RECREATION CENTER");
+
+        activityLocation.setText(activity.getAddress());
         String curCapacity = String.valueOf(activity.getSize()) + "/" + String.valueOf(activity.getCapacity());
         activityMember.setText(curCapacity);
 
-        //TODO move to create activity whether the endDate is after StartDate
-        /*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date strDate = sdf.parse(valid_until);
-        if (new Date().after(strDate)) {
-            catalog_outdated = 1;
-        }*/
 
         return rowView;
     }
