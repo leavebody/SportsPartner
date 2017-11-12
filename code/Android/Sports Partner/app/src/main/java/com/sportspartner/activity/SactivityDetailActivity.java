@@ -165,7 +165,7 @@ public class SactivityDetailActivity extends BasicActivity {
         Log.d("Date", activityDetail.getStartTime().toString());
         Date end = new Date();
         end = activityDetail.getEndTime();
-        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.mm.dd", Locale.US);
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
         SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);
