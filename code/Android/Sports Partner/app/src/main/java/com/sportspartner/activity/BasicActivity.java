@@ -23,9 +23,8 @@ import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 
 import java.util.ArrayList;
@@ -226,8 +225,7 @@ public class BasicActivity extends AppCompatActivity
      */
     private void signOut(){
         UserService.logOut(this, new ActivityCallBack(){
-            @Override
-            public void getBooleanOnSuccess(BooleanResult result){
+            public void getModelOnSuccess(ModelResult result){
                 if (!result.isStatus()){
                     //if failure, show a toast
                     Toast toast = Toast.makeText(BasicActivity.this,

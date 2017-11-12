@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.sportspartner.R;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 
 import java.util.ArrayList;
 

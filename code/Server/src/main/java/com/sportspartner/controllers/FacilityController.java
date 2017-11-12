@@ -29,7 +29,6 @@ public class FacilityController {
                 response.status(200);
                 return reps;
             }
-
         }, new JsonTransformer());
 
 

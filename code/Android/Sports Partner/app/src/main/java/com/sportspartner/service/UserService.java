@@ -5,8 +5,6 @@ import android.content.Context;
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
 import com.sportspartner.request.UserRequest;
-import com.sportspartner.util.ActivityCallBack;
-import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
@@ -31,7 +29,7 @@ public class UserService extends Service {
         ur.loginVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.getBooleanOnSuccess(UserService.loginRespProcess(response, c, email));
+                callback.getModelOnSuccess(UserService.loginRespProcess(response, c, email));
             }
         }, email, password, registrationId);
     }
@@ -42,8 +40,8 @@ public class UserService extends Service {
      * @return A BooleanResult.
      * @see BooleanResult
      */
-    public static BooleanResult loginRespProcess(NetworkResponse response, Context c, String email){
-        BooleanResult result = new BooleanResult();
+    public static ModelResult loginRespProcess(NetworkResponse response, Context c, String email){
+        ModelResult result = new ModelResult();
         switch (response.statusCode){
             case 200:
                 boolean loginStatus = false;
@@ -84,7 +82,7 @@ public class UserService extends Service {
         ur.signUpVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.getBooleanOnSuccess(UserService.booleanRespProcess(response, "sign up"));
+                callback.getModelOnSuccess(UserService.booleanRespProcess(response, "sign up"));
             }
         }, email, password, confirmPassword, type);
     }
@@ -99,7 +97,7 @@ public class UserService extends Service {
         ur.logOutVolleyRequest(new VolleyCallback(){
             @Override
             public void onSuccess(NetworkResponse response){
-                callback.getBooleanOnSuccess(UserService.logOutRespProcess(response, c));
+                callback.getModelOnSuccess(UserService.logOutRespProcess(response, c));
             }
         });
         LoginDBHelper.getInstance(c).delete();
@@ -111,8 +109,8 @@ public class UserService extends Service {
      * @return A BooleanResult.
      * @see BooleanResult
      */
-    public static BooleanResult logOutRespProcess(NetworkResponse response, Context c){
-        BooleanResult result = new BooleanResult();
+    public static ModelResult logOutRespProcess(NetworkResponse response, Context c){
+        ModelResult result = new ModelResult();
         switch (response.statusCode){
             case 200:
                 boolean status;

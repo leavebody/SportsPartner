@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 import com.sportspartner.dao.impl.IconDaoImpl;
+import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.dao.impl.SportDaoImpl;
 import com.sportspartner.model.Authorization;
 import com.sportspartner.model.Icon;
+import com.sportspartner.model.Person;
+import com.sportspartner.model.Sport;
 import com.sportspartner.util.ImageUtil;
 import com.sportspartner.util.JsonResponse;
 
@@ -16,6 +20,8 @@ import java.util.UUID;
 public class ImageService {
     private IconDaoImpl iconDaoImpl = new IconDaoImpl();
     private ImageUtil imageUtil = new ImageUtil();
+    private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private SportDaoImpl sportDaoImpl = new SportDaoImpl();
 
     public JsonResponse getImage(String iconUUID, String type) throws Exception{
 
@@ -72,7 +78,13 @@ public class ImageService {
         String iconUUID = UUID.randomUUID().toString();
         String smallPath =  imageUtil.getImagePath(spId, object, "small");
         String originPath = imageUtil.getImagePath(spId, object, "origin");
-        if(!iconDaoImpl.updateIcon(new Icon(spId, iconUUID, smallPath, originPath, object))){
+
+        Person person = personDaoImpl.getPerson(spId);
+        person.setIconUUID(iconUUID);
+
+
+        if(!iconDaoImpl.updateIcon(new Icon(spId, iconUUID, smallPath, originPath, object))
+                || !personDaoImpl.updatePerson(person)){
             resp.setResponse("false");
             resp.setMessage("fail to create a new icon item in database");
             return resp;

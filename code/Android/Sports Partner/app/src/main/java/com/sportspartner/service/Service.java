@@ -2,7 +2,6 @@ package com.sportspartner.service;
 
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
-import com.sportspartner.service.serviceresult.BooleanResult;
 import com.sportspartner.util.NetworkResponseRequest;
 
 
@@ -21,8 +20,8 @@ public class Service {
      * @param response The network response to process
      * @return A BooleanResult with status and message.
      */
-    protected static BooleanResult booleanRespProcess(NetworkResponse response, String operation){
-        BooleanResult result = new BooleanResult();
+    protected static ModelResult booleanRespProcess(NetworkResponse response, String operation){
+        ModelResult result = new ModelResult();
         boolean status;
 
         switch (response.statusCode){

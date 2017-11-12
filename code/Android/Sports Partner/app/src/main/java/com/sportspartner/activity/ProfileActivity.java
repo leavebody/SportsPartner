@@ -27,15 +27,12 @@ import com.sportspartner.R;
 import com.sportspartner.models.Profile;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
-import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.serviceresult.BooleanResult;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
-import com.sportspartner.util.adapter.FriendAdapter;
 import com.sportspartner.util.adapter.InterestAdapter;
 import com.sportspartner.util.adapter.MyActivityAdapter;
 

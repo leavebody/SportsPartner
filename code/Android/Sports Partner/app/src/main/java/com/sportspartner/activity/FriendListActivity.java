@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.sportspartner.R;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.FriendService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.FriendAdapter;
 

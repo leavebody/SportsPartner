@@ -21,9 +21,6 @@ public class SActivityOutline {
     private int capacity;
     private int size;
 
-
-    public SActivityOutline(){}
-
     public SActivityOutline(String activityId, String status, String sportIconUUID, String sportIconPath, String sportName, Date startTime, Date endTime, String facilityId, int capacity, int size) {
         this.activityId = activityId;
         this.status = status;
@@ -93,12 +90,12 @@ public class SActivityOutline {
         this.endTime = endTime;
     }
 
-    public String getLocation() {
+    public String getFacilityId() {
         return facilityId;
     }
 
-    public void setLocation(String location) {
-        this.facilityId = location;
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
     }
 
     public int getCapacity() {
@@ -115,21 +112,5 @@ public class SActivityOutline {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    @Override
-    public String toString() {
-        return "SActivityOutline{" +
-                "activityId='" + activityId + '\'' +
-                ", status='" + status + '\'' +
-                ", sportIconUUID='" + sportIconUUID + '\'' +
-                ", sportIconPath='" + sportIconPath + '\'' +
-                ", sportName='" + sportName + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", facilityId='" + facilityId + '\'' +
-                ", capacity=" + capacity +
-                ", size=" + size +
-                '}';
     }
 }

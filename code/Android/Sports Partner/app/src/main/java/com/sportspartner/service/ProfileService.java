@@ -12,8 +12,6 @@ import com.sportspartner.models.ProfileComment;
 import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.request.ProfileRequest;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -181,7 +179,7 @@ public class ProfileService extends Service {
         request.updateProfileVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getModelOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, profile, email);
     }
@@ -247,7 +245,7 @@ public class ProfileService extends Service {
         request.updateInterestsVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getBooleanOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getModelOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, interests, email);
     }
