@@ -380,4 +380,51 @@ public class ActivityDaoImpl implements ActivityDao {
          }
          return activities;
      }
+
+     public List<Activity> getRecommendActivities(String userId){
+         Connection c = new ConnectionUtil().connectDB();
+         PreparedStatement stmt = null;
+         ResultSet rs = null;
+         List<Activity> activities = new ArrayList<Activity>();
+
+         try {
+             stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
+                     "AND  \"endTime\" < CURRENT_TIMESTAMP ORDER BY \"startTime\" DESC;");
+             stmt.setString(1, userId);
+             rs = stmt.executeQuery();
+             while (rs.next()) {
+                 String activityId = rs.getString("activityId");
+                 String creatorId = rs.getString("creatorId");
+                 String facilityId = rs.getString("facilityId");
+                 String status = rs.getString("status");
+                 String sportId = rs.getString("sportId");
+                 double longitude = rs.getDouble("longitude");
+                 double latitude = rs.getDouble("latitude");
+                 String zipcode = rs.getString("zipcode");
+                 String address = rs.getString("address");
+                 Timestamp startTimeStamp = rs.getTimestamp("startTime");
+                 Date startTime = new Date(startTimeStamp.getTime());
+                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
+                 Date endTime = new Date(endTimeStamp.getTime());
+                 int capacity = rs.getInt("capacity");
+                 int size = rs.getInt("size");
+                 String description = rs.getString("description");
+
+                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
+             }
+         } catch (Exception e) {
+             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
+         } finally {
+             try {
+                 rs.close();
+                 stmt.close();
+                 c.close();
+             } catch (SQLException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+             }
+         }
+         return activities;
+     }
 }

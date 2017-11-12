@@ -23,6 +23,7 @@ import com.sportspartner.util.*;
 import org.sql2o.tools.IOUtils;
 
 
+
 public class Bootstrap {
     public static final String IP_ADDRESS = "localhost";
     public static final int PORT = 8080;
@@ -34,6 +35,7 @@ public class Bootstrap {
      * @param args arguments of main function
      * @throws Exception throw exception of Service
      */
+
     public static void main(String[] args) throws Exception {
 
         ipAddress(IP_ADDRESS);
@@ -64,6 +66,8 @@ public class Bootstrap {
         } catch (Exception ex) {
             logger.error("Failed to create a SportsPartnerService instance. Aborting");
         }
+        
+
     /*
         Sender sender = new Sender("AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U");
 
@@ -92,9 +96,9 @@ public class Bootstrap {
 
 
 //        ImageUtil imageUtil = new ImageUtil();
-//        BufferedImage image = imageUtil.getImage("./res/usericon/zxiao10@jhu.edu_origin.png");
+//        BufferedImage image = imageUtil.getImage("./res/sporticon/006_origin.png");
 //        BufferedImage image1 = imageUtil.resizeImage(image);
-//        imageUtil.saveImage(image1, "./res/usericon/zxiao10@jhu.edu_small.png");
+//        imageUtil.saveImage(image1, "./res/sporticon/006_small.png");
 
 //        ImageUtil imageUtil = new ImageUtil();
 //        BufferedImage image = imageUtil.getImage("./res/usericon/shirish@gmail.com_origin.png");
@@ -120,9 +124,7 @@ public class Bootstrap {
         System.out.println(test1);
         boolean test2 = f1.deleteNotification(notification);
         System.out.println(test2);
-=======
                 /*
->>>>>>> b1dbb4760d833629960482b9d02c32ab2ba773bb
         AuthorizationDaoImpl f1 = new AuthorizationDaoImpl();
         Authorization newAuthorization = new Authorization("zihao@jhu.edu","666");
         f1.newAuthorization(newAuthorization);

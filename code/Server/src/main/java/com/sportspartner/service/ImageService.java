@@ -78,7 +78,7 @@ public class ImageService {
         String iconUUID = UUID.randomUUID().toString();
         String smallPath =  imageUtil.getImagePath(spId, object, "small");
         String originPath = imageUtil.getImagePath(spId, object, "origin");
-        
+
         Person person = personDaoImpl.getPerson(spId);
         person.setIconUUID(iconUUID);
 
