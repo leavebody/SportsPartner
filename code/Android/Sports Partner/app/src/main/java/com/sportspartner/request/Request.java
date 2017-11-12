@@ -10,7 +10,7 @@ import android.content.Context;
  * The base class of all requests
  */
 public class Request {
-    //for tablet
+    //for tablet 10.194.75.125
     //protected static final String URL_CONTEXT = "http://10.194.75.125:8080/api.sportspartner.com/";
     //for emulator
     protected static final String URL_CONTEXT = "http://10.0.2.2:8080/api.sportspartner.com/";
