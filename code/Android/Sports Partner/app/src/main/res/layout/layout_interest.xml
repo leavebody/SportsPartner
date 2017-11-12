@@ -20,17 +20,17 @@
         android:visibility="invisible"
         android:background="@drawable/selected"/>
 
-    <TextView
-        android:layout_below="@+id/sportIcon"
-        android:layout_marginTop="0dp"
-        android:id="@+id/sportName"
-        android:layout_width="40dp"
-        android:layout_height="15dp"
-        android:gravity="center"
-        android:text="Swimming"
-        android:textColor="@color/orange"
-        android:textSize="6dp"
-        android:textStyle="bold"/>
+    <!--<TextView-->
+        <!--android:layout_below="@+id/sportIcon"-->
+        <!--android:layout_marginTop="0dp"-->
+        <!--android:id="@+id/sportName"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="15dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Swimming"-->
+        <!--android:textColor="@color/orange"-->
+        <!--android:textSize="6dp"-->
+        <!--android:textStyle="bold"/>-->
 
     <!--<com.vj.widgets.AutoResizeTextView
         andridd:idid@+id/sportName"

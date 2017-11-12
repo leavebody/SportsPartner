@@ -122,7 +122,6 @@ public class MyActivityAdapter extends BaseAdapter {
             //convertView = inflater.inflate(R.layout.layout_activity, parent, false);
 
         //get element from the layout
-        //TODO picture, time
         final ImageView activityPhoto = (ImageView) rowView.findViewById(R.id.activity_photo);
         TextView sportName = (TextView) rowView.findViewById(R.id.sport_name);
         TextView activityDate = (TextView) rowView.findViewById(R.id.activity_date);
@@ -133,7 +132,7 @@ public class MyActivityAdapter extends BaseAdapter {
         //populate each element with relevant data
         SActivityOutline activity = (SActivityOutline) getItem(position);
 
-        ResourceService.getImage(context, activity.getSportIconUUID(), ResourceService.IMAGE_SMALL,
+        ResourceService.getImage(context, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
                 new ActivityCallBack<Bitmap>(){
                     @Override
                     public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
