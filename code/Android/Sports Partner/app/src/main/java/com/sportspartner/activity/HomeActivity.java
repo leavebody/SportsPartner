@@ -49,7 +49,7 @@ public class HomeActivity extends BasicActivity {
     private int recommendCount = 0; // the count of loaded history activities
     private boolean upcommingFinished = false; // no more upcomming activity to load
     private boolean recommendFinished = false; // no more history activity to load
-    private final int REFRESH_LIMIT = 3;
+    private final int REFRESH_LIMIT = 5;
 
     /**
      * OnCreate function for this Activity
@@ -119,7 +119,6 @@ public class HomeActivity extends BasicActivity {
         setListCommingActivity();
         setListRecommend();
         setRefresh();
-        refresh();
         refresh();
     }
 
