@@ -7,7 +7,7 @@ import com.sportspartner.util.JsonTransformer;
 import static spark.Spark.*;
 
 public class LoginController {
-    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
+    private static final String API_CONTEXT = "";
     private UserService userService;
 
     public LoginController(UserService userService) {
