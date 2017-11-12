@@ -57,6 +57,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     private Double longitude;
     private Double latitude;
     private String zipcode;
+    private String address;
 
     // The object being sent and received from map
     private PickPlaceResult pickPlaceResult;
@@ -251,22 +252,16 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                         latitude = 0.0;
                         longitude = 0.0;
                         zipcode = "00000";
-                        textLocation.setText(pickPlaceResult.getName());
+                        address = pickPlaceResult.getName();
+                        textLocation.setText(address);
                     } else {
                         //Todo Zipcode
                         zipcode = pickPlaceResult.getZipCode();
                         id = "NULL";
                         latitude = pickPlaceResult.getLatLng().latitude;
                         longitude = pickPlaceResult.getLatLng().longitude;
-//                        Double latiDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().latitude)
-//                                .setScale(3, RoundingMode.HALF_UP)
-//                                .doubleValue();
-//
-//                        Double lonDouble = BigDecimal.valueOf(pickPlaceResult.getLatLng().longitude)
-//                                .setScale(3, RoundingMode.HALF_UP)
-//                                .doubleValue();
-
-                        textLocation.setText(pickPlaceResult.getName());
+                        address = pickPlaceResult.getName();
+                        textLocation.setText(address);
                     }
                 }
             } else if (resultCode == 0) {
@@ -311,6 +306,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setLatitude(latitude);
             sActivity.setLongitude(longitude);
             sActivity.setZipcode(zipcode);
+            sActivity.setAddress(address);
 
             ActivityService.createActivity(this, sActivity, new ActivityCallBack<String>(){
                 @Override
