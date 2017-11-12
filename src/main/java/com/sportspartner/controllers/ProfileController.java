@@ -9,7 +9,7 @@ import static spark.Spark.post;
 import static spark.Spark.put;
 
 public class ProfileController {
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private ProfileService profileService;
 
     public ProfileController(ProfileService profileService) {

@@ -8,7 +8,7 @@ import com.sportspartner.util.JsonTransformer;
 import static spark.Spark.*;
 
 public class FacilityController {
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private FacilityService facilityService;
     public FacilityController(FacilityService facilityService){
         this.facilityService= facilityService;

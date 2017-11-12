@@ -7,7 +7,7 @@ import com.sportspartner.util.JsonTransformer;
 import static spark.Spark.post;
 
 public class SignUpController {
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private UserService userService;
 
     public SignUpController(UserService userService) {

@@ -10,7 +10,7 @@ import static spark.Spark.post;
 
 public class FriendController {
 
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private FriendService friendService;
     public  FriendController(FriendService friendService){
         this.friendService = friendService;

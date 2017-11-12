@@ -7,7 +7,7 @@ import com.sportspartner.util.JsonTransformer;
 import static spark.Spark.delete;
 
 public class LogoutController {
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private UserService userService;
 
     public LogoutController(UserService userService) {

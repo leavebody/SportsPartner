@@ -8,7 +8,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class ImageController {
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private ImageService imageService;
 
     public ImageController(ImageService imageService){

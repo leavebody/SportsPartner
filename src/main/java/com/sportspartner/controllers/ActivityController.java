@@ -9,7 +9,7 @@ import static spark.Spark.*;
 
 public class ActivityController {
 
-    private static final String API_CONTEXT = "";
+    private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private ActivityService activityService;
     public ActivityController(ActivityService activityService){
         this.activityService= activityService;
