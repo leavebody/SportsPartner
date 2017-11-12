@@ -27,7 +27,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sportspartner/util/ConnectionUtil.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="15" column="211" selection-start-line="15" selection-start-column="211" selection-end-line="15" selection-end-column="211" />
+              <caret line="15" column="279" selection-start-line="15" selection-start-column="279" selection-end-line="15" selection-end-column="279" />
               <folding />
             </state>
           </provider>
@@ -336,7 +336,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sportspartner/util/ConnectionUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="15" column="211" selection-start-line="15" selection-start-column="211" selection-end-line="15" selection-end-column="211" />
+          <caret line="15" column="279" selection-start-line="15" selection-start-column="279" selection-end-line="15" selection-end-column="279" />
           <folding />
         </state>
       </provider>
