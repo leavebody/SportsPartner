@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sportspartner.models.SActivityOutline;
 
@@ -27,7 +28,7 @@ import com.sportspartner.service.ResourceService;
  */
 
 public class MyActivityAdapter extends BaseAdapter {
-    private Context context;
+    private Context myContext;
     private LayoutInflater inflater;
     private ArrayList<SActivityOutline> activityItems;
 
@@ -45,7 +46,7 @@ public class MyActivityAdapter extends BaseAdapter {
      * @param items The context which will be filled into the list
      */
     public MyActivityAdapter(Context context, ArrayList<SActivityOutline> items) {
-        this.context = context;
+        this.myContext = context;
         activityItems = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -132,13 +133,17 @@ public class MyActivityAdapter extends BaseAdapter {
         //populate each element with relevant data
         SActivityOutline activity = (SActivityOutline) getItem(position);
 
-        ResourceService.getImage(context, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
+        ResourceService.getImage(myContext, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
                 new ActivityCallBack<Bitmap>(){
                     @Override
                     public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
                         if (modelResult.isStatus()) {
                             activityPhoto.setImageBitmap(modelResult.getModel());
                         }
+ 						else{
+                    		//if failure, show a toast
+                    		Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_LONG).show();
+                		}
                     }
                 });
 

@@ -9,37 +9,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
-import com.sportspartner.models.Sport;
-import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.ModelResult;
+import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ResourceService;
 
 import java.util.ArrayList;
 
 /**
- * Created by yujiaxiao on 11/9/17.
+ * Created by yujiaxiao on 11/12/17.
  */
 
-public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyViewHolder>{
+public class SAMemberAdapter extends RecyclerView.Adapter<SAMemberAdapter.MyViewHolder>{
 
-    protected ArrayList<Sport> listInterests;
+    protected ArrayList<UserOutline> listMember;
     protected Intent myIntent;
     protected Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
-        //public TextView name;
         public ImageView selectedIcon;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
             super(view);
             this.photo = (ImageView) view.findViewById(R.id.interest_sportIcon);
-            //this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
             view.setOnClickListener(this);
@@ -52,11 +49,11 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
         }
     }
 
-    public InterestAdapter(){}
+    public SAMemberAdapter(){}
 
 
-    public InterestAdapter(ArrayList<Sport> listInterests, Context context) {
-        this.listInterests = new ArrayList<>(listInterests);
+    public SAMemberAdapter(ArrayList<UserOutline> listMember, Context context) {
+        this.listMember = new ArrayList<>(listMember);
         this.context = context;
     }
 
@@ -70,12 +67,11 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Sport sport = listInterests.get(position);
+        UserOutline member = listMember.get(position);
 
-        //holder.name.setText(sport.getSportName());
-        //Todo set profile photo
-        String iconUUID = sport.getSportIconUUID();
-        Log.d("sport UUID", String.valueOf(iconUUID));
+        //set photo
+        String iconUUID = member.getIconUUID();
+        Log.d("Member UUID", String.valueOf(iconUUID));
         ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
             @Override
             public void getModelOnSuccess(ModelResult<Bitmap> result){
@@ -83,9 +79,8 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
                     holder.photo.setImageBitmap(result.getModel());
                 } else{
                     //if failure, show a toast
-                    Toast toast = Toast.makeText(context,
-                            "Load sport icon error: "+result.getMessage(), Toast.LENGTH_LONG);
-                    toast.show();
+                    Toast.makeText(context,
+                            "Load Member icon error: "+result.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -94,11 +89,12 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     @Override
     public int getItemCount() {
-         return listInterests.size();
+        return listMember.size();
     }
 
-    public void updateInterests(ArrayList<Sport> sports) {
-        this.listInterests = sports;
+    public void updateMembers(ArrayList<UserOutline> sports) {
+        this.listMember = sports;
         notifyDataSetChanged();
     }
 }
+

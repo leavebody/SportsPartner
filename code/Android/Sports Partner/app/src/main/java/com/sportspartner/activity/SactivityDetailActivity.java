@@ -173,6 +173,8 @@ public class SactivityDetailActivity extends BasicActivity {
         endTime.setText(sdf1.format(end.getTime()));
 
         //member
+        memberInfo = activityDetail.getMembers();
+        memberAdapter.updateMember(memberInfo);
 
     }
 

@@ -137,6 +137,11 @@ public class BasicActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.toolbar_edit:

@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.BooleanResult;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -27,6 +28,7 @@ import com.sportspartner.R;
 import com.sportspartner.models.Profile;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
@@ -39,6 +41,9 @@ import com.sportspartner.util.adapter.MyActivityAdapter;
 import java.util.ArrayList;
 
 public class ProfileActivity extends BasicActivity {
+    //toolBar Menu
+    private Menu myMenu;
+
     //userEmail
     private String usermail;
     private String myEmail;
@@ -81,6 +86,7 @@ public class ProfileActivity extends BasicActivity {
 
     /**
      * OnCreate method for this Activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -139,7 +145,7 @@ public class ProfileActivity extends BasicActivity {
                 Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
                 toast.show();
 
-                intent.putExtra("activityId",activityId);
+                intent.putExtra("activityId", activityId);
                 startActivity(intent);
             }
 
@@ -157,7 +163,7 @@ public class ProfileActivity extends BasicActivity {
                 Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
                 toast.show();
 
-                intent.putExtra("activityId",activityId);
+                intent.putExtra("activityId", activityId);
                 startActivity(intent);
             }
 
@@ -180,13 +186,12 @@ public class ProfileActivity extends BasicActivity {
         setHistoryActivity();
         setRefresh();
         refresh();
-        refresh();
     }
 
     /**
      * Set the text of textView of some titles
      */
-    private void setTitle(){
+    private void setTitle() {
         titleBasicInfo.setText("Basic Info");
         titleComment.setText("Comments");
         titleUpcommingActivity.setText("Upcomming Activity");
@@ -199,18 +204,18 @@ public class ProfileActivity extends BasicActivity {
      * Sent the request
      * Call the ProfileInfoHandler if success
      */
-    private void setProfileInfo(){
+    private void setProfileInfo() {
         //get basic info
-        ProfileService.getProfileInfo(this, usermail, new ActivityCallBack<Profile>(){
+        ProfileService.getProfileInfo(this, usermail, new ActivityCallBack<Profile>() {
             @Override
-            public void getModelOnSuccess(ModelResult<Profile> userProfileResult){
+            public void getModelOnSuccess(ModelResult<Profile> userProfileResult) {
                 ProfileInfoHandler(userProfileResult);
             }
         });
 
-        ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>(){
+        ProfileService.getInterests(this, usermail, new ActivityCallBack<ArrayList<Sport>>() {
             @Override
-            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result){
+            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
                 ProfileInterestHandler(result);
             }
         });
@@ -220,6 +225,7 @@ public class ProfileActivity extends BasicActivity {
     /**
      * Handle the result of response from the server
      * Fill the corresponding content of the interest
+     *
      * @param result
      */
     private void ProfileInterestHandler(ModelResult<ArrayList<Sport>> result) {
@@ -227,14 +233,13 @@ public class ProfileActivity extends BasicActivity {
         String message = result.getMessage();
         Boolean status = result.isStatus();
 
-        if (status){
+        if (status) {
             //if successfully get the data, then get the data
-            sports= result.getModel();
-            Log.d("count",""+interestAdapter.getItemCount());
+            sports = result.getModel();
+            Log.d("count", "" + interestAdapter.getItemCount());
             interestAdapter.updateInterests(sports);
-            Log.d("count",""+interestAdapter.getItemCount());
-        }
-        else{
+            Log.d("count", "" + interestAdapter.getItemCount());
+        } else {
             //if failure, show a toast
             Toast toast = Toast.makeText(ProfileActivity.this, "Load interests Error: " + message, Toast.LENGTH_LONG);
             toast.show();
@@ -244,14 +249,15 @@ public class ProfileActivity extends BasicActivity {
         age.setText(String.valueOf(profile.getAge()));
         gender.setText(profile.getGender());
         location.setText(profile.getAddress());
-        puntuality.setRating((float)profile.getPunctuality());
-        participation.setRating((float)profile.getParticipation());
+        puntuality.setRating((float) profile.getPunctuality());
+        participation.setRating((float) profile.getParticipation());
 
     }
 
     /**
      * Handle the result of response from the server
      * Fill the corresponding content of the UI
+     *
      * @param userProfileResult The result from the server
      */
     private void ProfileInfoHandler(ModelResult<Profile> userProfileResult) {
@@ -259,12 +265,13 @@ public class ProfileActivity extends BasicActivity {
         String message = userProfileResult.getMessage();
         Boolean status = userProfileResult.isStatus();
 
-        if (status){
+        if (status) {
             //if successfully get the data, then get the data
             profile = userProfileResult.getModel();
             userType = userProfileResult.getUserType();
-        }
-        else{
+            Log.d("userType", userType);
+            invalidateOptionsMenu();
+        } else {
             //if failure, show a toast
             Toast toast = Toast.makeText(ProfileActivity.this, "Load ProfileInfo Error: " + message, Toast.LENGTH_LONG);
             toast.show();
@@ -272,15 +279,15 @@ public class ProfileActivity extends BasicActivity {
 
         //set profile photo
         String iconUUID = profile.getIconUUID();
-        ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
+        ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>() {
             @Override
-            public void getModelOnSuccess(ModelResult<Bitmap> result){
+            public void getModelOnSuccess(ModelResult<Bitmap> result) {
                 if (result.isStatus()) {
                     profilePhoto.setImageBitmap(result.getModel());
-                } else{
+                } else {
                     //if failure, show a toast
                     Toast toast = Toast.makeText(ProfileActivity.this,
-                            "Load user icon error: "+result.getMessage(), Toast.LENGTH_LONG);
+                            "Load user icon error: " + result.getMessage(), Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
@@ -290,8 +297,8 @@ public class ProfileActivity extends BasicActivity {
         age.setText(String.valueOf(profile.getAge()));
         gender.setText(profile.getGender());
         location.setText(profile.getAddress());
-        puntuality.setRating((float)profile.getPunctuality());
-        participation.setRating((float)profile.getParticipation());
+        puntuality.setRating((float) profile.getPunctuality());
+        participation.setRating((float) profile.getParticipation());
 
     }
 
@@ -306,7 +313,7 @@ public class ProfileActivity extends BasicActivity {
     /**
      * Set the list content of HistoryActivity
      */
-    private void setHistoryActivity(){
+    private void setHistoryActivity() {
         historyListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         historyActivityList.setAdapter(historyListAdapter);
     }
@@ -314,6 +321,7 @@ public class ProfileActivity extends BasicActivity {
     /**
      * Handle the result from the ActivityService
      * Fill the content of list of UpcommingActivities
+     *
      * @param moreActivitiesResult The result from the ActivityService
      */
     private void loadUpcommingActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
@@ -321,12 +329,12 @@ public class ProfileActivity extends BasicActivity {
         String message = moreActivitiesResult.getMessage();
         Boolean status = moreActivitiesResult.isStatus();
 
-        if (status){
+        if (status) {
             //if successfully get Activities, get the data
             ArrayList<SActivityOutline> moreSAs = moreActivitiesResult.getModel();
             int size = moreSAs.size();
             upcommingCount += size;
-            if (size < REFRESH_LIMIT){
+            if (size < REFRESH_LIMIT) {
                 upcommingFinished = true;
             }
             if (size > 0) {
@@ -345,6 +353,7 @@ public class ProfileActivity extends BasicActivity {
     /**
      * Handle the result from the ActivityService
      * Fill the content of list of HistoryActivities
+     *
      * @param moreActivitiesResult The result from the ActivityService
      */
     private void loadHistoryActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> moreActivitiesResult) {
@@ -352,12 +361,12 @@ public class ProfileActivity extends BasicActivity {
         String message = moreActivitiesResult.getMessage();
         Boolean status = moreActivitiesResult.isStatus();
 
-        if (status){
+        if (status) {
             //if successfully get Activities, get the data
             ArrayList<SActivityOutline> moreSAs = moreActivitiesResult.getModel();
             int size = moreSAs.size();
             historyCount += size;
-            if (size < REFRESH_LIMIT){
+            if (size < REFRESH_LIMIT) {
                 historyFinished = true;
             }
             if (size > 0) {
@@ -379,22 +388,22 @@ public class ProfileActivity extends BasicActivity {
      * If not reach the end of the Upcoming Activity, get the content of Upcoming Activity
      * Else, get the content of Recommend Activity
      */
-    private void refresh(){
+    private void refresh() {
         if (!upcommingFinished) {
             //get upcomming activities
             ActivityService.getUpcomingActivities(this, usermail, REFRESH_LIMIT, upcommingCount,
-                    new ActivityCallBack<ArrayList<SActivityOutline>>(){
+                    new ActivityCallBack<ArrayList<SActivityOutline>>() {
                         @Override
-                        public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result){
+                        public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result) {
                             loadUpcommingActivitiesHandler(result);
                         }
                     });
-        } else if (!historyFinished){
+        } else if (!historyFinished) {
             history.setVisibility(View.VISIBLE);
             ActivityService.getHistoryActivities(this, usermail, REFRESH_LIMIT, historyCount,
-                    new ActivityCallBack<ArrayList<SActivityOutline>>(){
+                    new ActivityCallBack<ArrayList<SActivityOutline>>() {
                         @Override
-                        public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result){
+                        public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result) {
                             loadHistoryActivitiesHandler(result);
                         }
                     });
@@ -409,7 +418,7 @@ public class ProfileActivity extends BasicActivity {
      * Set the Animate for the refresh
      * In the Listener, call refresh() function
      */
-    private void setRefresh(){
+    private void setRefresh() {
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setRefreshFooter(new BallPulseFooter(this).setAnimatingColor(getResources().getColor(R.color.background_blue)));
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -424,46 +433,51 @@ public class ProfileActivity extends BasicActivity {
 
     /**
      * Set the onClick action to the edit button--go to EditProfileActivity
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            //Todo change to break
+        switch (item.getItemId()) {
             case R.id.toolbar_edit:
-                Intent intent = new Intent(this, EditProfileActivity.class);
-                intent.putExtra("interest",sports);
-                intent.putExtra("profile",profile);
-                this.startActivity(intent);
-                finish();
-                break;
-                /*switch (userType){
+                switch (userType) {
                     case "SELF":
                         Intent intent = new Intent(this, EditProfileActivity.class);
-                        intent.putExtra("interest",sports);
-                        intent.putExtra("profile",profile);
+                        intent.putExtra("interest", sports);
+                        intent.putExtra("profile", profile);
                         this.startActivity(intent);
                         finish();
                         break;
                     case "FRIEND":
-                        //Todo delete the friend request
+                        FriendService.deleteFriend(this, usermail, myEmail, new ActivityCallBack() {
+                            public void getModelOnSuccess(ModelResult booleanResult) {
+                                if (!booleanResult.isStatus()) {
+                                    Toast.makeText(ProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Toast.makeText(ProfileActivity.this, "Delete Success!",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
                         break;
                     case "STRANGER":
-                        FriendService.sendFriendRequest(this, usermail, myEmail, new ActivityCallBack(){
-                            @Override
-                            public void getBooleanOnSuccess(BooleanResult booleanResult){
-                                if (!booleanResult.isStatus()){
+                        FriendService.sendFriendRequest(this, usermail, myEmail, new ActivityCallBack() {
+                            public void getModelOnSuccess(ModelResult booleanResult) {
+                                if (!booleanResult.isStatus()) {
                                     Toast.makeText(ProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Toast.makeText(ProfileActivity.this, "Send Success!",Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
                         break;
                     default:
-                        Toast.makeText(this,"UserType Error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "UserType Error", Toast.LENGTH_SHORT).show();
                         break;
                 }
-                break;*/
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -471,22 +485,23 @@ public class ProfileActivity extends BasicActivity {
         return true;
     }
 
-    /**
-     * Set the visibility of the Edit button on the toolbar to visible
-     * @param menu The menu on the top right of the toolbar
-     * @return True if success
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        myMenu = menu;
+        return true;
+    }
+
+    /**
+     * Set the visibility of the button on the toolbar to visible
+     * set different icon according the userType
+     */
+    @Override
+    public void invalidateOptionsMenu() {
         //change the visibility of toolbar edit button
-        MenuItem editItem = menu.getItem(0);
+        MenuItem editItem = myMenu.getItem(0);
 
-        //Todo change to switch
-        editItem.setIcon(R.drawable.edit);
-        editItem.setVisible(true);
-
-        /*switch (userType){
+        switch (userType) {
             case "SELF":
                 editItem.setIcon(R.drawable.edit);
                 editItem.setVisible(true);
@@ -500,15 +515,17 @@ public class ProfileActivity extends BasicActivity {
                 editItem.setVisible(true);
                 break;
             default:
-                Toast.makeText(this,"UserType Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "UserType Error", Toast.LENGTH_SHORT).show();
                 break;
-        }*/
+        }
 
-        return true;
+        onPrepareOptionsMenu(myMenu);
+
     }
 
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
