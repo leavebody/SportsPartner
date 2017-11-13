@@ -34,10 +34,11 @@ public class ConnectionUtil {
             System.out.println(path);
             System.out.println(username);
             System.out.println(password);
-
-            c = DriverManager.getConnection("postgres://" + host + ":" + port + path, "ddv402olp7iu27", password);
+            String dbUrl = System.getenv("JDBC_DATABASE_URL");
+            //c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
+            c =  DriverManager.getConnection(dbUrl);
         } catch ( Exception e ) {
-            System.err.println( "nao ni mei"+e.getClass().getName()+": "+ e.getMessage() );
+            System.err.println(e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
         return c;
