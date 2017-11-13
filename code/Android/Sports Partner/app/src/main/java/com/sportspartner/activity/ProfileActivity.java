@@ -180,7 +180,6 @@ public class ProfileActivity extends BasicActivity {
         setHistoryActivity();
         setRefresh();
         refresh();
-        refresh();
     }
 
     /**
