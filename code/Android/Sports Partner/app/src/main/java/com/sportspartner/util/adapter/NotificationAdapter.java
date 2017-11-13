@@ -146,6 +146,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                             "Accept Friend Request error: " + modelResult.getMessage(), Toast.LENGTH_LONG);
                                     toast.show();
                                 }
+                                else {
+                                    Toast.makeText(context, "Add a new friend successfully! ", Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
                     }
