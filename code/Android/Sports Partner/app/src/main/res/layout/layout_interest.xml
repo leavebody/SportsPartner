@@ -3,34 +3,34 @@
     android:id="@+id/sport_RelativeLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:clickable="false">
+    android:clickable="false"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/sportIcon"
+        android:id="@+id/interest_sportIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/swimming" />
 
     <ImageView
         android:id="@+id/selectedIcon"
-        android:layout_alignRight="@+id/sportIcon"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:visibility="invisible"
-        android:background="@drawable/selected"/>
+        android:layout_alignRight="@+id/interest_sportIcon"
+        android:background="@drawable/selected"
+        android:visibility="invisible" />
 
     <TextView
-        android:layout_below="@+id/sportIcon"
-        android:layout_marginTop="0dp"
         android:id="@+id/sportName"
         android:layout_width="40dp"
         android:layout_height="15dp"
+        android:layout_below="@+id/interest_sportIcon"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:text="Swimming"
         android:textColor="@color/orange"
         android:textSize="6dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <!--<com.vj.widgets.AutoResizeTextView
         andridd:idid@+id/sportName"

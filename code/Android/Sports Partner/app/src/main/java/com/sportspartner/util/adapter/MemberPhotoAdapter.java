@@ -90,4 +90,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
         return memberList.size();
     }
 
+    public void updateMember(ArrayList<UserOutline> members) {
+        this.memberList = members;
+        notifyDataSetChanged();
+    }
 }

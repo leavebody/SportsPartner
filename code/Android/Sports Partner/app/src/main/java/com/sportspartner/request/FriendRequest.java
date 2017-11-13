@@ -148,4 +148,36 @@ public class FriendRequest extends Request{
         );
         queue.add(nrRequest);
     }
+
+    //DELETE https://api.sportspartner.com/v1/deletefriend/:userId1/:userId2
+    /**
+     * Send a delete the friend request
+     * @param callback
+     * @param receiverId The email of the deleted friend.
+     * @param senderId The email of the sender.
+     */
+    public void deteleFriendVolleyRequest(final VolleyCallback callback, String receiverId, String senderId ){
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
+        String userId = dbHelper.getEmail();
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+"v1/deletefriend/"+senderId+"/"+receiverId;
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url, null,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
 }

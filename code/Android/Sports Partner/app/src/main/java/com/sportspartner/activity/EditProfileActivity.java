@@ -137,6 +137,7 @@ public class EditProfileActivity extends BasicActivity {
                         if (status){
                             //if successfully get Activity, get the data
                             allSports = new ArrayList<>(result.getModel());
+                            Log.d("get allSports", String.valueOf(allSports.size()));
 
                             /*for (Sport sport : interests){
                                 int index = allSports.indexOf(sport);
@@ -195,16 +196,17 @@ public class EditProfileActivity extends BasicActivity {
         //find widgets
         final Button save = (Button) dialog.findViewById(R.id.save);
         Button cancel = (Button) dialog.findViewById(R.id.cancel);
-        final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.RecyclerView);
+        final RecyclerView recycler = (RecyclerView) dialog.findViewById(R.id.RecyclerView);
 
         //Todo set RecyclerView adapter
         //set adapter
+        Log.d("adapter allSports", String.valueOf(allSports.size()));
         editInterestAdapter = new EditInterestAdapter(allSports, this);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
-        recyclerView.setAdapter(interestAdapter);
+        recycler.setLayoutManager(mLayoutManager);
+        recycler.setItemAnimator(new DefaultItemAnimator());
+        recycler.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
+        recycler.setAdapter(editInterestAdapter);
 
         //Set ClickListener
         save.setOnClickListener(new View.OnClickListener()

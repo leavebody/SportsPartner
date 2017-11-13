@@ -80,34 +80,10 @@ public class FriendService extends Service{
         request.sendFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(FriendService.sendFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.booleanRespProcess(response, "send friend request "));
             }
         },receiverId, senderId);
 
-    }
-    /**
-     * The helper method to process the result of send friend request request.
-     * @param response The network response to process
-     * @return A BooleanResult
-     * */
-    private static ModelResult sendFriendRequestRespProcess(NetworkResponse response) {
-        ModelResult result = new ModelResult();
-        switch (response.statusCode){
-            case 200:
-                boolean status = false;
-                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                status = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(status);
-                if(!status) {
-                    result.setMessage("send friend request failed: "+jsResp.get("message").getAsString());
-                }
-
-                break;
-
-            default:
-                result.setMessage("bad response:"+response.statusCode);
-        }
-        return result;
     }
 
     /**
@@ -119,37 +95,13 @@ public class FriendService extends Service{
      */
     public static void acceptFriendRequest(Context c, String receiverId, String senderId, final ActivityCallBack callback) {
         FriendRequest request = new FriendRequest(c);
-        request.sendFriendRequestVolleyRequest(new VolleyCallback() {
+        request.acceptFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(FriendService.acceptFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.booleanRespProcess(response, "accept friend request "));
             }
         },receiverId, senderId);
 
-    }
-    /**
-     * The helper method to process the result of accept friend request request.
-     * @param response The network response to process
-     * @return A BooleanResult
-     * */
-    private static ModelResult acceptFriendRequestRespProcess(NetworkResponse response) {
-        ModelResult result = new ModelResult();
-        switch (response.statusCode){
-            case 200:
-                boolean status = false;
-                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                status = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(status);
-                if(!status) {
-                    result.setMessage("accept friend request failed: "+jsResp.get("message").getAsString());
-                }
-
-                break;
-
-            default:
-                result.setMessage("bad response:"+response.statusCode);
-        }
-        return result;
     }
 
     /**
@@ -164,34 +116,28 @@ public class FriendService extends Service{
         request.declineFriendRequestVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(FriendService.declineFriendRequestRespProcess(response));
+                callback.getModelOnSuccess(FriendService.booleanRespProcess(response, "Decline friend request "));
             }
         },receiverId, senderId);
 
     }
+
     /**
-     * The helper method to process the result of decline friend request request.
-     * @param response The network response to process
-     * @return A BooleanResult
-     * */
-    private static ModelResult declineFriendRequestRespProcess(NetworkResponse response) {
-        ModelResult result = new ModelResult();
-        switch (response.statusCode){
-            case 200:
-                boolean status = false;
-                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                status = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(status);
-                if(!status) {
-                    result.setMessage("Decline friend request failed: "+jsResp.get("message").getAsString());
-                }
+     * delete the friend.
+     * @param c Caller context.
+     * @param receiverId The email of the receiver.
+     * @param senderId The email of the sender
+     * @param callback
+     */
+    public static void deleteFriend(Context c, String receiverId, String senderId, final ActivityCallBack callback) {
+        FriendRequest request = new FriendRequest(c);
+        request.deteleFriendVolleyRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(FriendService.booleanRespProcess(response, "Delete friend "));
+            }
+        },receiverId, senderId);
 
-                break;
-
-            default:
-                result.setMessage("bad response:"+response.statusCode);
-        }
-        return result;
     }
 
 }
