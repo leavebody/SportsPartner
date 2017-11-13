@@ -230,7 +230,7 @@ public class EditProfileActivity extends BasicActivity {
             //update the interestUpdated object according to the multi choose
                 for (Sport sport : allSports){
                     if (sport.getSelected()){
-                        interestsUpdated += sport.getSportName() + ",";
+                        interestsUpdated += sport.getSportId() + ",";
                         interestSportUpdate.add(sport);
                     }
                 }
