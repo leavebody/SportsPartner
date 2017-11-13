@@ -176,7 +176,7 @@ public class ProfileRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/interests/"+email;
-
+        Log.d("ProfileRequest","GET "+url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override
