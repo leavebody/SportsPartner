@@ -87,9 +87,6 @@ public class HomeActivity extends BasicActivity {
                 String activityId = activityOutline.getActivityId();
                 String activity = activityOutline.getSportName();
 
-                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
-                toast.show();
-
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);
             }

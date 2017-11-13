@@ -149,6 +149,8 @@ public class ActivityService extends Service {
                     JsonObject jsObjAct = jsResp.getAsJsonObject("activity");
                     SActivity activity = gson.fromJson(jsObjAct, SActivity.class);
                     result.setModel(activity);
+                    String userType = jsResp.get("userType").getAsString();
+                    result.setUserType(userType);
                 } else {
                     result.setMessage("get activity request failed: "+jsResp.get("message").getAsString());
                 }

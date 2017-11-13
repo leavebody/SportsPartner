@@ -138,7 +138,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 public void onClick(View v) {
                     if (noti.getType().equals("INTERACTION")) {
                         //accept the friend request
-                        FriendService.acceptFriendRequest(context, noti.getSender(), myEmail, new ActivityCallBack() {
+                        FriendService.acceptFriendRequest(context, myEmail, noti.getSender(), new ActivityCallBack() {
                             @Override
                             public void getModelOnSuccess(ModelResult modelResult) {
                                 if (!modelResult.isStatus()) {
