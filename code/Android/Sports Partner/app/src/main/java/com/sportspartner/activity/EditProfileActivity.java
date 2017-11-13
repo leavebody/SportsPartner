@@ -32,6 +32,7 @@ import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.LoginDBHelper;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.EditInterestAdapter;
@@ -95,6 +96,8 @@ public class EditProfileActivity extends BasicActivity {
         profile = (Profile) intent.getSerializableExtra("profile");
         interests = new ArrayList<Sport>((ArrayList<Sport>) intent.getSerializableExtra("interest"));
 
+        userEmail = LoginDBHelper.getInstance(this).getEmail();
+
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
@@ -109,6 +112,17 @@ public class EditProfileActivity extends BasicActivity {
         age.setText(Integer.toString(profile.getAge()));
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
+        ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
+                new ActivityCallBack<Bitmap>() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                        if (modelResult.isStatus()) {
+                            photoView.setImageBitmap(modelResult.getModel());
+                        } else {
+                            Log.d("EditProfAct", modelResult.getMessage());
+                        }
+                    }
+                });
 
         //set adapter
         interestAdapter = new InterestAdapter(interests,this);
@@ -323,11 +337,13 @@ public class EditProfileActivity extends BasicActivity {
      */
     private void updateIcon(Bitmap bitmap) {
         photoView.setImageBitmap(bitmap);
-        ResourceService.uploadUserIcon(this, bitmap, new ActivityCallBack(){
-            public void getModelOnSuccess(ModelResult booleanResult){
-                if (!booleanResult.isStatus()){
-                    Toast.makeText(EditProfileActivity.this, booleanResult.getMessage(), Toast.LENGTH_LONG).show();
+        ResourceService.uploadUserIcon(this, bitmap, new ActivityCallBack<String>(){
+            public void getModelOnSuccess(ModelResult<String> result){
+                if (!result.isStatus()){
+                    Toast.makeText(EditProfileActivity.this, result.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
                 }
+                profile.setIconUUID(result.getModel());
             }
         });
     }
@@ -360,6 +376,7 @@ public class EditProfileActivity extends BasicActivity {
             case R.id.toolbar_edit:
                 updateProfile();
                 Intent intent = new Intent(this, ProfileActivity.class);
+                intent.putExtra("userId", userEmail);
                 this.startActivity(intent);
                 finish();
                 break;
@@ -379,16 +396,16 @@ public class EditProfileActivity extends BasicActivity {
 
         //update
         ProfileService.updateProfile(this, userEmail, profile, new ActivityCallBack(){
-            public void getModelOnSuccess(ModelResult booleanResult) {
-                updateProfileHandler(booleanResult);
+            public void getModelOnSuccess(ModelResult result) {
+                updateProfileHandler(result);
             }
         });
     }
 
-    private void updateProfileHandler(ModelResult booleanResult) {
+    private void updateProfileHandler(ModelResult result) {
         // handle the result here
-        String message = booleanResult.getMessage();
-        if (booleanResult.isStatus()) {
+        String message = result.getMessage();
+        if (result.isStatus()) {
             Toast toast = Toast.makeText(EditProfileActivity.this, "Update Success!", Toast.LENGTH_LONG);
             toast.show();
         }

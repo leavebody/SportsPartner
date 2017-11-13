@@ -133,20 +133,19 @@ public class MyActivityAdapter extends BaseAdapter {
         //populate each element with relevant data
         SActivityOutline activity = (SActivityOutline) getItem(position);
 
-        //set icon
-        String iconUUID = activity.getSportIconUUID();
-        ResourceService.getImage(myContext, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
-            @Override
-            public void getModelOnSuccess(ModelResult<Bitmap> result){
-                if (result.isStatus()) {
-                    activityPhoto.setImageBitmap(result.getModel());
-                } else{
-                    //if failure, show a toast
-                    Toast.makeText(myContext,
-                            "Load Activity icon error: "+result.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        ResourceService.getImage(myContext, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
+                new ActivityCallBack<Bitmap>(){
+                    @Override
+                    public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                        if (modelResult.isStatus()) {
+                            activityPhoto.setImageBitmap(modelResult.getModel());
+                        }
+ 						else{
+                    		//if failure, show a toast
+                    		Toast.makeText(myContext, "Load Activity icon error: "+result.getMessage(), Toast.LENGTH_LONG).show();
+                		}
+                    }
+                });
 
         sportName.setText(activity.getSportName());
 
@@ -157,18 +156,11 @@ public class MyActivityAdapter extends BaseAdapter {
 
         activityDate.setText(startDate);
         activityTime.setText(endDate);
-        //TODO wait the change of backend
-        //activityLocation.setText(activity.getLocation());
-        activityLocation.setText("JHU RECREATION CENTER");
+
+        activityLocation.setText(activity.getAddress());
         String curCapacity = String.valueOf(activity.getSize()) + "/" + String.valueOf(activity.getCapacity());
         activityMember.setText(curCapacity);
 
-        //TODO move to create activity whether the endDate is after StartDate
-        /*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date strDate = sdf.parse(valid_until);
-        if (new Date().after(strDate)) {
-            catalog_outdated = 1;
-        }*/
 
         return rowView;
     }

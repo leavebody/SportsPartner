@@ -32,15 +32,15 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
-        public TextView name;
+        //public TextView name;
         public ImageView selectedIcon;
         public RelativeLayout sportRelativeLayout;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
             super(view);
-            this.photo = (ImageView) view.findViewById(R.id.interest_sportIcon);
-            this.name = (TextView) view.findViewById(R.id.sportName);
+            this.photo = (ImageView) view.findViewById(R.id.sportIcon);
+            //this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
             this.sportRelativeLayout = (RelativeLayout) view.findViewById(R.id.sport_RelativeLayout);
@@ -93,7 +93,7 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
         if (sport.getSelected())
             holder.selectedIcon.setVisibility(View.VISIBLE);
 
-        holder.name.setText(sport.getSportName());
+        //holder.name.setText(sport.getSportName());
         //set photo
         String iconUUID = sport.getSportIconUUID();
         ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){

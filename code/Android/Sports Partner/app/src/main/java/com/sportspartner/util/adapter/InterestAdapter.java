@@ -32,14 +32,14 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView photo;
-        public TextView name;
+        //public TextView name;
         public ImageView selectedIcon;
         private Context context;
 
         public MyViewHolder(View view, Context context) {
             super(view);
-            this.photo = (ImageView) view.findViewById(R.id.interest_sportIcon);
-            this.name = (TextView) view.findViewById(R.id.sportName);
+            this.photo = (ImageView) view.findViewById(R.id.sportIcon);
+            //this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
             view.setOnClickListener(this);
@@ -72,9 +72,8 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Sport sport = listInterests.get(position);
 
-        holder.name.setText(sport.getSportName());
-
-        //set photo
+        //holder.name.setText(sport.getSportName());
+        //Todo set profile photo
         String iconUUID = sport.getSportIconUUID();
         Log.d("sport UUID", String.valueOf(iconUUID));
         ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
