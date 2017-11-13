@@ -34,9 +34,15 @@ public class ConnectionUtil {
             System.out.println(path);
             System.out.println(username);
             System.out.println(password);
-            String dbUrl = System.getenv("JDBC_DATABASE_URL");
+
+            String un = dbUri.getUserInfo().split(":")[0];
+            String pw = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+
+            c =  DriverManager.getConnection(dbUrl, un, pw);
+
             //c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
-            c =  DriverManager.getConnection(dbUrl);
+            //c =  DriverManager.getConnection(dbUrl);
         } catch ( Exception e ) {
             System.err.println(e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
