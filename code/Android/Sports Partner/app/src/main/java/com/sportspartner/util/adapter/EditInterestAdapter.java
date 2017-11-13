@@ -39,7 +39,7 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
 
         public MyViewHolder(View view, Context context) {
             super(view);
-            this.photo = (ImageView) view.findViewById(R.id.sportIcon);
+            this.photo = (ImageView) view.findViewById(R.id.interest_sportIcon);
             //this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;

@@ -46,7 +46,7 @@ public class MyActivityAdapter extends BaseAdapter {
      * @param items The context which will be filled into the list
      */
     public MyActivityAdapter(Context context, ArrayList<SActivityOutline> items) {
-        myContext = context;
+        this.myContext = context;
         activityItems = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -142,7 +142,7 @@ public class MyActivityAdapter extends BaseAdapter {
                         }
  						else{
                     		//if failure, show a toast
-                    		Toast.makeText(myContext, "Load Activity icon error: "+result.getMessage(), Toast.LENGTH_LONG).show();
+                    		Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_LONG).show();
                 		}
                     }
                 });
