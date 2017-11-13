@@ -84,7 +84,7 @@ public class FriendService {
                     String notificationId  = UUID.randomUUID().toString();
                     String notificationTitle = " New Friend Request";
                     String notificationDetail = senderName+" sends you a new friend request";
-                    String notificationType = "INTERACTION";
+                    String notificationType = "MESSAGE";
                     Date time = new Date(System.currentTimeMillis());
                     int notificationState = 1;
                     int notificationPriority = 1;
@@ -192,7 +192,7 @@ public class FriendService {
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = "Friend Request Declined";
                 String notificationDetail = receiverName+" has declined your friend request";
-                String notificationType = "INTERACTION";
+                String notificationType = "MESSAGE";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
                 int notificationPriority = 1;
