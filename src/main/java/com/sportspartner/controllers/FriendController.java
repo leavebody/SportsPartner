@@ -41,6 +41,8 @@ public class FriendController {
                 return reps;
             } catch ( FriendService.FriendServiceException ex) {
                 response.status(200);
+                reps.setResponse("False");
+                reps.setMessage("User hasn't login in app");
                 return reps;
             }
         }, new JsonTransformer());
@@ -54,6 +56,8 @@ public class FriendController {
                 return reps;
             } catch ( FriendService.FriendServiceException ex) {
                 response.status(200);
+                reps.setResponse("False");
+                reps.setMessage("User hasn't login in app");
                 return reps;
             }
         }, new JsonTransformer());
@@ -67,6 +71,8 @@ public class FriendController {
                 return reps;
             } catch ( FriendService.FriendServiceException ex) {
                 response.status(200);
+                reps.setResponse("False");
+                reps.setMessage("User hasn't login in app");
                 return reps;
             }
         }, new JsonTransformer());
