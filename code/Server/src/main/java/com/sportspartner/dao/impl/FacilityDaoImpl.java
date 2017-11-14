@@ -60,6 +60,52 @@ public class FacilityDaoImpl implements FacilityDao {
 
     }
 
+    public List<Facility> getNearbyFacilities(double longitude_small, double longitude_large, double latitude_small, double latitude_large){
+        Connection c = new ConnectionUtil().connectDB();
+        List<Facility> facilities = new ArrayList<Facility>();
+
+        ResultSet rs = null;
+        PreparedStatement statement;
+        try {
+            statement = c.prepareStatement("SELECT * from \"Facility\" WHERE \"longitude\">? AND \"longitude\"<? AND \"latitude\">? AND \"latitude\"<?");
+            statement.setDouble(1, longitude_small);
+            statement.setDouble(2, longitude_large);
+            statement.setDouble(3, latitude_small);
+            statement.setDouble(4, latitude_large);
+            rs = statement.executeQuery();
+
+            while (rs.next()) {
+                String facilityId = rs.getString("facilityId");
+                String facilityName = rs.getString("facilityName");
+                String iconUUID = rs.getString("iconUUID");
+                String sportId = rs.getString("sportId");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                String zipcode = rs.getString("zipcode");
+                String address = rs.getString("address");
+                String providerId = rs.getString("providerId");
+                double score = rs.getDouble("score");
+                int scoreCount = rs.getInt("scoreCount");
+                String openTime = rs.getString("openTime");
+                String description = rs.getString("description");
+
+                facilities.add(new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, zipcode, address, providerId, score, scoreCount, openTime, description));
+            }
+        }catch( Exception e ) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+
+        }finally{
+            try {
+                rs.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return facilities;
+    }
+
     /**
      * Get a facility details specified by facilityId.
      * @param facilityId
