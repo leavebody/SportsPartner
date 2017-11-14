@@ -122,7 +122,6 @@ public class ProfileActivity extends BasicActivity {
         historyActivityList = (ListView) findViewById(R.id.list_history_activities);
         upcommingActivityList = (ListView) findViewById(R.id.list_upcomming_activties);
 
-        final Intent intent = new Intent(this, SactivityDetailActivity.class);
 
         //set Adapter
         interestAdapter = new InterestAdapter(sports, this);
@@ -132,6 +131,7 @@ public class ProfileActivity extends BasicActivity {
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
         recyclerView.setAdapter(interestAdapter);
 
+        final Intent intent = new Intent(this, SactivityDetailActivity.class);
         //Set List OnClick Listener
         upcommingActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -275,6 +275,7 @@ public class ProfileActivity extends BasicActivity {
             //if failure, show a toast
             Toast toast = Toast.makeText(ProfileActivity.this, "Load ProfileInfo Error: " + message, Toast.LENGTH_LONG);
             toast.show();
+            return;
         }
 
         //set profile photo
@@ -432,8 +433,8 @@ public class ProfileActivity extends BasicActivity {
     }
 
     /**
-     * Set the onClick action to the edit button--go to EditProfileActivity
-     *
+     * Set the onClick action to the button on the toolBar
+     * According to type of user
      * @param item
      * @return
      */
@@ -485,6 +486,11 @@ public class ProfileActivity extends BasicActivity {
         return true;
     }
 
+    /**
+     * get the menu object when the toolbar is created
+     * @param menu The menu on the top right of the toolbar
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -524,6 +530,9 @@ public class ProfileActivity extends BasicActivity {
     }
 
 
+    /**
+     * override the action of the back button on the phone
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

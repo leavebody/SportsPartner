@@ -47,7 +47,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
     //Calendar
     private Calendar myStratTime;
     private Calendar myEndTime;
-    private Calendar myCalendar = Calendar.getInstance();
 
     //Activity Object
     private SActivity sActivity= new SActivity();
@@ -205,7 +204,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             for (int i = 0; i < listSports.size(); i++){
                 sports[i] = listSports.get(i).getSportName();
             }
-            //String[] sports = new String[] { "Football", "Basketball", "Badminton", "Lacrosse", "Swimming", "Soccer", "Climbing", "Running"};
             showDialog(sports, textSport);
         }
     };

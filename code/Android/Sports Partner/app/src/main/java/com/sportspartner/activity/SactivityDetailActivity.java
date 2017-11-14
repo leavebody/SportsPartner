@@ -71,18 +71,19 @@ public class SactivityDetailActivity extends BasicActivity {
         activityId = myIntent.getStringExtra("activityId");
 
         //find widget by ID
-        sport = (TextView)findViewById(R.id.text_sport);
-        startDate = (TextView)findViewById(R.id.text_startDate);
-        startTime = (TextView) findViewById(R.id.text_startTime);
-        endDate = (TextView)findViewById(R.id.text_endDate);
-        endTime = (TextView) findViewById(R.id.text_endTime);
-        location = (TextView) findViewById(R.id.text_location);
-        capacity = (TextView) findViewById(R.id.text_capacity);
-        description = (TextView) findViewById(R.id.text_description);
+        ViewGroup detail = (ViewGroup) findViewById(R.id.activity_detail);
+        sport = (TextView) detail.findViewById(R.id.text_sport);
+        startDate = (TextView) detail.findViewById(R.id.text_startDate);
+        startTime = (TextView) detail.findViewById(R.id.text_startTime);
+        endDate = (TextView) detail.findViewById(R.id.text_endDate);
+        endTime = (TextView) detail.findViewById(R.id.text_endTime);
+        location = (TextView) detail.findViewById(R.id.text_location);
+        capacity = (TextView) detail.findViewById(R.id.text_capacity);
+        description = (TextView) detail.findViewById(R.id.text_description);
         joinText = (TextView) findViewById(R.id.text_join);
 
         //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        recyclerView = (RecyclerView) detail.findViewById(R.id.RecyclerView);
 
         memberAdapter = new MemberPhotoAdapter(memberInfo);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -91,41 +92,25 @@ public class SactivityDetailActivity extends BasicActivity {
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
         recyclerView.setAdapter(memberAdapter);
 
-        preparememberData();
-
         //fill the content
         setTitle();
         setActivityDetail();
         setComment();
     }
 
-    private void loadSactivityHandler(ModelResult<SActivity> result) {
-        // handle the result of request here
-        String message = result.getMessage();
-        Boolean status = result.isStatus();
-
-        if (status){
-            //if successfully get Activity, get the data
-           activityDetail = result.getModel();
-        }
-        else {
-            //if failure, show a toast
-            Toast toast = Toast.makeText(SactivityDetailActivity.this, "Load activity Error: " + message, Toast.LENGTH_LONG);
-            toast.show();
-        }
-    }
-
-    private void preparememberData() {
-
-    }
-
+    /**
+     * set the title of the Discussion
+     */
     private void setTitle() {
         View viewComming = (View) findViewById(R.id.title_activityDissucss);
         TextView titleupComming = (TextView) viewComming.findViewById(R.id.title);
         titleupComming.setText("Discussion");
     }
 
-    private  void setActivityDetail(){
+    /**
+     * get the SActivity detail from server
+     */
+    private void setActivityDetail(){
         ActivityService.getSActivity(SactivityDetailActivity.this, activityId, new ActivityCallBack<SActivity>(){
             @Override
             public void getModelOnSuccess(ModelResult<SActivity> sActivityResult){
@@ -135,6 +120,11 @@ public class SactivityDetailActivity extends BasicActivity {
 
     }
 
+    /**
+     * handle the result info from the server
+     * set the content of the SA detail
+     * @param sActivityResult
+     */
     private void SActivityInfoHandler(ModelResult<SActivity> sActivityResult) {
         // handle the result of request here
         String message = sActivityResult.getMessage();
@@ -157,12 +147,6 @@ public class SactivityDetailActivity extends BasicActivity {
                     joinText.setText("Join");
                     break;
             }
-            if (activityDetail == null){
-                Log.d("Date", "full");
-            }
-            else  {
-                Log.d("Date", "not full");
-            }
         }
         else{
             //if failure, show a toast
@@ -179,11 +163,9 @@ public class SactivityDetailActivity extends BasicActivity {
         capacity.setText(size);
 
         //Time and date
-        //Date start = new Date();
         Date start = activityDetail.getStartTime();
         Log.d("Date", activityDetail.getStartTime().toString());
-        Date end = new Date();
-        end = activityDetail.getEndTime();
+        Date end = activityDetail.getEndTime();
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
@@ -194,7 +176,7 @@ public class SactivityDetailActivity extends BasicActivity {
         //member
         memberInfo = activityDetail.getMembers();
 
-        //Todo get creator Info
+        //get creator Info
         ProfileService.getProfileOutline(this, activityDetail.getCreatorId(), new ActivityCallBack() {
             @Override
             public void getModelOnSuccess(ModelResult modelResult) {
@@ -230,9 +212,19 @@ public class SactivityDetailActivity extends BasicActivity {
      * @param v
      */
     public void Join(View v){
-        //TODO
-        // //ActivityService.
+        switch (this.userType){
+            case "CREATOR":
+                //Todo delete
+                break;
+            case "MEMBER":
+                //todo leave
+                break;
+            case "STRANGER":
+                //Todo join
+                break;
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -256,17 +248,6 @@ public class SactivityDetailActivity extends BasicActivity {
                 editItem.setIcon(R.drawable.edit);
                 editItem.setVisible(true);
                 break;
-            /*case "FRIEND":
-                editItem.setIcon(R.drawable.delete);
-                editItem.setVisible(true);
-                break;
-            case "STRANGER":
-                editItem.setIcon(R.drawable.add);
-                editItem.setVisible(true);
-                break;
-            default:
-                Toast.makeText(this, "UserType Error", Toast.LENGTH_SHORT).show();
-                break;*/
         }
 
         onPrepareOptionsMenu(myMenu);
@@ -280,8 +261,8 @@ public class SactivityDetailActivity extends BasicActivity {
                 switch (userType) {
                     case "CREATOR":
                         Intent intent = new Intent(this, EditSaActivity.class);
-                        /*intent.putExtra("interest", sports);
-                        intent.putExtra("profile", profile);*/
+                        intent.putExtra("activity", activityDetail);
+                        intent.putExtra("members", memberInfo);
                         this.startActivity(intent);
                         finish();
                         break;

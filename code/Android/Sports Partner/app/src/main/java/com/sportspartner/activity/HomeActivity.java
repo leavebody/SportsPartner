@@ -75,8 +75,6 @@ public class HomeActivity extends BasicActivity {
         final Intent intent = new Intent(this, SactivityDetailActivity.class);
 
         //set List onClick Listener
-        //Set List OnClick Listener
-        //TODO set listview onclick lisener
         listCommingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -102,9 +100,6 @@ public class HomeActivity extends BasicActivity {
                 SActivityOutline activityOutline = recommendListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
                 String activity = activityOutline.getSportName();
-
-                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
-                toast.show();
 
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);
