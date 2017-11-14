@@ -464,13 +464,41 @@ public class ActivityService {
 
     }
 
+    /**
+     * Delete an activity.
+     * @param activityId The UUID of the activity.
+     * @param body The Json string from controller.
+     * @throws ActivityServiceException
+     */
+    public JsonResponse deleteActivity(String activityId, String body) throws ActivityServiceException{
+        JsonResponse resp = new JsonResponse();
+        try {
+            JsonObject json = new Gson().fromJson(body, JsonObject.class);
+            String requestorId = json.get("userId").getAsString();
+            String requestorKey = json.get("key").getAsString();
+            if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization to cancel the activity");
+            } else {
+                boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId) ;
+                if (!isDelete) {
+                    resp.setResponse("false");
+                    resp.setMessage("Cancel failed");
+                } else {
+                    resp.setResponse("true");
+                }
+            }
+        }catch(Exception ex){
+            throw new ActivityServiceException("Activity Service deleteActivity error", ex);
+        }
+        return resp;
+    }
+
     public void searchActivity(){
         //TODO
     }
 
-    public void cancelActivity(){
-        //TODO
-    }
+
     public void reviewctivity(){
         //TODO
     }
@@ -478,12 +506,6 @@ public class ActivityService {
         //TODO
     }
     public void userIdentityCheck(){
-        //TODO
-    }
-    public void inviteMember(){
-        //TODO
-    }
-    public void deleteMember(){
         //TODO
     }
     public void addActivityDiscussion(){
