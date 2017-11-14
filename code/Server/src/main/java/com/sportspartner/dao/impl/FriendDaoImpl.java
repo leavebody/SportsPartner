@@ -31,8 +31,6 @@ public class FriendDaoImpl implements FriendDao {
             statement.setString(1, user);
             statement.setString(2, user);
             rs = statement.executeQuery();
-
-
             while (rs.next()) {
                 String userId = rs.getString("userId");
                 String friendId = rs.getString("friendId");
@@ -45,7 +43,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
         }finally{
             try {
                 rs.close();
@@ -55,7 +53,6 @@ public class FriendDaoImpl implements FriendDao {
                 e.printStackTrace();
             }
         }
-        System.out.println(users.get(0));
         return users;
     }
 
@@ -68,20 +65,20 @@ public class FriendDaoImpl implements FriendDao {
     public boolean getFriend(String user1, String user2){
         Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         boolean indicator = false;
         try {
-            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?");
+            statement =c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?",ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             statement.setString(1, user1);
             statement.setString(2, user2);
             rs = statement.executeQuery();
-            rs.last();
-            if (rs.getRow() != 0) {
+            if (rs.next()) {
                 indicator = true;
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {
@@ -116,7 +113,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {
@@ -152,7 +149,7 @@ public class FriendDaoImpl implements FriendDao {
             }
         }catch( Exception e ) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);
+            
 
         }finally{
             try {

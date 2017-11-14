@@ -17,7 +17,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
      * @return A list of ActivityComment objects.
      */
     @Override
-    public List<ActivityComment> getAllActivityComments(String activityId) {
+    public List<ActivityComment> getAllActivityComments(String activityId){
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -37,7 +37,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -85,7 +85,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
+            //
         } finally {
             try {
                 rs.close();
@@ -131,7 +131,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -176,7 +176,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -222,7 +222,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();

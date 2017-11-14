@@ -29,6 +29,10 @@ public class ActivityDaoImpl implements ActivityDao {
                 String facilityId = rs.getString("facilityId");
                 String status = rs.getString("status");
                 String sportId = rs.getString("sportId");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                String zipcode = rs.getString("zipcode");
+                String address = rs.getString("address");
                 Timestamp startTimeStamp = rs.getTimestamp("startTime");
                 Date startTime = new Date(startTimeStamp.getTime());
                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
@@ -37,11 +41,11 @@ public class ActivityDaoImpl implements ActivityDao {
                 int size = rs.getInt("size");
                 String description = rs.getString("description");
 
-                activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, startTime, endTime, capacity, size,description));
+                activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
         }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -76,6 +80,10 @@ public class ActivityDaoImpl implements ActivityDao {
                 String facilityId = rs.getString("facilityId");
                 String status = rs.getString("status");
                 String sportId = rs.getString("sportId");
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                String zipcode = rs.getString("zipcode");
+                String address = rs.getString("address");
                 Timestamp startTimeStamp = rs.getTimestamp("startTime");
                 Date startTime = new Date(startTimeStamp.getTime());
                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
@@ -83,11 +91,10 @@ public class ActivityDaoImpl implements ActivityDao {
                 int capacity = rs.getInt("capacity");
                 int size = rs.getInt("size");
                 String description = rs.getString("description");
-                activity = new Activity(activityId, creatorId,facilityId, status,sportId, startTime, endTime, capacity, size,description);
+                activity = new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description);
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
         } finally {
             try {
                 rs.close();
@@ -117,6 +124,10 @@ public class ActivityDaoImpl implements ActivityDao {
         String facilityId = activity.getFacilityId();
         String status = activity.getStatus();
         String sportId = activity.getSportId();
+        double longitude = activity.getLongitude();
+        double latitude = activity.getLatitude();
+        String zipcode = activity.getZipcode();
+        String address = activity.getAddress();
         Date startTime = activity.getStartTime();
         Timestamp startTimeStamp = new Timestamp(startTime.getTime());
         Date endTime = activity.getEndTime();
@@ -127,18 +138,22 @@ public class ActivityDaoImpl implements ActivityDao {
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Activity\" (\"activityId\", \"creatorId\",\"facilityId\", \"status\", \"sportId\", \"startTime\", \"endTime\" , \"capacity\",\"size\",\"description\")"+
-                    "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?)");
+            stmt = c.prepareStatement("INSERT INTO \"Activity\" (\"activityId\", \"creatorId\",\"facilityId\", \"status\", \"sportId\", \"longitude\", \"latitude\", \"zipcode\", \"address\", \"startTime\", \"endTime\" , \"capacity\",\"size\",\"description\")"+
+                    "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, activityId);
             stmt.setString(2, creatorId);
             stmt.setString(3, facilityId);
             stmt.setString(4, status);
             stmt.setString(5, sportId);
-            stmt.setTimestamp(6,startTimeStamp);
-            stmt.setTimestamp(7,endTimeStamp);
-            stmt.setInt(8,capacity);
-            stmt.setInt(9,size);
-            stmt.setString(10,description);
+            stmt.setDouble(6, longitude);
+            stmt.setDouble(7, latitude);
+            stmt.setString(8, zipcode);
+            stmt.setString(9, address);
+            stmt.setTimestamp(10,startTimeStamp);
+            stmt.setTimestamp(11,endTimeStamp);
+            stmt.setInt(12,capacity);
+            stmt.setInt(13,size);
+            stmt.setString(14,description);
 
             rs = stmt.executeUpdate();
             if(rs>0)
@@ -146,7 +161,7 @@ public class ActivityDaoImpl implements ActivityDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -176,6 +191,10 @@ public class ActivityDaoImpl implements ActivityDao {
         String facilityId = activity.getFacilityId();
         String status = activity.getStatus();
         String sportId = activity.getSportId();
+        double longitude = activity.getLongitude();
+        double latitude = activity.getLatitude();
+        String zipcode = activity.getZipcode();
+        String address = activity.getAddress();
         Date startTime = activity.getStartTime();
         Timestamp startTimeStamp = new Timestamp(startTime.getTime());
         Date endTime = activity.getEndTime();
@@ -186,25 +205,29 @@ public class ActivityDaoImpl implements ActivityDao {
 
         boolean result = false;
         try {
-            stmt = c.prepareStatement("UPDATE \"Activity\" SET \"creatorId\" = ? , \"facilityId\" = ? , \"status\" = ?,\"sportId\" = ? ," +
-                    " \"startTime\" = ?,\"endTime\" = ? , \"capacity\" = ? , \"size\" = ?, \"description\" = ?WHERE \"activityId\"=? ;");
+            stmt = c.prepareStatement("UPDATE \"Activity\" SET \"creatorId\" = ? , \"facilityId\" = ? , \"status\" = ?,\"sportId\" = ? , \"longitude\" = ? , \"latitude\" = ?, " +
+                    " \"zipcode\", \"address\", \"startTime\" = ?,\"endTime\" = ? , \"capacity\" = ? , \"size\" = ?, \"description\" = ?WHERE \"activityId\"=? ;");
             stmt.setString(1, creatorId);
             stmt.setString(2, facilityId);
             stmt.setString(3, status);
             stmt.setString(4, sportId);
-            stmt.setTimestamp(5,startTimeStamp);
-            stmt.setTimestamp(6,endTimeStamp);
-            stmt.setInt(7,capacity);
-            stmt.setInt(8,size);
-            stmt.setString(9,description);
-            stmt.setString(10, activityId);
+            stmt.setDouble(5,longitude);
+            stmt.setDouble(6,latitude);
+            stmt.setString(7, zipcode);
+            stmt.setString(8, address);
+            stmt.setTimestamp(9,startTimeStamp);
+            stmt.setTimestamp(10,endTimeStamp);
+            stmt.setInt(11,capacity);
+            stmt.setInt(12,size);
+            stmt.setString(13,description);
+            stmt.setString(14, activityId);
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -219,42 +242,21 @@ public class ActivityDaoImpl implements ActivityDao {
 
     /**
      * Delete an activity from database by activityId.
-     * @param activity
+     * @param activityId The UUID for the activity.
      * @return "true" or "false" for whether successfully delete the activity.
      */
     @Override
-    public boolean deleteActivity(Activity activity) {
+    public boolean deleteActivity(String activityId) {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
         int rs;
-        String activityId = activity.getActivityId();
-        String creatorId = activity.getCreatorId();
-        String facilityId = activity.getFacilityId();
-        String status = activity.getStatus();
-        String sportId = activity.getSportId();
-        Date startTime = activity.getStartTime();
-        Timestamp startTimeStamp = new Timestamp(startTime.getTime());
-        Date endTime = activity.getEndTime();
-        Timestamp endTimeStamp = new Timestamp(endTime.getTime());
-        int capacity = activity.getCapacity();
-        int size = activity.getSize();
-        String description = activity.getDescription();
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("DELETE FROM \"Activity\" WHERE \"activityId\"=? AND \"creatorId\" = ? AND \"facilityId\" = ? AND \"status\" = ? AND " +
-                    " \"sportId\" = ? AND \"startTime\" = ? AND \"endTime\"= ? AND \"capacity\"= ? AND \"size\"= ? AND \"description\"= ?;");
+            stmt = c.prepareStatement("DELETE FROM \"Activity\" WHERE \"activityId\"=? ");
             stmt.setString(1, activityId);
-            stmt.setString(2, creatorId);
-            stmt.setString(3, facilityId);
-            stmt.setString(4, status);
-            stmt.setString(5, sportId);
-            stmt.setTimestamp(6,startTimeStamp);
-            stmt.setTimestamp(7,endTimeStamp);
-            stmt.setInt(8,capacity);
-            stmt.setInt(9,size);
-            stmt.setString(10,description);
+
             rs = stmt.executeUpdate();
             if(rs>0){
                 result = true;
@@ -262,7 +264,7 @@ public class ActivityDaoImpl implements ActivityDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -288,7 +290,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND \"Activity_Member\".\"userId\"=? AND \"startTime\" > CURRENT_TIMESTAMP;");
+                     "AND \"Activity_Member\".\"userId\"=? AND \"startTime\" > CURRENT_TIMESTAMP ORDER BY \"startTime\" ASC;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {
@@ -297,6 +299,10 @@ public class ActivityDaoImpl implements ActivityDao {
                  String facilityId = rs.getString("facilityId");
                  String status = rs.getString("status");
                  String sportId = rs.getString("sportId");
+                 double longitude = rs.getDouble("longitude");
+                 double latitude = rs.getDouble("latitude");
+                 String zipcode = rs.getString("zipcode");
+                 String address = rs.getString("address");
                  Timestamp startTimeStamp = rs.getTimestamp("startTime");
                  Date startTime = new Date(startTimeStamp.getTime());
                  Timestamp endTimeStamp = rs.getTimestamp("endTime");
@@ -305,11 +311,11 @@ public class ActivityDaoImpl implements ActivityDao {
                  int size = rs.getInt("size");
                  String description = rs.getString("description");
 
-                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, startTime, endTime, capacity, size,description));
+                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
              }
          } catch (Exception e) {
              System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             System.exit(0);
+             
          } finally {
              try {
                  rs.close();
@@ -336,7 +342,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND  \"endTime\" < CURRENT_TIMESTAMP;");
+                     "AND  \"endTime\" < CURRENT_TIMESTAMP ORDER BY \"startTime\" DESC;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {
@@ -345,6 +351,10 @@ public class ActivityDaoImpl implements ActivityDao {
                  String facilityId = rs.getString("facilityId");
                  String status = rs.getString("status");
                  String sportId = rs.getString("sportId");
+                 double longitude = rs.getDouble("longitude");
+                 double latitude = rs.getDouble("latitude");
+                 String zipcode = rs.getString("zipcode");
+                 String address = rs.getString("address");
                  Timestamp startTimeStamp = rs.getTimestamp("startTime");
                  Date startTime = new Date(startTimeStamp.getTime());
                  Timestamp endTimeStamp = rs.getTimestamp("endTime");
@@ -353,11 +363,58 @@ public class ActivityDaoImpl implements ActivityDao {
                  int size = rs.getInt("size");
                  String description = rs.getString("description");
 
-                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, startTime, endTime, capacity, size,description));
+                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
              }
          } catch (Exception e) {
              System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             System.exit(0);
+             
+         } finally {
+             try {
+                 rs.close();
+                 stmt.close();
+                 c.close();
+             } catch (SQLException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+             }
+         }
+         return activities;
+     }
+
+     public List<Activity> getRecommendActivities(String userId){
+         Connection c = new ConnectionUtil().connectDB();
+         PreparedStatement stmt = null;
+         ResultSet rs = null;
+         List<Activity> activities = new ArrayList<Activity>();
+
+         try {
+             stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
+                     "AND  \"endTime\" < CURRENT_TIMESTAMP ORDER BY \"startTime\" DESC;");
+             stmt.setString(1, userId);
+             rs = stmt.executeQuery();
+             while (rs.next()) {
+                 String activityId = rs.getString("activityId");
+                 String creatorId = rs.getString("creatorId");
+                 String facilityId = rs.getString("facilityId");
+                 String status = rs.getString("status");
+                 String sportId = rs.getString("sportId");
+                 double longitude = rs.getDouble("longitude");
+                 double latitude = rs.getDouble("latitude");
+                 String zipcode = rs.getString("zipcode");
+                 String address = rs.getString("address");
+                 Timestamp startTimeStamp = rs.getTimestamp("startTime");
+                 Date startTime = new Date(startTimeStamp.getTime());
+                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
+                 Date endTime = new Date(endTimeStamp.getTime());
+                 int capacity = rs.getInt("capacity");
+                 int size = rs.getInt("size");
+                 String description = rs.getString("description");
+
+                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
+             }
+         } catch (Exception e) {
+             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
          } finally {
              try {
                  rs.close();

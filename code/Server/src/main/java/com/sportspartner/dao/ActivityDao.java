@@ -9,7 +9,7 @@ public interface ActivityDao {
     public Activity getActivity(String activityId);
     public boolean newActivity(Activity activity);
     public boolean updateActivity(Activity activity);
-    public boolean deleteActivity(Activity activity);
+    public boolean deleteActivity(String activityId);
     public List<Activity> getUpcomingActivities(String userId);
     public List<Activity> getPastActivities(String userId);
 }
