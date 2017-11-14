@@ -112,6 +112,8 @@ public class EditProfileActivity extends BasicActivity {
         age.setText(Integer.toString(profile.getAge()));
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
+
+        //set profile image
         ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
                 new ActivityCallBack<Bitmap>() {
                     @Override
@@ -119,12 +121,13 @@ public class EditProfileActivity extends BasicActivity {
                         if (modelResult.isStatus()) {
                             photoView.setImageBitmap(modelResult.getModel());
                         } else {
+                            Toast.makeText(EditProfileActivity.this, "Profile photo load error: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("EditProfAct", modelResult.getMessage());
                         }
                     }
                 });
 
-        //set adapter
+        //set interestAdapter
         interestAdapter = new InterestAdapter(interests,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         interestRecyclerView.setLayoutManager(mLayoutManager);
@@ -140,53 +143,7 @@ public class EditProfileActivity extends BasicActivity {
         LinearRecycler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get all sports
-                ResourceService.getAllSports(EditProfileActivity.this, new ActivityCallBack<ArrayList<Sport>>() {
-                    @Override
-                    public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
-                        // handle the result of request here
-                        String message = result.getMessage();
-                        Boolean status = result.isStatus();
-
-                        if (status){
-                            //if successfully get Activity, get the data
-                            allSports = new ArrayList<>(result.getModel());
-                            Log.d("get allSports", String.valueOf(allSports.size()));
-
-                            /*for (Sport sport : interests){
-                                int index = allSports.indexOf(sport);
-                                sport.setSelected(true);
-                                allSports.set(index,sport);
-                            }*/
-
-                            HashMap<String, Sport> mapAllSports = new HashMap<>();
-                            for (Sport sport : allSports){
-                                mapAllSports.put(sport.getSportId(),sport);
-                            }
-
-                            //set all myInterest to isSelected
-                            for (Sport sport : interests){
-                                sport.setSelected(true);
-                                mapAllSports.put(sport.getSportId(), sport);
-                            }
-
-                            //get new allSports array
-                            allSports = new ArrayList<>();
-                            Iterator mapIterator = mapAllSports.entrySet().iterator();
-                            while (mapIterator.hasNext()) {
-                                Map.Entry pair = (Map.Entry)mapIterator.next();
-                                allSports.add((Sport) pair.getValue());
-                            }
-
-                            EditProfileActivity.this.showDialog();
-                        }
-                        else {
-                            //if failure, show a toast
-                            Toast toast = Toast.makeText(EditProfileActivity.this, "Load sports Error: " + message, Toast.LENGTH_LONG);
-                            toast.show();
-                        }
-                    }
-                });
+                onInterestClick();
             }
         });
 
@@ -194,6 +151,59 @@ public class EditProfileActivity extends BasicActivity {
             @Override
             public void onClick(View v) {
                 EditProfileActivity.this.onPhotoClick();
+            }
+        });
+    }
+
+    /**
+     * show a choose sport dialog when the interest row is clicked
+     */
+    private void onInterestClick(){
+        // get all sports
+        ResourceService.getAllSports(EditProfileActivity.this, new ActivityCallBack<ArrayList<Sport>>() {
+            @Override
+            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
+                // handle the result of request here
+                String message = result.getMessage();
+                Boolean status = result.isStatus();
+
+                if (status){
+                    //if successfully get Activity, get the data
+                    //setSelected(true) to all my interests
+                    allSports = new ArrayList<>(result.getModel());
+                    Log.d("get allSports", String.valueOf(allSports.size()));
+
+                            /*for (Sport sport : interests){
+                                int index = allSports.indexOf(sport);
+                                sport.setSelected(true);
+                                allSports.set(index,sport);
+                            }*/
+
+                    HashMap<String, Sport> mapAllSports = new HashMap<>();
+                    for (Sport sport : allSports){
+                        mapAllSports.put(sport.getSportId(),sport);
+                    }
+
+                    //set all myInterest to isSelected
+                    for (Sport sport : interests){
+                        sport.setSelected(true);
+                        mapAllSports.put(sport.getSportId(), sport);
+                    }
+
+                    //get new allSports array
+                    allSports = new ArrayList<>();
+                    Iterator mapIterator = mapAllSports.entrySet().iterator();
+                    while (mapIterator.hasNext()) {
+                        Map.Entry pair = (Map.Entry)mapIterator.next();
+                        allSports.add((Sport) pair.getValue());
+                    }
+
+                    EditProfileActivity.this.showDialog();
+                }
+                else {
+                    //if failure, show a toast
+                    Toast.makeText(EditProfileActivity.this, "Load sports Error: " + message, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -212,8 +222,7 @@ public class EditProfileActivity extends BasicActivity {
         Button cancel = (Button) dialog.findViewById(R.id.cancel);
         final RecyclerView recycler = (RecyclerView) dialog.findViewById(R.id.RecyclerView);
 
-        //Todo set RecyclerView adapter
-        //set adapter
+        //set RecyclerView adapter
         Log.d("adapter allSports", String.valueOf(allSports.size()));
         editInterestAdapter = new EditInterestAdapter(allSports, this);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
@@ -398,6 +407,10 @@ public class EditProfileActivity extends BasicActivity {
         });
     }
 
+    /**
+     * handle the result of the profile info from the server
+     * @param result If update successfully, back to profile activity.
+     */
     private void updateProfileHandler(ModelResult result) {
         // handle the result here
         String message = result.getMessage();
