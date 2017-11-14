@@ -104,8 +104,8 @@ public class EditProfileActivity extends BasicActivity {
         gender = (EditText) findViewById(R.id.text_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
-        interestRecyclerView = findViewById(R.id.RecyclerView);
-        LinearRecycler = findViewById(R.id.ListView_Recycler);
+        interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        LinearRecycler = (LinearLayout) findViewById(R.id.ListView_Recycler);
 
         //set all the contents
         gender.setText(profile.getGender());
@@ -375,10 +375,6 @@ public class EditProfileActivity extends BasicActivity {
         switch(item.getItemId()) {
             case R.id.toolbar_edit:
                 updateProfile();
-                Intent intent = new Intent(this, ProfileActivity.class);
-                intent.putExtra("userId", userEmail);
-                this.startActivity(intent);
-                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -408,6 +404,10 @@ public class EditProfileActivity extends BasicActivity {
         if (result.isStatus()) {
             Toast toast = Toast.makeText(EditProfileActivity.this, "Update Success!", Toast.LENGTH_LONG);
             toast.show();
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("userId", userEmail);
+            this.startActivity(intent);
+            finish();
         }
         else{
             Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG);

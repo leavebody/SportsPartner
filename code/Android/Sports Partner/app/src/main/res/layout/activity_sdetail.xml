@@ -254,7 +254,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/RecyclerView"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="12"
                         android:background="@color/white"
                         android:gravity="center_vertical"/>
@@ -315,6 +315,7 @@
                         android:background="@drawable/create" />
 
                     <TextView
+                        android:id="@+id/text_join"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
