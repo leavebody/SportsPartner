@@ -31,7 +31,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -71,7 +71,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
+            //
         } finally {
             try {
                 rs.close();
@@ -111,7 +111,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -151,7 +151,43 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Delete all members of an activity.
+     * @param activityId The UUID of an actiivty.
+     * @return true or false for whether successfully deleted.
+     */
+    @Override
+    public boolean deleteAllActivityMembers(String activityId){
+        Connection c = new ConnectionUtil().connectDB();
+
+        PreparedStatement stmt = null;
+        int rs;
+        boolean result = false;
+
+        try {
+            stmt = c.prepareStatement("DELETE FROM \"Activity_Member\" WHERE \"activityId\"=?;");
+            stmt.setString(1, activityId);
+            rs = stmt.executeUpdate();
+            if(rs>0){
+                result = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
         } finally {
             try {
                 stmt.close();

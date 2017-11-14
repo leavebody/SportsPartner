@@ -25,7 +25,7 @@ public class ProfileController {
             JsonResponse reps = new JsonResponse();
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
-                reps = profileService.getProfile(request.params(":userId"));
+                reps = profileService.getProfile(request.params(":userId"), request.queryParams("requestorId"), request.queryParams("requestorKey"));
                 response.status(200);
                 return reps;
             } catch (Exception ex) {
@@ -128,6 +128,7 @@ public class ProfileController {
                 return reps;
             }
         }, new JsonTransformer());
+
 
     }
 }

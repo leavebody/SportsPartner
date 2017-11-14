@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 rs.close();
@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
+            //
         } finally {
             try {
                 rs.close();
@@ -120,7 +120,7 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -159,7 +159,7 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
@@ -190,13 +190,12 @@ public class UserDaoImpl implements UserDao {
             stmt.setString(1, userId);
             rs = stmt.executeUpdate();
             if(rs>0){
-                System.out.println("Row "+ rs + "is DELETED.");
                 result = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            
         } finally {
             try {
                 stmt.close();
