@@ -27,14 +27,6 @@ public class ConnectionUtil {
             String path = dbUri.getPath();
             String username = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[0];
             String password = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[1];
-
-            //c = DriverManager.getConnection("postgres://npvilmribuqyfn:4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb@ec2-50-17-217-166.compute-1.amazonaws.com:5432/ddv402olp7iu27", "npvilmribuqyfn","4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb");
-            System.out.println(host);
-            System.out.println(port);
-            System.out.println(path);
-            System.out.println(username);
-            System.out.println(password);
-
             c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
             //c =  DriverManager.getConnection(dbUrl);
             //c = DriverManager
