@@ -39,12 +39,15 @@ public class SignupTest {
     public void setUp(){}
 
     @After
-    public void teardown(){
-        String userId = "xuanzhang123@jhu.edu";
+    public void teardown() throws Exception{
+        String userId = "xuanzhang888@jhu.edu";
         UserDaoImpl userDaoImpl = new UserDaoImpl();
+        IconDaoImpl iconDaoImpl = new IconDaoImpl();
         if(userDaoImpl.getUser(userId)!=null) {
             new PersonDaoImpl().deletePerson(userId);
             userDaoImpl.deleteUser(userId);
+            iconDaoImpl.deleteIcon(userId);
+            Thread.sleep(2000);
         }
     }
 
@@ -62,7 +65,7 @@ public class SignupTest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             parameters = new JSONObject();
-            parameters.put("userId", "xuanzhang123@jhu.edu");
+            parameters.put("userId", "xuanzhang888@jhu.edu");
             parameters.put("password", "lovejhu");
             parameters.put("confirmPassword", "lovejhu");
             connection.setRequestProperty("Accept", "application/json");

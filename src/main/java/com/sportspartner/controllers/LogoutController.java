@@ -24,7 +24,7 @@ public class LogoutController {
         delete(API_CONTEXT + "/logout", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try {
-                reps = userService.logOut(request.queryParams("userId"), request.queryParams("key"));
+                reps = userService.logOut(request.queryParams("userId"), request.queryParams("key"),request.queryParams("registrationId"));
                 response.status(200);
                 return reps;
             } catch (UserService.UserServiceException ex) {

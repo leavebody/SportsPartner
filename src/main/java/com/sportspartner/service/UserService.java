@@ -2,16 +2,9 @@ package com.sportspartner.service;
 
 import java.util.UUID;
 import com.google.gson.Gson;
+import com.sportspartner.dao.impl.*;
+import com.sportspartner.model.*;
 import com.sportspartner.util.JsonResponse;
-
-import com.sportspartner.model.Person;
-import com.sportspartner.dao.impl.PersonDaoImpl;
-
-import com.sportspartner.model.User;
-import com.sportspartner.dao.impl.UserDaoImpl;
-
-import com.sportspartner.model.Authorization;
-import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 
 import com.sportspartner.modelvo.LoginVO;
 import com.sportspartner.modelvo.SignupVO;
@@ -21,6 +14,8 @@ public class UserService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
+    private DeviceRegistrationDaoImpl deviceRegistrationDaoImpl = new DeviceRegistrationDaoImpl();
+    private IconDaoImpl iconDaoImpl = new IconDaoImpl();
 
     /**
      *  Login
@@ -39,7 +34,7 @@ public class UserService {
             if (loginVO.isMissingField()) {
                 resp.setResponse("false");
                 resp.setMessage("Empty Input");
-            } else if (user==null) {
+            } else if (user == null) {
                 resp.setResponse("false");
                 resp.setMessage("No such user");
             } else if (!loginVO.isCorrectPassword(user)) {
@@ -48,19 +43,31 @@ public class UserService {
             } else {
                 String key = UUID.randomUUID().toString();
                 Authorization authorization = new Authorization(loginVO.getUserId(), key);
-                if(authorizationDaoImpl.newAuthorization(authorization)){
-                    resp.setKey(key);
-                    resp.setResponse("true");
-                }else{
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create new authorization");
+                DeviceRegistration deviceRegistration = new DeviceRegistration(loginVO.getUserId(), loginVO.getRegistrationId());
+                if (deviceRegistrationDaoImpl.hasDeviceRegistration(deviceRegistration)) {
+                    if (authorizationDaoImpl.newAuthorization(authorization)) {
+                        resp.setKey(key);
+                        resp.setResponse("true");
+                    } else {
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to create new authorization");
+                    }
                 }
-
+                else{
+                    if (authorizationDaoImpl.newAuthorization(authorization)&&deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration)){
+                        resp.setKey(key);
+                        resp.setResponse("true");
+                    }
+                    else{
+                        resp.setResponse("false");
+                        resp.setMessage("Fail to create new authorization");
+                    }
+                }
             }
-        } catch(Exception ex){
+        }
+        catch(Exception ex){
             throw new UserServiceException("Json format error", ex);
         }
-//      System.out.println(resp);
         return resp;
     }
 
@@ -94,12 +101,19 @@ public class UserService {
                 resp.setMessage("User type is invalid");
             }
             else{
-                resp.setResponse("true");
+
                 user = signupVO.cast2User();
                 userDaoImpl.newUser(user);
                 if(signupVO.getType().equals("PERSON")){
                     Person person = signupVO.cast2Person();
-                    personDaoImpl.newPerson(person);
+                    Icon icon  =  new Icon(user.getUserId(),"USER");
+                    if(!(personDaoImpl.newPerson(person) && iconDaoImpl.newIcon(icon))){
+                        resp.setResponse("false");
+                        resp.setMessage("Cannot create items in the database");
+                    }
+                    else{
+                        resp.setResponse("true");
+                    }
                 }
                 else if(signupVO.getType().equals("PROVIDER")) {
                     //TODO
@@ -118,14 +132,15 @@ public class UserService {
      * @return JsonRespnonse JsonRespnonse to the front-end
      * @throws UserServiceException throws UserServiceException
      */
-    public JsonResponse logOut(String userId, String key) throws UserServiceException{
+    public JsonResponse logOut(String userId, String key, String registrationId) throws UserServiceException{
         JsonResponse resp = new JsonResponse();
         Authorization authorization = new Authorization(userId, key);
-        if(authorizationDaoImpl.deleteAuthorization(authorization)){
+        DeviceRegistration deviceRegistration = new DeviceRegistration(userId,registrationId);
+        if(authorizationDaoImpl.deleteAuthorization(authorization) && deviceRegistrationDaoImpl.deleteDeviceRegistration(deviceRegistration)){
             resp.setResponse("true");
         }else{
             resp.setResponse("false");
-            resp.setMessage("Fail to delete autorization.");
+            resp.setMessage("Fail to delete authorization.");
         }
         return resp;
     }

@@ -20,15 +20,33 @@ public class JsonResponse {
     private JsonObject profile;
     private JsonObject userOutline;
     private JsonObject activity;
+    private String type;
 
-    private String interest;
+    private JsonArray interests;
     private String authorization;
     private JsonArray profileComments;
     private JsonArray sports;
     private JsonObject activityOutline;
     private JsonArray activityOutlines;
+    private JsonArray friendlist;
+
+    private String image;
+    private String iconUUID;
+    private String userType;
+    private JsonArray members;
+    private String activityId;
+
+    private JsonArray facilities;
 
     public JsonResponse() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getResponse() {
@@ -99,12 +117,21 @@ public class JsonResponse {
         }
     }
 
-    public String getInterest() {
-        return interest;
+    public JsonArray getInterests() {
+        return interests;
     }
 
-    public void setInterest(List<String> sportNames) {
-        this.interest = String.join(",", sportNames);
+    public void setInterests(List<Sport> sports) {
+        this.interests = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(Sport sport: sports){
+                String jsonString = gson.toJson(sport);
+                this.interests.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
     }
 
     public String getAuthorization() {
@@ -180,4 +207,78 @@ public class JsonResponse {
         }
     }
 
+    public void setMembers(List<UserOutlineVO> userOutlineVOs){
+        this.members = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(UserOutlineVO userOutlineVO: userOutlineVOs){
+                String jsonString = gson.toJson(userOutlineVO);
+                this.members.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
+
+    public void setFriendlist( List <UserOutlineVO> userOutlineVOList){
+        this.friendlist = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for (UserOutlineVO userOutlineVO : userOutlineVOList){
+                String jsonString = gson.toJson(userOutlineVO);
+                this.friendlist.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getIconUUID() {
+        return iconUUID;
+    }
+
+    public void setIconUUID(String iconUUID) {
+        this.iconUUID = iconUUID;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    public JsonArray getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(List<FacilityMarkerVO> facilities) {
+        this.facilities = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for (FacilityMarkerVO facilityMarkerVO : facilities){
+                String jsonString = gson.toJson(facilityMarkerVO);
+                this.facilities.add(gson.fromJson(jsonString, JsonObject.class));
+            }
+        }catch(JSONException e){
+            // TODO Auto-generated catch block
+        }
+    }
 }
