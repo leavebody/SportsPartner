@@ -49,7 +49,7 @@ public class HomeActivity extends BasicActivity {
     private int recommendCount = 0; // the count of loaded history activities
     private boolean upcommingFinished = false; // no more upcomming activity to load
     private boolean recommendFinished = false; // no more history activity to load
-    private final int REFRESH_LIMIT = 5;
+    private final int REFRESH_LIMIT = 3;
 
     /**
      * OnCreate function for this Activity
@@ -75,8 +75,6 @@ public class HomeActivity extends BasicActivity {
         final Intent intent = new Intent(this, SactivityDetailActivity.class);
 
         //set List onClick Listener
-        //Set List OnClick Listener
-        //TODO set listview onclick lisener
         listCommingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -86,9 +84,6 @@ public class HomeActivity extends BasicActivity {
                 SActivityOutline activityOutline = upcommingListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
                 String activity = activityOutline.getSportName();
-
-                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
-                toast.show();
 
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);
@@ -105,9 +100,6 @@ public class HomeActivity extends BasicActivity {
                 SActivityOutline activityOutline = recommendListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
                 String activity = activityOutline.getSportName();
-
-                Toast toast = Toast.makeText(HomeActivity.this, activityId + activity, Toast.LENGTH_LONG);
-                toast.show();
 
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);

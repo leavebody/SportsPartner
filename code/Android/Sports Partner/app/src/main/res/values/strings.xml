@@ -24,4 +24,5 @@
     <string name="ip_folder_image_count">%1$d images in total</string>
     <string name="ip_photo_crop">photo crop</string>
     <string name="ip_complete">complete</string>
+    <string name="title_activity_edit_sa">EditSaActivity</string>
 </resources>

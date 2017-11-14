@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +39,13 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
 
         public MyViewHolder(View view, Context context) {
             super(view);
-            this.photo = (ImageView) view.findViewById(R.id.sportIcon);
+            this.photo = (ImageView) view.findViewById(R.id.interest_sportIcon);
             //this.name = (TextView) view.findViewById(R.id.sportName);
             this.selectedIcon = (ImageView) view.findViewById(R.id.selectedIcon);
             this.context = context;
             this.sportRelativeLayout = (RelativeLayout) view.findViewById(R.id.sport_RelativeLayout);
             sportRelativeLayout.setClickable(true);
+            Log.d("sportRelativeLayout", String.valueOf(sportRelativeLayout.isClickable()));
 
             view.setOnClickListener(this);
         }
@@ -102,7 +104,7 @@ public class EditInterestAdapter extends RecyclerView.Adapter<EditInterestAdapte
                 } else{
                     //if failure, show a toast
                     Toast toast = Toast.makeText(context,
-                            "Load user icon error: "+result.getMessage(), Toast.LENGTH_LONG);
+                            "Load sport icon error: "+result.getMessage(), Toast.LENGTH_LONG);
                     toast.show();
                 }
             }

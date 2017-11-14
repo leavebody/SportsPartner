@@ -1,5 +1,6 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by yujiaxiao on 10/24/17.
  */
 
-public class SActivity {
+public class SActivity implements Serializable {
     private String address;
     private String activityId;
     private String status;
