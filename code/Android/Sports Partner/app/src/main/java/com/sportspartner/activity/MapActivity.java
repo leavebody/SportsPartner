@@ -108,7 +108,7 @@ public class MapActivity extends BasicActivity
             pickPlaceResult = new PickPlaceResult();
         }
 
-        ViewGroup content = findViewById(R.id.layout_home);
+        ViewGroup content = (ViewGroup) findViewById(R.id.layout_home);
         getLayoutInflater().inflate(R.layout.activity_map, content, true);
 
         dialog = new BottomSheetDialog(MapActivity.this);
@@ -167,7 +167,8 @@ public class MapActivity extends BasicActivity
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
     }
-    public void onMapClick (LatLng point){
+
+    public void onMapClick(LatLng point) {
         if (mOnclickMarker != null) {
             mOnclickMarker.setPosition(point);
             mOnclickMarker.setTag(new FacilityMarker(point, null, null));
@@ -181,18 +182,18 @@ public class MapActivity extends BasicActivity
         onMarkerClick(mOnclickMarker);
     }
 
-    public void setMapMarkers(final GoogleMap map){
-        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<ArrayList<FacilityMarker>>(){
+    public void setMapMarkers(final GoogleMap map) {
+        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<ArrayList<FacilityMarker>>() {
             @Override
-            public void getModelOnSuccess(ModelResult<ArrayList<FacilityMarker>> modelResult){
-                if (!modelResult.isStatus()){
-                    Log.d("MapActivity", "get all facility markers bad response: "+modelResult.getMessage());
+            public void getModelOnSuccess(ModelResult<ArrayList<FacilityMarker>> modelResult) {
+                if (!modelResult.isStatus()) {
+                    Log.d("MapActivity", "get all facility markers bad response: " + modelResult.getMessage());
                     Toast.makeText(MapActivity.this,
-                            "get all facility markers bad response: "+modelResult.getMessage(),Toast.LENGTH_LONG);
+                            "get all facility markers bad response: " + modelResult.getMessage(), Toast.LENGTH_LONG);
                     return;
                 }
                 facilityMarkers = modelResult.getModel();
-                for(FacilityMarker f: facilityMarkers) {
+                for (FacilityMarker f : facilityMarkers) {
                     map.addMarker(new MarkerOptions()
                             .position(new LatLng(f.getLatitude(), f.getLongitude())))
                             .setTag(f);
@@ -202,23 +203,25 @@ public class MapActivity extends BasicActivity
     }
 
 
-    /** Called when the user clicks a marker. */
+    /**
+     * Called when the user clicks a marker.
+     */
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
         // Retrieve the data from the marker.
         FacilityMarker facilityMarker = (FacilityMarker) marker.getTag();
-        if (facilityMarker.getFacilityId()!=null){
+        if (facilityMarker.getFacilityId() != null) {
             return onFacilityMarkerClick(facilityMarker);
         } else {
             return onNewMarkerClick(facilityMarker);
         }
     }
 
-    public boolean onFacilityMarkerClick(final FacilityMarker facilityMarker){
+    public boolean onFacilityMarkerClick(final FacilityMarker facilityMarker) {
 
-        TextView name = dialog.findViewById(R.id.facility_name);
-        Button createButton = dialog.findViewById(R.id.use_this);
+        TextView name = (TextView) dialog.findViewById(R.id.facility_name);
+        Button createButton = (Button) dialog.findViewById(R.id.use_this);
 
         name.setText(facilityMarker.getFacilityName());
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +238,7 @@ public class MapActivity extends BasicActivity
         return false;
     }
 
-    public boolean onNewMarkerClick(final FacilityMarker facilityMarker){
+    public boolean onNewMarkerClick(final FacilityMarker facilityMarker) {
         pickPlaceResult.setLatLng(facilityMarker.getLatLng());
         pickPlaceResult.setFacility(false);
 
@@ -247,7 +250,7 @@ public class MapActivity extends BasicActivity
 
         final ListView addressesList = customView.findViewById(R.id.addresses);
         final EditText addressText = customView.findViewById(R.id.address_field);
-        if (pickPlaceResult!= null && pickPlaceResult.getName()!= null){
+        if (pickPlaceResult != null && pickPlaceResult.getName() != null) {
             addressText.setText(pickPlaceResult.getName());
         }
         Button useThisBtn = customView.findViewById(R.id.use_this_address);
@@ -267,10 +270,10 @@ public class MapActivity extends BasicActivity
         alertDialog.show();
 
 
-        ResourceService.getGeocoding(this, facilityMarker.getLatLng(), new ActivityCallBack<MapApiResult>(){
+        ResourceService.getGeocoding(this, facilityMarker.getLatLng(), new ActivityCallBack<MapApiResult>() {
             @Override
             public void getModelOnSuccess(ModelResult<MapApiResult> modelResult) {
-                if (!modelResult.isStatus()){
+                if (!modelResult.isStatus()) {
                     Toast.makeText(MapActivity.this, modelResult.getMessage(), Toast.LENGTH_LONG).show();
                     Log.d("MapActivity",
                             String.format("Geo location api filed. Latlng:%s, message:%s",
@@ -282,7 +285,7 @@ public class MapActivity extends BasicActivity
                 ArrayList<String> addresses = modelResult.getModel().getAddresses();
                 final AddressesListViewAdapter adapter = new AddressesListViewAdapter(MapActivity.this, addresses);
                 addressesList.setAdapter(adapter);
-                if (adapter.getCount()>4){
+                if (adapter.getCount() > 4) {
                     ViewGroup.LayoutParams params = addressesList.getLayoutParams();
                     DisplayMetrics displayMetrics = MapActivity.this.getResources().getDisplayMetrics();
                     params.height = Math.round(225 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -304,7 +307,7 @@ public class MapActivity extends BasicActivity
         return false;
     }
 
-    public void sendResultBack(PickPlaceResult result){
+    public void sendResultBack(PickPlaceResult result) {
         Intent intent = new Intent();
         intent.putExtra("PickPlaceResult", result);
         setResult(Activity.RESULT_OK, intent);
@@ -337,7 +340,7 @@ public class MapActivity extends BasicActivity
                                 point = pickPlaceResult.getLatLng();
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         point, DEFAULT_ZOOM));
-                                if (pickPlaceResult.isFacility()){
+                                if (pickPlaceResult.isFacility()) {
                                     //TODO open the card of this facility
                                 } else {
                                     if (mOnclickMarker != null) {
@@ -355,7 +358,7 @@ public class MapActivity extends BasicActivity
                                         new LatLng(mLastLocation.getLatitude(),
                                                 mLastLocation.getLongitude()), DEFAULT_ZOOM));
                             }
-                        } catch (SecurityException e){
+                        } catch (SecurityException e) {
                             Log.e(TAG, e.getMessage());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
@@ -368,8 +371,9 @@ public class MapActivity extends BasicActivity
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
+
                     @Override
-                    public void onConnectionSuspended (int i){
+                    public void onConnectionSuspended(int i) {
                     }
                 })
                 //.addOnConnectionFailedListener(this)
@@ -442,7 +446,7 @@ public class MapActivity extends BasicActivity
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }

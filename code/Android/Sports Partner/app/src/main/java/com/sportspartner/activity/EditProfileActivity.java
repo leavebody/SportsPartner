@@ -104,8 +104,8 @@ public class EditProfileActivity extends BasicActivity {
         gender = (EditText) findViewById(R.id.text_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
-        interestRecyclerView = findViewById(R.id.RecyclerView);
-        LinearRecycler = findViewById(R.id.ListView_Recycler);
+        interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        LinearRecycler = (LinearLayout) findViewById(R.id.ListView_Recycler);
 
         //set all the contents
         gender.setText(profile.getGender());
