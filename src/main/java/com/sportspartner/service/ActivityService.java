@@ -336,7 +336,7 @@ public class ActivityService {
             String requestorId = json.get("requestorId").getAsString();
             String requestorKey = json.get("requestorKey").getAsString();
 
-            if (!isAuthorized(requestorId, requestorKey) || requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+            if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
                 resp.setResponse("false");
                 resp.setMessage("Lack authorization to update activity info");
             } else {
