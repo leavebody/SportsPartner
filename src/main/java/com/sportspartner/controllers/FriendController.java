@@ -29,6 +29,8 @@ public class FriendController {
                 return reps;
             } catch ( FriendService.FriendServiceException ex) {
                 response.status(200);
+                reps.setResponse("False");
+                reps.setMessage("User has not login in app");
                 return reps;
             }
         }, new JsonTransformer());
