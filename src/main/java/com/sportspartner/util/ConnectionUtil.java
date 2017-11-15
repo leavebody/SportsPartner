@@ -22,6 +22,7 @@ public class ConnectionUtil {
             if (System.getenv("DATABASE_URL") == null) {
                 c = DriverManager
                         .getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/rdkxzlvf", "rdkxzlvf", "At7YAFMgJqq1aMAcqMTY9CixdC_toDeM");
+                System.out.println("This is the original database!");
             } else {
                 dbUri = new URI(System.getenv("DATABASE_URL"));
                 int port = dbUri.getPort();
