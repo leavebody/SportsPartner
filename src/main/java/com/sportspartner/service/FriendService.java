@@ -217,6 +217,7 @@ public class FriendService {
     }
 
     /**
+>>>>>>> 9cdb6bc8ad4de4ab6dc17db4577f5b0ed10409b2
      * delete a friend from the friendlist
      * @param userId1 Id of current user
      * @param userId2 Id of target user

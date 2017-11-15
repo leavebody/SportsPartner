@@ -1,7 +1,6 @@
 package com.sportspartner.controllers;
 
 import com.sportspartner.service.ActivityService;
-import com.sportspartner.service.ProfileService;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
 
@@ -136,36 +135,6 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             }
-        }, new JsonTransformer());
-
-
-
-        // accept a join activity application
-        post(API_CONTEXT + "/acceptjoinactivityapplication/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = activityService.acceptJoinActivityRequest(request.params("id"),request.body());
-                response.status(200);
-                return reps;
-            } catch (Exception ex) {
-                response.status(200);
-                return reps;
-            }
-
-        }, new JsonTransformer());
-
-        // decline a join activity application
-        post(API_CONTEXT + "/declinejoinactivityapplication/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = activityService.declineJoinActivityRequest(request.params("id"),request.body());
-                response.status(200);
-                return reps;
-            } catch (Exception ex) {
-                response.status(200);
-                return reps;
-            }
-
         }, new JsonTransformer());
 
         // Delete(cancel) an activity
