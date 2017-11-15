@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class SactivityDetailActivity extends BasicActivity {
     private TextView location;
     private TextView capacity;
     //private TextView member
-    private TextView description;
+    private EditText description;
     private TextView joinText;
     //recyclerView
     private RecyclerView recyclerView;
@@ -79,8 +80,9 @@ public class SactivityDetailActivity extends BasicActivity {
         endTime = (TextView) detail.findViewById(R.id.text_endTime);
         location = (TextView) detail.findViewById(R.id.text_location);
         capacity = (TextView) detail.findViewById(R.id.text_capacity);
-        description = (TextView) detail.findViewById(R.id.text_description);
+        description = (EditText) detail.findViewById(R.id.text_description);
         joinText = (TextView) findViewById(R.id.text_join);
+        description.setFocusable(false);
 
         //recyclerView
         recyclerView = (RecyclerView) detail.findViewById(R.id.RecyclerView);
@@ -158,7 +160,7 @@ public class SactivityDetailActivity extends BasicActivity {
         //set data to Android Widget
         sport.setText(activityDetail.getSportName());
         location.setText(activityDetail.getAddress());
-        description.setText(activityDetail.getDetail());
+        description.setText(String.valueOf(activityDetail.getDetail()));
         String size = activityDetail.getSize() + "/" + activityDetail.getCapacity();
         capacity.setText(size);
 
@@ -169,7 +171,7 @@ public class SactivityDetailActivity extends BasicActivity {
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
-        SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a", Locale.US);
         startTime.setText(sdf1.format(start.getTime()));
         endTime.setText(sdf1.format(end.getTime()));
 
@@ -214,13 +216,34 @@ public class SactivityDetailActivity extends BasicActivity {
     public void Join(View v){
         switch (this.userType){
             case "CREATOR":
-                //Todo delete
+                ActivityService.deleteActivity(this, activityDetail.getActivityId(), new ActivityCallBack() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult modelResult) {
+                        if (modelResult.isStatus()){
+                            Toast.makeText(SactivityDetailActivity.this, "Delete Success!", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+                        else {
+                            Toast.makeText(SactivityDetailActivity.this, "Delete Failed: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             case "MEMBER":
                 //todo leave
                 break;
             case "STRANGER":
-                //Todo join
+                ActivityService.joinActivity(this, activityDetail.getActivityId(), activityDetail.getCreatorId(), new ActivityCallBack() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult modelResult) {
+                        if (modelResult.isStatus()){
+                            Toast.makeText(SactivityDetailActivity.this, "Send Application Succeeded!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(SactivityDetailActivity.this, "Send Application Failed: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
         }
     }

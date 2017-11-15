@@ -1,6 +1,5 @@
 package com.sportspartner.util.gcm_notification;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,8 +13,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
-import com.sportspartner.models.Sport;
-import com.sportspartner.util.NotificationDBHelper;
+import com.sportspartner.util.DBHelper.NotificationDBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,6 +81,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
+
         sendNotification(title, detail);
         // [END_EXCLUDE]
     }

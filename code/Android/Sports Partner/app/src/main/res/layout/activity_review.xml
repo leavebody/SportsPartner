@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/activity_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/reviewed_activity"
+            layout="@layout/layout_activity"></include>
+
+        <include
+            android:id="@+id/title_evaluate"
+            layout="@layout/layout_smalltitle"></include>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_evaluate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <include
+            android:id="@+id/title_rate_facility"
+            layout="@layout/layout_smalltitle"></include>
+
+    </LinearLayout>
+
+</ScrollView>

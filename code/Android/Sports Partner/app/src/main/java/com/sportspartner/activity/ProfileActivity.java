@@ -19,7 +19,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.BooleanResult;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -33,7 +32,7 @@ import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.InterestAdapter;
 import com.sportspartner.util.adapter.MyActivityAdapter;
@@ -506,7 +505,6 @@ public class ProfileActivity extends BasicActivity {
     public void invalidateOptionsMenu() {
         //change the visibility of toolbar edit button
         MenuItem editItem = myMenu.getItem(0);
-
         switch (userType) {
             case "SELF":
                 editItem.setIcon(R.drawable.edit);
