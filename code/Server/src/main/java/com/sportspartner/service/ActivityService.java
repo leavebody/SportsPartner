@@ -22,8 +22,6 @@ public class ActivityService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
-    private PendingJoinActivityRequestDaoImpl pendingJoinActivityRequestDaoImpl = new PendingJoinActivityRequestDaoImpl();
-    private NotificationDaoImpl notificationDaoImpl = new NotificationDaoImpl();
     /**
      * Get the detail of an activity
      *
@@ -368,19 +366,20 @@ public class ActivityService {
     /**
      * Delete an activity.
      * @param activityId The UUID of the activity.
-     * @param body The Json string from controller.
+     * @param requestorId The email of the requestor of deleting the activity.
+     * @param requestorKey The authentication key of the requestor.
      * @throws ActivityServiceException
      */
-    public JsonResponse deleteActivity(String activityId, String body) throws ActivityServiceException{
+    public JsonResponse deleteActivity(String activityId, String requestorId, String requestorKey) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String requestorId = json.get("userId").getAsString();
-            String requestorKey = json.get("key").getAsString();
             if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
                 resp.setResponse("false");
                 resp.setMessage("Lack authorization to cancel the activity");
-            } else {
+            }else if(activityDaoImpl.getActivity(activityId)==null){
+                resp.setResponse("false");
+                resp.setMessage("No such activity");
+            }else {
                 boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId) ;
                 if (!isDelete) {
                     resp.setResponse("false");
