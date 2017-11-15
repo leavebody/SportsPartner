@@ -373,12 +373,12 @@ public class ActivityService {
     public JsonResponse deleteActivity(String activityId, String requestorId, String requestorKey) throws ActivityServiceException{
         JsonResponse resp = new JsonResponse();
         try {
-            if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
-                resp.setResponse("false");
-                resp.setMessage("Lack authorization to cancel the activity");
-            }else if(activityDaoImpl.getActivity(activityId)==null){
+            if(activityDaoImpl.getActivity(activityId)==null){
                 resp.setResponse("false");
                 resp.setMessage("No such activity");
+            }else if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+                resp.setResponse("false");
+                resp.setMessage("Lack authorization to cancel the activity");
             }else {
                 boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId) ;
                 if (!isDelete) {
