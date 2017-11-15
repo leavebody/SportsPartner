@@ -2,8 +2,10 @@ package com.sportspartner.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,7 @@ import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
@@ -96,9 +98,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         myStratTime = Calendar.getInstance();
         myEndTime = Calendar.getInstance();
 
-        DateFormat df = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
-        String date123 = df.format(Calendar.getInstance().getTime());
-
         //find widget by Id
         textSport= (TextView) findViewById(R.id.edit_sport);
         textStartDate= (TextView) findViewById(R.id.edit_create_startDate);
@@ -122,6 +121,10 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
 
     }
 
+    /**
+     *
+     * @param result
+     */
     private void loadAllSportsHandler(ModelResult<ArrayList<Sport>> result) {
         // handle the result of request here
         String message = result.getMessage();
@@ -145,7 +148,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * @param textView  The textView which should be changed
      */
     //all types of listener
-    private void showDialog(String[] strings, final TextView textView){
+    private void showDialog(final String[] strings, final TextView textView){
         final Dialog d = new Dialog(CreateSactivityActivity.this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.layout_dialog);
@@ -162,8 +165,9 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
-                sportPosition = np.getValue()%listSports.size();
+                sportPosition = np.getValue()%strings.length;
                 d.dismiss();
+                Log.d("CreateActivity length",String.valueOf(strings.length) + String.valueOf(listSports.size()));
                 Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
                 Log.d("CreateActivity sport",String.valueOf(listSports.get(sportPosition).getSportName()));
                 Log.d("CreateActivity sportId",String.valueOf(listSports.get(sportPosition).getSportId()));
@@ -235,6 +239,12 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         }
     };
 
+    /**
+     * get the data from the inner activity
+     * @param requestCode
+     * @param resultCode
+     * @param data data from the inner activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,7 +263,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                         address = pickPlaceResult.getName();
                         textLocation.setText(address);
                     } else {
-                        //Todo Zipcode
                         zipcode = pickPlaceResult.getZipCode();
                         id = "NULL";
                         latitude = pickPlaceResult.getLatLng().latitude;

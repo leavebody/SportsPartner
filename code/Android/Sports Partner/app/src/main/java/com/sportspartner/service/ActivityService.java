@@ -162,6 +162,7 @@ public class ActivityService extends Service {
         }
         return result;
     }
+
     /**
      * Get an activity by its id.
      * @param c The caller context.
@@ -252,5 +253,57 @@ public class ActivityService extends Service {
                 result.setMessage("bad response:"+response.statusCode);
         }
         return result;
+    }
+
+    /**
+     * uptate an new activity.
+     * @param c Caller context
+     * @param activity The activity to create.
+     * @param activityId The Id of the activity
+     * @param callback
+     */
+    public static void updateActivity(Context c, SActivity activity, final ActivityCallBack callback) {
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.updateActivityRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Update activity "));
+            }
+        }, activity);
+    }
+
+    /**
+     * uptate an new activity.
+     * @param c Caller context
+     * @param activityId The Id of the activity
+     * @param callback
+     */
+    public static void deleteActivity(Context c, String activityId, final ActivityCallBack callback) {
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.deleteActivityRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Update activity "));
+            }
+        }, activityId);
+    }
+
+    /**
+     * uptate an new activity.
+     * @param c Caller context
+     * @param activityId The Id of the activity
+     * @param callback
+     */
+    public static void joinActivity(Context c, String activityId, String creatorId, final ActivityCallBack callback) {
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.joinActivityRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Update activity "));
+            }
+        }, activityId, creatorId);
     }
 }

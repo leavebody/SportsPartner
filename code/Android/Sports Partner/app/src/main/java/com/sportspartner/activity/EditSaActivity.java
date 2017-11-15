@@ -1,5 +1,7 @@
 package com.sportspartner.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,18 +11,25 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
+import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.MemberPhotoAdapter;
@@ -29,10 +38,11 @@ import com.sportspartner.util.listener.MyPickTimeListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class EditSaActivity extends BasicActivity {
+public class EditSaActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {
 
     private TextView sport;
     private TextView startDate;
@@ -42,7 +52,7 @@ public class EditSaActivity extends BasicActivity {
     private TextView location;
     private TextView capacity;
     //private TextView member
-    private TextView description;
+    private EditText description;
     //recyclerView
     private RecyclerView recyclerView;
     private ArrayList<UserOutline> memberInfo = new ArrayList<>();
@@ -50,10 +60,20 @@ public class EditSaActivity extends BasicActivity {
     // The object being sent and received from map
     private PickPlaceResult pickPlaceResult;
 
-    //SActivity object
+    //object
+    private ArrayList<Sport> listSports = new ArrayList<Sport>();
     private SActivity activityDetail = new SActivity();
     private Menu myMenu;
+    private int sportPosition;
+    private String id;
+    private Double longitude;
+    private Double latitude;
+    private String zipcode;
+    private String address;
 
+    //Calendar
+    private Calendar myStratTime;
+    private Calendar myEndTime;
 
     /**
      * OnCreate of this Activity
@@ -70,14 +90,17 @@ public class EditSaActivity extends BasicActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Edit Activity");
 
+        //get all sports
+        getAllSports();
+
         // get the extra from the previous intent
         final Intent myIntent = getIntent();
-        activityDetail = (SActivity) myIntent.getSerializableExtra("activityDetail");
-        memberInfo = (ArrayList<UserOutline>) myIntent.getSerializableExtra("memberInfo");
+        activityDetail = (SActivity) myIntent.getSerializableExtra("activity");
+        memberInfo = (ArrayList<UserOutline>) myIntent.getSerializableExtra("members");
 
 
         //find widget by ID
-        ViewGroup detail = (ViewGroup) findViewById(R.id.activity_detail);
+        ViewGroup detail = (ViewGroup) findViewById(R.id.detail);
         sport = (TextView) detail.findViewById(R.id.text_sport);
         startDate = (TextView) detail.findViewById(R.id.text_startDate);
         startTime = (TextView) detail.findViewById(R.id.text_startTime);
@@ -85,7 +108,8 @@ public class EditSaActivity extends BasicActivity {
         endTime = (TextView) detail.findViewById(R.id.text_endTime);
         location = (TextView) detail.findViewById(R.id.text_location);
         capacity = (TextView) detail.findViewById(R.id.text_capacity);
-        description = (TextView) detail.findViewById(R.id.text_description);
+        description = (EditText) detail.findViewById(R.id.text_description);
+        description.setFocusable(true);
 
         //set member recyclerView
         recyclerView = (RecyclerView) detail.findViewById(R.id.RecyclerView);
@@ -97,14 +121,18 @@ public class EditSaActivity extends BasicActivity {
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
         recyclerView.setAdapter(memberAdapter);
 
+        //get Calendar instance
+        myStratTime = Calendar.getInstance();
+        myEndTime = Calendar.getInstance();
+
         //set onCLick Listener
         sport.setOnClickListener(mySportListener);
-        /*startDate.setOnClickListener(new MyPickDateListener(EditSaActivity.this, myStratTime, startDate));
+        startDate.setOnClickListener(new MyPickDateListener(EditSaActivity.this, myStratTime, startDate));
         endDate.setOnClickListener(new MyPickDateListener(EditSaActivity.this, myEndTime, endDate));
-        startTime.setOnClickListener(new MyPickTimeListener(EditSaActivity.this, myStratTime, startTime) );
+        startTime.setOnClickListener(new MyPickTimeListener(EditSaActivity.this, myStratTime, startTime));
         endTime.setOnClickListener(new MyPickTimeListener(EditSaActivity.this, myEndTime, endTime));
         location.setOnClickListener(myLocationListener);
-        capacity.setOnClickListener(myCapacityListener);*/
+        capacity.setOnClickListener(myCapacityListener);
 
         pickPlaceResult = new PickPlaceResult();
 
@@ -120,13 +148,55 @@ public class EditSaActivity extends BasicActivity {
      */
     private View.OnClickListener mySportListener = new View.OnClickListener() {
         public void onClick(View v) {
-           /* String[] sports = new String[listSports.size()];
-            for (int i = 0; i < listSports.size(); i++){
+            String[] sports = new String[listSports.size()];
+            for (int i = 0; i < listSports.size(); i++) {
                 sports[i] = listSports.get(i).getSportName();
             }
-            showDialog(sports, sport);*/
+            showDialog(sports, sport);
         }
     };
+
+    /**
+     * Show the NumberPicker Dialog
+     * Set the content of the textView according to selection result of the user
+     * @param strings    The String shows in the NumberPicker
+     * @param textView  The textView which should be changed
+     */
+    //all types of listener
+    private void showDialog(final String[] strings, final TextView textView){
+        final Dialog d = new Dialog(EditSaActivity.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.layout_dialog);
+        final Button b1 = (Button) d.findViewById(R.id.dialog_button_set);
+        Button b2 = (Button) d.findViewById(R.id.dialog_button_cancel);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.dialog_numPicker);
+        np.setDisplayedValues(strings);
+        np.setMinValue(0);
+        np.setMaxValue(strings.length - 1);
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(EditSaActivity.this);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                textView.setText(np.getDisplayedValues()[np.getValue()]);
+                sportPosition = np.getValue()%strings.length;
+                Log.d("listSport",String.valueOf(listSports.size()));
+                Log.d("strings",String.valueOf(strings.length));
+                Log.d("sportPosition",String.valueOf(sportPosition));
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+
+    }
 
     /**
      * myLocationListener:
@@ -143,6 +213,45 @@ public class EditSaActivity extends BasicActivity {
     };
 
     /**
+     * get the data from the inner activity
+     * @param requestCode
+     * @param resultCode
+     * @param data data from the inner activity
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                if (b != null) {
+                    pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
+
+                    if (pickPlaceResult.isFacility()){
+                        //Todo get id
+                        id = "NULL";
+                        latitude = 0.0;
+                        longitude = 0.0;
+                        zipcode = "00000";
+                        address = pickPlaceResult.getName();
+                        location.setText(address);
+                    } else {
+                        zipcode = pickPlaceResult.getZipCode();
+                        id = "NULL";
+                        latitude = pickPlaceResult.getLatLng().latitude;
+                        longitude = pickPlaceResult.getLatLng().longitude;
+                        address = pickPlaceResult.getName();
+                        location.setText(address);
+                    }
+                }
+            } else if (resultCode == 0) {
+                Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    /**
      * myCapacityListener:
      * An object of OnClickListener,
      * Set the content of the string, which will be shown in the Dialog
@@ -150,19 +259,46 @@ public class EditSaActivity extends BasicActivity {
      */
     private View.OnClickListener myCapacityListener = new View.OnClickListener() {
         public void onClick(View v) {
-           /* String[] capacityString = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
-            showDialog(capacityString, this.capacity);*/
+            String[] capacityString = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            showDialog(capacityString, capacity);
         }
     };
 
+    /**
+     * send the request to get all sports from the server
+     */
+    private void getAllSports() {
+        ResourceService.getAllSports(this, new ActivityCallBack<ArrayList<Sport>>()
+        {
+            @Override
+            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
+                // handle the result of request here
+                String message = result.getMessage();
+                Boolean status = result.isStatus();
 
+                if (status){
+                    //if successfully get Activity, get the data
+                    listSports = new ArrayList<>(result.getModel());
+                }
+                else {
+                    //if failure, show a toast
+                    Toast toast = Toast.makeText(EditSaActivity.this, "Load sports Error: " + message, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * set the content of the UI
+     */
     private void setActivityDetail() {
         //set data to Android Widget
         sport.setText(activityDetail.getSportName());
         location.setText(activityDetail.getAddress());
         description.setText(activityDetail.getDetail());
-        String size = activityDetail.getSize() + "/" + activityDetail.getCapacity();
-        capacity.setText(size);
+        capacity.setText(String.valueOf(activityDetail.getCapacity()));
 
         //Time and date
         Date start = activityDetail.getStartTime();
@@ -180,32 +316,29 @@ public class EditSaActivity extends BasicActivity {
     }
 
 
+    /**
+     * get the menu object of the toolBar
+     * @param menu The menu on the top right of the toolbar
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         this.myMenu = menu;
+        MenuItem editItem = myMenu.getItem(0);
+        editItem.setIcon(R.drawable.save);
+        editItem.setVisible(true);
         return true;
     }
 
-
     /**
-     * Set the visibility of the button on the toolbar to visible
-     * set different icon according the userType
+     * set the onclick method of the buttons on toolBar
+     * @param item item of the toolBar menu
+     * @return
      */
     @Override
-    public void invalidateOptionsMenu() {
-        //change the visibility of toolbar edit button
-        MenuItem editItem = myMenu.getItem(0);
-
-        //set the edit button
-        editItem.setIcon(R.drawable.edit);
-        editItem.setVisible(true);
-        onPrepareOptionsMenu(myMenu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.toolbar_edit:
                 updateSaDetail();
                 break;
@@ -223,17 +356,21 @@ public class EditSaActivity extends BasicActivity {
      */
     private void updateSaDetail() {
         //set activity
-        /*profile.setUserName(userName.getText().toString());
-        profile.setGender(gender.getText().toString());
-        profile.setAge(Integer.parseInt(age.getText().toString()));
-        profile.setAddress(city.getText().toString());*/
+        activityDetail.setSportId(listSports.get(sportPosition).getSportId());
+        activityDetail.setDescription(String.valueOf(description.getText()));
+        activityDetail.setCapacity(Integer.parseInt((String)capacity.getText()));
+        activityDetail.setSize(memberInfo.size());
+        activityDetail.setFacilityId(id);
+        activityDetail.setLatitude(latitude);
+        activityDetail.setLongitude(longitude);
+        activityDetail.setZipcode(zipcode);
+        activityDetail.setAddress(address);
 
-        //Todo update
-        /*ActivityService.(this, userEmail, profile, new ActivityCallBack(){
+        ActivityService.updateActivity(this, activityDetail, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult result) {
                 updateSADetailHandler(result);
             }
-        });*/
+        });
     }
 
     /**
@@ -251,8 +388,7 @@ public class EditSaActivity extends BasicActivity {
             intent.putExtra("activityId", activityDetail.getActivityId());
             this.startActivity(intent);
             finish();
-        }
-        else{
+        } else {
             Toast.makeText(EditSaActivity.this, message, Toast.LENGTH_LONG).show();
         }
 
@@ -264,4 +400,8 @@ public class EditSaActivity extends BasicActivity {
         finish();
     }
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+    }
 }

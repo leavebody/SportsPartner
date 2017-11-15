@@ -1,4 +1,4 @@
-package com.sportspartner.util;
+package com.sportspartner.util.DBHelper;
 
 import android.provider.BaseColumns;
 

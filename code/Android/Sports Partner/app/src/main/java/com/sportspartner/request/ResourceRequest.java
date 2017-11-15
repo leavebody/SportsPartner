@@ -1,7 +1,6 @@
 package com.sportspartner.request;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,9 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
-import com.sportspartner.R;
-import com.sportspartner.util.BitmapHelper;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
