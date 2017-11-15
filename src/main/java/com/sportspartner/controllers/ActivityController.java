@@ -138,10 +138,10 @@ public class ActivityController {
         }, new JsonTransformer());
 
         // Delete(cancel) an activity
-        delete(API_CONTEXT + "/activity/:id", "application/json", (request, response) -> {
+        delete(API_CONTEXT + "/activity/:activityId/:userId/:key", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try{
-                reps = activityService.deleteActivity(request.params("id"), request.body());
+                reps = activityService.deleteActivity(request.params("activityId"), request.params("userId"), request.params("key"));
                 response.status(200);
                 return reps;
             } catch(Exception ex){
