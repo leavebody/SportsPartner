@@ -9,4 +9,5 @@ public interface ActivityMemberDao {
     public boolean hasActivityMember(ActivityMember activityMember);
     public boolean newActivityMember(ActivityMember activityMember);
     public boolean deleteActivityMember(ActivityMember activityMember);
+    public boolean deleteAllActivityMembers(String activityId);
 }
