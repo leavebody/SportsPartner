@@ -1,8 +1,17 @@
 language: java
 jdk:
- - oraclejdk8
+- oraclejdk8
 before_install:
- - export TZ=America/New_York
-script: 
-  - cd $TRAVIS_BUILD_DIR/code/Server
-  - mvn test
+- export TZ=America/New_York
+script:
+- cd $TRAVIS_BUILD_DIR/code/Server
+- echo $DATABASE_URL
+- mvn test
+deploy:
+  provider: heroku
+  api_key:
+    secure: yYGyq/fqjbW79R3rw4rpl2v/oPhD1WaisWFyjT/KaQJm4iti8/3AvBhlTEu8DLWGs93e8MMSGcZF8g/WORiMLI9gFo9a2dO67/db70qx1sxIEOVPFevpIlY4D5h6s1J1Tp7kJzJ2tKqliOqQsF332ZFRFNa4z2VLvcb1vm3orua+f+AV2+QL8lcMNyI4gE7VMINVdgv1efhhaojrNmG55spsyL8WwCQiBqnAHJcbmkrKNTtG6jgRwK1d78hllp2uPop6QkbAdo4uZpJyjFtlExGDS8SBNS15cHVFQTAAAkffFmCaMH9F/nnys3h7VmhBiimWMHeWzGD8cXHEN+ToaDFwfp9QAK/gCTRN9GE0M1W3mK4uivmW8iNH/f3ghBsqfahDvDTy5mZC7i3PMkqDLVp5YAU0eGYUij9yfmat9A1YYpQw7w3lYVluPx2pteKvpX1p5hMzbRhqURi7VJk37eXh5D4PbZjfk5POu8rxJhcPhnL0LQmeTQaUeTwavzTRiQdIW20I7XlfzOaAvhUsKPo2Trl+A9X8dhTXoWl8xOrY+7VYfcHnjQd2tQE+kS23wuLkkacXApqpEytZAofyEQj9Y0CO01QMgMIDT1iJdNtc+BXL9qkevGeyq6RtT+dRQi141WZtS+6OdS7GiLeWQvlukz9x8S8tsyRKBpknEsg=
+  app: oosesportspartner
+  on:
+    repo: jhu-oose/2017-group-4
+    branch: dev
