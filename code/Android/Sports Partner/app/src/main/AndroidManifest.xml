@@ -122,11 +122,20 @@
             android:label="@string/title_activity_map" />
         <activity
             android:name=".activity.ImageGridActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EditSaActivity"
             android:label="@string/title_activity_edit_sa"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:parentActivityName=".activity.BasicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sportspartner.activity.BasicActivity" />
+        </activity>
     </application>
 
 </manifest>

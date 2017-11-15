@@ -1,10 +1,12 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
+
 /**
  * @author Xiaochen Li
  */
 
-public class UserOutline {
+public class UserOutline implements Serializable{
     private String userId;
     private String userName;
     private String iconUUID;

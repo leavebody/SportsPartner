@@ -1,4 +1,4 @@
-package com.sportspartner.util;
+package com.sportspartner.util.DBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,9 +1,6 @@
 package com.sportspartner.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +11,7 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.Notification;
-import com.sportspartner.util.NotificationDBHelper;
+import com.sportspartner.util.DBHelper.NotificationDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.NotificationAdapter;
 

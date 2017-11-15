@@ -1,5 +1,7 @@
 package com.sportspartner.service;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
 import com.sportspartner.util.NetworkResponseRequest;
@@ -27,12 +29,16 @@ public class Service {
         switch (response.statusCode){
             case 200:
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
-                status = (jsResp.get("response").getAsString().equals("true"));
-                result.setStatus(status);
-                if(!status) {
-                    result.setMessage(operation+" failed: "+jsResp.get("message").getAsString());
+                try {
+                    status = (jsResp.get("response").getAsString().equals("true"));
+                    result.setStatus(status);
+                    if(!status) {
+                        result.setMessage(operation+" failed: "+jsResp.get("message").getAsString());
+                    }
                 }
-
+                catch (Exception e){
+                    Log.d("Json Response", jsResp.toString());
+                }
                 break;
 
             default:
