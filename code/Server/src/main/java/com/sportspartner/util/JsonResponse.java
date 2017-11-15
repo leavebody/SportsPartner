@@ -269,12 +269,12 @@ public class JsonResponse {
         return facilities;
     }
 
-    public void setFacilities(List<FacilityOutlineMapVO> facilities) {
+    public void setFacilities(List<FacilityMarkerVO> facilities) {
         this.facilities = new JsonArray();
         Gson gson = new Gson();
         try{
-            for (FacilityOutlineMapVO facilityOutlineMapVO : facilities){
-                String jsonString = gson.toJson(facilityOutlineMapVO);
+            for (FacilityMarkerVO facilityMarkerVO : facilities){
+                String jsonString = gson.toJson(facilityMarkerVO);
                 this.facilities.add(gson.fromJson(jsonString, JsonObject.class));
             }
         }catch(JSONException e){

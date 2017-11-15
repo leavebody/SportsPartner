@@ -1,8 +1,9 @@
 language: java
 jdk:
- - oraclejdk8
+- oraclejdk8
 before_install:
- - export TZ=America/New_York
-script: 
-  - cd $TRAVIS_BUILD_DIR/code/Server
-  - mvn test
+- export TZ=America/New_York
+script:
+- cd $TRAVIS_BUILD_DIR/code/Server
+- echo $DATABASE_URL
+- mvn test

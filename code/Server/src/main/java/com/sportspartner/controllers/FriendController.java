@@ -11,6 +11,7 @@ import static spark.Spark.post;
 public class FriendController {
 
     private static final String API_CONTEXT = "/api.sportspartner.com/v1";
+
     private FriendService friendService;
     public  FriendController(FriendService friendService){
         this.friendService = friendService;
@@ -28,45 +29,8 @@ public class FriendController {
                 return reps;
             } catch ( FriendService.FriendServiceException ex) {
                 response.status(200);
-                return reps;
-            }
-        }, new JsonTransformer());
-
-        // send a friend request
-        post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = friendService.sendFriendRequest(request.params(":receiverId"),request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch ( FriendService.FriendServiceException ex) {
-                response.status(200);
-                return reps;
-            }
-        }, new JsonTransformer());
-
-        // accept a freind request
-        post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = friendService.acceptFriendRequest(request.params(":receiverId"),request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch ( FriendService.FriendServiceException ex) {
-                response.status(200);
-                return reps;
-            }
-        }, new JsonTransformer());
-
-        // decline a friend request
-        post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = friendService.declineFriendRequest(request.params(":receiverId"),request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch ( FriendService.FriendServiceException ex) {
-                response.status(200);
+                reps.setResponse("False");
+                reps.setMessage("User has not login in app");
                 return reps;
             }
         }, new JsonTransformer());
@@ -85,3 +49,4 @@ public class FriendController {
         }, new JsonTransformer());
     }
 }
+
