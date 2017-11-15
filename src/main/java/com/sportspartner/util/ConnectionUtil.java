@@ -25,12 +25,15 @@ public class ConnectionUtil {
                 System.out.println("This is the original database!");
             } else {
                 dbUri = new URI(System.getenv("DATABASE_URL"));
+                //dbUri = new URI(System.getenv("JDBC_DATABASE_URL"));
+                String dburiString = System.getenv("JDBC_DATABASE_URL");
                 int port = dbUri.getPort();
                 String host = dbUri.getHost();
                 String path = dbUri.getPath();
                 String username = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[0];
                 String password = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[1];
-                c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
+                //c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
+                c = DriverManager.getConnection(dburiString);
             }
             //c =  DriverManager.getConnection(dbUrl);
             //c = DriverManager
