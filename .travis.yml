@@ -5,7 +5,7 @@ before_install:
 - export TZ=America/New_York
 script:
 - cd $TRAVIS_BUILD_DIR/code/Server
-- heroku config:get DATABASE_URL
+- heroku config:get DATABASE_URL -a oosesportspartner
 - mvn test
 deploy:
   provider: heroku
