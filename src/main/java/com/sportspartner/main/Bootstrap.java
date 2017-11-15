@@ -38,7 +38,7 @@ public class Bootstrap {
         if (processBuilder.environment().get("PORT") != null) {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
         }
-        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+        return 8080; //return default port if heroku-port isn't set (i.e. on localhost)
     }
     
     public static void main(String[] args) throws Exception {
