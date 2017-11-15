@@ -1,0 +1,1 @@
+web java -jar ./target/sportspartner-1.0-SNAPSHOT-jar-with-dependencies.jar
