@@ -2,15 +2,15 @@ package com.sportspartner.modelvo;
 
 import com.sportspartner.model.Facility;
 
-public class FacilityOutlineMapVO {
+public class FacilityMarkerVO {
     private String facilityId;
     private String facilityName;
     private double longitude;
     private double latitude;
 
-    public FacilityOutlineMapVO(){}
+    public FacilityMarkerVO(){}
 
-    public FacilityOutlineMapVO(String facilityId, String facilityName, double longitude, double latitude) {
+    public FacilityMarkerVO(String facilityId, String facilityName, double longitude, double latitude) {
         this.facilityId = facilityId;
         this.facilityName = facilityName;
         this.longitude = longitude;
