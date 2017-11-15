@@ -165,12 +165,10 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
-                sportPosition = np.getValue()%strings.length;
+                sportPosition = np.getValue()%listSports.size();
                 d.dismiss();
-                Log.d("CreateActivity length",String.valueOf(strings.length) + String.valueOf(listSports.size()));
+                Log.d("CreateActivity length",String.valueOf(listSports.size()) + String.valueOf(listSports.size()));
                 Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
-                Log.d("CreateActivity sport",String.valueOf(listSports.get(sportPosition).getSportName()));
-                Log.d("CreateActivity sportId",String.valueOf(listSports.get(sportPosition).getSportId()));
             }
         });
         b2.setOnClickListener(new View.OnClickListener()
@@ -334,10 +332,10 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         Boolean status = result.isStatus();
 
         if (status){
-            //Todo
             //if successfully get Activity, get the data
             String id = result.getModel();
             Toast.makeText(CreateSactivityActivity.this, "Create Sports Activity Success!", Toast.LENGTH_LONG).show();
+            onBackPressed();
         }
         else {
             //if failure, show a toast

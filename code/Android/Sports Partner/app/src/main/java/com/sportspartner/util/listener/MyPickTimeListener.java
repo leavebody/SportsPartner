@@ -64,7 +64,7 @@ public class MyPickTimeListener extends MyonClickListener {
      * @param myCalendar The Calendar object which will save the selected time
      */
     private void updateView(TextView textView, Calendar myCalendar) {
-        String myFormat = "h:mm a";
+        String myFormat = "hh:mm a";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(myCalendar.getTime()));
     }

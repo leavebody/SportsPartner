@@ -505,7 +505,6 @@ public class ProfileActivity extends BasicActivity {
     public void invalidateOptionsMenu() {
         //change the visibility of toolbar edit button
         MenuItem editItem = myMenu.getItem(0);
-
         switch (userType) {
             case "SELF":
                 editItem.setIcon(R.drawable.edit);

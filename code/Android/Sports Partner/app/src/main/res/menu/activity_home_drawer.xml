@@ -23,6 +23,10 @@
             android:icon="@drawable/notification"
             android:title="Notification" />
         <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/setting"
+            android:title="Setting" />
+        <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/signout"
             android:title="SignOut" />

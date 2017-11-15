@@ -36,6 +36,7 @@ import com.sportspartner.util.adapter.MemberPhotoAdapter;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -159,11 +160,12 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
     /**
      * Show the NumberPicker Dialog
      * Set the content of the textView according to selection result of the user
-     * @param strings    The String shows in the NumberPicker
-     * @param textView  The textView which should be changed
+     *
+     * @param strings  The String shows in the NumberPicker
+     * @param textView The textView which should be changed
      */
     //all types of listener
-    private void showDialog(final String[] strings, final TextView textView){
+    private void showDialog(final String[] strings, final TextView textView) {
         final Dialog d = new Dialog(EditSaActivity.this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.layout_dialog);
@@ -175,20 +177,18 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
         np.setMaxValue(strings.length - 1);
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(EditSaActivity.this);
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
-                sportPosition = np.getValue()%strings.length;
-                Log.d("listSport",String.valueOf(listSports.size()));
-                Log.d("strings",String.valueOf(strings.length));
-                Log.d("sportPosition",String.valueOf(sportPosition));
+                sportPosition = np.getValue() % listSports.size();
+                Log.d("listSport", String.valueOf(listSports.size()));
+                Log.d("strings", String.valueOf(strings.length));
+                Log.d("sportPosition", String.valueOf(sportPosition));
                 d.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 d.dismiss();
@@ -214,9 +214,10 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
 
     /**
      * get the data from the inner activity
+     *
      * @param requestCode
      * @param resultCode
-     * @param data data from the inner activity
+     * @param data        data from the inner activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -227,7 +228,7 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
                 if (b != null) {
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
 
-                    if (pickPlaceResult.isFacility()){
+                    if (pickPlaceResult.isFacility()) {
                         //Todo get id
                         id = "NULL";
                         latitude = 0.0;
@@ -242,10 +243,17 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
                         longitude = pickPlaceResult.getLatLng().longitude;
                         address = pickPlaceResult.getName();
                         location.setText(address);
+
                     }
+                    //set the detail
+                    activityDetail.setFacilityId(id);
+                    activityDetail.setAddress(address);
+                    activityDetail.setLatitude(latitude);
+                    activityDetail.setLongitude(longitude);
+                    activityDetail.setZipcode(zipcode);
                 }
             } else if (resultCode == 0) {
-                Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "RESULT CANCELLED", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -259,7 +267,7 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
      */
     private View.OnClickListener myCapacityListener = new View.OnClickListener() {
         public void onClick(View v) {
-            String[] capacityString = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            String[] capacityString = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
             showDialog(capacityString, capacity);
         }
     };
@@ -268,19 +276,17 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
      * send the request to get all sports from the server
      */
     private void getAllSports() {
-        ResourceService.getAllSports(this, new ActivityCallBack<ArrayList<Sport>>()
-        {
+        ResourceService.getAllSports(this, new ActivityCallBack<ArrayList<Sport>>() {
             @Override
             public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
                 // handle the result of request here
                 String message = result.getMessage();
                 Boolean status = result.isStatus();
 
-                if (status){
+                if (status) {
                     //if successfully get Activity, get the data
                     listSports = new ArrayList<>(result.getModel());
-                }
-                else {
+                } else {
                     //if failure, show a toast
                     Toast toast = Toast.makeText(EditSaActivity.this, "Load sports Error: " + message, Toast.LENGTH_SHORT);
                     toast.show();
@@ -306,18 +312,147 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
-        SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a", Locale.US);
         startTime.setText(sdf1.format(start.getTime()));
         endTime.setText(sdf1.format(end.getTime()));
 
         //update member adapter
         memberAdapter.updateMember(memberInfo);
+    }
+
+    /**
+     * check whether all the fields are valid
+     *
+     * @return true, if the above statement is true
+     */
+    private boolean checkAllFileds() {
+        boolean isFull = checkIfNull();
+        if (isFull) {
+            try {
+                boolean isTimeValid = checkTime();
+                if (isTimeValid) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * check whether all fields have been filled.
+     *
+     * @return True if filled
+     */
+    private Boolean checkIfNull() {
+        if (!sport.getText().equals("")
+                & !startDate.getText().equals("") & !endDate.getText().equals("")
+                & !startTime.getText().equals("") & !endTime.getText().equals("")
+                & !location.getText().equals("") & !capacity.getText().equals("")) {
+            return true;
+        } else {
+            Toast.makeText(this, "Please fill all the content!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    /**
+     * Check whether startTime is before EndTime
+     *
+     * @return True if the above statement is true
+     */
+    private boolean checkTime() throws ParseException {
+        Date start;
+        Date end;
+
+        String startString = (String) startDate.getText() + " " + (String) startTime.getText();
+        String endString = (String) endDate.getText() + " " + (String) endTime.getText();
+
+        Log.d("startString",startString);
+        Log.d("endString",endString);
+
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd hh:mm a");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+
+        try {
+            start = formatDate.parse(startString);
+            end = formatDate.parse(endString);
+        } catch (ParseException e) {
+            Toast.makeText(this, "Time Parse error:" + "You should choose both Date and Time\n" + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            return false;
+        }
+        if (start.before(end)) {
+            activityDetail.setStartTime(start);
+            activityDetail.setEndTime(end);
+            return true;
+        } else {
+            Toast.makeText(this, "The startTime should before the endTime!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    /**
+     * set new activity detail object
+     * call the request to update activity detail
+     */
+    private void updateSaDetail() {
+        boolean isValid = checkAllFileds();
+        if (isValid){
+            String detail;
+
+            //set detail
+            if(description.getText().equals("")){
+                detail = "NULL";
+            }
+            else {
+                detail = String.valueOf(description.getText());
+            }
+
+            //set activity
+            activityDetail.setSportId(listSports.get(sportPosition).getSportId());
+            activityDetail.setDescription(detail);
+            activityDetail.setCapacity(Integer.parseInt((String) capacity.getText()));
+            activityDetail.setSize(memberInfo.size());
+
+            ActivityService.updateActivity(this, activityDetail, new ActivityCallBack() {
+                public void getModelOnSuccess(ModelResult result) {
+                    updateSADetailHandler(result);
+                }
+            });
+        }
+    }
+
+    /**
+     * handle the result from the server
+     * If success, return to the detail Page
+     * else, show error message
+     *
+     * @param result
+     */
+    private void updateSADetailHandler(ModelResult result) {
+        // handle the result here
+        String message = result.getMessage();
+        if (result.isStatus()) {
+            Toast.makeText(EditSaActivity.this, "Update Success!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, SactivityDetailActivity.class);
+            intent.putExtra("activityId", activityDetail.getActivityId());
+            this.startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(EditSaActivity.this, message, Toast.LENGTH_LONG).show();
+        }
 
     }
 
-
     /**
      * get the menu object of the toolBar
+     *
      * @param menu The menu on the top right of the toolbar
      * @return
      */
@@ -333,6 +468,7 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
 
     /**
      * set the onclick method of the buttons on toolBar
+     *
      * @param item item of the toolBar menu
      * @return
      */
@@ -347,50 +483,6 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
         }
 
         return true;
-
-    }
-
-    /**
-     * set new activity detail object
-     * call the request to update activity detail
-     */
-    private void updateSaDetail() {
-        //set activity
-        activityDetail.setSportId(listSports.get(sportPosition).getSportId());
-        activityDetail.setDescription(String.valueOf(description.getText()));
-        activityDetail.setCapacity(Integer.parseInt((String)capacity.getText()));
-        activityDetail.setSize(memberInfo.size());
-        activityDetail.setFacilityId(id);
-        activityDetail.setLatitude(latitude);
-        activityDetail.setLongitude(longitude);
-        activityDetail.setZipcode(zipcode);
-        activityDetail.setAddress(address);
-
-        ActivityService.updateActivity(this, activityDetail, new ActivityCallBack(){
-            public void getModelOnSuccess(ModelResult result) {
-                updateSADetailHandler(result);
-            }
-        });
-    }
-
-    /**
-     * handle the result from the server
-     * If success, return to the detail Page
-     * else, show error message
-     * @param result
-     */
-    private void updateSADetailHandler(ModelResult result) {
-        // handle the result here
-        String message = result.getMessage();
-        if (result.isStatus()) {
-            Toast.makeText(EditSaActivity.this, "Update Success!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, SactivityDetailActivity.class);
-            intent.putExtra("activityId", activityDetail.getActivityId());
-            this.startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(EditSaActivity.this, message, Toast.LENGTH_LONG).show();
-        }
 
     }
 

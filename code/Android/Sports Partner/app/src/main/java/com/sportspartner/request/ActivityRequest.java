@@ -157,7 +157,6 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         JsonObject activityJsObj = gson.fromJson(activityString, JsonObject.class);
 
         JsonObject jsonRequestObject = new JsonObject();
-
         jsonRequestObject.addProperty("requestorId", userEmail.trim().toLowerCase());
         jsonRequestObject.addProperty("requestorKey", key);
         jsonRequestObject.add("activity", activityJsObj);
@@ -193,22 +192,20 @@ public class ActivityRequest extends com.sportspartner.request.Request{
      * @param callback
      * @param activityId the id of the activity needed to be deleted
      */
+    //userId=userId&key=key&
     public void deleteActivityRequest(final VolleyCallback callback, String activityId) {
         LoginDBHelper db = LoginDBHelper.getInstance(contextf);
         String userEmail = db.getEmail();
         String key = db.getKey();
 
-        JsonObject jsonRequestObject = new JsonObject();
-
-        jsonRequestObject.addProperty("userId", userEmail.trim().toLowerCase());
-        jsonRequestObject.addProperty("key", key);
+        Log.d("key",String.valueOf(key));
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/activity/" + activityId;
+        String url = URL_CONTEXT+"v1/activity/"+activityId+"/"+userEmail+"/"+key;
+        Log.d("deleteActivityRequest",url);
 
-        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url,
-                jsonRequestObject.toString(),
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {

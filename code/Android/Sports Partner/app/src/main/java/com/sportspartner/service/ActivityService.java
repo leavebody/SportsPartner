@@ -259,7 +259,6 @@ public class ActivityService extends Service {
      * uptate an new activity.
      * @param c Caller context
      * @param activity The activity to create.
-     * @param activityId The Id of the activity
      * @param callback
      */
     public static void updateActivity(Context c, SActivity activity, final ActivityCallBack callback) {

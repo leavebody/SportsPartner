@@ -171,7 +171,7 @@ public class SactivityDetailActivity extends BasicActivity {
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
         startDate.setText(sdf0.format(start.getTime()));
         endDate.setText(sdf0.format(end.getTime()));
-        SimpleDateFormat sdf1 = new SimpleDateFormat("h:mm", Locale.US);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a", Locale.US);
         startTime.setText(sdf1.format(start.getTime()));
         endTime.setText(sdf1.format(end.getTime()));
 
@@ -221,6 +221,7 @@ public class SactivityDetailActivity extends BasicActivity {
                     public void getModelOnSuccess(ModelResult modelResult) {
                         if (modelResult.isStatus()){
                             Toast.makeText(SactivityDetailActivity.this, "Delete Success!", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
                         }
                         else {
                             Toast.makeText(SactivityDetailActivity.this, "Delete Failed: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();
