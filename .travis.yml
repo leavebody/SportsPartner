@@ -1,8 +1,11 @@
 language: java
 jdk:
- - oraclejdk8
+- oraclejdk8
 before_install:
- - export TZ=America/New_York
-script: 
-  - cd $TRAVIS_BUILD_DIR/code/Server
-  - mvn test
+- export TZ=America/New_York
+script:
+- cd $TRAVIS_BUILD_DIR/code/Server
+- mvn test
+deploy:
+  api_key:
+    secure: JgLFbetQBsuMapJC2LrdifzU2IZWrQhKDb2f32qW8MBp8/tPkyZivNoF+F60xi51EJG9XgKlUNTFNwJSO8vM86xBmOW39Mx73ILSz7O2NowbcZcqSYkc2uYH6+y3jpE2v7DNA6UzbrWobrr2HPCI8EhRqnlObPdhUZguanl7HEilFXv2XY2xj7o9neD4G3tCw30XjIh8gkOysTSb6kFjkInouJomXMbs14wL9COdKyeCJOJFSLNmcTnpIrLx3KZnCefGw+wWrFHqvsfAovWqdCoAWfkj15RAzdz3MkPji6eQbuuiFLsbCNkl/wqrFfkyT6nAw5jcOQwo6Eac3R31DdlQaUTnOqzHtRlXUAqhBHpMA8JvPK+YusrDoXxHAih5lRNTarVMgy4cgV6xypw/iRG8NpGogL1ajSY0yCmXR/Y1desn7yIGgya8PJ/tpUMvwHujvY96AD85V2c+k7LuB/HhrpG0WvuYfUAHMQgAviEkeWtyZFmq/gkrJGW5hHP685Vv5C63Xkn6w50k3leubIvkE2rt8gGT0+nu1C+8Kwjgscydytn2aU99qywzk29W8eK/MtEyhmXt0pRrsmWU1W6kf+57QbwEosfj9T+tEi/9l6jINejsBNAdRFYpN/txeDAwD/tmBzczHZteNu+w4aokp9Dl1ttb1dPRtu+9SUw=
