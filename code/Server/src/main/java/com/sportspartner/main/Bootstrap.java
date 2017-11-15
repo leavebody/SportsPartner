@@ -28,11 +28,7 @@ public class Bootstrap {
     
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
     
-    /**
-     * Set the ip address and port , start different services
-     * @param args arguments of main function
-     * @throws Exception throw exception of Service
-     */
+
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
@@ -40,7 +36,12 @@ public class Bootstrap {
         }
         return 8080; //return default port if heroku-port isn't set (i.e. on localhost)
     }
-    
+
+    /**
+     * Set the ip address and port , start different services
+     * @param args arguments of main function
+     * @throws Exception throw exception of Service
+     */
     public static void main(String[] args) throws Exception {
         
         ipAddress(IP_ADDRESS);

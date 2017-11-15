@@ -110,6 +110,8 @@
             android:name=".activity.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ReviewSaActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
