@@ -6,7 +6,6 @@ before_install:
 script:
 - cd $TRAVIS_BUILD_DIR/code/Server
 - echo $DATABASE_URL
-- heroku config:get DATABASE_URL -a oosesportspartner
 - mvn test
 deploy:
   provider: heroku
