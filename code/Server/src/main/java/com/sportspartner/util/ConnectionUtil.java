@@ -32,8 +32,8 @@ public class ConnectionUtil {
                 String path = dbUri.getPath();
                 String username = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[0];
                 String password = (dbUri.getUserInfo() == null) ? null : dbUri.getUserInfo().split(":")[1];
-                //c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
-                c = DriverManager.getConnection(dburiString);
+                c = DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + path, username, password);
+                //c = DriverManager.getConnection(dburiString);
             }
             //c =  DriverManager.getConnection(dbUrl);
             //c = DriverManager
