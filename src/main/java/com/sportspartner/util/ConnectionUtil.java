@@ -17,10 +17,13 @@ public class ConnectionUtil {
         Connection c = null;
         try {
               Class.forName("org.postgresql.Driver");
+
+
             if (System.getenv("DATABASE_URL") == null) {
                 dbUri = new URI("postgres://localhost:5432/to_do");
             } else {
-                dbUri = new URI(System.getenv("DATABASE_URL"));
+                dbUri = new URI("DATABASE_URL");
+                //dbUri = new URI(System.getenv("postgres://npvilmribuqyfn:4de73b009926d90511554c0cd40ca9fa0a133b604d768fbc4abffe1d00cff4fb@ec2-50-17-217-166.compute-1.amazonaws.com:5432/ddv402olp7iu27"));
             }
             int port = dbUri.getPort();
             String host = dbUri.getHost();
