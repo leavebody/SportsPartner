@@ -7,10 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
@@ -19,7 +16,7 @@ import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.ReviewMembersAdapter;
 

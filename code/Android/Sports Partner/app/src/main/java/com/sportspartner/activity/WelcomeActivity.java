@@ -57,8 +57,8 @@ public class WelcomeActivity extends Activity {
         } else {
             intent = new Intent(WelcomeActivity.this, LoginActivity.class);
         }
-        intent = new Intent(WelcomeActivity.this, ReviewSaActivity.class);
-        intent.putExtra("activityId", "a001");
+        //intent = new Intent(WelcomeActivity.this, ReviewSaActivity.class);
+        //intent.putExtra("activityId", "a001");
         startActivity(intent);
         onDestroy();
     }
