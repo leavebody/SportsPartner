@@ -121,3 +121,28 @@ All notable changes to this project will be documented in this file.
   - All the endpoints related to user
   - All the endpoints related to profile
 
+## Iteration4 (2017-10-31 ~ 2017-11-17)
+### Added
+* Android: Updated the Activities and the xmls for:
+- EditProfile
+  - Change Profile Photo. (Access the file system of the Android device)
+  - Change Basic Info.
+  - Change Interest. (Use RecyclerView)
+- FriendList
+  - View the Profile of each friend
+  - Add/ Delete friend
+- SportsActivityDeatil
+  - Show the profile photo of each member
+  - Show Delete/Join/Leave button based on whether the user is the member or creator of this activity
+- Profile
+  - Show Delete/Add/Edit button based on the relationship between the user and the owner of the profile
+- CreateActivity
+  - Add Google API to choose the location
+- Notification
+  - Show notifications and respond to it.
+- Setting
+  - Add the night mode setting
+  
+* Android: Updated the DateBase:
+- Add NightMode Table to deal with the notification night mode
+- Add Notifiaction Table to deal with the unread notificaitons
