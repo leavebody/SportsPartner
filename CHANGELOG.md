@@ -133,16 +133,15 @@ All notable changes to this project will be documented in this file.
   - Add/ Delete friend
 - SportsActivityDeatil
   - Show the profile photo of each member
-  - Show Delete/Join/Leave button based on whether the user is the member or creator of this activity
+  - Show Delete/Join/Leave button based on whether the user is the member or creator of this activity
 - Profile
   - Show Delete/Add/Edit button based on the relationship between the user and the owner of the profile
 - CreateActivity
   - Add Google API to choose the location
 - Notification
-  - Show notifications and respond to it.
+  - Show notifications and respond to it.
 - Setting
-  - Add the night mode setting
-  
-* Android: Updated the DateBase:
+  - Add the night mode setting 
+* Android: Updated the Datebase:
 - Add NightMode Table to deal with the notification night mode
 - Add Notifiaction Table to deal with the unread notificaitons
