@@ -35,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sportspartner.R;
@@ -48,6 +49,7 @@ import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.adapter.AddressesListViewAdapter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 /**
@@ -57,7 +59,8 @@ public class MapActivity extends BasicActivity
         implements OnMapReadyCallback,
         com.google.android.gms.location.LocationListener,
         GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnMapClickListener {
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnCameraIdleListener {
 
     private static final String TAG = MapActivity.class.getSimpleName();
     private GoogleMap mMap;
@@ -78,7 +81,7 @@ public class MapActivity extends BasicActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private ArrayList<FacilityMarker> facilityMarkers;
+    private HashSet<FacilityMarker> facilityMarkers;
     private Marker mOnclickMarker;
     private BottomSheetDialog dialog;
 
@@ -124,6 +127,8 @@ public class MapActivity extends BasicActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        facilityMarkers = new HashSet<>();
+
     }
 
 
@@ -153,10 +158,12 @@ public class MapActivity extends BasicActivity
     public void onMapReady(GoogleMap map) {
         mMap = map;
 
-        setMapMarkers(mMap);
-        // Set a listener for marker click.
+        // Set up listeners for google map.
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
+        mMap.setOnCameraIdleListener(this);
+
+        onCameraIdle();
 
         // Prompt the user for permission.
         getLocationPermission();
@@ -182,24 +189,33 @@ public class MapActivity extends BasicActivity
         onMarkerClick(mOnclickMarker);
     }
 
-    public void setMapMarkers(final GoogleMap map) {
-        FacilityService.getAllFacilityMarkers(this, new ActivityCallBack<ArrayList<FacilityMarker>>() {
+    public void setMapMarkers(final GoogleMap map, final LatLngBounds bounds) {
+        FacilityService.getFacilityMarkers(this, bounds, new ActivityCallBack<ArrayList<FacilityMarker>>() {
             @Override
             public void getModelOnSuccess(ModelResult<ArrayList<FacilityMarker>> modelResult) {
                 if (!modelResult.isStatus()) {
-                    Log.d("MapActivity", "get all facility markers bad response: " + modelResult.getMessage());
+                    Log.d("MapActivity", "get facility markers bad response: " + modelResult.getMessage());
                     Toast.makeText(MapActivity.this,
                             "get all facility markers bad response: " + modelResult.getMessage(), Toast.LENGTH_LONG);
                     return;
                 }
-                facilityMarkers = modelResult.getModel();
-                for (FacilityMarker f : facilityMarkers) {
-                    map.addMarker(new MarkerOptions()
-                            .position(new LatLng(f.getLatitude(), f.getLongitude())))
-                            .setTag(f);
+                ArrayList<FacilityMarker> newMarkers = modelResult.getModel();
+
+                for (FacilityMarker f : newMarkers) {
+                    if (!facilityMarkers.contains(f))
+                        map.addMarker(new MarkerOptions()
+                                .position(new LatLng(f.getLatitude(), f.getLongitude())))
+                                .setTag(f);
+                    facilityMarkers.add(f);
                 }
             }
         });
+    }
+
+    @Override
+    public void onCameraIdle() {
+        LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+        setMapMarkers(mMap, bounds);
     }
 
 
