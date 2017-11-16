@@ -217,7 +217,7 @@ public class BasicActivity extends AppCompatActivity
                 this.finish();
         } else if (id == R.id.nav_setting) {
             // Goto the Notification Page
-            Intent intent = new Intent(context, NotificationActivity.class);
+            Intent intent = new Intent(context, SettingActivity.class);
             startActivity(intent);
             if (!(this instanceof HomeActivity))
                 this.finish();

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.sportspartner.R;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends BasicActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

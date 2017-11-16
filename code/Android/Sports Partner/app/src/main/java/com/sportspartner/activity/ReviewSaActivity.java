@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,7 @@ import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.ReviewMembersAdapter;
 
@@ -217,7 +216,7 @@ public class ReviewSaActivity extends BasicActivity {
     }
 
     private void sendRating(){
-
+        // TODO
     }
 
     @Override
