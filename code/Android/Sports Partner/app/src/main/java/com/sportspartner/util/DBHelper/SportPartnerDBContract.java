@@ -31,4 +31,12 @@ public final class SportPartnerDBContract {
         public static final String COLUMN_PRIORITY_NAME = "priority";
 
     }
+
+    /* Inner class that defines the table contents */
+    public static class NightModeDB implements BaseColumns {
+        public static final String TABLE_NAME = "nightmode";
+        public static final String COLUMN_USERID = "userId";
+        public static final String COLUMN_START_TIME = "startTime";
+        public static final String COLUMN_END_TIME = "endTime";
+    }
 }

@@ -30,6 +30,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/Linear_timeSet"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -49,21 +51,21 @@
             android:weightSum="10">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:text="From" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/startTime"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="00:00" />
+                android:layout_weight="4" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,21 +76,21 @@
             android:weightSum="10">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="From" />
+                android:text="To" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/endTime"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="00:00" />
+                android:layout_weight="4"/>
         </LinearLayout>
 
     </LinearLayout>

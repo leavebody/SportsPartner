@@ -26,6 +26,8 @@ import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.DBHelper.NightModeDBHelper;
+import com.sportspartner.util.DBHelper.NotificationDBHelper;
 
 import java.util.ArrayList;
 
@@ -238,6 +240,7 @@ public class BasicActivity extends AppCompatActivity
      * Show the "success" toast if success.
      */
     private void signOut() {
+        final Context context = getApplicationContext();
         UserService.logOut(this, new ActivityCallBack() {
             public void getModelOnSuccess(ModelResult result) {
                 if (!result.isStatus()) {
@@ -247,7 +250,12 @@ public class BasicActivity extends AppCompatActivity
                     toast.show();
                 }
                 else {
-                    //Todo delete the corresponding rows in the database
+                    //delete the corresponding rows in the database
+                    NotificationDBHelper notiDBHelper = NotificationDBHelper.getInstance(context);
+                    notiDBHelper.deleteAllrows();
+
+                    NightModeDBHelper nightDBHelper = NightModeDBHelper.getInstance(context);
+                    nightDBHelper.deleteAllrows();
                 }
             }
         });

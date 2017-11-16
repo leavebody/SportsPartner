@@ -9,13 +9,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
+import com.sportspartner.activity.SettingActivity;
+import com.sportspartner.models.NightMode;
+import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -82,7 +89,49 @@ public class MyGcmListenerService extends GcmListenerService {
          * that a message was received.
          */
 
-        sendNotification(title, detail);
+        //Todo check whether night mode
+        NightModeDBHelper nightdbHelper = NightModeDBHelper.getInstance(getApplicationContext());
+        if (!nightdbHelper.isEmpty()){
+            try {
+                ArrayList<NightMode> nightModes = nightdbHelper.getAll();
+                for (NightMode nightMode : nightModes){
+                    //parse date
+                    Date start = nightMode.getStartTime();
+                    Date end = nightMode.getEndTime();
+                    Date current = Calendar.getInstance().getTime();
+                    SimpleDateFormat curFormat = new SimpleDateFormat("HH:mm a");
+                    String curString = curFormat.format(current);
+                    current = curFormat.parse(curString);
+
+                    if (end.after(start)){
+                        if (current.after(end) && current.before(start))
+                            sendNotification(title, detail);
+                        Log.d("Date current", current.toString());
+                        Log.d("Date start", start.toString());
+                        Log.d("Date end", end.toString());
+                    }
+                    else {
+                        end.setDate(end.getDate()+1);
+                        Date current1 = curFormat.parse(curString);
+                        current1.setDate(current.getDate()+1);
+                        if (current.before(start) && current1.after(end)){
+                            sendNotification(title, detail);
+                        }
+                        Log.d("Date getDate", String.valueOf(current.getDate()));
+                        Log.d("Date current", current.toString());
+                        Log.d("Date current1", current1.toString());
+                        Log.d("Date start", start.toString());
+                        Log.d("Date end", end.toString());
+                    }
+                }
+            } catch (ParseException e) {
+                Toast.makeText(getApplicationContext(), "nightDBHelper getAll Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+        else {
+            sendNotification(title, detail);
+        }
         // [END_EXCLUDE]
     }
 
