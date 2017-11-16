@@ -1,4 +1,4 @@
-package com.sportspartner.unittest;
+package com.sportspartner.dao.impl;
 import com.sportspartner.controllers.ActivityController;
 import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 import com.sportspartner.dao.impl.NotificationDaoImpl;
@@ -19,7 +19,7 @@ import static spark.Spark.ipAddress;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
 
-public class DaoImplTest {
+public class NotificationDaoImplTest {
     @BeforeClass
     public static void setUpBeforeClass(){
     }
@@ -37,18 +37,6 @@ public class DaoImplTest {
     @Test
     public void testActivityDaoImpl(){
         
-    }
-    @Test
-    public void testAuthorizationDaoImpl() {
-        Authorization authorization = new Authorization("u1","keytest");
-        AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
-        assertEquals(true,authorizationDaoImpl.newAuthorization(authorization));
-        assertEquals(true,authorizationDaoImpl.hasAuthorization(authorization));
-        List<Authorization> authorizations = authorizationDaoImpl.getAllAuthorizations();
-        assertEquals(true,authorizations.size()>0);
-        assertEquals(true,authorizationDaoImpl.updateAuthorization(authorization,"newkey"));
-        authorization.setKey("newkey");
-        assertEquals(true,authorizationDaoImpl.deleteAuthorization(authorization));
     }
 
     @Test
