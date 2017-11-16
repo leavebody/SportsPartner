@@ -125,7 +125,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Android: Updated the Activities and the xmls for:
   - EditProfile
-    - Change Profile Photo. (Access the file system of the Android device)
+    - Change Profile Photo. (Access the file system and camera of the Android device)
     - Change Basic Info.
     - Change Interest. (Use RecyclerView)
   - FriendList
@@ -145,3 +145,19 @@ All notable changes to this project will be documented in this file.
 * Android: Updated the Datebase:
   - Add NightMode Table to deal with the notification night mode
   - Add Notifiaction Table to deal with the unread notificaitons
+* Android: Integrated the following APIs into Sports Partner:
+  - Google Map for android
+    - Show facilities in map view
+    - Load more facilities when the user moves the camera
+  - Google Map web API
+    - Get the zipcode and possible address of selected place in map
+  - Google Cloud Messaging
+    - Receive motifications
+* Android: changes/new things in core logic:
+  - Cache management
+    - Images store in cache once downloaded
+    - When the UI needs an image, search in cache first. If it's not in cache, send the request to the server.
+    - Add clear cache button in setting
+  - Refactoring
+    - Change ActivityCallback to a template interface with only one method.
+    - Use Gson.JsonObject instead JSONObject. No more JSONObject.
