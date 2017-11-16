@@ -185,7 +185,9 @@
                 <TextView
                     android:id="@+id/edit_create_location"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
+                    android:layout_gravity="center"
                     android:layout_weight="12"
                     android:background="@color/white"
                     android:gravity="center_vertical"
@@ -240,14 +242,16 @@
                     android:gravity="right"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:text="Discription"
+                    android:text="Description"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <EditText
+                    android:layout_gravity="center"
                     android:id="@+id/edit_create_discription"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
                     android:layout_weight="12"
                     android:background="@color/white"
                     android:gravity="center_vertical"
