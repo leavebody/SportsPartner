@@ -3,8 +3,6 @@ package com.sportspartner.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.sportspartner.exceptions.Exceptions;
-import com.sportspartner.main.Bootstrap;
 import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
 import com.sportspartner.exceptions.Exceptions;
 import com.sportspartner.main.Bootstrap;
@@ -359,7 +357,6 @@ public class ActivityServiceTest {
         }
         assertEquals("{\"response\":\"true\"}", response);
     }
-
 
     
 
