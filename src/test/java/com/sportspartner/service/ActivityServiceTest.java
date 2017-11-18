@@ -357,7 +357,7 @@ public class ActivityServiceTest {
         }
         assertEquals("{\"response\":\"true\"}", response);
     }
-    
+
 
 
 }

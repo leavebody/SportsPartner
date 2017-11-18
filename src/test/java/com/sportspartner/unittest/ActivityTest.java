@@ -69,7 +69,9 @@ public class ActivityTest {
     @AfterClass
     public static void tearDownAfterClass()throws Exception{
         ActivityDaoImpl activityDao = new ActivityDaoImpl();
+        ActivityMemberDaoImpl activityMemberDao = new ActivityMemberDaoImpl();
         try {
+            activityMemberDao.deleteAllActivityMembers("toUpdate001");
             activityDao.deleteActivity("toUpdate001");
         } catch(Exception e){
             e.printStackTrace();
@@ -458,7 +460,7 @@ public class ActivityTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"members\":[]}", responseBody); //TODO
+        assertEquals("{\"response\":\"false\",\"message\":\"No such activity\"}", responseBody); //TODO
     }
 
     /**
@@ -583,7 +585,7 @@ public class ActivityTest {
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            String body = "{\"requestorId\":\"u24\",\"requestorKey\":\"ASD\",\"activity\":{\"activityId\":\"toUpdate001\",\"creatorId\":\"u24\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\"}}";
+            String body = "{\"requestorId\":\"u24\",\"requestorKey\":\"ASD\",\"activity\":{\"facilityId\":\"NULL\",\"activityId\":\"toUpdate001\",\"creatorId\":\"u24\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\"}}";
 
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
                 wr.writeBytes(body);
