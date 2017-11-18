@@ -1,6 +1,7 @@
 package com.sportspartner.request;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -47,7 +48,7 @@ public class UserRequest extends com.sportspartner.request.Request{
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/login";
-
+        Log.d("te", jsonRequestObject.toString());
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(Request.Method.POST, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
