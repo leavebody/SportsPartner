@@ -10,12 +10,6 @@ public class FacilityMarkerVO {
 
     public FacilityMarkerVO(){}
 
-    public FacilityMarkerVO(String facilityId, String facilityName, double longitude, double latitude) {
-        this.facilityId = facilityId;
-        this.facilityName = facilityName;
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
 
     public String getFacilityId() {
         return facilityId;
