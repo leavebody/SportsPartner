@@ -16,8 +16,8 @@ public class ConnectionUtil {
         URI dbUri;
         Connection c = null;
         try {
-              Class.forName("org.postgresql.Driver");
-            } else {
+            Class.forName("org.postgresql.Driver");
+
 
             if (System.getenv("JDBC_DATABASE_URL") == null) {
                 //c = DriverManager
