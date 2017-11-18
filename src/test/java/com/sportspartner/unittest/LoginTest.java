@@ -24,7 +24,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 import static spark.Spark.*;
 
-public class    LoginTest {
+public class LoginTest {
     HttpURLConnection connection = null;
     static String successUUID = null;
 
