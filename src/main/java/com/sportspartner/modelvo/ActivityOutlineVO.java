@@ -21,11 +21,6 @@ public class ActivityOutlineVO {
 
     public ActivityOutlineVO(){}
 
-        this.creatorId = creatorId;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-
     public String getActivityId() {
         return activityId;
     }

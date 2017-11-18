@@ -22,7 +22,6 @@ public class ActivityService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
-    private NotificationDaoImpl notificationDaoImpl = new NotificationDaoImpl();
     /**
      * Get the detail of an activity
      *
@@ -78,26 +77,14 @@ public class ActivityService {
                         resp.setUserType("MEMBER");
                         return resp;
                     }
-
-                // check relationship between the user and the requestor
-                if(isAuthorized(requestorId, requestorKey)) {
-                    if (requestorId.equals(activityVO.getCreatorId())) {
-                        resp.setUserType("CREATOR");
-                        return resp;
-                    } else if (activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, requestorId))) {
-                        resp.setUserType("MEMBER");
-                        return resp;
-                    }
-                    resp.setUserType("STRANGER");
                 }
+                resp.setUserType("STRANGER");
             }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
         } catch (Exception ex) {
             throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
         }
         return resp;
-    
+    }
 
     /**
      * Get the outline of an activity
@@ -235,26 +222,6 @@ public class ActivityService {
             resp.setResponse("true");
         } catch (Exception ex) {
             throw new ActivityServiceException("Activity Service getActivityMembers Exception", ex);
-     * Add a member to the activity.
-     *
-     * @param activityId The UUID of the activity.
-     * @param body       The request body from controller.
-     * @return JsonResponse object
-     * @throws ActivityServiceException
-     */
-    public JsonResponse addActivityMember(String activityId, String body) throws ActivityServiceException {
-        JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String userId = json.get("userId").getAsString();
-            if (activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))) {
-                resp.setResponse("true");
-            } else {
-                resp.setMessage("Unable to create a new entry in database");
-                resp.setResponse("false");
-            }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service addActivityMember Exception", ex);
         }
         return resp;
     }
@@ -289,30 +256,6 @@ public class ActivityService {
         return resp;
     }
 
-    /**
-     * Remove one member from an activity.
-     *
-     * @param activityId The UUID of the activity.
-     * @param body       The request body from controller.
-     * @return JsonResponse object.
-     * @throws ActivityServiceException
-     */
-    public JsonResponse removeActivityMember(String activityId, String body) throws ActivityServiceException {
-        JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String userId = json.get("userId").getAsString();
-            if (activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId))) {
-                resp.setResponse("true");
-            } else {
-                resp.setMessage("Unable to delete the entry from database");
-                resp.setResponse("false");
-            }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service removeActivityMember Exception", ex);
-        }
-        return resp;
-    }
 
     /**
      * Remove one member from an activity.
@@ -331,25 +274,12 @@ public class ActivityService {
             if(!activityMemberDaoImpl.hasActivityMember(activityMember)){
                 resp.setResponse("false");
                 resp.setMessage("The user is not a member");
-
-                String activityId = UUID.randomUUID().toString();
-                activity.setActivityId(activityId);
-
-                // set the location of the activity
-                String facilityId = activity.getFacilityId();
-                if (!facilityId.equals("NULL")) {
-                    Facility facility = facilityDaoImpl.getFacility(facilityId);
-                    activity.setFromFacility(facility);
             }
             else if(activityMemberDaoImpl.deleteActivityMember(activityMember)) {
                 resp.setResponse("true");
             } else {
                 resp.setMessage("Unable to delete the entry from database");
                 resp.setResponse("false");
-                    resp.setActivityId(activityId);
-                } else {
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create a new entry in database");
             }
         } catch (Exception ex) {
             throw new ActivityServiceException("Activity Service removeActivityMember Exception", ex);
@@ -471,62 +401,6 @@ public class ActivityService {
             }
         }catch(Exception ex){
             ex.printStackTrace();
-            throw new ActivityServiceException("Activity Service deleteActivity error", ex);
-        }
-        return resp;
-    }
-
-    public void searchActivity(){
-                String notificationType = "INTERACTION";
-                Date time = new Date(System.currentTimeMillis());
-                int notificationState = 1;
-                int notificationPriority = 1;
-                Notification notification = new Notification(creatorId,notificationId,notificationTitle,notificationDetail,notificationType,
-                        userId,time,notificationState,notificationPriority);
-                if(!notificationDaoImpl.newNotification(notification)){
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to store notification.");
-                }
-                else if(!gcmHelper.SendGCMNotification(notification)){
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to send GCM.");
-                }
-                else {
-                    resp.setResponse("true");
-                }
-            }
-        }catch (Exception ex) {
-            throw new ActivityServiceException("declineJoinActivityRequest error", ex);
-        }
-        return resp;
-
-    }
-
-    /**
-     * Delete an activity.
-     * @param activityId The UUID of the activity.
-     * @param body The Json string from controller.
-     * @throws ActivityServiceException
-     */
-    public JsonResponse deleteActivity(String activityId, String body) throws ActivityServiceException{
-        JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String requestorId = json.get("userId").getAsString();
-            String requestorKey = json.get("key").getAsString();
-            if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
-                resp.setResponse("false");
-                resp.setMessage("Lack authorization to cancel the activity");
-            } else {
-                boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId) ;
-                if (!isDelete) {
-                    resp.setResponse("false");
-                    resp.setMessage("Cancel failed");
-                } else {
-                    resp.setResponse("true");
-                }
-            }
-        }catch(Exception ex){
             throw new ActivityServiceException("Activity Service deleteActivity error", ex);
         }
         return resp;
