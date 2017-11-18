@@ -206,6 +206,11 @@ public class ActivityService {
     public JsonResponse getActivityMembers(String activityId) throws ActivityServiceException {
         JsonResponse resp = new JsonResponse();
         try {
+            if(activityDaoImpl.getActivity(activityId)==null){
+                resp.setResponse("false");
+                resp.setMessage("No such activity");
+                return resp;
+            }
             List<UserOutlineVO> userOutlineVOs = new ArrayList<UserOutlineVO>();
             List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
             for (ActivityMember activityMember : activityMembers) {
