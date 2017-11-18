@@ -210,7 +210,7 @@ All notable changes to this project will be documented in this file.
     - Change ActivityCallback to a template interface with only one method.
     - Use Gson.JsonObject instead JSONObject. No more JSONObject.
     
-## Changed
+### Changed
 * Backend: Database table 
   - [Activity](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#activity)
   - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#notification)
