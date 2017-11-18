@@ -4,16 +4,13 @@ import com.sportspartner.controllers.ActivityController;
 import com.sportspartner.main.Bootstrap;
 import com.sportspartner.service.ActivityService;
 import com.google.gson.JsonObject;
-import org.json.JSONObject;
 import org.junit.*;
 import spark.Spark;
 import spark.utils.IOUtils;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import spark.utils.IOUtils;
 
 import static com.sportspartner.main.Bootstrap.PORT;
 import static org.junit.Assert.assertEquals;

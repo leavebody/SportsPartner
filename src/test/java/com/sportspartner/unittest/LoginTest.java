@@ -4,8 +4,6 @@ import com.google.gson.*;
 import com.sportspartner.controllers.LoginController;
 import com.sportspartner.dao.impl.AuthorizationDaoImpl;
 import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
-import com.sportspartner.dao.impl.PersonDaoImpl;
-import com.sportspartner.dao.impl.UserDaoImpl;
 import com.sportspartner.main.Bootstrap;
 import com.sportspartner.model.Authorization;
 import com.sportspartner.model.DeviceRegistration;
