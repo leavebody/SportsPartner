@@ -460,7 +460,8 @@ public class ActivityTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"false\",\"message\":\"No such activity\"}", responseBody); //TODO
+        assertEquals("{\"response\":\"false\",\"message\":\"No such activity\"}", responseBody);
+
     }
 
     /**
@@ -586,6 +587,7 @@ public class ActivityTest {
             connection.setDoOutput(true);
 
             String body = "{\"requestorId\":\"u24\",\"requestorKey\":\"ASD\",\"activity\":{\"facilityId\":\"NULL\",\"activityId\":\"toUpdate001\",\"creatorId\":\"u24\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\"}}";
+
 
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
                 wr.writeBytes(body);
