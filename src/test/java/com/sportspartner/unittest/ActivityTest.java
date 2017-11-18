@@ -626,5 +626,6 @@ public class ActivityTest {
         }
 
         assertEquals("{\"response\":\"true\"}", responseBody);
+
     }
 }
