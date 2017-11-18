@@ -7,12 +7,6 @@ public class UserOutlineVO {
 
     public UserOutlineVO(){}
 
-    public UserOutlineVO(String userId, String userName, String iconUUID) {
-        this.userId = userId;
-        this.userName = userName;
-        this.iconUUID = iconUUID;
-    }
-
     public String getUserId() {
         return userId;
     }

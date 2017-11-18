@@ -206,7 +206,7 @@ public class ActivityDaoImpl implements ActivityDao {
         boolean result = false;
         try {
             stmt = c.prepareStatement("UPDATE \"Activity\" SET \"creatorId\" = ? , \"facilityId\" = ? , \"status\" = ?,\"sportId\" = ? , \"longitude\" = ? , \"latitude\" = ?, " +
-                    " \"zipcode\", \"address\", \"startTime\" = ?,\"endTime\" = ? , \"capacity\" = ? , \"size\" = ?, \"description\" = ?WHERE \"activityId\"=? ;");
+                    " \"zipcode\"=?, \"address\"=?, \"startTime\" = ?,\"endTime\" = ? , \"capacity\" = ? , \"size\" = ?, \"description\" = ? WHERE \"activityId\"=? ;");
             stmt.setString(1, creatorId);
             stmt.setString(2, facilityId);
             stmt.setString(3, status);
@@ -290,7 +290,7 @@ public class ActivityDaoImpl implements ActivityDao {
          List<Activity> activities = new ArrayList<Activity>();
          try {
              stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND \"Activity_Member\".\"userId\"=? AND \"startTime\" > CURRENT_TIMESTAMP ORDER BY \"startTime\" ASC;");
+                     "AND \"Activity_Member\".\"userId\"=? AND \"endTime\" > CURRENT_TIMESTAMP ORDER BY \"startTime\" ASC;");
              stmt.setString(1, userId);
              rs = stmt.executeQuery();
              while (rs.next()) {
@@ -331,7 +331,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
     /**
      * Get a user's upcoming activities whose endTime is earlier than current time.
-     * @param userId
+     * @param userId The UUID for the user.
      * @return a list of Activity objects
      */
      @Override

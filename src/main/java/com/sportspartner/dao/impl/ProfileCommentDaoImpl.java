@@ -103,163 +103,164 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
      * @param profileComment ProfileComment Object
      * @return true if the process succeeds; false if not
      */
-    public boolean newProfileComment(ProfileComment profileComment){
+//    public boolean newProfileComment(ProfileComment profileComment){
+//
+//        Connection c = new ConnectionUtil().connectDB();
+//
+//        PreparedStatement stmt = null;
+//        int rs;
+//        String userId = profileComment.getUserId();
+//        String commentId = profileComment.getCommentId();
+//        String authorId = profileComment.getAuthorId();
+//        Date time  = profileComment.getTime();
+//        Timestamp timestamp = new Timestamp(time.getTime());
+//        String content = profileComment.getContent();
+//
+//        boolean result = false;
+//
+//        try {
+//            stmt = c.prepareStatement("INSERT INTO \"Comment_Profile\" (\"userId\", \"commentId\",\"authorId\", \"time\", \"content\")"+
+//                    "VALUES (?, ?, ?, ?, ?)");
+//            stmt.setString(1, userId);
+//            stmt.setString(2, commentId);
+//            stmt.setString(3, authorId);
+//            stmt.setTimestamp(4, timestamp);
+//            stmt.setString(5, content);
+//            rs = stmt.executeUpdate();
+//            if(rs>0)
+//                result = true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return result;
+//
+//    }
+//    /**
+//     *  Update a new ProfileComment in the database
+//     * @param profileComment ProfileComment Object
+//     * @return true if the process succeeds; false if not
+//     */
+//    public boolean updateProfileComment(ProfileComment profileComment){
+//        Connection c = new ConnectionUtil().connectDB();
+//
+//        PreparedStatement stmt = null;
+//        int rs;
+//        String userId = profileComment.getUserId();
+//        String commentId = profileComment.getCommentId();
+//        String authorId = profileComment.getAuthorId();
+//        Date time  = profileComment.getTime();
+//        Timestamp timestamp = new Timestamp(time.getTime());
+//        String content = profileComment.getContent();
+//
+//        boolean result = false;
+//        try {
+//            stmt = c.prepareStatement("UPDATE \"Comment_Profile\" SET \"authorId\" = ? , \"time\" = ? , \"content\" = ? WHERE \"userId\"=? AND \"commentId\" = ?;");
+//            stmt.setString(1, authorId);
+//            stmt.setTimestamp(2, timestamp);
+//            stmt.setString(3, content);
+//            stmt.setString(4, userId);
+//            stmt.setString(5, commentId);
+//            rs = stmt.executeUpdate();
+//            if(rs>0)
+//                result = true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return result;
+//    }
+//    /**
+//     *  Delete a new ProfileComment in the database
+//     * @param profileComment ProfileComment Object
+//     * @return true if the process succeeds; false if not
+//     */
+//    public boolean deleteProfileComment(ProfileComment profileComment){
+//        Connection c = new ConnectionUtil().connectDB();
+//
+//        PreparedStatement stmt = null;
+//        int rs;
+//        String userId = profileComment.getUserId();
+//        String commentId = profileComment.getCommentId();
+//        String authorId = profileComment.getAuthorId();
+//        Date time  = profileComment.getTime();
+//        Timestamp timestamp = new Timestamp(time.getTime());
+//        String content = profileComment.getContent();
+//        boolean result = false;
+//
+//        try {
+//            stmt = c.prepareStatement("DELETE FROM \"Comment_Profile\" WHERE \"userId\"=? " +
+//                    "AND \"commentId\" = ? AND \"authorId\" = ? AND \"time\" = ? AND  \"content\" = ?;");
+//            stmt.setString(1, userId);
+//            stmt.setString(2, commentId);
+//            stmt.setString(3, authorId);
+//            stmt.setTimestamp(4, timestamp);
+//            stmt.setString(5, content);
+//            rs = stmt.executeUpdate();
+//            if(rs>0){
+//                result = true;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public int countProfileComment(String userId){
+//        Connection c = new ConnectionUtil().connectDB();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        int count = 0;
+//
+//        try {
+//            stmt = c.prepareStatement("SELECT COUNT(\"commentId\") AS \"count\" FROM \"Comment_Profile\" WHERE \"userId\"=?;");
+//            stmt.setString(1, userId);
+//            rs = stmt.executeQuery();
+//            if(rs.next()){
+//                count = rs.getInt("count");
+//            }
+//        } catch (Exception e) {
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                rs.close();
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return count;
+//    }
 
-        Connection c = new ConnectionUtil().connectDB();
-
-        PreparedStatement stmt = null;
-        int rs;
-        String userId = profileComment.getUserId();
-        String commentId = profileComment.getCommentId();
-        String authorId = profileComment.getAuthorId();
-        Date time  = profileComment.getTime();
-        Timestamp timestamp = new Timestamp(time.getTime());
-        String content = profileComment.getContent();
-
-        boolean result = false;
-
-        try {
-            stmt = c.prepareStatement("INSERT INTO \"Comment_Profile\" (\"userId\", \"commentId\",\"authorId\", \"time\", \"content\")"+
-                    "VALUES (?, ?, ?, ?, ?)");
-            stmt.setString(1, userId);
-            stmt.setString(2, commentId);
-            stmt.setString(3, authorId);
-            stmt.setTimestamp(4, timestamp);
-            stmt.setString(5, content);
-            rs = stmt.executeUpdate();
-            if(rs>0)
-                result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return result;
-
-    }
-    /**
-     *  Update a new ProfileComment in the database
-     * @param profileComment ProfileComment Object
-     * @return true if the process succeeds; false if not
-     */
-    public boolean updateProfileComment(ProfileComment profileComment){
-        Connection c = new ConnectionUtil().connectDB();
-
-        PreparedStatement stmt = null;
-        int rs;
-        String userId = profileComment.getUserId();
-        String commentId = profileComment.getCommentId();
-        String authorId = profileComment.getAuthorId();
-        Date time  = profileComment.getTime();
-        Timestamp timestamp = new Timestamp(time.getTime());
-        String content = profileComment.getContent();
-
-        boolean result = false;
-        try {
-            stmt = c.prepareStatement("UPDATE \"Comment_Profile\" SET \"authorId\" = ? , \"time\" = ? , \"content\" = ? WHERE \"userId\"=? AND \"commentId\" = ?;");
-            stmt.setString(1, authorId);
-            stmt.setTimestamp(2, timestamp);
-            stmt.setString(3, content);
-            stmt.setString(4, userId);
-            stmt.setString(5, commentId);
-            rs = stmt.executeUpdate();
-            if(rs>0)
-                result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-    /**
-     *  Delete a new ProfileComment in the database
-     * @param profileComment ProfileComment Object
-     * @return true if the process succeeds; false if not
-     */
-    public boolean deleteProfileComment(ProfileComment profileComment){
-        Connection c = new ConnectionUtil().connectDB();
-
-        PreparedStatement stmt = null;
-        int rs;
-        String userId = profileComment.getUserId();
-        String commentId = profileComment.getCommentId();
-        String authorId = profileComment.getAuthorId();
-        Date time  = profileComment.getTime();
-        Timestamp timestamp = new Timestamp(time.getTime());
-        String content = profileComment.getContent();
-        boolean result = false;
-
-        try {
-            stmt = c.prepareStatement("DELETE FROM \"Comment_Profile\" WHERE \"userId\"=? " +
-                    "AND \"commentId\" = ? AND \"authorId\" = ? AND \"time\" = ? AND  \"content\" = ?;");
-            stmt.setString(1, userId);
-            stmt.setString(2, commentId);
-            stmt.setString(3, authorId);
-            stmt.setTimestamp(4, timestamp);
-            stmt.setString(5, content);
-            rs = stmt.executeUpdate();
-            if(rs>0){
-                result = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public int countProfileComment(String userId){
-        Connection c = new ConnectionUtil().connectDB();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int count = 0;
-
-        try {
-            stmt = c.prepareStatement("SELECT COUNT(\"commentId\") AS \"count\" FROM \"Comment_Profile\" WHERE \"userId\"=?;");
-            stmt.setString(1, userId);
-            rs = stmt.executeQuery();
-            if(rs.next()){
-                count = rs.getInt("count");
-            }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return count;
-    }
 }
