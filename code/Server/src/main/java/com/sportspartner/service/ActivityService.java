@@ -64,13 +64,9 @@ public class ActivityService {
                 //Comment Info
                 List<ActivityComment> comments = activityCommentDaoImpl.getAllActivityComments(activityId);
                 activityVO.setFromComments(comments);
-                if (activityVO.isMissingField()) {
-                    resp.setResponse("false");
-                    resp.setMessage("Activity is missing");
-                } else {
-                    resp.setResponse("true");
-                    resp.setActivity(activityVO);
-                }
+
+                resp.setResponse("true");
+                resp.setActivity(activityVO);
 
                 // check relationship between the user and the requestor
                 if(isAuthorized(requestorId, requestorKey)) {
@@ -238,7 +234,12 @@ public class ActivityService {
         try {
             JsonObject json = new Gson().fromJson(body, JsonObject.class);
             String userId = json.get("userId").getAsString();
-            if (activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))) {
+            ActivityMember activityMember = new ActivityMember(activityId, userId);
+            if(activityMemberDaoImpl.hasActivityMember(activityMember)){
+                resp.setResponse("false");
+                resp.setMessage("This user is already a member");
+            }
+            else if(activityMemberDaoImpl.newActivityMember(activityMember)) {
                 resp.setResponse("true");
             } else {
                 resp.setMessage("Unable to create a new entry in database");
