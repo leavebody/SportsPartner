@@ -248,7 +248,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"sports\":[{\"sportId\":\"002\",\"sportName\":\"Basketball\",\"sportIconUUID\":\"01fb3200-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"004\",\"sportName\":\"Baseball\",\"sportIconUUID\":\"01fb369c-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"005\",\"sportName\":\"Soccer\",\"sportIconUUID\":\"01fb389a-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"006\",\"sportName\":\"Badminton\",\"sportIconUUID\":\"5f4f8ad9-1acb-42ba-8174-744ce9a78cdd\"}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"sports\":[{\"sportId\":\"006\",\"sportName\":\"Badminton\",\"sportIconUUID\":\"5f4f8ad9-1acb-42ba-8174-744ce9a78cdd\"},{\"sportId\":\"002\",\"sportName\":\"Basketball\",\"sportIconUUID\":\"2f086fd2-c73a-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"004\",\"sportName\":\"Baseball\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"005\",\"sportName\":\"Soccer\",\"sportIconUUID\":\"4589a2d0-c73a-11e7-abc4-cec278b6b50a\"}]}", responseBody);
     }
 
     @Test
@@ -276,7 +276,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"interests\":[{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"01fb2db4-bc1c-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"01fb3462-bc1c-11e7-abc4-cec278b6b50a\"}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"interests\":[{\"sportId\":\"001\",\"sportName\":\"Swimming\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\"},{\"sportId\":\"003\",\"sportName\":\"Tennis\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\"}]}", responseBody);
     }
 
     @Test

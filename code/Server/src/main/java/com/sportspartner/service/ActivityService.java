@@ -390,6 +390,7 @@ public class ActivityService {
                 }
             }
         }catch(Exception ex){
+            ex.printStackTrace();
             throw new ActivityServiceException("Activity Service deleteActivity error", ex);
         }
         return resp;
