@@ -265,7 +265,12 @@ public class ActivityService {
         try {
             JsonObject json = new Gson().fromJson(body, JsonObject.class);
             String userId = json.get("userId").getAsString();
-            if (activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId))) {
+            ActivityMember activityMember = new ActivityMember(activityId, userId);
+            if(!activityMemberDaoImpl.hasActivityMember(activityMember)){
+                resp.setResponse("false");
+                resp.setMessage("The user is not a member");
+            }
+            else if(activityMemberDaoImpl.deleteActivityMember(activityMember)) {
                 resp.setResponse("true");
             } else {
                 resp.setMessage("Unable to delete the entry from database");

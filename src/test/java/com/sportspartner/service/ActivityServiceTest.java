@@ -3,8 +3,10 @@ package com.sportspartner.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
 import com.sportspartner.exceptions.Exceptions;
 import com.sportspartner.main.Bootstrap;
+import com.sportspartner.model.Activity;
 import com.sportspartner.model.ActivityMember;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
@@ -26,6 +28,7 @@ import com.sportspartner.service.ActivityService;
 import com.sportspartner.controllers.ActivityController;
 
 public class ActivityServiceTest {
+    private ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();
     private ActivityService activityService = new ActivityService();
     private JsonResponse resp = new JsonResponse();
 
@@ -35,6 +38,8 @@ public class ActivityServiceTest {
 
     @AfterClass
     public static void tearDownAfterClass()throws Exception{
+        Spark.stop();
+        Thread.sleep(2000);
     }
 
     @Before
@@ -42,6 +47,24 @@ public class ActivityServiceTest {
 
     @After
     public void teardown(){
+        try {
+            String activityId = "a007";
+            String userId = "u24";
+            ActivityMember activityMember = new ActivityMember(activityId, userId);
+            if(activityMemberDaoImpl.hasActivityMember(activityMember)) {
+                String body = new Gson().toJson(activityMember);
+                activityService.removeActivityMember(activityId, body);
+            }
+            String activityId1 = "a007";
+            String userId1 = "u2";
+            ActivityMember activityMember1 = new ActivityMember(activityId1, userId1);
+            if(!activityMemberDaoImpl.hasActivityMember(activityMember)) {
+                String body = new Gson().toJson(activityMember1);
+                activityService.addActivityMember(activityId, body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -306,8 +329,8 @@ public class ActivityServiceTest {
     public void testAddActivityMember(){
         String response = null;
         try{
-            String activityId = "a001";
-            String userId = "u3";
+            String activityId = "a007";
+            String userId = "u24";
             String body = new Gson().toJson(new ActivityMember(activityId, userId));
             resp = activityService.addActivityMember(activityId, body);
             response = new Gson().toJson(resp);
@@ -316,6 +339,26 @@ public class ActivityServiceTest {
         }
         assertEquals("{\"response\":\"true\"}", response);
     }
+
+    /**
+     * Test removeActivityMember succeed.
+     */
+    @Test
+    public void testRemoveActivityMember(){
+        String response = null;
+        try{
+            String activityId = "a007";
+            String userId = "u2";
+            String body = new Gson().toJson(new ActivityMember(activityId, userId));
+            resp = activityService.removeActivityMember(activityId, body);
+            response = new Gson().toJson(resp);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        assertEquals("{\"response\":\"true\"}", response);
+    }
+
+
 
 
 
