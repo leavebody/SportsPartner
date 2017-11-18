@@ -118,6 +118,7 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
@@ -132,6 +133,7 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
@@ -145,6 +147,7 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             } catch(Exception ex){
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
