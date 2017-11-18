@@ -20,6 +20,9 @@ import android.widget.ToggleButton;
 import com.google.android.gms.nearby.messages.internal.Update;
 import com.sportspartner.R;
 import com.sportspartner.models.NightMode;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.listener.MyPickTimeListener;
@@ -38,6 +41,7 @@ public class SettingActivity extends BasicActivity {
     private TextView textStart;
     private TextView textEnd;
     private Switch switch1;
+    private TextView clearCache;
 
     //time
     private Date startDate;
@@ -86,6 +90,7 @@ public class SettingActivity extends BasicActivity {
         myEmail = loginDBHelper.getEmail();
 
         switch1 = (Switch) findViewById(R.id.switch1);
+
         try {
             setSwitch();
         } catch (ParseException e) {
@@ -120,6 +125,15 @@ public class SettingActivity extends BasicActivity {
 
         textStart.setOnClickListener(new MyPickTimeListener(SettingActivity.this, myStratCalendar, textStart) );
         textEnd.setOnClickListener(new MyPickTimeListener(SettingActivity.this, myEndCalendar, textEnd));
+
+        clearCache = findViewById(R.id.clear_cache);
+        clearCache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test", ""+ResourceService.clearCache(SettingActivity.this));
+
+            }
+        });
 
     }
 
