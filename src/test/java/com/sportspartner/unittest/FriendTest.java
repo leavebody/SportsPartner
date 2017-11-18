@@ -49,7 +49,7 @@ public class FriendTest {
     public void getFriendSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
-        String userId = "u1";
+        String userId = "u3";
 
         try{
             URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/"+userId+"/friends" );
@@ -67,7 +67,7 @@ public class FriendTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"friendlist\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"u4\",\"userName\":\"Lion\",\"iconUUID\":\"80629b4b-884a-4b66-b397-f05f9b503157\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"shirish@gmail.com\",\"userName\":\"Shirish\",\"iconUUID\":\"ad1ff689-613d-45a0-a51c-485556f69751\"},{\"userId\":\"u3\",\"userName\":\"Tiger\",\"iconUUID\":\"95a67fc1-5bb3-458a-bad5-4dd7314cd310\"}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"friendlist\":[{\"userId\":\"u1\",\"userName\":\"Dog\",\"iconUUID\":\"f26be2f0-45fc-4f8f-b93a-40fe114699b4\"}]}", responseBody);
     }
 
     @Test

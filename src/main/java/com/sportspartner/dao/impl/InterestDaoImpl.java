@@ -14,40 +14,40 @@ public class InterestDaoImpl{
      *  Get the all of the interests from the database
      * @return List of Interest
      */
-    public List<Interest> getAllInterests(){
-
-        Connection c = new ConnectionUtil().connectDB();
-        Statement stmt = null;
-        ResultSet rs = null;
-        List<Interest> interests = new ArrayList<Interest>();
-
-        try {
-            stmt = c.createStatement();
-            //Table : Interest
-            rs = stmt.executeQuery("SELECT * FROM \"Interest\";");
-
-            while (rs.next()) {
-                String userId = rs.getString("userId");
-                String sportId = rs.getString("sportId");
-
-                interests.add(new Interest(userId, sportId));
-            }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        //System.out.println(interests.get(0));
-        return interests;
-    }
+//    public List<Interest> getAllInterests(){
+//
+//        Connection c = new ConnectionUtil().connectDB();
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//        List<Interest> interests = new ArrayList<Interest>();
+//
+//        try {
+//            stmt = c.createStatement();
+//            //Table : Interest
+//            rs = stmt.executeQuery("SELECT * FROM \"Interest\";");
+//
+//            while (rs.next()) {
+//                String userId = rs.getString("userId");
+//                String sportId = rs.getString("sportId");
+//
+//                interests.add(new Interest(userId, sportId));
+//            }
+//        } catch (Exception e) {
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                rs.close();
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        //System.out.println(interests.get(0));
+//        return interests;
+//    }
 
     /**
      * Get the Interest of a person from the database

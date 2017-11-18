@@ -6,6 +6,7 @@ import com.sportspartner.util.JsonTransformer;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 public class ImageController {
     private static final String API_CONTEXT = "/api.sportspartner.com/v1";

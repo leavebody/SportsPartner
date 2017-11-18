@@ -21,21 +21,6 @@ public class ActivityOutlineVO {
 
     public ActivityOutlineVO(){}
 
-    public ActivityOutlineVO(String activityId, String creatorId, String status, String sportIconUUID,  String sportName, Date startTime, Date endTime, String facilityId, double longitude, double latitude, String address, int capacity, int size) {
-        this.activityId = activityId;
-        this.creatorId = creatorId;
-        this.status = status;
-        this.sportIconUUID = sportIconUUID;
-        this.sportName = sportName;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.facilityId = facilityId;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-        this.capacity = capacity;
-        this.size = size;
-    }
 
     public String getActivityId() {
         return activityId;

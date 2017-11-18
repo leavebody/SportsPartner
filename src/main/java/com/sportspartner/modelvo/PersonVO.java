@@ -14,17 +14,6 @@ public class PersonVO {
 
     public PersonVO(){}
 
-    public PersonVO(String userId, String userName, String address, String gender, int age, double punctuality, double participation, String iconUUID) {
-        this.userId = userId;
-        this.userName = userName;
-        this.address = address;
-        this.gender = gender;
-        this.age = age;
-        this.punctuality = punctuality;
-        this.participation = participation;
-        this.iconUUID = iconUUID;
-    }
-
     public String getUserId() {
         return userId;
     }

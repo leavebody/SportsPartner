@@ -33,14 +33,6 @@ public class LoginController {
             }
         }, new JsonTransformer());
 
-        //for test connection
-        get("/hello", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            reps.setMessage("hello");
-            response.status(200);
-            return reps;
-        }, new JsonTransformer());
-
     }
 
 }
