@@ -203,7 +203,7 @@ public class ActivityServiceTest {
     public void testGetUpcomingActivity(){
         String response = null;
         try{
-            String userId = "u1";
+            String userId = "u2";
             int offset = 0;
             int limit = 3;
             resp = activityService.getUpcomingActivity(userId, offset, limit);
@@ -258,7 +258,7 @@ public class ActivityServiceTest {
     public void testGetPastActivity(){
         String response = null;
         try{
-            String userId = "u1";
+            String userId = "xuanzhang@jhu.edu";
             int offset = 0;
             int limit = 3;
             resp = activityService.getPastActivity(userId, offset, limit);
@@ -266,7 +266,7 @@ public class ActivityServiceTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"28b45f7e-76e1-4887-838e-27b9b8a7be14\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Nov 17, 2017 9:31:00 AM\",\"endTime\":\"Nov 17, 2017 10:31:00 AM\",\"facilityId\":\"NULL\",\"longitude\":151.20964117348194,\"latitude\":-33.85115060744295,\"address\":\"Sydney NSW, Australia\",\"capacity\":5,\"size\":1},{\"activityId\":\"b84b0971-0adf-481e-91ea-d48af89f8e92\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"5f4f8ad9-1acb-42ba-8174-744ce9a78cdd\",\"sportName\":\"Badminton\",\"startTime\":\"Nov 15, 2017 3:37:00 PM\",\"endTime\":\"Nov 15, 2017 4:37:00 PM\",\"facilityId\":\"NULL\",\"longitude\":-76.61933228373526,\"latitude\":39.330050886991074,\"address\":\"Johns-Hopkins - Homewood, Baltimore, MD, USA\",\"capacity\":1,\"size\":1},{\"activityId\":\"8cfb92b1-a51d-44d5-8d98-6f80e1db8aaa\",\"creatorId\":\"u1\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Nov 15, 2017 11:03:00 AM\",\"endTime\":\"Nov 16, 2017 1:03:00 PM\",\"facilityId\":\"NULL\",\"longitude\":-76.62052720785141,\"latitude\":39.33096401271119,\"address\":\"Baltimore, MD, USA\",\"capacity\":4,\"size\":1}]}",response);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}]}",response);
     }
 
     /**
