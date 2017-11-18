@@ -55,6 +55,20 @@ public class NotificationController {
             }
         }, new JsonTransformer());
 
+        // send a join activity application
+        post(API_CONTEXT + "/joinactivityapplication/:activityId", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse();
+            try {
+                reps = notificationService.sendJoinActivityRequest(request.params("activityId"), request.body());
+                response.status(200);
+                return reps;
+            } catch (Exception ex) {
+                response.status(200);
+                return reps;
+            }
+
+        }, new JsonTransformer());
+
         // accept a join activity application
         post(API_CONTEXT + "/acceptjoinactivityapplication/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
