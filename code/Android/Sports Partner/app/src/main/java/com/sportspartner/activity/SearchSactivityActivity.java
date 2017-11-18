@@ -1,30 +1,37 @@
 package com.sportspartner.activity;
 
-import android.app.DatePickerDialog;
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.models.Sport;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ResourceService;
+import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
+/**
+ * @author yujiaxiao
+ * @author Xiaochen Li
+ */
 public class SearchSactivityActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {
     //widget
     private TextView textSport;
@@ -43,6 +50,17 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
 
     //Activity Object
     private SActivity sActivity= new SActivity();
+    private ArrayList<Sport> listSports = new ArrayList<Sport>();
+    private int sportPosition;
+    private String id;
+    private Double longitude;
+    private Double latitude;
+    private String zipcode;
+    private String address;
+
+
+    // The object being sent and received from map
+    private PickPlaceResult pickPlaceResult;
 
     /**
      * OnCreate Method of thie Activity
@@ -58,11 +76,32 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Search an Activity");
 
+        //set the title
+        View viewSmilar = (View) findViewById(R.id.title_search_result);
+        TextView titleupComming = (TextView) viewSmilar.findViewById(R.id.title);
+        titleupComming.setText("Search Results");
+
         myStratTime = Calendar.getInstance();
         myEndTime = Calendar.getInstance();
 
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
         String date123 = df.format(Calendar.getInstance().getTime());
+
+        pickPlaceResult = new PickPlaceResult();
+
+        // get all sports
+        ResourceService.getAllSports(this, new ActivityCallBack<ArrayList<Sport>>() {
+            @Override
+            public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
+                if (!result.isStatus()) {
+                    Log.e("SearchActivity","Load sports Error: " + result.getMessage());
+                    listSports = new ArrayList<>();
+                    return;
+                }
+                listSports = result.getModel();
+            }
+        });
+
 
         //find widget by Id
         textSport= (TextView) findViewById(R.id.edit_sport);
@@ -136,7 +175,10 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
      */
     private View.OnClickListener mySportListener = new View.OnClickListener() {
         public void onClick(View v) {
-            String[] sports = new String[] { "Football", "Basketball", "Badminton", "Lacrosse", "Swimming", "Soccer", "Climbing", "Running"};
+            String[] sports = new String[listSports.size()];
+            for (int i = 0; i < listSports.size(); i++){
+                sports[i] = listSports.get(i).getSportName();
+            }
             showDialog(sports, textSport);
         }
     };
@@ -160,16 +202,61 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
      */
     private View.OnClickListener myLocationListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //TODO GOOGLE MAP API
+            // start the map activity
+            Intent intent = new Intent(SearchSactivityActivity.this, MapActivity.class);
+            intent.putExtra("PickPlaceResult", pickPlaceResult);
+            startActivityForResult(intent, 1);
         }
     };
+    /**
+     * get the data from the inner activity
+     * @param requestCode
+     * @param resultCode
+     * @param data data from the inner activity
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                if (b != null) {
+                    pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
 
+                    if (pickPlaceResult.isFacility()){
+                        //Todo get id
+                        id = "NULL";
+                        latitude = 0.0;
+                        longitude = 0.0;
+                        zipcode = "00000";
+                        address = pickPlaceResult.getName();
+                        textLocation.setText(address);
+                    } else {
+                        zipcode = pickPlaceResult.getZipCode();
+                        id = "NULL";
+                        latitude = pickPlaceResult.getLatLng().latitude;
+                        longitude = pickPlaceResult.getLatLng().longitude;
+                        address = pickPlaceResult.getName();
+                        textLocation.setText(address);
+                    }
+                }
+            } else if (resultCode == 0) {
+                Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
     /**
      * Onclick Listener of "Search" button
      * @param v
      */
     public void SearchActivity(View v){
         //TODO
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
 }

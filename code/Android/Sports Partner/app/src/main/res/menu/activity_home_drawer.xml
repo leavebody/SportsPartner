@@ -23,6 +23,10 @@
             android:icon="@drawable/notification"
             android:title="Notification" />
         <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/setting"
+            android:title="Setting" />
+        <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/signout"
             android:title="SignOut" />
@@ -32,11 +36,11 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                andridd:idid@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_send"
+                andridd:idid@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>

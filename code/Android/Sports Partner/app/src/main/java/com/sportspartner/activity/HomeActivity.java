@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,14 +17,17 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.sportspartner.R;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.service.ActivityService;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
-import com.sportspartner.util.LoginDBHelper;
-import com.sportspartner.util.listviewadapter.MyActivityAdapter;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.adapter.MyActivityAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
+/**
+ * @author yujia xiao
+ * @author Xiaochen Li
+ */
 public class HomeActivity extends BasicActivity {
     //userEmail
     private String usermail;
@@ -68,12 +72,45 @@ public class HomeActivity extends BasicActivity {
 
         listCommingActivity = (ListView) findViewById(R.id.list_home_upcoming);
         listHomeRecommend = (ListView) findViewById(R.id.list_home_recommend);
+        final Intent intent = new Intent(this, SactivityDetailActivity.class);
+
+        //set List onClick Listener
+        listCommingActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = upcommingListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+                String activity = activityOutline.getSportName();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
+
+        listHomeRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = recommendListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+                String activity = activityOutline.getSportName();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
 
         setTitle();
         setListCommingActivity();
         setListRecommend();
         setRefresh();
-        refresh();
         refresh();
     }
 

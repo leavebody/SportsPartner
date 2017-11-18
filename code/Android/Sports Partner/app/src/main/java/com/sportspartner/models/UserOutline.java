@@ -1,14 +1,24 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
+
 /**
  * @author Xiaochen Li
  */
 
-public class UserOutline {
+public class UserOutline implements Serializable{
     private String userId;
     private String userName;
     private String iconUUID;
-    private String iconPath;
+
+    public UserOutline() {
+    }
+
+    public UserOutline(String userId, String userName, String iconUUID) {
+        this.userId = userId;
+        this.userName = userName;
+        this.iconUUID = iconUUID;
+    }
 
     public String getUserId() {
         return userId;
@@ -32,13 +42,5 @@ public class UserOutline {
 
     public void setIconUUID(String iconUUID) {
         this.iconUUID = iconUUID;
-    }
-
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
     }
 }

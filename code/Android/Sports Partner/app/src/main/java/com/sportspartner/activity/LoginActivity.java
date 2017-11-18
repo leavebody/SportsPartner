@@ -1,30 +1,23 @@
 package com.sportspartner.activity;
 
+/**
+ * Created by yujiaxiao on 11/8/17.
+ */
+
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.sportspartner.R;
-
-import com.sportspartner.models.SActivityOutline;
-import com.sportspartner.request.ResourceRequest;
-import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
-import com.sportspartner.util.ActivityCallBack;
-import com.sportspartner.service.serviceresult.BooleanResult;
-
-import java.util.ArrayList;
-
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";
@@ -45,18 +38,46 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = (EditText)findViewById(R.id.password);
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }*/
+
     /**
      * Onclick listener for login button
      * @param v
      */
     public void login(View v){
-
+//        ResourceService.getGeocoding(this,new LatLng(39.328,-76.62),new ActivityCallBack<MapApiResult>(){
+//            @Override
+//            public void getModelOnSuccess(ModelResult<MapApiResult> modelResult){
+//                Log.d("geocode", modelResult.getModel().toString());
+//            }
+//        });
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
+        //Get device Token from GCM
+        String token = RegistrationIntentService.getToken();
+        System.out.println(token);
 
-        UserService.login(this, email, password, new ActivityCallBack(){
-            @Override
-            public void onSuccess(BooleanResult booleanResult) {
+        UserService.login(this, email, password, token, new ActivityCallBack(){
+            public void getModelOnSuccess(ModelResult booleanResult) {
                 loginHandler(booleanResult);
             }
         });
@@ -67,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
      * Goto the profile page if success
      * @param booleanResult
      */
-    private void loginHandler(BooleanResult booleanResult) {
+    private void loginHandler(ModelResult booleanResult) {
         // handle the result here
         String message = booleanResult.getMessage();
         if (message != null) {
@@ -75,10 +96,16 @@ public class LoginActivity extends AppCompatActivity {
             toast.show();
         }
         if (booleanResult.isStatus()) {
-            // TODO link to the main page activity of this user
             Context context = getApplicationContext();
-            Intent intent = new Intent(context, ProfileActivity.class);
+
+            //get userId from SQLite
+            LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
+            String email = dbHelper.getEmail();
+
+            //go to profile activity
+            Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -87,9 +114,15 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void signup(View v){
-
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+        finish();
+    }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 }
+

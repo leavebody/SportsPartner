@@ -1,7 +1,7 @@
 package com.sportspartner.request;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -11,7 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -35,18 +35,20 @@ public class UserRequest extends com.sportspartner.request.Request{
      * @param callback
      * @param email The login email.
      * @param password The password of the account.
+     * @param registrationId The registrationId of this device
      */
-    public void loginVolleyRequest(final VolleyCallback callback, String email, String password) {
+    public void loginVolleyRequest(final VolleyCallback callback, String email, String password, String registrationId) {
         JsonObject jsonRequestObject = new JsonObject();
 
         jsonRequestObject.addProperty("userId", email.trim().toLowerCase());
         jsonRequestObject.addProperty("password", password);
+        jsonRequestObject.addProperty("registrationId", registrationId);
 
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/login";
-
+        Log.d("te", jsonRequestObject.toString());
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(Request.Method.POST, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
@@ -73,10 +75,11 @@ public class UserRequest extends com.sportspartner.request.Request{
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
         String userId = dbHelper.getEmail();
         String key = dbHelper.getKey();
+        String registrationId = dbHelper.getRegistrationId();
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/login?userId="+userId+"&key="+key;
+        String url = URL_CONTEXT+"v1/logout?userId="+userId+"&key="+key +"&registrationId="+registrationId;
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(Request.Method.DELETE, url, null,
                 new Response.Listener<NetworkResponse>() {

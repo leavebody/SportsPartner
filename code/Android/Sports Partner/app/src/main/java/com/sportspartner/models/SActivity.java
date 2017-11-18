@@ -1,5 +1,6 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,43 +8,43 @@ import java.util.Date;
  * Created by yujiaxiao on 10/24/17.
  */
 
-public class SActivity {
-    private String id;
+public class SActivity implements Serializable {
+    private String address;
+    private String activityId;
     private String status;
     private String sportIconUUID;
-    private String sportIconPath;
-    private String sport;
-    private Date starttime;
-    private Date endtime;
-    private String place;
+    private String sportName;
+    private String sportId;
+    private Date startTime;
+    private Date endTime;
+    private String facilityId;
+    private String facilityName;
+    private Double longitude;
+    private Double latitude;
+    private String zipcode;
     private int capacity;
     private int size;
-    private String creator;
-    //TODO more to add
+    private String creatorId;
+    private ArrayList<UserOutline> members;
+    private String detail;
+    private String description;
+    private ArrayList<SactivityComment> discussion;
 
 
-    public SActivity() {}
-
-    public SActivity(String id, String status, String sportIconUUID, String sportIconPath, String sport, Date starttime, Date endtime, String place, int capacity, int size, String creator) {
-        this.id = id;
-        this.status = status;
-        this.sportIconUUID = sportIconUUID;
-        this.sportIconPath = sportIconPath;
-        this.sport = sport;
-        this.starttime = starttime;
-        this.endtime = endtime;
-        this.place = place;
-        this.capacity = capacity;
-        this.size = size;
-        this.creator = creator;
+    public String getAddress() {
+        return address;
     }
 
-    public String getId() {
-        return id;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 
     public String getStatus() {
@@ -62,44 +63,76 @@ public class SActivity {
         this.sportIconUUID = sportIconUUID;
     }
 
-    public String getSportIconPath() {
-        return sportIconPath;
+    public String getSportName() {
+        return sportName;
     }
 
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
     }
 
-    public String getSport() {
-        return sport;
+    public String getSportId() {
+        return sportId;
     }
 
-    public void setSport(String sport) {
-        this.sport = sport;
+    public void setSportId(String sportId) {
+        this.sportId = sportId;
     }
 
-    public Date getStarttime() {
-        return starttime;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStarttime(Date starttime) {
-        this.starttime = starttime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndtime() {
-        return endtime;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public String getPlace() {
-        return place;
+    public String getFacilityId() {
+        return facilityId;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setFacilityId(String facilityId) {
+        this.facilityId = facilityId;
+    }
+
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public int getCapacity() {
@@ -118,11 +151,43 @@ public class SActivity {
         this.size = size;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public ArrayList<UserOutline> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<UserOutline> members) {
+        this.members = members;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ArrayList<SactivityComment> getDiscussion() {
+        return discussion;
+    }
+
+    public void setDiscussion(ArrayList<SactivityComment> discussion) {
+        this.discussion = discussion;
     }
 }

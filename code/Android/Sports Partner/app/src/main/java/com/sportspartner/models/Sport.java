@@ -1,23 +1,32 @@
 package com.sportspartner.models;
 
+import java.io.Serializable;
+
 /**
  * @author Xiaochen Li
  */
 
-public class Sport {
+public class Sport implements Serializable {
     private String sportId;
     private String sportName;
-    private String sportIconPath;
     private String sportIconUUID;
+    private Boolean isSelected = false;
 
-    public Sport(String sportId, String sportName, String sportIconPath, String sportIconUUID) {
+    public Sport() {
+    }
+
+    public Sport(String sportId, String sportName, String sportIconUUID) {
         this.sportId = sportId;
         this.sportName = sportName;
-        this.sportIconPath = sportIconPath;
         this.sportIconUUID = sportIconUUID;
     }
 
-    public Sport(){}
+    public Sport(String sportId, String sportName, String sportIconUUID, Boolean isSelected) {
+        this.sportId = sportId;
+        this.sportName = sportName;
+        this.sportIconUUID = sportIconUUID;
+        this.isSelected = isSelected;
+    }
 
     public String getSportId() {
         return sportId;
@@ -35,20 +44,20 @@ public class Sport {
         this.sportName = sportName;
     }
 
-    public String getSportIconPath() {
-        return sportIconPath;
-    }
-
-    public void setSportIconPath(String sportIconPath) {
-        this.sportIconPath = sportIconPath;
-    }
-
     public String getSportIconUUID() {
         return sportIconUUID;
     }
 
     public void setSportIconUUID(String sportIconUUID) {
         this.sportIconUUID = sportIconUUID;
+    }
+
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 }
 

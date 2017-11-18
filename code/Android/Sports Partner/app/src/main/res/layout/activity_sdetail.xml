@@ -16,152 +16,11 @@
             android:orientation="vertical"
             android:weightSum="2">
 
-            <TableLayout
+            <include
+                android:id="@+id/activity_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dip"
-                        android:text="Sport"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_sport"
-                        android:layout_width="252dp"
-                        android:layout_weight="7"
-                        android:padding="10dip"
-                        android:text="sport"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dip"
-                        android:text="Date"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_date"
-                        android:padding="10dip"
-                        android:text="date"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dp"
-                        android:text="Time"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_time"
-                        android:layout_weight="7"
-                        android:padding="10dip"
-                        android:text="123-123"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dp"
-                        android:text="Place"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_place"
-                        android:layout_weight="7"
-                        android:padding="10dip"
-                        android:text="place-123"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dp"
-                        android:text="Members"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="7">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:background="@drawable/profile" />
-                    </ScrollView>
-
-                </TableRow>
-
-                <TableRow android:weightSum="10">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:padding="10dip"
-                        android:text="Capacity"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_capacity"
-                        android:layout_weight="7"
-                        android:padding="10dip"
-                        android:text="1-12"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_weight="3"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:paddingTop="10dp"
-                        android:text="Discription"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/table_detail_details"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:paddingTop="10dip"
-                        android:text="Detail"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                </TableRow>
-
-            </TableLayout>
+                layout="@layout/layout_activity_detail"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,14 +36,15 @@
                     android:layout_height="50dp"
                     android:background="@color/background_blue"
                     android:gravity="center_vertical"
-                    android:onClick="GotoCreateActivity">
+                    android:onClick="Join">
 
                     <ImageView
-                        android:layout_width="50dp"
+                        android:layout_width="46dp"
                         android:layout_height="50dp"
                         android:background="@drawable/create" />
 
                     <TextView
+                        android:id="@+id/text_join"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
@@ -200,7 +60,7 @@
         </LinearLayout>
 
         <include
-            android:id="@+id/title_search_result"
+            android:id="@+id/title_activityDissucss"
             layout="@layout/layout_smalltitle" />
 
         <ListView

@@ -1,6 +1,7 @@
 package com.sportspartner.request;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -9,15 +10,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sportspartner.models.Profile;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * @author Xiaochen Li
@@ -38,12 +35,14 @@ public class ProfileRequest extends Request {
      * @param email The email of the user
      */
     public void profileInfoVolleyRequest(final VolleyCallback callback, String email) {
-
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
+        String userId = dbHelper.getEmail();
+        String key = dbHelper.getKey();
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/profile/"+email;
-
+        String url = URL_CONTEXT+"v1/profile/"+email+"?"+"requestorId="+userId+"&requestorKey="+key;
+        Log.d("ProfileRequest",url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override
@@ -83,9 +82,9 @@ public class ProfileRequest extends Request {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Context context = contextf.getApplicationContext();
-                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
+//                Context context = contextf.getApplicationContext();
+//                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+//                toast.show();
             }
         }
         );
@@ -146,7 +145,6 @@ public class ProfileRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/profile/"+email;
-
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.PUT, url, jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
@@ -174,7 +172,7 @@ public class ProfileRequest extends Request {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/interests/"+email;
-
+        Log.d("ProfileRequest","GET "+url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override

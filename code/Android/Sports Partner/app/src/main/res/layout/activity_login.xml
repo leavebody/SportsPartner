@@ -87,7 +87,24 @@
             android:background="@drawable/log_in"
             android:layout_centerHorizontal="true"
             android:alpha="0.8"
-            />
+            android:id="@+id/button2" />
+
+        <!--<ProgressBar
+            andridd:idid@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEndid@+id/button2"
+            android:layout_belowid@+id/button2"
+            android:layout_marginTop="34dp" />
+
+        <TextView
+            andridd:idid@+id/textView123"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTopid@+id/progressBar2"
+            android:layout_toStartOfid@+id/loginEmail"
+            android:text="1234567" />-->
     </RelativeLayout>
 
 

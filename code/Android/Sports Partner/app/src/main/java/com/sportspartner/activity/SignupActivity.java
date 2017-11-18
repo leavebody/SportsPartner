@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.service.UserService;
-import com.sportspartner.util.ActivityCallBack;
-import com.sportspartner.service.serviceresult.BooleanResult;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
 public class SignupActivity extends AppCompatActivity {
     EditText emailField;
@@ -84,8 +85,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         UserService.signup(this, email, password, confirmPassword, type, new ActivityCallBack(){
-            @Override
-            public void onSuccess(BooleanResult signupResult) {
+            public void getModelOnSuccess(ModelResult signupResult) {
                 signupHandler(signupResult);
             }
         });
@@ -95,26 +95,32 @@ public class SignupActivity extends AppCompatActivity {
      * Handle the result from the Server
      * @param signupResult
      */
-    private void signupHandler(BooleanResult signupResult) {
+    private void signupHandler(ModelResult signupResult) {
         // handle the result here
         String message = signupResult.getMessage();
         if (message != null) {
             Toast toast = Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG);
             toast.show();
         }
+        //get the token from GCM
+        String token = RegistrationIntentService.getToken();
         if (signupResult.isStatus()) {
             Toast toast = Toast.makeText(SignupActivity.this, "sign up successfully!", Toast.LENGTH_LONG);
             toast.show();
-            UserService.login(this, email, password, new ActivityCallBack(){
-                @Override
-                public void onSuccess(BooleanResult booleanResult) {
-                    // TODO link to the main page activity of this user
+            UserService.login(this, email, password, token, new ActivityCallBack(){
+                public void getModelOnSuccess(ModelResult booleanResult) {
                     Context context = getApplicationContext();
                     Intent intent = new Intent(context, ProfileActivity.class);
                     startActivity(intent);
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
     }
 
 }

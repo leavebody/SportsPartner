@@ -9,10 +9,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sportspartner.models.Profile;
 import com.sportspartner.models.ProfileComment;
+import com.sportspartner.models.Sport;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.request.ProfileRequest;
-import com.sportspartner.service.serviceresult.ModelResult;
-import com.sportspartner.util.ActivityCallBack;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -51,12 +50,15 @@ public class ProfileService extends Service {
             case 200:
                 boolean status = false;
 
+
                 JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
                     Gson gson = new Gson();
                     result.setModel(gson.fromJson(jsResp.get("profile"), Profile.class));
+                    String userType = (jsResp.get("userType").getAsString());
+                    result.setUserType(userType);
 
                 } else {
                     result.setMessage("get profile failed: "+jsResp.get("message").getAsString());
@@ -177,7 +179,7 @@ public class ProfileService extends Service {
         request.updateProfileVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.onSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getModelOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, profile, email);
     }
@@ -204,8 +206,8 @@ public class ProfileService extends Service {
      * @return A ModelResult with model type String,
      *          which is the interests of the user, separated by ","
      */
-    private static ModelResult<String> getInterestsRespProcess(NetworkResponse response){
-        ModelResult<String> result = new ModelResult<>();
+    private static ModelResult<ArrayList<Sport>> getInterestsRespProcess(NetworkResponse response){
+        ModelResult<ArrayList<Sport>> result = new ModelResult<>();
         switch (response.statusCode){
             case 200:
                 boolean status = false;
@@ -214,9 +216,13 @@ public class ProfileService extends Service {
                 status = (jsResp.get("response").getAsString().equals("true"));
                 result.setStatus(status);
                 if(status) {
-                    result.setModel(jsResp.get("interests").getAsString());
+                    JsonArray comment = jsResp.getAsJsonArray("interests");
+                    Gson gson = new Gson();
+
+                    ArrayList<Sport> al = gson.fromJson(comment, new TypeToken<ArrayList<Sport>>(){}.getType());
+                    result.setModel(al);
                 } else {
-                    result.setMessage("get profile failed: "+jsResp.get("message").getAsString());
+                    result.setMessage("get interests failed: "+jsResp.get("message").getAsString());
                 }
 
                 break;
@@ -239,7 +245,7 @@ public class ProfileService extends Service {
         request.updateInterestsVolleyRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.onSuccess(ProfileService.booleanRespProcess(response, "update profile"));
+                callback.getModelOnSuccess(ProfileService.booleanRespProcess(response, "update profile"));
             }
         }, interests, email);
     }

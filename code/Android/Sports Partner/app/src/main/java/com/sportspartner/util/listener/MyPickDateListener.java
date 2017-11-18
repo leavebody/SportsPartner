@@ -2,6 +2,7 @@ package com.sportspartner.util.listener;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class MyPickDateListener extends MyonClickListener {
     };
 
     private void updateView(TextView textView, Calendar myCalendar) {
-        String myFormat = "MM/dd/yy";
+        String myFormat = "yyyy.MM.dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         textView.setText(sdf.format(myCalendar.getTime()));
     }
