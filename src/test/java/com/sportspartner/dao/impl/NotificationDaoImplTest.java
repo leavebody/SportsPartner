@@ -1,23 +1,15 @@
 package com.sportspartner.dao.impl;
-import com.sportspartner.controllers.ActivityController;
-import com.sportspartner.dao.impl.AuthorizationDaoImpl;
-import com.sportspartner.dao.impl.NotificationDaoImpl;
-import com.sportspartner.main.Bootstrap;
-import com.sportspartner.model.Authorization;
+
 import com.sportspartner.model.Notification;
-import com.sportspartner.service.ActivityService;
+
 import org.junit.*;
-import spark.Spark;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.sportspartner.main.Bootstrap.PORT;
 import static org.junit.Assert.assertEquals;
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
+
 
 public class NotificationDaoImplTest {
     @BeforeClass
