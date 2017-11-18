@@ -23,6 +23,13 @@ public class ImageService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private SportDaoImpl sportDaoImpl = new SportDaoImpl();
 
+    /**
+     * Get an image.
+     * @param iconUUID The UUID of the image.
+     * @param type could be "small" or "origin".
+     * @return JsonResponse object
+     * @throws Exception
+     */
     public JsonResponse getImage(String iconUUID, String type) throws Exception{
 
         JsonResponse resp = new JsonResponse();
@@ -58,6 +65,13 @@ public class ImageService {
         return resp;
     }
 
+    /**
+     * Update an icon.
+     * @param spId The Sports Partner Id, could be userId or sportId.
+     * @param body The Json string from controller.
+     * @return JsonResponse object.
+     * @throws Exception
+     */
     public JsonResponse updateIcon(String spId, String body) throws Exception{
         JsonResponse resp = new JsonResponse();
 
