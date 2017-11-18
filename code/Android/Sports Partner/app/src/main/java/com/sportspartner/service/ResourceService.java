@@ -3,6 +3,7 @@ package com.sportspartner.service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.google.android.gms.maps.model.LatLng;
@@ -267,14 +268,19 @@ public class ResourceService extends Service {
 
         if (geocodeRaw.status.equals("OK")) {
             result.setStatus(true);
-            String zipcode=null;
+            String zipcode = null;
+            Boolean hasZipcode = false;
             ArrayList<String> addresses = new ArrayList<>();
 
             for (GeocodeRaw.Result result1 : geocodeRaw.results) {
                 addresses.add(result1.formatted_address);
-                for (GeocodeRaw.Result.Address_component component : result1.address_components){
-                    if (zipcode==null && component.types.size()==1 && component.types.get(0).equals("postal_code")){
-                        zipcode=component.long_name;
+                if (!hasZipcode) {
+                    for (GeocodeRaw.Result.Address_component component : result1.address_components) {
+                        if (component.types.size() == 1 && component.types.get(0).equals("postal_code")) {
+                            zipcode = component.long_name;
+                            hasZipcode = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -284,7 +290,7 @@ public class ResourceService extends Service {
 
         } else {
             result.setStatus(false);
-            Log.d("ResourceService","geocoding: "+geocodeRaw.status);
+            Log.d("ResourceService", "geocoding: " + geocodeRaw.status);
             result.setMessage(geocodeRaw.status);
         }
         return result;
@@ -299,13 +305,18 @@ public class ResourceService extends Service {
     public static boolean clearCache(Context c) {
         try {
             File[] files = c.getApplicationContext().getCacheDir().listFiles();
+            Long totalLengthByte = 0L;
+            Long singleLengthByte;
             for (File file : files) {
                 // delete returns boolean we can use
-                if (!file.delete()) {
-                    return false;
+                singleLengthByte = file.length();
+                if (file.delete()) {
+                    totalLengthByte += singleLengthByte;
                 }
             }
             // if for completes all
+            Toast.makeText(c, String.format("Cache cleared successfully! %s kB memory cleared", totalLengthByte.doubleValue()/1000)
+                    , Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
         }
