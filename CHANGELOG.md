@@ -123,6 +123,14 @@ All notable changes to this project will be documented in this file.
 
 ## Iteration4 (2017-10-31 ~ 2017-11-17)
 ### Added
+* Backend: Deploy Server on Heroku
+* Backend: Google Cloud Message
+  - Use Google Cloud Message API to send Notification to the front end
+* Backend: Controller and Service for
+  - Send Friend Request
+  - Accept Friend Request
+  - Decline Friend Request
+  - Delete Friend
 * Android: Updated the Activities and the xmls for:
   - EditProfile
     - Change Profile Photo. (Access the file system and camera of the Android device)
