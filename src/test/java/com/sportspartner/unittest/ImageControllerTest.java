@@ -1,5 +1,6 @@
 package com.sportspartner.unittest;
 
+<<<<<<< HEAD
 
 import com.google.gson.*;
 import com.sportspartner.controllers.ActivityController;
@@ -11,16 +12,52 @@ import com.google.gson.JsonObject;
 import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ImageService;
 import com.sportspartner.util.ImageUtil;
+=======
+import com.sportspartner.controllers.LoginController;
+import com.sportspartner.dao.impl.AuthorizationDaoImpl;
+import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.main.Bootstrap;
+import com.sportspartner.model.Authorization;
+import com.sportspartner.model.DeviceRegistration;
+import com.sportspartner.service.UserService;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import spark.Spark;
+
+import java.net.HttpURLConnection;
+
+import static spark.Spark.ipAddress;
+import static spark.Spark.port;
+import static spark.Spark.staticFileLocation;
+
+import com.google.gson.*;
+import com.sportspartner.controllers.LoginController;
+import com.sportspartner.dao.impl.AuthorizationDaoImpl;
+import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
+import com.sportspartner.dao.impl.PersonDaoImpl;
+import com.sportspartner.dao.impl.UserDaoImpl;
+import com.sportspartner.main.Bootstrap;
+import com.sportspartner.model.Authorization;
+import com.sportspartner.model.DeviceRegistration;
+import com.sportspartner.service.UserService;
+import com.google.gson.JsonObject;
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
 import org.json.JSONObject;
 import org.junit.*;
 import spark.Spark;
 import spark.utils.IOUtils;
 
+<<<<<<< HEAD
 import java.awt.image.BufferedImage;
+=======
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+<<<<<<< HEAD
 import spark.utils.IOUtils;
 
 import static com.sportspartner.main.Bootstrap.PORT;
@@ -28,21 +65,41 @@ import static org.junit.Assert.assertEquals;
 import static spark.Spark.*;
 public class ImageControllerTest {
     HttpURLConnection connection = null;
+=======
+
+import static org.junit.Assert.assertEquals;
+import static spark.Spark.*;
+
+public class ImageControllerTest {
+    HttpURLConnection connection = null;
+    static String successUUID = null;
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         ipAddress(Bootstrap.IP_ADDRESS);
+<<<<<<< HEAD
         port(PORT);
         staticFileLocation("/public");
         new ImageController(new ImageService());
 
         Thread.sleep(4000);
+=======
+        port(Bootstrap.PORT);
+        staticFileLocation("/public");
+        new LoginController(new UserService());
+        Thread.sleep(2000);
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
         Spark.stop();
+<<<<<<< HEAD
         Thread.sleep(4000);
+=======
+        Thread.sleep(2000);
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
     }
 
     @Before
@@ -54,6 +111,7 @@ public class ImageControllerTest {
 
     }
 
+<<<<<<< HEAD
     /**
      * test when GetActivityDetail succeeds
      */
@@ -85,10 +143,19 @@ public class ImageControllerTest {
      */
     @Test
     public void testUpdateIcon() {
+=======
+    @Test
+    /**
+     *  Test login for right input of userId and password
+     */
+    public void testLoginSuccess() {
+        JSONObject parameters;
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try {
+<<<<<<< HEAD
             String spId = "shirish@gmail.com";
             String key = "handsome";
             String object = "USER";
@@ -110,17 +177,46 @@ public class ImageControllerTest {
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
                 wr.writeBytes(body);
+=======
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/login");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            parameters = new JSONObject();
+            parameters.put("userId", "u1");
+            parameters.put("password", "p1");
+            parameters.put("registrationId", "string!");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
+                wr.writeBytes(parameters.toString());
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603
         try {
             responseBody = IOUtils.toString(connection.getInputStream());
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+<<<<<<< HEAD
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         assertEquals("true", responseJson.get("response").getAsString());
     }
 }
 
+=======
+
+        JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
+        String response = responseJson.get("response").getAsString();
+        successUUID = responseJson.get("key").getAsString();
+        assertEquals("true", response);
+    }
+}
+
+
+>>>>>>> c0f04de7699a99b444d6247aee44e1e3e4a9f603

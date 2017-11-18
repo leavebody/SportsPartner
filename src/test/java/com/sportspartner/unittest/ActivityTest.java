@@ -1,7 +1,11 @@
 package com.sportspartner.unittest;
 import com.google.gson.*;
 import com.sportspartner.controllers.ActivityController;
+import com.sportspartner.dao.impl.ActivityDaoImpl;
+import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
 import com.sportspartner.main.Bootstrap;
+import com.sportspartner.model.Activity;
+import com.sportspartner.model.ActivityMember;
 import com.sportspartner.service.ActivityService;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
@@ -13,6 +17,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
+
 import spark.utils.IOUtils;
 
 import static com.sportspartner.main.Bootstrap.PORT;
@@ -20,7 +26,9 @@ import static org.junit.Assert.assertEquals;
 import static spark.Spark.*;
 public class ActivityTest {
     HttpURLConnection connection = null;
+    private ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();
 
+    private ActivityService activityService = new ActivityService();
 
 
     @BeforeClass
@@ -30,21 +38,70 @@ public class ActivityTest {
         staticFileLocation("/public");
         new ActivityController(new ActivityService());
 
+        ActivityDaoImpl activityDao = new ActivityDaoImpl();
+        ActivityMemberDaoImpl activityMemberDao = new ActivityMemberDaoImpl();
+        try {
+            Activity toUpdate = new Activity();
+            toUpdate.setActivityId("toUpdate001");
+            toUpdate.setCreatorId("u24");
+            toUpdate.setSportId("001");
+            toUpdate.setEndTime(new Date());
+            toUpdate.setStartTime(new Date());
+            activityDao.newActivity(toUpdate);
+            activityMemberDao.newActivityMember(new ActivityMember("toUpdate001", "u24"));
+
+            Activity toDelete = new Activity();
+            toDelete.setActivityId("toDelete001");
+            toDelete.setCreatorId("u24");
+            toDelete.setSportId("001");
+            toDelete.setEndTime(new Date());
+            toDelete.setStartTime(new Date());
+            activityDao.newActivity(toDelete);
+            activityMemberDao.newActivityMember(new ActivityMember("toDelete001", "u24"));
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
         Thread.sleep(4000);
     }
 
     @AfterClass
     public static void tearDownAfterClass()throws Exception{
+        ActivityDaoImpl activityDao = new ActivityDaoImpl();
+        try {
+            activityDao.deleteActivity("toUpdate001");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         Spark.stop();
         Thread.sleep(4000);
     }
 
     @Before
-    public void setUp(){}
+    public void setUp(){
+    }
 
     @After
     public void teardown(){
-
+        try {
+            String activityId = "a007";
+            String userId = "u24";
+            ActivityMember activityMember = new ActivityMember(activityId, userId);
+            if(activityMemberDaoImpl.hasActivityMember(activityMember)) {
+                String body = new Gson().toJson(activityMember);
+                activityService.removeActivityMember(activityId, body);
+            }
+            String activityId1 = "a007";
+            String userId1 = "u2";
+            ActivityMember activityMember1 = new ActivityMember(activityId1, userId1);
+            if(!activityMemberDaoImpl.hasActivityMember(activityMember)) {
+                String body = new Gson().toJson(activityMember1);
+                activityService.addActivityMember(activityId, body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -401,6 +458,174 @@ public class ActivityTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("", responseBody); //TODO
+        assertEquals("{\"response\":\"true\",\"members\":[]}", responseBody); //TODO
+    }
+
+    /**
+     *  test when add activity members success
+     */
+    @Test
+    public void testAddActivityMemberSuccess(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        JSONObject parameters = new JSONObject();
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_members/a007");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String activityId = "a007";
+            String userId = "u24";
+            String body = new Gson().toJson(new ActivityMember(activityId, userId));
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+
+
+    /**
+     *  test when remove activity members success
+     */
+    @Test
+    public void testRemoveActivityMemberSuccess(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        JSONObject parameters = new JSONObject();
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_members/a007");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String activityId = "a007";
+            String userId = "u2";
+            String body = new Gson().toJson(new ActivityMember(activityId, userId));
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+
+    /**
+     *  test when create a new activity success
+     */
+    @Test
+    public void testCreateActivitySuccess(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        JSONObject parameters = new JSONObject();
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String body = "{\"userId\":\"u1\",\"key\":\"12382e7c-d0e9-4035-9c11-730a7dc262ae\",\"activity\":{\"activityId\":\"NULL\",\"address\":\"Sydney NSW, Australia\",\"capacity\":10,\"creatorId\":\"u1\",\"description\":\"t\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"NULL\",\"latitude\":-33.850770532400865,\"longitude\":151.2113021314144,\"size\":1,\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"status\":\"OPEN\",\"zipcode\":\"2000\"}}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"", responseBody.substring(0,18));
+    }
+
+    /**
+     *  test when update a new activity success
+     */
+    @Test
+    public void testUpdateActivitySuccess(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/toUpdate001");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String body = "{\"requestorId\":\"u24\",\"requestorKey\":\"ASD\",\"activity\":{\"activityId\":\"toUpdate001\",\"creatorId\":\"u24\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\"}}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+    /**
+     *  test when delete an activity success
+     */
+    @Test
+    public void testDeleteActivitySuccess(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/toDelete001/u24/ASD");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"}", responseBody);
+
     }
 }
