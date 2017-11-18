@@ -76,24 +76,7 @@ public class ActivityService extends Service {
             public void onSuccess(NetworkResponse response) {
                 callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
             }
-<<<<<<< HEAD
-        }, "recommend", email, limit, offset);*/
-        //TODO delete test data
-        ModelResult<ArrayList<SActivityOutline>> result = new ModelResult<>();
-        result.setStatus(true);
-        ArrayList<SActivityOutline> activityList = new ArrayList<SActivityOutline>();
-        Date date1 = new Date(117, 10,23,10,30);
-        Date date2 = new Date(117,10,23,12,00);
-        activityList.add(new SActivityOutline("01","Open","statuts", "None","Basketball",date1, date2,"location", 10, 3));
-        activityList.add(new SActivityOutline("02","Open","statuts", "None","Football",date1, date2,"location", 12, 10));
-        activityList.add(new SActivityOutline("03","Open","statuts", "None","Lacrosse",date1, date2,"location", 10, 3));
-        //activityList.add(new SActivityOutline("04","Open","statuts", "None","Badminton",date, date,"location", 4, 4));
-        result.setModel(activityList);
-        callback.getModelOnSuccess(result);
-=======
         }, "recommend", email, limit, offset);
-
->>>>>>> dev
     }
 
     /**

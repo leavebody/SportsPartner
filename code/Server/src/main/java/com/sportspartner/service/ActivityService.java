@@ -87,8 +87,9 @@ public class ActivityService {
                     } else if (activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, requestorId))) {
                         resp.setUserType("MEMBER");
                         return resp;
+                    }
+                    resp.setUserType("STRANGER");
                 }
-                resp.setUserType("STRANGER");
             }
         } catch (Exception ex) {
             throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
@@ -96,7 +97,7 @@ public class ActivityService {
             throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
         }
         return resp;
-    }
+    
 
     /**
      * Get the outline of an activity
