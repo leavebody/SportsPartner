@@ -2,7 +2,19 @@
 [![Build Status](https://travis-ci.com/jhu-oose/2017-group-4.svg?token=qu7s5Cf7sE84eRpgCzqR&branch=master)](https://travis-ci.com/jhu-oose/2017-group-4)
 
 Playing sports with others is a good way to experience the goodness of life. Nowadays, many people want to play sports but they cannot find a companion. Sports Partner aims at sports enthusiasts who want to find sports partners. Users can create or join a sports activity with location and time specified. They can chat with fellows, share their moments and rate the activities and the sports facilities in our app. The goal of our app is to facilitate sports matching, promote social networking and encourage healthy lifestyle.
+## Deployment(New!)
+The Server has been deployed in heroku and it becomes the subtree of this git repo. The git address of the Server now becomes ``https://git.heroku.com/oosesportspartner.git``. We need to use git subtree command to manage the repo, some command examples are (authentication is needed for the heroku repo):
+```
+git remote add heroku https://git.heroku.com/oosesportspartner.git
+git subtree push --prefix code/Server heroku master
+git push origin dev
+git subtree pull --prefix code/Server heroku master
+git pull origin dev
+```
 
+The address of the Server is ``https://oosesportspartner.herokuapp.com``. The default setting of heroku repo is private, so please let our members know if you want to be the collaborator and see the details of the deployment.
+## Database(New!)
+The database has moved to heroku postgreSQL database. Although our original database is also an online postgreSQL databse, we move it to heroku because we can get rid of the "To many connections" problem and keep the integrity of the server.
 ## Build and Run
 Our code consists of two part. The Server part is in ``/code/Server`` folder. The Android part is in ``/code/Android`` folder.
 
