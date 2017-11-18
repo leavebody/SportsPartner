@@ -202,9 +202,10 @@ public class MapActivity extends BasicActivity
                 ArrayList<FacilityMarker> newMarkers = modelResult.getModel();
 
                 for (FacilityMarker f : newMarkers) {
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(new LatLng(f.getLatitude(), f.getLongitude()));
                     if (!facilityMarkers.contains(f))
-                        map.addMarker(new MarkerOptions()
-                                .position(new LatLng(f.getLatitude(), f.getLongitude())))
+                        map.addMarker(markerOptions)
                                 .setTag(f);
                     facilityMarkers.add(f);
                 }
