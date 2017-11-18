@@ -189,6 +189,8 @@ public class NotificationService {
         }
         return resp;
     }
+
+    /*
     public JsonResponse sendJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -237,6 +239,7 @@ public class NotificationService {
         }
         return resp;
     }
+    */
 
     /**
      * Creator of an activity accept a new join application.
@@ -247,6 +250,7 @@ public class NotificationService {
      * @return JsonResponse object
      * @throws NotificationServiceException
      */
+    /*
     public JsonResponse acceptJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -292,7 +296,7 @@ public class NotificationService {
         }
         return resp;
 
-    }
+    }*/
 
     /**
      * Creator of the activity decline join application.
@@ -302,6 +306,7 @@ public class NotificationService {
      * @return JsonResponse Object
      * @throws NotificationServiceException
      */
+    /*
     public JsonResponse declineJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -344,7 +349,7 @@ public class NotificationService {
         }
         return resp;
 
-    }
+    }*/
 
     /**
      * Check whether a user is authorized
@@ -352,11 +357,13 @@ public class NotificationService {
      * @param key login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
+    /*
     public boolean isAuthorized(String userId, String key){
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
     }
+    */
 
     /**
      *  Exception class for Notification

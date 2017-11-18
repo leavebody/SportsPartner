@@ -9,13 +9,6 @@ public class SignupVO {
     private String confirmPassword;
     private String type;
 
-    public SignupVO(String userId, String password, String confirmPassword, String type) {
-        this.userId = userId;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-        this.type = type;
-    }
-
     public String getUserId() {
         return userId;
     }
