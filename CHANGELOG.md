@@ -124,13 +124,53 @@ All notable changes to this project will be documented in this file.
 ## Iteration4 (2017-10-31 ~ 2017-11-17)
 ### Added
 * Backend: Deploy Server on Heroku
-* Backend: Google Cloud Message
-  - Use Google Cloud Message API to send Notification to the front end
+* Backend: NON-CRUD features
+  - Google Cloud Message: Use Google Cloud Message API to send Notification to the front end
+  - Upload, save and get an image
+* Backend: Create database tables for 
+  - [Device_Registration](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#device_registration)
+  - [Icon](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#icon)
+* Backend: Model for 
+  - [DeviceRegistration](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#deviceregistration)
+  - [Icon](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#icon)
+  - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#notification)
+  - [PendingFriendRequest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#pendingfriendrequest)
+  - [PendingJoinActivityRequest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#pendingjoinactivityrequest)
+* Backend: View Model for
+  - [FacilityVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#facilityvo)
+  - [FacilityOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#facilityoutlinevo)
+  - [FacilityMarkerVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#facilitymarkervo)
 * Backend: Controller and Service for
   - Send Friend Request
   - Accept Friend Request
   - Decline Friend Request
   - Delete Friend
+  - Get Activity Members
+  - Add Activity Member
+  - Remove Activity Member
+  - Create an Activity
+  - Update an Activity
+  - Delete an Activity
+  - Get Facility Markers
+  - Get an Image
+  - Upload an Image
+  
+* Backend: Test for
+  - All Dao
+  - Send Friend Request
+  - Accept Friend Request
+  - Decline Friend Request
+  - Delete Friend
+  - Get Activity Members
+  - Add Activity Member
+  - Remove Activity Member
+  - Create an Activity
+  - Update an Activity
+  - Delete an Activity
+  - Get Facility Markers
+  - Get an Image
+  - Upload an Image
+  
 * Android: Updated the Activities and the xmls for:
   - EditProfile
     - Change Profile Photo. (Access the file system and camera of the Android device)
@@ -169,3 +209,18 @@ All notable changes to this project will be documented in this file.
   - Refactoring
     - Change ActivityCallback to a template interface with only one method.
     - Use Gson.JsonObject instead JSONObject. No more JSONObject.
+    
+## Changed
+* Backend: Database table 
+  - [Activity](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#activity)
+  - [Notification](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#notification)
+  - [Pending_Friend_Request](https://github.com/jhu-oose/2017-group-4/wiki/Databases-Design#pending_friend_request)
+* Backend: Model for 
+  - [Activity](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#activity)
+  - [Sport](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#sport)
+  - [Facility](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#facility)
+  - [Interest](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-Object-Model#interest)
+* Backend: View Model for
+  - [PersonVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#personvo)
+  - [ActivityVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityvo)
+  - [ActivityOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityoutlinevo)
