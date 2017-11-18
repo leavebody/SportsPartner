@@ -22,8 +22,7 @@ import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.util.LoginDBHelper;
-import com.sportspartner.util.NotificationDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 
 import java.util.ArrayList;
 

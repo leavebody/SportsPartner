@@ -18,7 +18,7 @@ public class SActivity implements Serializable {
     private Date startTime;
     private Date endTime;
     private String facilityId;
-    private String facilitiName;
+    private String facilityName;
     private Double longitude;
     private Double latitude;
     private String zipcode;
@@ -103,12 +103,12 @@ public class SActivity implements Serializable {
         this.facilityId = facilityId;
     }
 
-    public String getFacilitiName() {
-        return facilitiName;
+    public String getFacilityName() {
+        return facilityName;
     }
 
-    public void setFacilitiName(String facilitiName) {
-        this.facilitiName = facilitiName;
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
     }
 
     public Double getLongitude() {

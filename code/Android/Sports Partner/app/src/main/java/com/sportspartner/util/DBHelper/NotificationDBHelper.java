@@ -1,4 +1,4 @@
-package com.sportspartner.util;
+package com.sportspartner.util.DBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -141,7 +141,7 @@ public class NotificationDBHelper extends SQLiteOpenHelper {
     /**
      * Clear the  records.
      */
-    public void deleteTable(){
+    public void deleteAllrows(){
         // clear the table
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(SportPartnerDBContract.NotificationDB.TABLE_NAME, null, null);

@@ -25,7 +25,9 @@ import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.LoginDBHelper;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.DBHelper.NightModeDBHelper;
+import com.sportspartner.util.DBHelper.NotificationDBHelper;
 
 import java.util.ArrayList;
 
@@ -36,14 +38,15 @@ public class BasicActivity extends AppCompatActivity
     /**
      * Load the Navigation Bar and the ToolBar
      * Find the widget by Id
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
-        View homeLayout= (View) findViewById(R.id.layout_home);
-        View toolbarLayout= (View) homeLayout.findViewById(R.id.toolbar_home);
+        View homeLayout = (View) findViewById(R.id.layout_home);
+        View toolbarLayout = (View) homeLayout.findViewById(R.id.toolbar_home);
         Toolbar toolbar = (Toolbar) toolbarLayout.findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
@@ -68,14 +71,14 @@ public class BasicActivity extends AppCompatActivity
      * When the response comes back form the server,
      * it will call the userOutlineHandler
      */
-    private void setUserOutline(){
+    private void setUserOutline() {
         LoginDBHelper dbHelper = LoginDBHelper.getInstance(this);
-        ArrayList<String> list =  dbHelper.getAll();
-        System.out.println("list size:"+ String.valueOf(list.size()));
+        ArrayList<String> list = dbHelper.getAll();
+        System.out.println("list size:" + String.valueOf(list.size()));
         userEmail = dbHelper.getEmail();
-        ProfileService.getProfileOutline(this, userEmail, new ActivityCallBack<UserOutline>(){
+        ProfileService.getProfileOutline(this, userEmail, new ActivityCallBack<UserOutline>() {
             @Override
-            public void getModelOnSuccess(ModelResult<UserOutline> result){
+            public void getModelOnSuccess(ModelResult<UserOutline> result) {
                 userOutlineHandler(result);
             }
         });
@@ -83,16 +86,17 @@ public class BasicActivity extends AppCompatActivity
 
     /**
      * Fill the content of Navigation Bar according to the UserOutline
+     *
      * @param result The response object returned from the server
      */
-    private void userOutlineHandler(ModelResult<UserOutline> result){
-        String userName ;
+    private void userOutlineHandler(ModelResult<UserOutline> result) {
+        String userName;
 
         // handle the result of request here
         String message = result.getMessage();
         Boolean status = result.isStatus();
 
-        if (status){
+        if (status) {
             //if successfully get the data, then get the data
             NavigationView navigation = (NavigationView) findViewById(R.id.nav_view);
             View headerView = navigation.getHeaderView(0); // 0-index header
@@ -104,21 +108,20 @@ public class BasicActivity extends AppCompatActivity
 
             userNameView.setText(userName);
 
-            ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>(){
+            ResourceService.getImage(this, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>() {
                 @Override
-                public void getModelOnSuccess(ModelResult<Bitmap> result){
+                public void getModelOnSuccess(ModelResult<Bitmap> result) {
                     if (result.isStatus()) {
                         iconView.setImageBitmap(result.getModel());
-                    } else{
+                    } else {
                         //if failure, show a toast
                         Toast toast = Toast.makeText(BasicActivity.this,
-                                "Load user icon error: "+result.getMessage(), Toast.LENGTH_LONG);
+                                "Load user icon error: " + result.getMessage(), Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
             });
-        }
-        else{
+        } else {
             //if failure, show a toast
             Toast toast = Toast.makeText(this, "Load user outline Error: " + message, Toast.LENGTH_LONG);
             toast.show();
@@ -127,6 +130,7 @@ public class BasicActivity extends AppCompatActivity
 
     /**
      * Load the ToolBar
+     *
      * @param menu The menu on the top right of the toolbar
      * @return If load success, return true
      */
@@ -138,12 +142,12 @@ public class BasicActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
+    public boolean onPrepareOptionsMenu(Menu menu) {
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.toolbar_edit:
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 this.startActivity(intent);
@@ -170,6 +174,7 @@ public class BasicActivity extends AppCompatActivity
 
     /**
      * The action of the Navigation Item if selected
+     *
      * @param item The item of the Navigation Bar
      * @return Return true if success.
      */
@@ -184,33 +189,39 @@ public class BasicActivity extends AppCompatActivity
             // Goto the Homepage
             Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
-            if(!(this instanceof HomeActivity))
+            if (!(this instanceof HomeActivity))
                 this.finish();
         } else if (id == R.id.nav_profile) {
             // Goto the ProfilePage
             Intent intent = new Intent(context, ProfileActivity.class);
             intent.putExtra("userId", userEmail);
-            Log.d("BasicActivity","email: "+userEmail);
+            Log.d("BasicActivity", "email: " + userEmail);
             startActivity(intent);
-            if(!(this instanceof HomeActivity))
+            if (!(this instanceof HomeActivity))
                 this.finish();
         } else if (id == R.id.nav_friends) {
             // Goto the FriendList Page
             Intent intent = new Intent(context, FriendListActivity.class);
             startActivity(intent);
-            if(!(this instanceof HomeActivity))
+            if (!(this instanceof HomeActivity))
                 this.finish();
         } else if (id == R.id.nav_moments) {
             // Goto the Moment Page
             Intent intent = new Intent(context, MomentActivity.class);
             startActivity(intent);
-            if(!(this instanceof HomeActivity))
+            if (!(this instanceof HomeActivity))
                 this.finish();
         } else if (id == R.id.nav_noti) {
             // Goto the Notification Page
             Intent intent = new Intent(context, NotificationActivity.class);
             startActivity(intent);
-            if(!(this instanceof HomeActivity))
+            if (!(this instanceof HomeActivity))
+                this.finish();
+        } else if (id == R.id.nav_setting) {
+            // Goto the Notification Page
+            Intent intent = new Intent(context, SettingActivity.class);
+            startActivity(intent);
+            if (!(this instanceof HomeActivity))
                 this.finish();
         } else if (id == R.id.nav_signout) {
             signOut();
@@ -228,14 +239,23 @@ public class BasicActivity extends AppCompatActivity
      * SignOut function: send the signOut request,
      * Show the "success" toast if success.
      */
-    private void signOut(){
-        UserService.logOut(this, new ActivityCallBack(){
-            public void getModelOnSuccess(ModelResult result){
-                if (!result.isStatus()){
+    private void signOut() {
+        final Context context = getApplicationContext();
+        UserService.logOut(this, new ActivityCallBack() {
+            public void getModelOnSuccess(ModelResult result) {
+                if (!result.isStatus()) {
                     //if failure, show a toast
                     Toast toast = Toast.makeText(BasicActivity.this,
                             result.getMessage(), Toast.LENGTH_LONG);
                     toast.show();
+                }
+                else {
+                    //delete the corresponding rows in the database
+                    NotificationDBHelper notiDBHelper = NotificationDBHelper.getInstance(context);
+                    notiDBHelper.deleteAllrows();
+
+                    NightModeDBHelper nightDBHelper = NightModeDBHelper.getInstance(context);
+                    nightDBHelper.deleteAllrows();
                 }
             }
         });

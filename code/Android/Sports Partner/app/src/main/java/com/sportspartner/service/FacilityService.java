@@ -1,8 +1,11 @@
 package com.sportspartner.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,18 +24,18 @@ import java.util.ArrayList;
 public class FacilityService extends Service {
 
     /**
-     * Get an ArrayList of the marker info of all facilities in the APP.
+     * Get an ArrayList of the marker info in the requested range.
      *
      * @param c        Caller context.
      * @param callback
      */
-    public static void getAllFacilityMarkers(final Context c, final ActivityCallBack callback) {
+    public static void getFacilityMarkers(final Context c, LatLngBounds bounds, final ActivityCallBack callback) {
 
         FacilityRequest request = new FacilityRequest(c);
-        request.allFacilitiesRequest(new VolleyCallback() {
+        request.nearbyFacilitiesRequest(bounds, new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(getAllFacilityMarkersRespProcess(response));
+                callback.getModelOnSuccess(getFacilityMarkersRespProcess(response));
             }
         });
 
@@ -45,7 +48,7 @@ public class FacilityService extends Service {
      * @return A ModelResult with model type ArrayList<FacilityMarker>,
      * which is the requested sports data.
      */
-    private static ModelResult<ArrayList<FacilityMarker>> getAllFacilityMarkersRespProcess(NetworkResponse response) {
+    private static ModelResult<ArrayList<FacilityMarker>> getFacilityMarkersRespProcess(NetworkResponse response) {
         ModelResult<ArrayList<FacilityMarker>> result = new ModelResult();
         switch (response.statusCode) {
             case 200:
@@ -61,7 +64,7 @@ public class FacilityService extends Service {
                             }.getType());
                     result.setModel(arrayMarker);
                 } else {
-                    result.setMessage("get all facility markers request failed: " + jsResp.get("message").getAsString());
+                    result.setMessage("get facility markers request failed: " + jsResp.get("message").getAsString());
                 }
                 break;
             default:
