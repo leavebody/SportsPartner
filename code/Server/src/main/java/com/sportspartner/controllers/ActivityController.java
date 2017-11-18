@@ -1,7 +1,6 @@
 package com.sportspartner.controllers;
 
 import com.sportspartner.service.ActivityService;
-import com.sportspartner.service.ProfileService;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
 
@@ -60,7 +59,7 @@ public class ActivityController {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = activityService.getPastActivity(request.queryParams("id"), Integer.parseInt(request.queryParams("offset")), Integer.parseInt(request.queryParams("limit")));
-                    response.status(200);
+                response.status(200);
                 return reps;
             } catch (Exception ex) {
                 response.status(200);
@@ -119,6 +118,7 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
@@ -133,49 +133,21 @@ public class ActivityController {
                 response.status(200);
                 return reps;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
-        }, new JsonTransformer());
-
-
-
-        // accept a join activity application
-        post(API_CONTEXT + "/acceptjoinactivityapplication/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = activityService.acceptJoinActivityRequest(request.params("id"),request.body());
-                response.status(200);
-                return reps;
-            } catch (Exception ex) {
-                response.status(200);
-                return reps;
-            }
-
-        }, new JsonTransformer());
-
-        // decline a join activity application
-        post(API_CONTEXT + "/declinejoinactivityapplication/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
-            try {
-                reps = activityService.declineJoinActivityRequest(request.params("id"),request.body());
-                response.status(200);
-                return reps;
-            } catch (Exception ex) {
-                response.status(200);
-                return reps;
-            }
-
         }, new JsonTransformer());
 
         // Delete(cancel) an activity
-        delete(API_CONTEXT + "/activity/:id", "application/json", (request, response) -> {
+        delete(API_CONTEXT + "/activity/:activityId/:userId/:key", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
             try{
-                reps = activityService.deleteActivity(request.params("id"), request.body());
+                reps = activityService.deleteActivity(request.params("activityId"), request.params("userId"), request.params("key"));
                 response.status(200);
                 return reps;
             } catch(Exception ex){
+                ex.printStackTrace();
                 response.status(200);
                 return reps;
             }
