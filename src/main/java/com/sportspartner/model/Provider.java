@@ -1,6 +1,6 @@
 package com.sportspartner.model;
 
-//public class Provider {
+public class Provider {
 //    private String providerId;
 //    private String providerName;
 
@@ -19,4 +19,4 @@ package com.sportspartner.model;
 //    public void setProviderName(String providerName) {
 //        this.providerName = providerName;
 //    }
-//}
+}
