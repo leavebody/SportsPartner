@@ -15,7 +15,6 @@ public class Facility {
     private String openTime;
     private String description;
 
-    public Facility(){}
 
     public Facility(String facilityId, String facilityName, String iconUUID, String sportId, double longitude, double latitude, String zipcode, String address, String providerId, double score, int scoreCount, String openTime, String description) {
         this.facilityId = facilityId;

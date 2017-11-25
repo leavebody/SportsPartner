@@ -138,43 +138,43 @@ public class SportDaoImpl implements SportDao {
      * @param sport Sport Object
      * @return true if the process succeeds, false if not
      */
-    public boolean updateSport(Sport sport){
-        Connection c = new ConnectionUtil().connectDB();
-        PreparedStatement statement = null;
-        int numUpdated = 0;
-        try {
-            String sql = "UPDATE \"Sport\" set \"sportName\" = ?,  \"sportIconUUID\" = ? WHERE \"sportId\" = ?";
-            statement = c.prepareStatement(sql);
-            statement.setString(3, sport.getSportId());
-            statement.setString(1, sport.getSportName());
-            statement.setString(2, sport.getSportIconUUID());
-            numUpdated = statement.executeUpdate();
-
-            if(numUpdated <= 0){
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": Update " + e.getMessage());
-            
-            return false;
-        }finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (c != null) {
-                    c.close();
-                }
-                //TODO Update Print
-                return true;
-
-            } catch (SQLException ex) {
-                //TODO throw exception
-                return false;
-            }
-        }
-    }
+//    public boolean updateSport(Sport sport){
+//        Connection c = new ConnectionUtil().connectDB();
+//        PreparedStatement statement = null;
+//        int numUpdated = 0;
+//        try {
+//            String sql = "UPDATE \"Sport\" set \"sportName\" = ?,  \"sportIconUUID\" = ? WHERE \"sportId\" = ?";
+//            statement = c.prepareStatement(sql);
+//            statement.setString(3, sport.getSportId());
+//            statement.setString(1, sport.getSportName());
+//            statement.setString(2, sport.getSportIconUUID());
+//            numUpdated = statement.executeUpdate();
+//
+//            if(numUpdated <= 0){
+//                return false;
+//            }
+//
+//        } catch (Exception e) {
+//            System.err.println(e.getClass().getName() + ": Update " + e.getMessage());
+//
+//            return false;
+//        }finally {
+//            try {
+//                if (statement != null) {
+//                    statement.close();
+//                }
+//                if (c != null) {
+//                    c.close();
+//                }
+//                //TODO Update Print
+//                return true;
+//
+//            } catch (SQLException ex) {
+//                //TODO throw exception
+//                return false;
+//            }
+//        }
+//    }
     /**
      *  Delete a new Sports in the database
      * @param sportId Id of sport
