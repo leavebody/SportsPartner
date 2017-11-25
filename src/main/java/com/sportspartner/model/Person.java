@@ -12,7 +12,6 @@ public class Person extends User {
     private int participationCount;
     private String iconUUID;
 
-    public Person(){}
 
     public Person(String userId){
         this.userId = userId;
