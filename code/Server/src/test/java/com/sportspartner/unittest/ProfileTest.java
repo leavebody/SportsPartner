@@ -76,7 +76,7 @@ public class ProfileTest {
     /**
      *  Test get an non-existed person's profile
      */
-    public void testProfileFailure(){
+    public void testProfileFailureNoSuchUser(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
         String userId = "frog";
@@ -138,7 +138,7 @@ public class ProfileTest {
     /**
      *  Test fail to update a person's profile when the user has no authorization
      */
-    public void testProfileUpdateFailure(){
+    public void testProfileUpdateFailureLackAuthorization(){
         JsonObject parameters = new JsonObject();
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
@@ -168,6 +168,36 @@ public class ProfileTest {
         assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to update profile\",\"authorization\":\"false\"}", responseBody);
     }
 
+    @Test
+    public void testProfileUpdateFailureNosuchUser(){
+        JsonObject parameters = new JsonObject();
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        String userId = "frog";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/profile/" + userId);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            JsonParser parser = new JsonParser();
+            parameters = parser.parse("{\"userId\":\"frog\",\"key\":\"005\",\"profile\":{\"userId\":\"xuanzhang666@jhu.edu\",\"userName\":\"xuanzhang\",\"address\":\"Inner Mongolia\",\"gender\":\"female\",\"age\":23,\"punctuality\":4.5,\"participation\":5.0,\"iconUUID\": \"897WEM\"}}").getAsJsonObject();
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes( parameters.toString());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"No such user\"}", responseBody);
+    }
     @Test
     /**
      *  Test get a user outline successfully

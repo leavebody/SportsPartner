@@ -14,47 +14,47 @@ public class PersonDaoImpl {
      *  Get all of the persons in the database
      * @return List of all persons
      */
-    public List<Person> getAllPersons(){
-
-        Connection c = new ConnectionUtil().connectDB();
-
-        List<Person> persons = new ArrayList<Person>();
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = c.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM \"Person\" WHERE \"Person\".\"userId\"=\"User\".\"userId\";");
-
-            while (rs.next()) {
-                String userId = rs.getString("userId");
-                String userName = rs.getString("userName");
-                String address = rs.getString("address");
-                String gender = rs.getString("gender");
-                int age = rs.getInt("age");
-                double punctuality = rs.getDouble("punctuality");
-                int punctualityCount = rs.getInt("punctualityCount");
-                double participation = rs.getDouble("participation");
-                int participationCount = rs.getInt("participationCount");
-                String iconUUID = rs.getString("iconUUID");
-
-                persons.add(new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconUUID));
-            }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return persons;
-    }
+//    public List<Person> getAllPersons(){
+//
+//        Connection c = new ConnectionUtil().connectDB();
+//
+//        List<Person> persons = new ArrayList<Person>();
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            stmt = c.createStatement();
+//            rs = stmt.executeQuery("SELECT * FROM \"Person\" WHERE \"Person\".\"userId\"=\"User\".\"userId\";");
+//
+//            while (rs.next()) {
+//                String userId = rs.getString("userId");
+//                String userName = rs.getString("userName");
+//                String address = rs.getString("address");
+//                String gender = rs.getString("gender");
+//                int age = rs.getInt("age");
+//                double punctuality = rs.getDouble("punctuality");
+//                int punctualityCount = rs.getInt("punctualityCount");
+//                double participation = rs.getDouble("participation");
+//                int participationCount = rs.getInt("participationCount");
+//                String iconUUID = rs.getString("iconUUID");
+//
+//                persons.add(new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconUUID));
+//            }
+//        } catch (Exception e) {
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//
+//        } finally {
+//            try {
+//                rs.close();
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return persons;
+//    }
 
     /**
      * Get the person by searching userId in the database

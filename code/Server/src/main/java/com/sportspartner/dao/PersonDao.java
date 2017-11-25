@@ -4,7 +4,7 @@ import java.util.List;
 import com.sportspartner.model.Person;
 
 public interface PersonDao {
-    public List<Person> getAllPersons();
+//    public List<Person> getAllPersons();
     public Person getPerson(String userId);
     public boolean newPerson(Person person);
     public boolean updatePerson(Person person);
