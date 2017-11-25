@@ -201,6 +201,36 @@ public class ActivityTest {
         //String response =responseJson.toString();
         assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}}", responseBody);
     }
+
+    @Test
+    public void testGetActivityOutlineNoSuchContent(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            String activityId = "a001";
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/" + activityId+ "?content=other");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        //JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
+        //String respond = responseJson.get("response").getAsString();
+        //assertEquals ("\"true\"",respond);
+        //String response =responseJson.toString();
+        assertEquals("{\"response\":\"false\",\"message\":\"No such content\"}", responseBody);
+    }
     /**
      * test when GetActivityOutline fails
      */
@@ -602,6 +632,36 @@ public class ActivityTest {
         }
 
         assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+    @Test
+    public void testUpdateActivityFailureLackAuthorization(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/toUpdate001");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String body = "{\"requestorId\":\"u24\",\"requestorKey\":\"DSA\",\"activity\":{\"facilityId\":\"NULL\",\"activityId\":\"toUpdate001\",\"creatorId\":\"u24\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\"}}";
+
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to update activity info\"}", responseBody);
     }
     /**
      *  test when delete an activity success
