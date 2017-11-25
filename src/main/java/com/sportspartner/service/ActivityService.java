@@ -406,23 +406,23 @@ public class ActivityService {
         return resp;
     }
 
-    public void searchActivity(){
-        //TODO
-    }
-
-
-    public void reviewctivity(){
-        //TODO
-    }
-    public void activityInfoUpdate(){
-        //TODO
-    }
-    public void userIdentityCheck(){
-        //TODO
-    }
-    public void addActivityDiscussion(){
-        //TODO
-    }
+//    public void searchActivity(){
+//        //TODO
+//    }
+//
+//
+//    public void reviewctivity(){
+//        //TODO
+//    }
+//    public void activityInfoUpdate(){
+//        //TODO
+//    }
+//    public void userIdentityCheck(){
+//        //TODO
+//    }
+//    public void addActivityDiscussion(){
+//        //TODO
+//    }
     /**
      * Check whether a user exists
      * @param userId Id of a user

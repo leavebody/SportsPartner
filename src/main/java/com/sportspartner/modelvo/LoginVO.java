@@ -8,11 +8,11 @@ public class LoginVO{
     private String registrationId;
 
     public LoginVO(){}
-    public LoginVO(String userId, String password, String registrationId) {
-        this.userId = userId;
-        this.password = password;
-        this.registrationId = registrationId;
-    }
+//    public LoginVO(String userId, String password, String registrationId) {
+//        this.userId = userId;
+//        this.password = password;
+//        this.registrationId = registrationId;
+//    }
 
     public String getUserId() {
         return userId;
