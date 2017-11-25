@@ -153,4 +153,37 @@ public class SignupTest {
 
         assertEquals("{\"response\":\"false\",\"message\":\"Password and confirm password are not consistent\"}", responseBody);
     }
+
+    @Test
+    // Test sign up for when confirm password is not the same as password
+    public void testSignupUserTypeNotExist(){
+        JSONObject parameters;
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/signup/sport");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            parameters = new JSONObject();
+            parameters.put("userId", "xuanzhang123@jhu.edu");
+            parameters.put("password", "lovejhu");
+            parameters.put("confirmPassword", "lovesleeping");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes( parameters.toString());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"User type not exist\"}", responseBody);
+    }
 }
