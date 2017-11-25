@@ -1,6 +1,6 @@
 package com.sportspartner.model;
 
-//public class PendingJoinActivityRequest {
+public class PendingJoinActivityRequest {
 //    private String activityId;
 //    private String requestorId;
 //    private String creatorId;
@@ -36,4 +36,4 @@ package com.sportspartner.model;
 //    public void setCreatorId(String creatorId) {
 //        this.creatorId = creatorId;
 //    }
-//}
+}
