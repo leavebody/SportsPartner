@@ -55,48 +55,48 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
      * @param profileComment ProfileComment Object
      * @return true if there exists; false if it doesn't
      */
-    public boolean hasProfileComment(ProfileComment profileComment){
-
-        Connection c = new ConnectionUtil().connectDB();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        boolean isprofileCommentExist = false;
-        String userId = profileComment.getUserId();
-        String commentId = profileComment.getCommentId();
-        String authorId = profileComment.getAuthorId();
-        Date time = profileComment.getTime();
-        Timestamp timestamp = new Timestamp(time.getTime());
-        String content = profileComment.getContent();
-
-        try {
-            stmt = c.prepareStatement("SELECT * FROM \"Comment_Profile\" WHERE \"userId\" = ? AND \"commentId\" = ? AND \"authorId\" = ? AND \"time\" = ? AND  \"content\" = ?;");
-            stmt.setString(1, userId);
-            stmt.setString(2, commentId);
-            stmt.setString(3, authorId);
-            stmt.setTimestamp(4,timestamp);
-            stmt.setString(5,content);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                isprofileCommentExist = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
-        } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return isprofileCommentExist;
-
-    }
+//    public boolean hasProfileComment(ProfileComment profileComment){
+//
+//        Connection c = new ConnectionUtil().connectDB();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        boolean isprofileCommentExist = false;
+//        String userId = profileComment.getUserId();
+//        String commentId = profileComment.getCommentId();
+//        String authorId = profileComment.getAuthorId();
+//        Date time = profileComment.getTime();
+//        Timestamp timestamp = new Timestamp(time.getTime());
+//        String content = profileComment.getContent();
+//
+//        try {
+//            stmt = c.prepareStatement("SELECT * FROM \"Comment_Profile\" WHERE \"userId\" = ? AND \"commentId\" = ? AND \"authorId\" = ? AND \"time\" = ? AND  \"content\" = ?;");
+//            stmt.setString(1, userId);
+//            stmt.setString(2, commentId);
+//            stmt.setString(3, authorId);
+//            stmt.setTimestamp(4,timestamp);
+//            stmt.setString(5,content);
+//            rs = stmt.executeQuery();
+//            if (rs.next()) {
+//                isprofileCommentExist = true;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//            //
+//        } finally {
+//            try {
+//                rs.close();
+//                stmt.close();
+//                c.close();
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        return isprofileCommentExist;
+//
+//    }
 
     /**
      *  Create a new ProfileComment in the database

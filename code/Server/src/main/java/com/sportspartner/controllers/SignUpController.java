@@ -30,7 +30,6 @@ public class SignUpController {
                 else{
                     reps.setResponse("false");
                     reps.setMessage("User type not exist");
-                    return reps;
                 }
                 response.status(200);
                 return reps;
