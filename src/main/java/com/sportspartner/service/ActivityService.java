@@ -1,4 +1,5 @@
 package com.sportspartner.service;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sportspartner.dao.impl.*;
@@ -22,67 +23,65 @@ public class ActivityService {
     private UserDaoImpl userDaoImpl = new UserDaoImpl();
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
+
     /**
      * Get the detail of an activity
      *
      * @param activityId return an Id of an activity
      * @return JsonResponse to the front-end
-     * @throws ActivityServiceException throws ActivityServiceException
      */
-    public JsonResponse getActivityDetail(String activityId, String requestorId, String requestorKey) throws ActivityServiceException {
+    public JsonResponse getActivityDetail(String activityId, String requestorId, String requestorKey) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            if (!hasActivity(activityId)) {
-                resp.setResponse("false");
-                resp.setMessage("No such activity");
-            } else {
-                ActivityVO activityVO = new ActivityVO();
-                // Basic Info
-                Activity activity = activityDaoImpl.getActivity(activityId);
-                activityVO.setFromActivity(activity);
-                // Sports Info
-                Sport sport = sportDaoImpl.getSport(activity.getSportId());
-                activityVO.setFromSport(sport);
-                // Facility Info
-                Facility facility = facilityDaoImpl.getFacility(activity.getFacilityId());
-                if(facility!=null){
-                    activityVO.setFromFacility(facility);
-                }
-                // Members Info
-                List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
-                List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
-                for (ActivityMember activityMember : activityMembers) {
-                    String memberId = activityMember.getUserId();
-                    if (!activityVO.getCreatorId().equals(memberId)) {
-                        Person person = personDaoImpl.getPerson(memberId);
-                        UserOutlineVO userOutlineVO = new UserOutlineVO();
-                        userOutlineVO.setFromPerson(person);
-                        members.add(userOutlineVO);
-                    }
-                }
-                activityVO.setMembers(members);
-                //Comment Info
-                List<ActivityComment> comments = activityCommentDaoImpl.getAllActivityComments(activityId);
-                activityVO.setFromComments(comments);
 
-                resp.setResponse("true");
-                resp.setActivity(activityVO);
-
-                // check relationship between the user and the requestor
-                if(isAuthorized(requestorId, requestorKey)) {
-                    if (requestorId.equals(activityVO.getCreatorId())) {
-                        resp.setUserType("CREATOR");
-                        return resp;
-                    } else if (activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, requestorId))) {
-                        resp.setUserType("MEMBER");
-                        return resp;
-                    }
-                }
-                resp.setUserType("STRANGER");
+        if (!hasActivity(activityId)) {
+            resp.setResponse("false");
+            resp.setMessage("No such activity");
+        } else {
+            ActivityVO activityVO = new ActivityVO();
+            // Basic Info
+            Activity activity = activityDaoImpl.getActivity(activityId);
+            activityVO.setFromActivity(activity);
+            // Sports Info
+            Sport sport = sportDaoImpl.getSport(activity.getSportId());
+            activityVO.setFromSport(sport);
+            // Facility Info
+            Facility facility = facilityDaoImpl.getFacility(activity.getFacilityId());
+            if (facility != null) {
+                activityVO.setFromFacility(facility);
             }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getActivityDetail Exception", ex);
+            // Members Info
+            List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
+            List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
+            for (ActivityMember activityMember : activityMembers) {
+                String memberId = activityMember.getUserId();
+                if (!activityVO.getCreatorId().equals(memberId)) {
+                    Person person = personDaoImpl.getPerson(memberId);
+                    UserOutlineVO userOutlineVO = new UserOutlineVO();
+                    userOutlineVO.setFromPerson(person);
+                    members.add(userOutlineVO);
+                }
+            }
+            activityVO.setMembers(members);
+            //Comment Info
+            List<ActivityComment> comments = activityCommentDaoImpl.getAllActivityComments(activityId);
+            activityVO.setFromComments(comments);
+
+            resp.setResponse("true");
+            resp.setActivity(activityVO);
+
+            // check relationship between the user and the requestor
+            if (isAuthorized(requestorId, requestorKey)) {
+                if (requestorId.equals(activityVO.getCreatorId())) {
+                    resp.setUserType("CREATOR");
+                    return resp;
+                } else if (activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, requestorId))) {
+                    resp.setUserType("MEMBER");
+                    return resp;
+                }
+            }
+            resp.setUserType("STRANGER");
         }
+
         return resp;
     }
 
@@ -91,26 +90,23 @@ public class ActivityService {
      *
      * @param activityId Id of an activity
      * @return JsonResponse to the front-end
-     * @throws ActivityServiceException throws ActivityServiceException
      */
-    public JsonResponse getActivityOutline(String activityId) throws ActivityServiceException {
+    public JsonResponse getActivityOutline(String activityId) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
-            if (!hasActivity(activityId)) {
-                resp.setResponse("false");
-                resp.setMessage("No such activity");
-            } else {
-                Activity activity = activityDaoImpl.getActivity(activityId);
-                Sport sport = sportDaoImpl.getSport(activity.getSportId());
-                activityOutlineVO.setFromActivity(activity);
-                activityOutlineVO.setFromSport(sport);
-                resp.setActivityOutline(activityOutlineVO);
-                resp.setResponse("true");
-            }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getActivityOutline Exception", ex);
+
+        ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+        if (!hasActivity(activityId)) {
+            resp.setResponse("false");
+            resp.setMessage("No such activity");
+        } else {
+            Activity activity = activityDaoImpl.getActivity(activityId);
+            Sport sport = sportDaoImpl.getSport(activity.getSportId());
+            activityOutlineVO.setFromActivity(activity);
+            activityOutlineVO.setFromSport(sport);
+            resp.setActivityOutline(activityOutlineVO);
+            resp.setResponse("true");
         }
+
         return resp;
     }
 
@@ -121,37 +117,34 @@ public class ActivityService {
      * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
      * @param limit  The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
      * @return Json Response to the front-end
-     * @throws ActivityServiceException throws ActivityServiceException
      */
-    public JsonResponse getUpcomingActivity(String userId, int offset, int limit) throws ActivityServiceException {
+    public JsonResponse getUpcomingActivity(String userId, int offset, int limit) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            if (!hasUser(userId)) {
-                resp.setResponse("false");
-                resp.setMessage("No such user");
+
+        if (!hasUser(userId)) {
+            resp.setResponse("false");
+            resp.setMessage("No such user");
+        } else {
+            List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+            List<Activity> upcomingActivities = activityDaoImpl.getUpcomingActivities(userId);
+            if (upcomingActivities.size() <= offset) {
+                resp.setResponse("true");
+                resp.setMessage("No more upcoming activities");
+                resp.setActivityOutlines(new ArrayList<>());
             } else {
-                List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
-                List<Activity> upcomingActivities = activityDaoImpl.getUpcomingActivities(userId);
-                if (upcomingActivities.size() <= offset) {
-                    resp.setResponse("true");
-                    resp.setMessage("No more upcoming activities");
-                    resp.setActivityOutlines(new ArrayList<>());
-                } else {
-                    List<Activity> upcomingActivitiesSubset = upcomingActivities.subList(offset, min(offset + limit, upcomingActivities.size()));
-                    for (Activity upcomingActivity : upcomingActivitiesSubset) {
-                        Sport sport = sportDaoImpl.getSport(upcomingActivity.getSportId());
-                        ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
-                        activityOutlineVO.setFromActivity(upcomingActivity);
-                        activityOutlineVO.setFromSport(sport);
-                        activityOutlineVOs.add(activityOutlineVO);
-                    }
-                    resp.setActivityOutlines(activityOutlineVOs);
-                    resp.setResponse("true");
+                List<Activity> upcomingActivitiesSubset = upcomingActivities.subList(offset, min(offset + limit, upcomingActivities.size()));
+                for (Activity upcomingActivity : upcomingActivitiesSubset) {
+                    Sport sport = sportDaoImpl.getSport(upcomingActivity.getSportId());
+                    ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+                    activityOutlineVO.setFromActivity(upcomingActivity);
+                    activityOutlineVO.setFromSport(sport);
+                    activityOutlineVOs.add(activityOutlineVO);
                 }
+                resp.setActivityOutlines(activityOutlineVOs);
+                resp.setResponse("true");
             }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getUpcomingActivity Exception", ex);
         }
+
         return resp;
     }
 
@@ -162,37 +155,34 @@ public class ActivityService {
      * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
      * @param limit  The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
      * @return Json Response to the front-end
-     * @throws ActivityServiceException throws ActivityServiceException
      */
-    public JsonResponse getPastActivity(String userId, int offset, int limit) throws ActivityServiceException {
+    public JsonResponse getPastActivity(String userId, int offset, int limit) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            if (!hasUser(userId)) {
-                resp.setResponse("false");
-                resp.setMessage("No such user");
+
+        if (!hasUser(userId)) {
+            resp.setResponse("false");
+            resp.setMessage("No such user");
+        } else {
+            List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+            List<Activity> pastActivities = activityDaoImpl.getPastActivities(userId);
+            if (pastActivities.size() <= offset) {
+                resp.setResponse("true");
+                resp.setMessage("No more past activities");
+                resp.setActivityOutlines(new ArrayList<>());
             } else {
-                List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
-                List<Activity> pastActivities = activityDaoImpl.getPastActivities(userId);
-                if (pastActivities.size() <= offset) {
-                    resp.setResponse("true");
-                    resp.setMessage("No more past activities");
-                    resp.setActivityOutlines(new ArrayList<>());
-                } else {
-                    List<Activity> pastActivitiesSubset = pastActivities.subList(offset, min(offset + limit, pastActivities.size()));
-                    for (Activity pastActivity : pastActivitiesSubset) {
-                        Sport sport = sportDaoImpl.getSport(pastActivity.getSportId());
-                        ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
-                        activityOutlineVO.setFromActivity(pastActivity);
-                        activityOutlineVO.setFromSport(sport);
-                        activityOutlineVOs.add(activityOutlineVO);
-                    }
-                    resp.setActivityOutlines(activityOutlineVOs);
-                    resp.setResponse("true");
+                List<Activity> pastActivitiesSubset = pastActivities.subList(offset, min(offset + limit, pastActivities.size()));
+                for (Activity pastActivity : pastActivitiesSubset) {
+                    Sport sport = sportDaoImpl.getSport(pastActivity.getSportId());
+                    ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+                    activityOutlineVO.setFromActivity(pastActivity);
+                    activityOutlineVO.setFromSport(sport);
+                    activityOutlineVOs.add(activityOutlineVO);
                 }
+                resp.setActivityOutlines(activityOutlineVOs);
+                resp.setResponse("true");
             }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getPastActivity Exception", ex);
         }
+
         return resp;
     }
 
@@ -201,28 +191,25 @@ public class ActivityService {
      *
      * @param activityId The UUID of the activity.
      * @return JsonResponse object
-     * @throws ActivityServiceException
      */
-    public JsonResponse getActivityMembers(String activityId) throws ActivityServiceException {
+    public JsonResponse getActivityMembers(String activityId) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            if(activityDaoImpl.getActivity(activityId)==null){
-                resp.setResponse("false");
-                resp.setMessage("No such activity");
-                return resp;
-            }
-            List<UserOutlineVO> userOutlineVOs = new ArrayList<UserOutlineVO>();
-            List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
-            for (ActivityMember activityMember : activityMembers) {
-                UserOutlineVO userOutlineVO = new UserOutlineVO();
-                userOutlineVO.setFromPerson(personDaoImpl.getPerson(activityMember.getUserId()));
-                userOutlineVOs.add(userOutlineVO);
-            }
-            resp.setMembers(userOutlineVOs);
-            resp.setResponse("true");
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service getActivityMembers Exception", ex);
+
+        if (activityDaoImpl.getActivity(activityId) == null) {
+            resp.setResponse("false");
+            resp.setMessage("No such activity");
+            return resp;
         }
+        List<UserOutlineVO> userOutlineVOs = new ArrayList<UserOutlineVO>();
+        List<ActivityMember> activityMembers = activityMemberDaoImpl.getAllActivitymembers(activityId);
+        for (ActivityMember activityMember : activityMembers) {
+            UserOutlineVO userOutlineVO = new UserOutlineVO();
+            userOutlineVO.setFromPerson(personDaoImpl.getPerson(activityMember.getUserId()));
+            userOutlineVOs.add(userOutlineVO);
+        }
+        resp.setMembers(userOutlineVOs);
+        resp.setResponse("true");
+
         return resp;
     }
 
@@ -232,27 +219,23 @@ public class ActivityService {
      * @param activityId The UUID of the activity.
      * @param body       The request body from controller.
      * @return JsonResponse object
-     * @throws ActivityServiceException
      */
-    public JsonResponse addActivityMember(String activityId, String body) throws ActivityServiceException {
+    public JsonResponse addActivityMember(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String userId = json.get("userId").getAsString();
-            ActivityMember activityMember = new ActivityMember(activityId, userId);
-            if(activityMemberDaoImpl.hasActivityMember(activityMember)){
-                resp.setResponse("false");
-                resp.setMessage("This user is already a member");
-            }
-            else if(activityMemberDaoImpl.newActivityMember(activityMember)) {
-                resp.setResponse("true");
-            } else {
-                resp.setMessage("Unable to create a new entry in database");
-                resp.setResponse("false");
-            }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service addActivityMember Exception", ex);
+
+        JsonObject json = new Gson().fromJson(body, JsonObject.class);
+        String userId = json.get("userId").getAsString();
+        ActivityMember activityMember = new ActivityMember(activityId, userId);
+        if (activityMemberDaoImpl.hasActivityMember(activityMember)) {
+            resp.setResponse("false");
+            resp.setMessage("This user is already a member");
+        } else if (activityMemberDaoImpl.newActivityMember(activityMember)) {
+            resp.setResponse("true");
+        } else {
+            resp.setMessage("Unable to create a new entry in database");
+            resp.setResponse("false");
         }
+
         return resp;
     }
 
@@ -263,112 +246,104 @@ public class ActivityService {
      * @param activityId The UUID of the activity.
      * @param body       The request body from controller.
      * @return JsonResponse object.
-     * @throws ActivityServiceException
      */
-    public JsonResponse removeActivityMember(String activityId, String body) throws ActivityServiceException {
+    public JsonResponse removeActivityMember(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String userId = json.get("userId").getAsString();
-            ActivityMember activityMember = new ActivityMember(activityId, userId);
-            if(!activityMemberDaoImpl.hasActivityMember(activityMember)){
-                resp.setResponse("false");
-                resp.setMessage("The user is not a member");
-            }
-            else if(activityMemberDaoImpl.deleteActivityMember(activityMember)) {
-                resp.setResponse("true");
-            } else {
-                resp.setMessage("Unable to delete the entry from database");
-                resp.setResponse("false");
-            }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service removeActivityMember Exception", ex);
+
+        JsonObject json = new Gson().fromJson(body, JsonObject.class);
+        String userId = json.get("userId").getAsString();
+        ActivityMember activityMember = new ActivityMember(activityId, userId);
+        if (!activityMemberDaoImpl.hasActivityMember(activityMember)) {
+            resp.setResponse("false");
+            resp.setMessage("The user is not a member");
+        } else if (activityMemberDaoImpl.deleteActivityMember(activityMember)) {
+            resp.setResponse("true");
+        } else {
+            resp.setMessage("Unable to delete the entry from database");
+            resp.setResponse("false");
         }
+
         return resp;
     }
 
     /**
      * Create a new activity.
+     *
      * @param body Json string containing fields of userId, key and activity
      * @return JsonResponse object.
-     * @throws ActivityServiceException
      */
-    public JsonResponse newActivity(String body) throws ActivityServiceException {
+    public JsonResponse newActivity(String body) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String userId = json.get("userId").getAsString();
-            String key = json.get("key").getAsString();
-            if (!isAuthorized(userId, key)) {
-                resp.setResponse("false");
-                resp.setMessage("Lack Authorization");
-            } else {
-                Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
 
-                String activityId = UUID.randomUUID().toString();
-                activity.setActivityId(activityId);
+        JsonObject json = new Gson().fromJson(body, JsonObject.class);
+        String userId = json.get("userId").getAsString();
+        String key = json.get("key").getAsString();
+        if (!isAuthorized(userId, key)) {
+            resp.setResponse("false");
+            resp.setMessage("Lack Authorization");
+        } else {
+            Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
 
-                // set the location of the activity
-                String facilityId = activity.getFacilityId();
-                if (!facilityId.equals("NULL")) {
-                    Facility facility = facilityDaoImpl.getFacility(facilityId);
-                    activity.setFromFacility(facility);
-                }
+            String activityId = UUID.randomUUID().toString();
+            activity.setActivityId(activityId);
 
-                // create a new activity in database
-                String creatorId = activity.getCreatorId();
-                if (activityDaoImpl.newActivity(activity) && activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, creatorId))) {
-                    resp.setResponse("true");
-                    resp.setActivityId(activityId);
-                } else {
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create a new entry in database");
-                }
+            // set the location of the activity
+            String facilityId = activity.getFacilityId();
+            if (!facilityId.equals("NULL")) {
+                Facility facility = facilityDaoImpl.getFacility(facilityId);
+                activity.setFromFacility(facility);
             }
-        } catch (Exception ex) {
-            throw new ActivityServiceException("Activity Service newActivityException", ex);
+
+            // create a new activity in database
+            String creatorId = activity.getCreatorId();
+            if (activityDaoImpl.newActivity(activity) && activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, creatorId))) {
+                resp.setResponse("true");
+                resp.setActivityId(activityId);
+            } else {
+                resp.setResponse("false");
+                resp.setMessage("Fail to create a new entry in database");
+            }
         }
+
         return resp;
     }
 
     /**
      * Update an activity's info.
+     *
      * @param activityId The UUID of an activity.
-     * @param body The Json string from controller, containing an ActivityVO object, requestorId and requestorKey.
+     * @param body       The Json string from controller, containing an ActivityVO object, requestorId and requestorKey.
      * @return JsonResponse object
-     * @throws ActivityServiceException
      */
-    public JsonResponse updateActivity(String activityId, String body) throws ActivityServiceException{
+    public JsonResponse updateActivity(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            JsonObject json = new Gson().fromJson(body, JsonObject.class);
-            String requestorId = json.get("requestorId").getAsString();
-            String requestorKey = json.get("requestorKey").getAsString();
 
-            if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
-                resp.setResponse("false");
-                resp.setMessage("Lack authorization to update activity info");
-            } else {
-                Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
+        JsonObject json = new Gson().fromJson(body, JsonObject.class);
+        String requestorId = json.get("requestorId").getAsString();
+        String requestorKey = json.get("requestorKey").getAsString();
 
-                // set the location info
-                String facilityId = activity.getFacilityId();
-                if (!facilityId.equals("NULL")) {
-                    Facility facility = facilityDaoImpl.getFacility(facilityId);
-                    activity.setFromFacility(facility);
-                }
+        if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+            resp.setResponse("false");
+            resp.setMessage("Lack authorization to update activity info");
+        } else {
+            Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
 
-                boolean isUpdate = activityDaoImpl.updateActivity(activity);
-                if (!isUpdate) {
-                    resp.setResponse("false");
-                    resp.setMessage("Update failed");
-                } else {
-                    resp.setResponse("true");
-                }
+            // set the location info
+            String facilityId = activity.getFacilityId();
+            if (!facilityId.equals("NULL")) {
+                Facility facility = facilityDaoImpl.getFacility(facilityId);
+                activity.setFromFacility(facility);
             }
-        }catch(Exception ex){
-            throw new ActivityServiceException("Activity Service updateActivity error", ex);
+
+            boolean isUpdate = activityDaoImpl.updateActivity(activity);
+            if (!isUpdate) {
+                resp.setResponse("false");
+                resp.setMessage("Update failed");
+            } else {
+                resp.setResponse("true");
+            }
         }
+
 //      System.out.println(resp);
         return resp;
     }
@@ -376,33 +351,30 @@ public class ActivityService {
 
     /**
      * Delete an activity.
-     * @param activityId The UUID of the activity.
-     * @param requestorId The email of the requestor of deleting the activity.
+     *
+     * @param activityId   The UUID of the activity.
+     * @param requestorId  The email of the requestor of deleting the activity.
      * @param requestorKey The authentication key of the requestor.
-     * @throws ActivityServiceException
      */
-    public JsonResponse deleteActivity(String activityId, String requestorId, String requestorKey) throws ActivityServiceException{
+    public JsonResponse deleteActivity(String activityId, String requestorId, String requestorKey) throws Exception {
         JsonResponse resp = new JsonResponse();
-        try {
-            if(activityDaoImpl.getActivity(activityId)==null){
+
+        if (activityDaoImpl.getActivity(activityId) == null) {
+            resp.setResponse("false");
+            resp.setMessage("No such activity");
+        } else if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
+            resp.setResponse("false");
+            resp.setMessage("Lack authorization to cancel the activity");
+        } else {
+            boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId);
+            if (!isDelete) {
                 resp.setResponse("false");
-                resp.setMessage("No such activity");
-            }else if (!isAuthorized(requestorId, requestorKey) || !requestorId.equals(activityDaoImpl.getActivity(activityId).getCreatorId())) {
-                resp.setResponse("false");
-                resp.setMessage("Lack authorization to cancel the activity");
-            }else {
-                boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId) ;
-                if (!isDelete) {
-                    resp.setResponse("false");
-                    resp.setMessage("Cancel failed");
-                } else {
-                    resp.setResponse("true");
-                }
+                resp.setMessage("Cancel failed");
+            } else {
+                resp.setResponse("true");
             }
-        }catch(Exception ex){
-            ex.printStackTrace();
-            throw new ActivityServiceException("Activity Service deleteActivity error", ex);
         }
+
         return resp;
     }
 
@@ -423,44 +395,42 @@ public class ActivityService {
 //    public void addActivityDiscussion(){
 //        //TODO
 //    }
+
     /**
      * Check whether a user exists
+     *
      * @param userId Id of a user
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasUser(String userId){
+    public boolean hasUser(String userId) {
         User user = userDaoImpl.getUser(userId);
-        return user!=null;
+        return user != null;
     }
+
     /**
      * Check whether an activity exists
+     *
      * @param activityId Id of an activity
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasActivity(String activityId){
+    public boolean hasActivity(String activityId) {
         Activity activity = activityDaoImpl.getActivity(activityId);
-        return activity!= null;
+        return activity != null;
 
     }
 
     /**
      * Check whether a user is authorized
+     *
      * @param userId Id of a user
-     * @param key login key of a user
+     * @param key    login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key){
+    public boolean isAuthorized(String userId, String key) {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
     }
 
-    /**
-     *  Exception class for Activity
-     */
-    public static class ActivityServiceException extends Exception {
-        public ActivityServiceException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
+
 }
