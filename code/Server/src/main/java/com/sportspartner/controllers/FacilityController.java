@@ -21,18 +21,18 @@ public class FacilityController {
     private void setupEndpoints() {
         // get all facilities for map display
         get(API_CONTEXT + "/facility_markers", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 double longitude_small = Double.parseDouble(request.queryParams("los"));
                 double longitude_large = Double.parseDouble(request.queryParams("lol"));
                 double latitude_small = Double.parseDouble(request.queryParams("las"));
                 double latitude_large = Double.parseDouble(request.queryParams("lal"));
                 reps = facilityService.getFacilityMarkers(longitude_small, longitude_large, latitude_small, latitude_large);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
 

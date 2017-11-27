@@ -18,41 +18,38 @@ public class NotificationController {
     // send a friend request
     private void setupEndpoints() {
         post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = notificationService.sendFriendRequest(request.params(":receiverId"), request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch(NotificationService.NotificationServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch(Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // accept a freind request
         post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = notificationService.acceptFriendRequest(request.params(":receiverId"), request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch (NotificationService.NotificationServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // decline a friend request
         post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = notificationService.declineFriendRequest(request.params(":receiverId"), request.params(":senderId"));
-                response.status(200);
-                return reps;
-            } catch (NotificationService.NotificationServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 /*
         // send a join activity application

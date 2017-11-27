@@ -22,112 +22,103 @@ public class ProfileController {
     private void setupEndpoints() {
         //get the profile
         get(API_CONTEXT + "/profile/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getProfile(request.params(":userId"), request.queryParams("requestorId"), request.queryParams("requestorKey"));
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         //update the profile
         put(API_CONTEXT + "/profile/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = profileService.updateProfile(request.params(":userId"),request.body());
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // get the interests
         get(API_CONTEXT + "/interests/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getInterests(request.params(":userId"));
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         //update the interests
         put(API_CONTEXT + "/interests/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = profileService.updateInterest(request.params(":userId"),request.body());
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // get the user outline
         get(API_CONTEXT + "/profile/outline/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getUserOutline(request.params(":userId"));
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // get the profile comments
         get(API_CONTEXT + "/profile_comments/:userId", "application/json", (request, response) ->{
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getProfileComment(request.params(":userId"));
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // create a new profile comment
         post(API_CONTEXT + "/profile_comments/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = profileService.newProfileComment(request.params(":userId"), request.body());
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(500);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(500);
+            return reps;
         }, new JsonTransformer());
 
         // get all sports
         get(API_CONTEXT + "/sports", "application/json", (request, response) ->{
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getAllSports();
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(200);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
 
