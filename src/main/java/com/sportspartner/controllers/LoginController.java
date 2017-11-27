@@ -22,15 +22,14 @@ public class LoginController {
 
         //login
         post(API_CONTEXT + "/login", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = userService.login(request.body());
-                response.status(200);
-                return reps;
-            } catch (UserService.UserServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
     }
