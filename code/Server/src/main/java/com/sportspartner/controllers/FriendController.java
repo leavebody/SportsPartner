@@ -22,30 +22,26 @@ public class FriendController {
 
         // get all friends of the user
         get(API_CONTEXT + "/:userId/friends", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = friendService.getFriendList(request.params(":userId"));
-                response.status(200);
-                return reps;
-            } catch ( FriendService.FriendServiceException ex) {
-                response.status(200);
-                reps.setResponse("False");
-                reps.setMessage("User has not login in app");
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
         // delete a friend
         delete(API_CONTEXT + "/deletefriend/:userId1/:userId2", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse();
+            JsonResponse reps = new JsonResponse(true);
             try {
                 reps = friendService.deleteFriend(request.params(":userId1"),request.params(":userId2"));
-                response.status(200);
-                return reps;
-            } catch ( FriendService.FriendServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
     }
 }
