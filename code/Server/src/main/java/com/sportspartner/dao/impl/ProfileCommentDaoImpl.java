@@ -103,48 +103,48 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
      * @param profileComment ProfileComment Object
      * @return true if the process succeeds; false if not
      */
-//    public boolean newProfileComment(ProfileComment profileComment){
-//
-//        Connection c = new ConnectionUtil().connectDB();
-//
-//        PreparedStatement stmt = null;
-//        int rs;
-//        String userId = profileComment.getUserId();
-//        String commentId = profileComment.getCommentId();
-//        String authorId = profileComment.getAuthorId();
-//        Date time  = profileComment.getTime();
-//        Timestamp timestamp = new Timestamp(time.getTime());
-//        String content = profileComment.getContent();
-//
-//        boolean result = false;
-//
-//        try {
-//            stmt = c.prepareStatement("INSERT INTO \"Comment_Profile\" (\"userId\", \"commentId\",\"authorId\", \"time\", \"content\")"+
-//                    "VALUES (?, ?, ?, ?, ?)");
-//            stmt.setString(1, userId);
-//            stmt.setString(2, commentId);
-//            stmt.setString(3, authorId);
-//            stmt.setTimestamp(4, timestamp);
-//            stmt.setString(5, content);
-//            rs = stmt.executeUpdate();
-//            if(rs>0)
-//                result = true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//
-//        } finally {
-//            try {
-//                stmt.close();
-//                c.close();
-//            } catch (SQLException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
-//        return result;
-//
-//    }
+    public boolean newProfileComment(ProfileComment profileComment){
+
+        Connection c = new ConnectionUtil().connectDB();
+
+        PreparedStatement stmt = null;
+        int rs;
+        String userId = profileComment.getUserId();
+        String commentId = profileComment.getCommentId();
+        String authorId = profileComment.getAuthorId();
+        Date time  = profileComment.getTime();
+        Timestamp timestamp = new Timestamp(time.getTime());
+        String content = profileComment.getContent();
+
+        boolean result = false;
+
+        try {
+            stmt = c.prepareStatement("INSERT INTO \"Comment_Profile\" (\"userId\", \"commentId\",\"authorId\", \"time\", \"content\")"+
+                    "VALUES (?, ?, ?, ?, ?)");
+            stmt.setString(1, userId);
+            stmt.setString(2, commentId);
+            stmt.setString(3, authorId);
+            stmt.setTimestamp(4, timestamp);
+            stmt.setString(5, content);
+            rs = stmt.executeUpdate();
+            if(rs>0)
+                result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return result;
+
+    }
 //    /**
 //     *  Update a new ProfileComment in the database
 //     * @param profileComment ProfileComment Object
