@@ -2,6 +2,7 @@ package com.sportspartner.dao.impl;
 
 import com.sportspartner.model.Activity;
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 
 import java.util.Date;
 
@@ -23,7 +24,8 @@ public class ActivityDaoImplTest {
     public void teardown(){
     }
 
-
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
 
     @Test
@@ -48,4 +50,5 @@ public class ActivityDaoImplTest {
         assertEquals(true, activityDaoImpl.deleteActivity("ac001"));
 
     }
+
 }

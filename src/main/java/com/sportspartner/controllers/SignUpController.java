@@ -31,12 +31,11 @@ public class SignUpController {
                     reps.setResponse("false");
                     reps.setMessage("User type not exist");
                 }
-                response.status(200);
-                return reps;
             } catch (Exception ex) {
-                response.status(500);
-                return reps;
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
     }
