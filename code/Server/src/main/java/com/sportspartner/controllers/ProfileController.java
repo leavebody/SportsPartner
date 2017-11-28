@@ -104,7 +104,7 @@ public class ProfileController {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            response.status(500);
+            response.status(200);
             return reps;
         }, new JsonTransformer());
 
