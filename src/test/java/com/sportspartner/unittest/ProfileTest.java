@@ -445,7 +445,7 @@ public class ProfileTest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             JsonParser parser = new JsonParser();
-            parameters = parser.parse("{\"authorId\":\"zihao@jhu.edu\", \"key\":\"666\", \"activityId\": \"02\", \"comment\": {\"userId\":\"u1\",\"commentId\":\"005\",\"authorId\":\"Dog\",\"authorName\":\"zli86@jhu.edu\",\"time\":\"Oct 22, 2017 10:06:06 PM\",\"content\":\"A good soccer player.\"}}").getAsJsonObject();
+            parameters = parser.parse("{\"authorId\":\"zihao@jhu.edu\", \"key\":\"666\", \"activityId\": \"02\", \"comment\": {\"userId\":\"u1\",\"commentId\":\"005\",\"authorId\":\"Dog\",\"authorName\":\"zli86@jhu.edu\",\"time\":\"Oct 22, 2017 10:06:06 PM\",\"content\":\"What a wonderful person.\"}}").getAsJsonObject();
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
