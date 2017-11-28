@@ -26,4 +26,5 @@
     <string name="ip_complete">complete</string>
     <string name="title_activity_edit_sa">EditSaActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_test">testActivity</string>
 </resources>

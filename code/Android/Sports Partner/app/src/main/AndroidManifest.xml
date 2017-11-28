@@ -110,8 +110,7 @@
             android:name=".activity.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ReviewSaActivity"/>
+        <activity android:name=".activity.ReviewSaActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -136,6 +135,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sportspartner.activity.BasicActivity" />
         </activity>
+        <activity
+            android:name=".activity.testActivity"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
