@@ -41,6 +41,12 @@ public class JsonResponse {
     public JsonResponse() {
     }
 
+    public JsonResponse(boolean defaultError){
+        if (defaultError){
+            setResponse("fault");
+            setMessage("default error message");
+        }
+    }
     public String getType() {
         return type;
     }

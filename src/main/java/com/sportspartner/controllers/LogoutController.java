@@ -25,12 +25,11 @@ public class LogoutController {
             JsonResponse reps = new JsonResponse();
             try {
                 reps = userService.logOut(request.queryParams("userId"), request.queryParams("key"),request.queryParams("registrationId"));
-                response.status(200);
-                return reps;
-            } catch (UserService.UserServiceException ex) {
-                response.status(200);
-                return reps;
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+            response.status(200);
+            return reps;
         }, new JsonTransformer());
 
     }
