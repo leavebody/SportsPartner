@@ -208,12 +208,12 @@ public class ProfileService {
             resp.setResponse("false");
             resp.setMessage("Lack authorization to leave a comment");
         } else {
-//                if(profileCommentDaoImpl.newProfileComment(profileComment)){
-//                    resp.setResponse("true");
-//                }else{
-//                    resp.setResponse("false");
-//                    resp.setMessage("Failed to create a new comment");
-//                }
+                if(profileCommentDaoImpl.newProfileComment(profileComment)){
+                    resp.setResponse("true");
+                }else{
+                    resp.setResponse("false");
+                    resp.setMessage("Failed to create a new comment");
+                }
         }
 
 //      System.out.println(resp);
