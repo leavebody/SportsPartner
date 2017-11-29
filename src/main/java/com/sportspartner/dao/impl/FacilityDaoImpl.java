@@ -60,7 +60,7 @@ public class FacilityDaoImpl implements FacilityDao {
 //
 //    }
 
-    public List<Facility> getNearbyFacilities(double longitude_small, double longitude_large, double latitude_small, double latitude_large){
+    public List<Facility> getNearbyFacilities(double longitude_small, double longitude_large, double latitude_small, double latitude_large) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         List<Facility> facilities = new ArrayList<Facility>();
 
@@ -91,9 +91,8 @@ public class FacilityDaoImpl implements FacilityDao {
 
                 facilities.add(new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, zipcode, address, providerId, score, scoreCount, openTime, description));
             }
-        }catch( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }finally{
             try {
                 rs.close();
@@ -111,7 +110,7 @@ public class FacilityDaoImpl implements FacilityDao {
      * @param facilityId
      * @return Facility object
      */
-    public Facility getFacility(String facilityId){
+    public Facility getFacility(String facilityId) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
         PreparedStatement statement;
@@ -137,9 +136,8 @@ public class FacilityDaoImpl implements FacilityDao {
 
                 facility = new Facility(facilityId, facilityName, iconUUID, sportId, longitude, latitude, zipcode, address, providerId, score, scoreCount, openTime, description);
             }
-        }catch( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         }finally{
             try {
                 rs.close();
@@ -153,7 +151,7 @@ public class FacilityDaoImpl implements FacilityDao {
     }
 
 
-      public boolean newFacility(Facility facility){
+      public boolean newFacility(Facility facility) throws SQLException{
           Connection c = new ConnectionUtil().connectDB();
 
           PreparedStatement stmt = null;
@@ -192,10 +190,8 @@ public class FacilityDaoImpl implements FacilityDao {
               rs = stmt.executeUpdate();
               if(rs>0)
                   result = true;
-          } catch (Exception e) {
+          } catch (SQLException e) {
               e.printStackTrace();
-              System.err.println(e.getClass().getName() + ": " + e.getMessage());
-              
           } finally {
               try {
                   stmt.close();
@@ -264,7 +260,7 @@ public class FacilityDaoImpl implements FacilityDao {
 //          return result;
 //      }
 
-     public boolean deleteFacility(String facilityId){
+     public boolean deleteFacility(String facilityId) throws SQLException{
          Connection c = new ConnectionUtil().connectDB();
 
          PreparedStatement stmt = null;
@@ -279,10 +275,8 @@ public class FacilityDaoImpl implements FacilityDao {
              if(rs>0){
                  result = true;
              }
-         } catch (Exception e) {
+         } catch (SQLException e) {
              e.printStackTrace();
-             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             
          } finally {
              try {
                  stmt.close();

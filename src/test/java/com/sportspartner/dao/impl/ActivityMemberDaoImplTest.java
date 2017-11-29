@@ -5,6 +5,7 @@ import com.sportspartner.model.ActivityMember;
 import com.sportspartner.model.Authorization;
 import org.junit.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ActivityMemberDaoImplTest {
     }
 
     @Test
-    public void testActivityMemberDaoImpl(){
+    public void testActivityMemberDaoImpl() throws SQLException {
         ActivityDaoImpl activityDaoImpl = new ActivityDaoImpl();
         ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();
         Date startTime = new Date(System.currentTimeMillis());

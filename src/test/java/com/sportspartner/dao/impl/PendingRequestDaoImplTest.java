@@ -2,6 +2,9 @@ package com.sportspartner.dao.impl;
 
 import com.sportspartner.model.PendingFriendRequest;
 import org.junit.*;
+
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class PendingRequestDaoImplTest {
@@ -20,7 +23,7 @@ public class PendingRequestDaoImplTest {
     public void teardown(){
     }
     @Test
-    public void testPendingFriendRequestDaoImpl(){
+    public void testPendingFriendRequestDaoImpl() throws SQLException {
         PendingFriendRequestDaoImpl pendingFriendRequestDaoImpl = new PendingFriendRequestDaoImpl();
         PendingFriendRequest pendingFriendRequest = new PendingFriendRequest("u4","u2");
         assertEquals(true,pendingFriendRequestDaoImpl.newPendingRequest(pendingFriendRequest));

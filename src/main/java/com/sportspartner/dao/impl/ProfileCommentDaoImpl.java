@@ -14,7 +14,7 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
      * @param userId Id of person
      * @return List of ProfileComment
      */
-    public List<ProfileComment> getAllProfileComments(String userId) {
+    public List<ProfileComment> getAllProfileComments(String userId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -34,18 +34,12 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
                 String content = rs.getString("content");
                 profileComments.add(new ProfileComment(userId,commentId, authorId, authorName, time,content));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return profileComments;
     }
@@ -103,7 +97,7 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
      * @param profileComment ProfileComment Object
      * @return true if the process succeeds; false if not
      */
-    public boolean newProfileComment(ProfileComment profileComment){
+    public boolean newProfileComment(ProfileComment profileComment) throws SQLException{
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -129,18 +123,11 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
 

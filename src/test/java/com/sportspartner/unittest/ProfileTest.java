@@ -464,5 +464,38 @@ public class ProfileTest {
         assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to leave a comment\"}", responseBody);
     }
 
+    @Test
+    /**
+     *  Test leave a new profile comment
+     */
+    public void testNewProfileCommentSuccess() {
+        JsonObject parameters = new JsonObject();
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        String userId = "u1";
+
+        try {
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/profile_comments/" + userId);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            JsonParser parser = new JsonParser();
+            parameters = parser.parse("{\"authorId\":\"u24\", \"key\":\"ASD\", \"activityId\": \"a002\", \"comment\": {\"userId\":\"u1\",\"commentId\":\"092\",\"authorId\":\"u24\",\"authorName\":\"u24\",\"time\":\"Oct 22, 2017 10:06:06 PM\",\"content\":\"What a wonderful person.\"}}").getAsJsonObject();
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes( parameters.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            responseBody = IOUtils.toString(connection.getInputStream());
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
 
 }

@@ -17,7 +17,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
      * @return A list of ActivityComment objects.
      */
     @Override
-    public List<ActivityComment> getAllActivityComments(String activityId){
+    public List<ActivityComment> getAllActivityComments(String activityId) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -35,18 +35,14 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
                 String content = rs.getString("content");
                 activityComments.add(new ActivityComment(activityId,commentId,authorId,time,content));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
+
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return activityComments;
     }
