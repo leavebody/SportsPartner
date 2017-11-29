@@ -38,4 +38,6 @@ public class SignupVOTest {
         assertEquals("PERSON", signupVO.getType());
 
     }
+
+
 }
