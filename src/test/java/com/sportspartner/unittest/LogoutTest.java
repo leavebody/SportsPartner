@@ -14,6 +14,7 @@ import spark.utils.IOUtils;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 import static spark.Spark.ipAddress;
@@ -42,7 +43,7 @@ public class LogoutTest {
     public void setUp(){}
 
     @After
-    public void teardown(){
+    public void teardown() throws SQLException {
         // Recover deleted authorization item.
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         Authorization authorization = new Authorization("u1", "nonono");

@@ -14,7 +14,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
      * @return list of Authorization objects.
      */
     @Override
-    public List<Authorization> getAllAuthorizations() {
+    public List<Authorization> getAllAuthorizations() throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         List<Authorization> authorizations = new ArrayList<Authorization>();
@@ -29,9 +29,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
 
                 authorizations.add(new Authorization(userId, key));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             try {
                 rs.close();
@@ -51,7 +50,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
      * @return "true" or "false" for whether the database has the item
      */
     @Override
-    public boolean hasAuthorization(Authorization authorization) {
+    public boolean hasAuthorization(Authorization authorization) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -67,10 +66,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             if (rs.next()) {
                 hasAuthorization = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
         } finally {
             try {
                 rs.close();
@@ -90,7 +87,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
      * @return "true" or "false" for whether successfully created a new authorization
      */
     @Override
-    public boolean newAuthorization(Authorization authorization) {
+    public boolean newAuthorization(Authorization authorization) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
         boolean indicator = false;
@@ -105,10 +102,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             if (rs != 0) {
                 indicator = true;
             }
-        }catch( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }finally{
             try {
                 statement.close();
@@ -128,7 +123,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
      * @return "true" or "false" for whether successfully update the key
      */
     @Override
-    public boolean updateAuthorization(Authorization authorization, String newKey) {
+    public boolean updateAuthorization(Authorization authorization, String newKey) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -146,10 +141,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 indicator = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
             try {
                 stmt.close();
@@ -168,7 +161,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
      * @return "true" or "false" for whether successfully deleted the authorization item.
      */
     @Override
-    public boolean deleteAuthorization(Authorization authorization) {
+    public boolean deleteAuthorization(Authorization authorization) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -184,10 +177,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
             try {
                 stmt.close();

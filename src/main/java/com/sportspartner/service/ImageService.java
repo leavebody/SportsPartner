@@ -15,6 +15,7 @@ import com.sportspartner.util.JsonResponse;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class ImageService {
@@ -122,7 +123,7 @@ public class ImageService {
      * @param key login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key){
+    public boolean isAuthorized(String userId, String key) throws SQLException{
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
