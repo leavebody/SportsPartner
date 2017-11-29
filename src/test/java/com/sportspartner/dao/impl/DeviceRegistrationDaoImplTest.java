@@ -3,6 +3,8 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.model.DeviceRegistration;
 import org.junit.*;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class DeviceRegistrationDaoImplTest {
@@ -22,7 +24,7 @@ public class DeviceRegistrationDaoImplTest {
     public void teardown(){
     }
     @Test
-    public void testDeviceRegistrationDaoImpl(){
+    public void testDeviceRegistrationDaoImpl() throws SQLException {
         DeviceRegistration deviceRegistration = new DeviceRegistration("u1","device");
         DeviceRegistrationDaoImpl deviceRegistrationDaoImpl = new DeviceRegistrationDaoImpl();
         assertEquals(true,deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration));
