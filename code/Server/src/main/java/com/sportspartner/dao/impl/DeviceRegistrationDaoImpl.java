@@ -16,7 +16,7 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
      * @return List of DeviceRegistration
      */
     @Override
-    public List<String> getAllDeviceRegistrations(String userId) {
+    public List<String> getAllDeviceRegistrations(String userId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         List<String> deviceRegistrations = new ArrayList<String>();
         PreparedStatement stmt = null;
@@ -29,9 +29,8 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
                 String registrationId = rs.getString("registrationId");
                 deviceRegistrations.add(registrationId);
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             try {
                 rs.close();
@@ -47,11 +46,10 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
 
     /**
      * Check whether the authorization item is in database.
-     * @param authorization
      * @return "true" or "false" for whether the database has the item
      */
     @Override
-    public boolean hasDeviceRegistration(DeviceRegistration deviceRegistration) {
+    public boolean hasDeviceRegistration(DeviceRegistration deviceRegistration) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -67,10 +65,8 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
             if (rs.next()) {
                 hasDeviceRegistration = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
         } finally {
             try {
                 rs.close();
@@ -86,11 +82,10 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
 
     /**
      * Create a new authorization item.
-     * @param authorization
      * @return "true" or "false" for whether successfully created a new authorization
      */
     @Override
-    public boolean newDeviceRegistration(DeviceRegistration deviceRegistration) {
+    public boolean newDeviceRegistration(DeviceRegistration deviceRegistration) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
         boolean indicator = false;
@@ -105,10 +100,8 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
             if (rs != 0) {
                 indicator = true;
             }
-        }catch( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }finally{
             try {
                 statement.close();
@@ -123,11 +116,10 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
 
     /**
      * Delete an authorization item from database.
-     * @param authorization
      * @return "true" or "false" for whether successfully deleted the authorization item.
      */
     @Override
-    public boolean deleteDeviceRegistration(DeviceRegistration deviceRegistration) {
+    public boolean deleteDeviceRegistration(DeviceRegistration deviceRegistration) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -143,10 +135,8 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
             try {
                 stmt.close();

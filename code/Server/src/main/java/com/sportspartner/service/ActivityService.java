@@ -8,6 +8,7 @@ import com.sportspartner.modelvo.*;
 import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -402,7 +403,7 @@ public class ActivityService {
      * @param userId Id of a user
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasUser(String userId) {
+    public boolean hasUser(String userId) throws SQLException {
         User user = userDaoImpl.getUser(userId);
         return user != null;
     }
@@ -413,7 +414,7 @@ public class ActivityService {
      * @param activityId Id of an activity
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasActivity(String activityId) {
+    public boolean hasActivity(String activityId) throws SQLException {
         Activity activity = activityDaoImpl.getActivity(activityId);
         return activity != null;
 
@@ -426,7 +427,7 @@ public class ActivityService {
      * @param key    login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key) {
+    public boolean isAuthorized(String userId, String key) throws SQLException {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);

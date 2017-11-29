@@ -4,6 +4,7 @@ import com.sportspartner.model.Notification;
 
 import org.junit.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class NotificationDaoImplTest {
     }
 
     @Test
-    public void testNotificationDaoImpl() {
+    public void testNotificationDaoImpl() throws SQLException {
         String uuid = UUID.randomUUID().toString();
         Date time = new Date(System.currentTimeMillis());
         Notification notification = new Notification("u1",uuid,"title","detail","NORESPONSE","u24",time,0,0);

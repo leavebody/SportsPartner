@@ -14,7 +14,7 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
      * @return List of PendingFriendRequest
      */
     @Override
-    public List<PendingFriendRequest> getAllPendingRequests(String receiverId) {
+    public List<PendingFriendRequest> getAllPendingRequests(String receiverId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         List<PendingFriendRequest> requests = new ArrayList<PendingFriendRequest>();
         PreparedStatement stmt = null;
@@ -28,18 +28,12 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
                 String senderId = rs.getString("senderId");
                 requests.add(new PendingFriendRequest(receiverId,senderId));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return requests;
 
@@ -51,7 +45,7 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
      * @return true if the pendingFriendRequest exists ; false if not
      */
     @Override
-    public boolean hasPendingRequest(PendingFriendRequest pendingFriendRequest) {
+    public boolean hasPendingRequest(PendingFriendRequest pendingFriendRequest) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -68,19 +62,12 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
             if (rs.next()) {
                 hasPendingRequest = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
         } finally {
-            try {
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return hasPendingRequest;
     }
@@ -91,7 +78,7 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
      * @return true if the process succeeds; false if not
      */
     @Override
-    public boolean newPendingRequest(PendingFriendRequest pendingFriendRequest) {
+    public boolean newPendingRequest(PendingFriendRequest pendingFriendRequest) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -108,18 +95,11 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
 
@@ -130,7 +110,7 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
      * @return true if the process succeeds; false if not
      */
     @Override
-    public boolean deletePendingRequest(PendingFriendRequest pendingFriendRequest) {
+    public boolean deletePendingRequest(PendingFriendRequest pendingFriendRequest) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -146,18 +126,11 @@ public class PendingFriendRequestDaoImpl implements PendingFriendRequestDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
     }

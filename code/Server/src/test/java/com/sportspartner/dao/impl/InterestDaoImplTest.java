@@ -3,6 +3,8 @@ package com.sportspartner.dao.impl;
 import org.junit.*;
 import com.sportspartner.model.Interest;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class InterestDaoImplTest {
@@ -22,7 +24,7 @@ public class InterestDaoImplTest {
     }
 
     @Test
-    public void testInterestDaoImpl(){
+    public void testInterestDaoImpl() throws SQLException {
         InterestDaoImpl interestDaoImpl = new InterestDaoImpl();
         Interest interest = new Interest("u3","001");
         Interest newInterest = new Interest("u3","002");
