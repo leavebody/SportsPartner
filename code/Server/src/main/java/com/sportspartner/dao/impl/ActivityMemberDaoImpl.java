@@ -8,14 +8,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityMemberDaoImpl implements ActivityMemberDao{
+public class ActivityMemberDaoImpl implements ActivityMemberDao {
     /**
      * Get all members of an activity.
+     *
      * @param activityId
      * @return a list of ActivityMember objects
      */
     @Override
-    public List<ActivityMember> getAllActivitymembers(String activityId) {
+    public List<ActivityMember> getAllActivitymembers(String activityId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -27,31 +28,28 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
             while (rs.next()) {
                 activityId = rs.getString("activityId");
                 String userId = rs.getString("userId");
-                activityMembers.add(new ActivityMember(activityId,userId));
+                activityMembers.add(new ActivityMember(activityId, userId));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            rs.close();
+            stmt.close();
+            c.close();
+
         }
         return activityMembers;
     }
 
     /**
      * Check whether an activity has a member specified by userId.
+     *
      * @param activityMember
      * @return "true" or "false" for whether the activity has the member
      */
     @Override
-    public boolean hasActivityMember(ActivityMember activityMember) {
+    public boolean hasActivityMember(ActivityMember activityMember) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -68,30 +66,25 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
             if (rs.next()) {
                 hasActivityMember = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            rs.close();
+            stmt.close();
+            c.close();
+
         }
         return hasActivityMember;
     }
 
     /**
      * Add a new member to activity.
+     *
      * @param activityMember
      * @return "true" or "false" for whether successfully add a new activity member
      */
     @Override
-    public boolean newActivityMember(ActivityMember activityMember) {
+    public boolean newActivityMember(ActivityMember activityMember) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -101,25 +94,20 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Activity_Member\" (\"activityId\", \"userId\")"+
+            stmt = c.prepareStatement("INSERT INTO \"Activity_Member\" (\"activityId\", \"userId\")" +
                     "VALUES (?, ?)");
             stmt.setString(1, activityId);
             stmt.setString(2, userId);
             rs = stmt.executeUpdate();
-            if(rs>0)
+            if (rs > 0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            stmt.close();
+            c.close();
+
         }
         return result;
 
@@ -127,11 +115,12 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
 
     /**
      * Delete an activity member.
+     *
      * @param activityMember
      * @return "ture" or "false" for whether successfully delete an activity member.
      */
     @Override
-    public boolean deleteActivityMember(ActivityMember activityMember) {
+    public boolean deleteActivityMember(ActivityMember activityMember) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -145,32 +134,28 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
             stmt.setString(1, activityId);
             stmt.setString(2, userId);
             rs = stmt.executeUpdate();
-            if(rs>0){
+            if (rs > 0) {
                 result = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            stmt.close();
+            c.close();
+
         }
         return result;
     }
 
     /**
      * Delete all members of an activity.
+     *
      * @param activityId The UUID of an actiivty.
      * @return true or false for whether successfully deleted.
      */
     @Override
-    public boolean deleteAllActivityMembers(String activityId){
+    public boolean deleteAllActivityMembers(String activityId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -181,21 +166,16 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao{
             stmt = c.prepareStatement("DELETE FROM \"Activity_Member\" WHERE \"activityId\"=?;");
             stmt.setString(1, activityId);
             rs = stmt.executeUpdate();
-            if(rs>0){
+            if (rs > 0) {
                 result = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            stmt.close();
+            c.close();
+
         }
         return result;
     }

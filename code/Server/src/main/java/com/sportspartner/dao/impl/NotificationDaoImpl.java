@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class NotificationDaoImpl implements NotificationDao{
+public class NotificationDaoImpl implements NotificationDao {
 
     @Override
-    public List<Notification> getUnsentNotification(String receiverId) {
+    public List<Notification> getUnsentNotification(String receiverId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
-        List <Notification> notifications = new ArrayList<>();
+        List<Notification> notifications = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -34,27 +34,21 @@ public class NotificationDaoImpl implements NotificationDao{
                 Date time = new Date(timeStamp.getTime());
                 int notificationState = rs.getInt("notificationState");
                 int notificationPriority = rs.getInt("notificationPriority");
-                Notification notification= new Notification(receiverId, notificationId,notificationTitle, notificationDetail,notificationType, notificationSender, time, notificationState, notificationPriority);
+                Notification notification = new Notification(receiverId, notificationId, notificationTitle, notificationDetail, notificationType, notificationSender, time, notificationState, notificationPriority);
                 notifications.add(notification);
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            rs.close();
+            stmt.close();
+            c.close();
         }
         return notifications;
     }
 
     @Override
-    public boolean setNotificationSent(String receiverId, String notificationId) {
+    public boolean setNotificationSent(String receiverId, String notificationId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         int rs;
@@ -65,26 +59,19 @@ public class NotificationDaoImpl implements NotificationDao{
             stmt.setString(2, receiverId);
             stmt.setString(3, notificationId);
             rs = stmt.executeUpdate();
-            if(rs>0)
+            if (rs > 0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            stmt.close();
+            c.close();
         }
         return result;
     }
 
     @Override
-    public boolean newNotification(com.sportspartner.model.Notification notification) {
+    public boolean newNotification(com.sportspartner.model.Notification notification) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         int rs;
@@ -100,38 +87,31 @@ public class NotificationDaoImpl implements NotificationDao{
         int notificationState = notification.getNotificationState();
         int notificationPriority = notification.getNotificationPriority();
         try {
-            stmt = c.prepareStatement("INSERT INTO \"Notification\" (\"receiverId\", \"notificationId\",\"notificationTitle\", \"notificationDetail\", \"notificationType\", \"notificationSender\", \"time\" , \"notificationState\",\"notificationPriority\")"+
+            stmt = c.prepareStatement("INSERT INTO \"Notification\" (\"receiverId\", \"notificationId\",\"notificationTitle\", \"notificationDetail\", \"notificationType\", \"notificationSender\", \"time\" , \"notificationState\",\"notificationPriority\")" +
                     "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?)");
             stmt.setString(1, receiverId);
             stmt.setString(2, notificationId);
             stmt.setString(3, notificationTitle);
             stmt.setString(4, notificationDetail);
             stmt.setString(5, notificationType);
-            stmt.setString(6,notificationSender);
-            stmt.setTimestamp(7,timeStamp);
-            stmt.setInt(8,notificationState);
-            stmt.setInt(9,notificationPriority);
+            stmt.setString(6, notificationSender);
+            stmt.setTimestamp(7, timeStamp);
+            stmt.setInt(8, notificationState);
+            stmt.setInt(9, notificationPriority);
             rs = stmt.executeUpdate();
-            if(rs>0)
+            if (rs > 0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            stmt.close();
+            c.close();
         }
         return result;
     }
 
     @Override
-    public boolean deleteNotification(com.sportspartner.model.Notification notification) {
+    public boolean deleteNotification(com.sportspartner.model.Notification notification) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -155,26 +135,19 @@ public class NotificationDaoImpl implements NotificationDao{
             stmt.setString(3, notificationTitle);
             stmt.setString(4, notificationDetail);
             stmt.setString(5, notificationType);
-            stmt.setString(6,notificationSender);
-            stmt.setTimestamp(7,timeStamp);
-            stmt.setInt(8,notificationState);
-            stmt.setInt(9,notificationPriority);
+            stmt.setString(6, notificationSender);
+            stmt.setTimestamp(7, timeStamp);
+            stmt.setInt(8, notificationState);
+            stmt.setInt(9, notificationPriority);
             rs = stmt.executeUpdate();
-            if(rs>0){
+            if (rs > 0) {
                 result = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            stmt.close();
+            c.close();
         }
         return result;
     }

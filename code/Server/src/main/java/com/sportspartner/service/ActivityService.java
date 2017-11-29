@@ -8,6 +8,7 @@ import com.sportspartner.modelvo.*;
 import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -231,10 +232,11 @@ public class ActivityService {
             resp.setMessage("This user is already a member");
         } else if (activityMemberDaoImpl.newActivityMember(activityMember)) {
             resp.setResponse("true");
-        } else {
-            resp.setMessage("Unable to create a new entry in database");
-            resp.setResponse("false");
         }
+//        else {
+//            resp.setMessage("Unable to create a new entry in database");
+//            resp.setResponse("false");
+//        }
 
         return resp;
     }
@@ -258,10 +260,11 @@ public class ActivityService {
             resp.setMessage("The user is not a member");
         } else if (activityMemberDaoImpl.deleteActivityMember(activityMember)) {
             resp.setResponse("true");
-        } else {
-            resp.setMessage("Unable to delete the entry from database");
-            resp.setResponse("false");
         }
+//        else {
+//            resp.setMessage("Unable to delete the entry from database");
+//            resp.setResponse("false");
+//        }
 
         return resp;
     }
@@ -299,10 +302,11 @@ public class ActivityService {
             if (activityDaoImpl.newActivity(activity) && activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, creatorId))) {
                 resp.setResponse("true");
                 resp.setActivityId(activityId);
-            } else {
-                resp.setResponse("false");
-                resp.setMessage("Fail to create a new entry in database");
             }
+//            else {
+//                resp.setResponse("false");
+//                resp.setMessage("Fail to create a new entry in database");
+//            }
         }
 
         return resp;
@@ -367,12 +371,14 @@ public class ActivityService {
             resp.setMessage("Lack authorization to cancel the activity");
         } else {
             boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId);
-            if (!isDelete) {
-                resp.setResponse("false");
-                resp.setMessage("Cancel failed");
-            } else {
+            if (isDelete) {
                 resp.setResponse("true");
+//                resp.setResponse("false");
+//                resp.setMessage("Cancel failed");
             }
+//            else {
+//                resp.setResponse("true");
+//            }
         }
 
         return resp;
@@ -402,7 +408,7 @@ public class ActivityService {
      * @param userId Id of a user
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasUser(String userId) {
+    public boolean hasUser(String userId) throws SQLException {
         User user = userDaoImpl.getUser(userId);
         return user != null;
     }
@@ -413,7 +419,7 @@ public class ActivityService {
      * @param activityId Id of an activity
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasActivity(String activityId) {
+    public boolean hasActivity(String activityId) throws SQLException {
         Activity activity = activityDaoImpl.getActivity(activityId);
         return activity != null;
 
@@ -426,7 +432,7 @@ public class ActivityService {
      * @param key    login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key) {
+    public boolean isAuthorized(String userId, String key) throws SQLException {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);

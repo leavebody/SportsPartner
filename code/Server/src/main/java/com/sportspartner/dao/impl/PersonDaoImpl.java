@@ -61,7 +61,7 @@ public class PersonDaoImpl {
      * @param userId Id of the person
      * @return Person Object
      */
-    public Person getPerson(String userId){
+    public Person getPerson(String userId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -87,19 +87,12 @@ public class PersonDaoImpl {
                 person = new Person(userId, userName, address, gender, age, punctuality, punctualityCount, participation, participationCount, iconUUID);
 
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return person;
     }
@@ -109,7 +102,7 @@ public class PersonDaoImpl {
      * @param person Person Object
      * @return true if the process succeeds; false if not
      */
-    public boolean newPerson(Person person){
+    public boolean newPerson(Person person) throws SQLException{
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -145,18 +138,11 @@ public class PersonDaoImpl {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -166,7 +152,7 @@ public class PersonDaoImpl {
      * @param person Person Object
      * @return true if the process succeeds; false if not
      */
-    public boolean updatePerson(Person person){
+    public boolean updatePerson(Person person) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -202,18 +188,11 @@ public class PersonDaoImpl {
             if(rs>0)
                 result = true;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -222,7 +201,7 @@ public class PersonDaoImpl {
      * @param userId Id of a person
      * @return true if the process succeeds; false if not
      */
-    public boolean deletePerson(String userId){
+    public boolean deletePerson(String userId) throws SQLException{
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -238,18 +217,11 @@ public class PersonDaoImpl {
             if(rs>0)
                 result = true;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
         return result;
     }

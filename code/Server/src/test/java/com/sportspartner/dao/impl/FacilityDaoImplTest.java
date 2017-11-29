@@ -3,6 +3,8 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.model.Facility;
 import org.junit.*;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class FacilityDaoImplTest {
@@ -25,7 +27,7 @@ public class FacilityDaoImplTest {
 
 
     @Test
-    public void testFacilityDaoImpl(){
+    public void testFacilityDaoImpl() throws SQLException {
         //(String facilityId, String facilityName, String iconUUID, String sportId, double longitude, double latitude, String zipcode, String address, String providerId, double score, int scoreCount, String openTime, String description)
         //Date startTime = new Date(System.currentTimeMillis());
         //Date endTime = new Date(System.currentTimeMillis()+10);

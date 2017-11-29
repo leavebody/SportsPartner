@@ -11,6 +11,7 @@ import com.sportspartner.service.ActivityService;
 import org.junit.*;
 import spark.Spark;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class IconDaoImplTest {
 
 
     @Test
-    public void testIconDaoImpl(){
+    public void testIconDaoImpl() throws SQLException {
         Sport sport = new Sport("100","Foo","foo");
         SportDaoImpl sportDaoImpl = new SportDaoImpl();
         IconDaoImpl iconDaoImpl = new IconDaoImpl();

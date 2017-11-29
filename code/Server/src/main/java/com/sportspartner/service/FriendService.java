@@ -58,11 +58,10 @@ public class FriendService {
         if (!(friendDaoImpl.getFriend(userId1, userId2) || friendDaoImpl.getFriend(userId2, userId1))) {
             resp.setResponse("false");
             resp.setMessage("They are not friends at all!");
-        } else if (!(friendDaoImpl.deleteFriend(userId1, userId2) || friendDaoImpl.deleteFriend(userId2, userId1))) {
-            resp.setResponse("false");
-            resp.setMessage("Fail to delete from friends database");
-        } else {
+        } else if (friendDaoImpl.deleteFriend(userId1, userId2) || friendDaoImpl.deleteFriend(userId2, userId1)) {
             resp.setResponse("true");
+//            resp.setResponse("false");
+//            resp.setMessage("Fail to delete from friends database");
         }
 
         return resp;
