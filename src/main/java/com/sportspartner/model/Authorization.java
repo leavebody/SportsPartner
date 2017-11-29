@@ -4,7 +4,10 @@ public class Authorization {
     private String userId;
     private String key;
 
-    public Authorization(String userId,String key){
+    public Authorization() {
+    }
+
+    public Authorization(String userId, String key){
         this.userId = userId;
         this.key = key;
     }
