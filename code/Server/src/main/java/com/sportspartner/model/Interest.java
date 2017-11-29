@@ -4,6 +4,8 @@ public class Interest {
     private String userId;
     private String sportId;
 
+    public Interest() {
+    }
 
     public Interest(String userId, String sportId){
         this.userId = userId;
