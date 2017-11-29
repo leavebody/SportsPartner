@@ -4,6 +4,7 @@ import com.sportspartner.model.Activity;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +30,7 @@ public class ActivityDaoImplTest {
 
 
     @Test
-    public void testActivityDaoImpl(){
+    public void testActivityDaoImpl() throws SQLException {
 
         ActivityDaoImpl activityDaoImpl = new ActivityDaoImpl();
         ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();

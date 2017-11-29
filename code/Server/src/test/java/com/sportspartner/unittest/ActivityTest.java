@@ -566,6 +566,38 @@ public class ActivityTest {
         assertEquals("{\"response\":\"true\"}", responseBody);
     }
 
+    @Test
+    public void testRemoveActivityMemberFailureNouser(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        JSONObject parameters = new JSONObject();
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_members/a007");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String activityId = "a007";
+            String userId = "u100";
+            String body = new Gson().toJson(new ActivityMember(activityId, userId));
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"The user is not a member\"}", responseBody);
+    }
     /**
      *  test when create a new activity success
      */
@@ -600,6 +632,36 @@ public class ActivityTest {
         assertEquals("{\"response\":\"true\"", responseBody.substring(0,18));
     }
 
+    @Test
+    public void testCreateActivityFailureLackAuthorization(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        JSONObject parameters = new JSONObject();
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String body = "{\"userId\":\"u24\",\"key\":\"AAA\",\"activity\":{\"activityId\":\"NULL\",\"address\":\"Sydney NSW, Australia\",\"capacity\":10,\"creatorId\":\"u1\",\"description\":\"t\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"NULL\",\"latitude\":-33.850770532400865,\"longitude\":151.2113021314144,\"size\":1,\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"status\":\"OPEN\",\"zipcode\":\"2000\"}}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"Lack Authorization\"}", responseBody);
+    }
     /**
      *  test when update a new activity success
      */
@@ -689,6 +751,58 @@ public class ActivityTest {
         }
 
         assertEquals("{\"response\":\"true\"}", responseBody);
+
+    }
+
+    @Test
+    public void testDeleteActivityFailureNoActivity(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/nottoDelete001/u24/ASD");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"No such activity\"}", responseBody);
+
+    }
+
+    @Test
+    public void testDeleteActivityFailureLackAuthorization(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/toUpdate001/u24/DSA");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to cancel the activity\"}", responseBody);
 
     }
 }
