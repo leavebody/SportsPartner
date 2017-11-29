@@ -3,7 +3,11 @@ package com.sportspartner.model;
 public class PendingFriendRequest {
     private String receiverId;
     private String senderId;
-    public PendingFriendRequest(String receiverId,String senderId){
+
+    public PendingFriendRequest() {
+    }
+
+    public PendingFriendRequest(String receiverId, String senderId){
 
         this.receiverId = receiverId;
         this.senderId = senderId;
