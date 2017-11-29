@@ -186,4 +186,5 @@ public class SignupTest {
 
         assertEquals("{\"response\":\"false\",\"message\":\"User type not exist\"}", responseBody);
     }
+
 }

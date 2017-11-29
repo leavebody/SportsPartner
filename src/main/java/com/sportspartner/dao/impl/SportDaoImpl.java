@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.SportDao;
 import com.sportspartner.model.Sport;
 import com.sportspartner.util.ConnectionUtil;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,10 @@ public class SportDaoImpl implements SportDao {
 
     /**
      * Get all the sports from the database
+     *
      * @return list of sports
      */
-    public List<Sport> getAllSports() {
+    public List<Sport> getAllSports() throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         List<Sport> sports = new ArrayList<Sport>();
         Statement stmt = null;
@@ -34,28 +36,25 @@ public class SportDaoImpl implements SportDao {
                 //TODO delete Get Print
                 //System.out.println("All: " + sportId + " " + sportName + " " + sportIcon);
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": getAllSport " + e.getMessage());
-            
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            rs.close();
+            stmt.close();
+            c.close();
+
         }
         return sports;
     }
 
     /**
-     *  Search the sport Object by sportId
+     * Search the sport Object by sportId
+     *
      * @param sportId Id of sport
      * @return Sport Object
      */
-    public Sport getSport(String sportId) {
+    public Sport getSport(String sportId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         Sport sport = new Sport();
         ResultSet rs = null;
@@ -71,34 +70,32 @@ public class SportDaoImpl implements SportDao {
             String sportName = rs.getString("sportName");
             String sportIconUUID = rs.getString("sportIconUUID");
 
-            sport = new Sport(sportId, sportName,sportIconUUID);
+            sport = new Sport(sportId, sportName, sportIconUUID);
             //TODO delete get print
 
-    } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": getSport " + e.getMessage());
-            
-    }finally {
-            try {
-                rs.close();
-                statement.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            rs.close();
+            statement.close();
+            c.close();
+
         }
         return sport;
-}
+    }
 
     /**
-     *  Create a new Sports in the database
+     * Create a new Sports in the database
+     *
      * @param sport Sport Object
      * @return true if the process succeeds, false if not
      */
-    public boolean newSport(Sport sport){
+    public boolean newSport(Sport sport) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
         int numUpdated = 0;
+        boolean result = false;
         try {
             String sql = "INSERT INTO \"Sport\" (\"sportId\", \"sportName\",\"sportIconUUID\") " +
                     "VALUES(?, ?, ?)";
@@ -108,29 +105,25 @@ public class SportDaoImpl implements SportDao {
             statement.setString(3, sport.getSportIconUUID());
             numUpdated = statement.executeUpdate();
 
-            if(numUpdated <= 0){
-                return false;
+            if (numUpdated <= 0) {
+                return result;
             }
 
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": Insert" + e.getMessage());
-            
-            return false;
-        }finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (c != null) {
-                    c.close();
-                }
-                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
 
-            } catch (SQLException ex) {
-                //TODO throw exception
-                return false;
+            if (statement != null) {
+                statement.close();
             }
+            if (c != null) {
+                c.close();
+            }
+            result = true;
+
+
         }
+        return result;
     }
 
     /**
@@ -175,44 +168,39 @@ public class SportDaoImpl implements SportDao {
 //            }
 //        }
 //    }
+
     /**
-     *  Delete a new Sports in the database
+     * Delete a new Sports in the database
+     *
      * @param sportId Id of sport
      * @return true if the process succeeds, false if not
      */
-    public boolean deleteSport(String sportId){
+    public boolean deleteSport(String sportId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement statement = null;
         int numUpdated;
+        boolean result = false;
         try {
             String sql = "DELETE FROM \"Sport\" WHERE \"sportId\" = ?";
             statement = c.prepareStatement(sql);
             statement.setString(1, sportId);
             numUpdated = statement.executeUpdate();
-
-            if(numUpdated <= 0){
+            if (numUpdated <= 0) {
                 return false;
             }
 
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": Delete " + e.getMessage());
-            
-            return false;
-        }finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (c != null) {
-                    c.close();
-                }
-                //TODO Delete Print
-                return true;
-
-            } catch (SQLException ex) {
-                //TODO throw exception
-                return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                statement.close();
             }
+            if (c != null) {
+                c.close();
+            }
+            result = true;
+
         }
+        return result;
     }
 }

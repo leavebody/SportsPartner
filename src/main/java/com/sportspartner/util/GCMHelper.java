@@ -8,6 +8,7 @@ import com.sportspartner.dao.impl.DeviceRegistrationDaoImpl;
 import com.sportspartner.model.Notification;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class GCMHelper {
     private final static String senderKey = "AIzaSyD6mj4I5YTNU-copAr7HY_LZ7Rwz_jcK4U";
     private DeviceRegistrationDaoImpl deviceRegistrationDaoImpl =  new DeviceRegistrationDaoImpl();
 
-    public  boolean SendGCMNotification(Notification notification)  throws IOException {
+    public  boolean SendGCMNotification(Notification notification)  throws IOException,SQLException {
 
         Sender sender = new Sender(senderKey);
         Message.Builder builder = new Message.Builder();
