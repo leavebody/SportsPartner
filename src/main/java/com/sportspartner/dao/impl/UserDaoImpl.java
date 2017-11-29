@@ -52,10 +52,11 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Search user by userId
+     *
      * @param userId Id of user
      * @return User Object
      */
-    public User getUser(String userId) {
+    public User getUser(String userId) throws SQLException {
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -74,29 +75,26 @@ public class UserDaoImpl implements UserDao {
                 String type = rs.getString("type");
                 user = new User(userId, password, type);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             //
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            rs.close();
+            stmt.close();
+            c.close();
+
         }
         return user;
     }
 
     /**
-     *  Create a new user in the database
+     * Create a new user in the database
+     *
      * @param user User Object
      * @return true if the process succeeds, false if not
      */
-    public boolean newUser(User user){
+    public boolean newUser(User user) throws SQLException {
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -109,26 +107,22 @@ public class UserDaoImpl implements UserDao {
         boolean result = false;
 
         try {
-            stmt = c.prepareStatement("INSERT INTO \"User\" (\"userId\", \"password\", \"type\")"+
-                "VALUES (?, ?, ?)");
+            stmt = c.prepareStatement("INSERT INTO \"User\" (\"userId\", \"password\", \"type\")" +
+                    "VALUES (?, ?, ?)");
             stmt.setString(1, userId);
             stmt.setString(2, password);
             stmt.setString(3, type);
             rs = stmt.executeUpdate();
-            if(rs>0)
+            if (rs > 0)
                 result = true;
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            stmt.close();
+            c.close();
+
         }
         return result;
     }
@@ -171,12 +165,14 @@ public class UserDaoImpl implements UserDao {
 //        }
 //        return result;
 //    }
+
     /**
      * Delete a new user in the database
+     *
      * @param userId Id of User
      * @return true if the process succeeds, false if not
      */
-    public boolean deleteUser(String userId){
+    public boolean deleteUser(String userId) throws SQLException {
 
         Connection c = new ConnectionUtil().connectDB();
 
@@ -189,21 +185,18 @@ public class UserDaoImpl implements UserDao {
             stmt = c.prepareStatement("DELETE FROM \"User\" WHERE \"userId\"=?;");
             stmt.setString(1, userId);
             rs = stmt.executeUpdate();
-            if(rs>0){
+            if (rs > 0) {
                 result = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
+
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            stmt.close();
+            c.close();
+
+
         }
         return result;
     }

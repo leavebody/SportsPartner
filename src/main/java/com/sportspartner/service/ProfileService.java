@@ -7,6 +7,7 @@ import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
 import com.sportspartner.util.JsonResponse;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -266,7 +267,7 @@ public class ProfileService {
      * @param userId Id of a user
      * @return true means the user exists,  false means the user doesn't exist
      */
-    public boolean hasUser(String userId) {
+    public boolean hasUser(String userId) throws SQLException {
         UserDaoImpl userDaoImpl = new UserDaoImpl();
         User user = userDaoImpl.getUser(userId);
         return user != null;
@@ -279,7 +280,7 @@ public class ProfileService {
      * @param key    login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key) {
+    public boolean isAuthorized(String userId, String key) throws SQLException {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
@@ -292,7 +293,7 @@ public class ProfileService {
      * @param activityId Id of an activity
      * @return true means the user is a member,  false means the user is not
      */
-    public boolean isMember(String userId, String activityId) {
+    public boolean isMember(String userId, String activityId) throws SQLException {
         ActivityMemberDaoImpl activityMemberDaoimpl = new ActivityMemberDaoImpl();
         ActivityMember activityMember = new ActivityMember(activityId, userId);
         return activityMemberDaoimpl.hasActivityMember(activityMember);

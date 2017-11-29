@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.model.Authorization;
 import org.junit.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,7 @@ public class AuthorizationDaoImplTest {
     }
 
     @Test
-    public void testAuthorizationDaoImpl() {
+    public void testAuthorizationDaoImpl()  throws SQLException {
         Authorization authorization = new Authorization("u1","keytest");
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         assertEquals(true,authorizationDaoImpl.newAuthorization(authorization));

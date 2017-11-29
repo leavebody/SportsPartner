@@ -15,7 +15,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return list of Activity objects
      */
     @Override
-    public List<Activity> getAllActivities() {
+    public List<Activity> getAllActivities() throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -43,18 +43,15 @@ public class ActivityDaoImpl implements ActivityDao {
 
                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
         }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
             
         } finally {
-            try {
+
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return activities;
     }
@@ -65,7 +62,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return Activity object
      */
     @Override
-    public Activity getActivity(String activityId) {
+    public Activity getActivity(String activityId)  throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -93,17 +90,14 @@ public class ActivityDaoImpl implements ActivityDao {
                 String description = rs.getString("description");
                 activity = new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description);
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            try {
+
                 rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return activity;
     }
@@ -114,7 +108,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return "true" or "false" for whether successfully created a new activity.
      */
     @Override
-    public boolean newActivity(Activity activity) {
+    public boolean newActivity(Activity activity) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -158,18 +152,14 @@ public class ActivityDaoImpl implements ActivityDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             
         } finally {
-            try {
+
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return result;
 
@@ -181,7 +171,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return "true" or "false" for whether successfully updated an activity.
      */
     @Override
-    public boolean updateActivity(Activity activity) {
+    public boolean updateActivity(Activity activity) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -224,18 +214,13 @@ public class ActivityDaoImpl implements ActivityDao {
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
+
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return result;
     }
@@ -246,7 +231,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return "true" or "false" for whether successfully delete the activity.
      */
     @Override
-    public boolean deleteActivity(String activityId) {
+    public boolean deleteActivity(String activityId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -261,18 +246,13 @@ public class ActivityDaoImpl implements ActivityDao {
             if(rs>0){
                 result = true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            
         } finally {
-            try {
+
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return result;
     }
@@ -283,7 +263,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return a list of Activity objects
      */
     @Override
-     public List<Activity> getUpcomingActivities(String userId){
+     public List<Activity> getUpcomingActivities(String userId) throws SQLException{
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
          ResultSet rs = null;
@@ -313,18 +293,14 @@ public class ActivityDaoImpl implements ActivityDao {
 
                  activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
              }
-         } catch (Exception e) {
-             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             
+         } catch (SQLException e) {
+             e.printStackTrace();
          } finally {
-             try {
+
                  rs.close();
                  stmt.close();
                  c.close();
-             } catch (SQLException e) {
-                 // TODO Auto-generated catch block
-                 e.printStackTrace();
-             }
+
          }
          return activities;
      }
@@ -335,7 +311,7 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return a list of Activity objects
      */
      @Override
-     public List<Activity> getPastActivities(String userId){
+     public List<Activity> getPastActivities(String userId) throws SQLException{
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
          ResultSet rs = null;
@@ -365,23 +341,19 @@ public class ActivityDaoImpl implements ActivityDao {
 
                  activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
              }
-         } catch (Exception e) {
-             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-             
+         } catch (SQLException e) {
+             e.printStackTrace();
          } finally {
-             try {
+
                  rs.close();
                  stmt.close();
                  c.close();
-             } catch (SQLException e) {
-                 // TODO Auto-generated catch block
-                 e.printStackTrace();
-             }
+
          }
          return activities;
      }
 
-     public List<Activity> getRecommendActivities(String userId){
+     public List<Activity> getRecommendActivities(String userId) throws SQLException{
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
          ResultSet rs = null;
@@ -412,18 +384,14 @@ public class ActivityDaoImpl implements ActivityDao {
 
                  activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
              }
-         } catch (Exception e) {
-             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-
+         } catch (SQLException e) {
+             e.printStackTrace();
          } finally {
-             try {
+
                  rs.close();
                  stmt.close();
                  c.close();
-             } catch (SQLException e) {
-                 // TODO Auto-generated catch block
-                 e.printStackTrace();
-             }
+
          }
          return activities;
      }

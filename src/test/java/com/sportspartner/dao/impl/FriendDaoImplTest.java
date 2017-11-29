@@ -2,6 +2,8 @@ package com.sportspartner.dao.impl;
 
 import org.junit.*;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 public class FriendDaoImplTest {
@@ -22,7 +24,7 @@ public class FriendDaoImplTest {
     }
 
     @Test
-    public void testFriendDaoImpl(){
+    public void testFriendDaoImpl() throws SQLException {
         FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
         friendDaoImpl.deleteFriend("u1","u24");
         assertEquals(true,friendDaoImpl.newFriend("u1","u24"));
