@@ -231,10 +231,11 @@ public class ActivityService {
             resp.setMessage("This user is already a member");
         } else if (activityMemberDaoImpl.newActivityMember(activityMember)) {
             resp.setResponse("true");
-        } else {
-            resp.setMessage("Unable to create a new entry in database");
-            resp.setResponse("false");
         }
+//        else {
+//            resp.setMessage("Unable to create a new entry in database");
+//            resp.setResponse("false");
+//        }
 
         return resp;
     }
@@ -258,10 +259,11 @@ public class ActivityService {
             resp.setMessage("The user is not a member");
         } else if (activityMemberDaoImpl.deleteActivityMember(activityMember)) {
             resp.setResponse("true");
-        } else {
-            resp.setMessage("Unable to delete the entry from database");
-            resp.setResponse("false");
         }
+//        else {
+//            resp.setMessage("Unable to delete the entry from database");
+//            resp.setResponse("false");
+//        }
 
         return resp;
     }
@@ -299,10 +301,11 @@ public class ActivityService {
             if (activityDaoImpl.newActivity(activity) && activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, creatorId))) {
                 resp.setResponse("true");
                 resp.setActivityId(activityId);
-            } else {
-                resp.setResponse("false");
-                resp.setMessage("Fail to create a new entry in database");
             }
+//            else {
+//                resp.setResponse("false");
+//                resp.setMessage("Fail to create a new entry in database");
+//            }
         }
 
         return resp;
@@ -367,12 +370,14 @@ public class ActivityService {
             resp.setMessage("Lack authorization to cancel the activity");
         } else {
             boolean isDelete = activityMemberDaoImpl.deleteAllActivityMembers(activityId) && activityDaoImpl.deleteActivity(activityId);
-            if (!isDelete) {
-                resp.setResponse("false");
-                resp.setMessage("Cancel failed");
-            } else {
+            if (isDelete) {
                 resp.setResponse("true");
+//                resp.setResponse("false");
+//                resp.setMessage("Cancel failed");
             }
+//            else {
+//                resp.setResponse("true");
+//            }
         }
 
         return resp;

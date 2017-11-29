@@ -48,18 +48,20 @@ public class UserService {
                 if (authorizationDaoImpl.newAuthorization(authorization)) {
                     resp.setKey(key);
                     resp.setResponse("true");
-                } else {
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create new authorization");
                 }
+//                else {
+//                    resp.setResponse("false");
+//                    resp.setMessage("Fail to create new authorization");
+//                }
             } else {
                 if (authorizationDaoImpl.newAuthorization(authorization) && deviceRegistrationDaoImpl.newDeviceRegistration(deviceRegistration)) {
                     resp.setKey(key);
                     resp.setResponse("true");
-                } else {
-                    resp.setResponse("false");
-                    resp.setMessage("Fail to create new authorization");
                 }
+//                else {
+//                    resp.setResponse("false");
+//                    resp.setMessage("Fail to create new authorization");
+//                }
             }
         }
 
@@ -124,10 +126,11 @@ public class UserService {
         DeviceRegistration deviceRegistration = new DeviceRegistration(userId, registrationId);
         if (authorizationDaoImpl.deleteAuthorization(authorization) && deviceRegistrationDaoImpl.deleteDeviceRegistration(deviceRegistration)) {
             resp.setResponse("true");
-        } else {
-            resp.setResponse("false");
-            resp.setMessage("Fail to delete authorization.");
         }
+//        else {
+//            resp.setResponse("false");
+//            resp.setMessage("Fail to delete authorization.");
+//        }
         return resp;
     }
 
