@@ -13,6 +13,7 @@ public class Notification {
     private int notificationState;
     private int notificationPriority;
 
+    public Notification(){}
 
     public Notification(String receiverId, String notificationId, String notificationTitle, String notificationDetail, String notificationType, String notificationSender, Date time, int notificationState, int notificationPriority) {
         this.receiverId = receiverId;
