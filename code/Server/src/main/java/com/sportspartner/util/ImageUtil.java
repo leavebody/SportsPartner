@@ -48,16 +48,16 @@ public class ImageUtil {
      * @param type 'origin' for original size, 'small' for reduced size
      * @return BufferedImage
      */
-//    public BufferedImage getUserImage(String userId, String type){
-//        BufferedImage img = null;
-//        try {
-//            img = ImageIO.read(new File(USERICONPATH + userId + "_" + type + ".png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return img;
-//    }
+    public BufferedImage getUserImage(String userId, String type){
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(USERICONPATH + userId + "_" + type + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+    }
 
     /**
      * Read sport icon from server.
@@ -65,16 +65,16 @@ public class ImageUtil {
      * @param type 'origin' for original size, 'small' for reduced size
      * @return BufferedImage
      */
-//    public BufferedImage getSportImage(String sportId, String type){
-//        BufferedImage img = null;
-//        try {
-//            img = ImageIO.read(new File(SPORTICONPATH + sportId + "_" + type + ".png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return img;
-//    }
+    public BufferedImage getSportImage(String sportId, String type){
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(SPORTICONPATH + sportId + "_" + type + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+    }
 
     /**
      * Image padding and resizing.
@@ -125,18 +125,18 @@ public class ImageUtil {
      * @param type 'origin' for original size, 'small' for reduced size
      * @return boolean for whether the image is saved successfully
      */
-//    public boolean saveUserImage(BufferedImage img, String userId, String type){
-//        try {
-//            if (ImageIO.write(img, "png", new File(USERICONPATH + userId + "_" + type + ".png")))
-//            {
-//                System.out.println("fdfdsaf");
-//                return true;
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public boolean saveUserImage(BufferedImage img, String userId, String type){
+        try {
+            if (ImageIO.write(img, "png", new File(USERICONPATH + userId + "_" + type + ".png")))
+            {
+                System.out.println("fdfdsaf");
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     /**
      * Save sport image in server.
@@ -145,16 +145,16 @@ public class ImageUtil {
      * @param type 'origin' for original size, 'small' for reduced size
      * @return boolean for whether the image is saved successfully
      */
-//    public boolean saveSportImage(BufferedImage img, String sportId, String type){
-//        try {
-//            if(ImageIO.write(img, "png", new File(SPORTICONPATH + sportId + "_" + type + ".png"))){
-//                return true;
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public boolean saveSportImage(BufferedImage img, String sportId, String type){
+        try {
+            if(ImageIO.write(img, "png", new File(SPORTICONPATH + sportId + "_" + type + ".png"))){
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     /**
      * Decode Base64 string to image.
