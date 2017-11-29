@@ -4,6 +4,9 @@ public class DeviceRegistration {
     private String userId;
     private String registrationId;
 
+    public DeviceRegistration() {
+    }
+
     public String getUserId() {
         return userId;
     }

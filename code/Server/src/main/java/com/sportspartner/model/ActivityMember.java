@@ -3,6 +3,10 @@ package com.sportspartner.model;
 public class ActivityMember {
     private String activityId;
     private String userId;
+
+    public ActivityMember() {
+    }
+
     public ActivityMember(String activityId, String userId){
         this.activityId = activityId;
         this.userId = userId;
