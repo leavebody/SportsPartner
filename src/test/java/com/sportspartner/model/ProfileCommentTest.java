@@ -35,11 +35,12 @@ public class ProfileCommentTest {
         profileComment.setTime(new Date(1234));
         profileComment.setContent("Nice");
 
-        assertEquals("u1", profileComment.getUserId());
-        assertEquals("001", profileComment.getCommentId());
-        assertEquals("u2", profileComment.getAuthorId());
-        assertEquals("dog", profileComment.getAuthorName());
-        assertEquals(new Date(1234), profileComment.getTime());
-        assertEquals("Nice", profileComment.getContent());
+        Date date = new Date(1234);
+        String expected = "u1 001 u2 dog " + date.toString() + " Nice";
+        String actual = profileComment.getUserId() + " " +  profileComment.getCommentId() + " "
+                + profileComment.getAuthorId() + " " + profileComment.getAuthorName() + " " + profileComment.getTime().toString() + " "
+                + profileComment.getContent();
+
+        assertEquals(expected, actual);
     }
 }
