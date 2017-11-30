@@ -39,18 +39,17 @@ public class NotificationTest {
         notification.setNotificationPriority(6);
         notification.setNotificationType("7");
         notification.setNotificationSender("8");
-        Date time = new Date();
+        Date time = new Date(1234);
         notification.setTime(time);
+        Date date = new Date(1234);
 
-        assertEquals("1", notification.getReceiverId());
-        assertEquals("2", notification.getNotificationId());
-        assertEquals("3", notification.getNotificationTitle());
-        assertEquals("4", notification.getNotificationDetail());
-        assertEquals(5, notification.getNotificationState());
-        assertEquals(6, notification.getNotificationPriority());
-        assertEquals("7", notification.getNotificationType());
-        assertEquals("8", notification.getNotificationSender());
-        assertEquals(new Date(), notification.getTime());
+        String expected = "1 2 3 4 5 6 7 8 " + date.toString();
+        String actual = notification.getReceiverId() + " " +  notification.getNotificationId() + " "
+                + notification.getNotificationTitle() + " " + notification.getNotificationDetail() + " " + String.valueOf(notification.getNotificationState()) + " "
+                + String.valueOf(notification.getNotificationPriority()) + " " + notification.getNotificationType() + " " + notification.getNotificationSender() + " "
+                + notification.getTime().toString();
+
+        assertEquals(expected, actual);
     }
 
 }
