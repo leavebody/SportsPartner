@@ -34,9 +34,9 @@ public class ImageUtilTest {
         Boolean isSavedUserImage = imageUtil.saveUserImage(userImage, "u1", "small");
         Boolean isSavedSportImage = imageUtil.saveSportImage(sportImage, "001", "small");
 
-        assertEquals("./res/sporticon/001_origin.png", imagePath);
-        assertEquals(true, isSavedUserImage);
-        assertEquals(true, isSavedSportImage);
+        assertEquals("./res/sporticon/001_origin.png true true", imagePath+" "+isSavedUserImage.toString()+" "+ isSavedSportImage.toString());
+//        assertEquals(true, isSavedUserImage);
+//        assertEquals(true, isSavedSportImage);
 
     }
 }
