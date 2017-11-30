@@ -263,27 +263,25 @@ public class ActivityRequest extends com.sportspartner.request.Request{
     }
 
     /**
-     * send a request to join the activity
+     * Send a request to leave an activity.
      * @param callback
-     * @param activityId the id of the activity needed to be deleted
-     * @param creatorId the id of the creator of this activity
+     * @param activityId The UUID of the activity.
      */
-    //Todo
-    public void leaveActivityRequest(final VolleyCallback callback, String activityId, String creatorId) {
+    public void leaveActivityRequest(final VolleyCallback callback, String activityId) {
         LoginDBHelper db = LoginDBHelper.getInstance(contextf);
-        String userEmail = db.getEmail();
+        String userId = db.getEmail();
         String key = db.getKey();
 
         JsonObject jsonRequestObject = new JsonObject();
 
-        jsonRequestObject.addProperty("creatorId", creatorId);
-        jsonRequestObject.addProperty("senderId", userEmail.trim().toLowerCase());
+        jsonRequestObject.addProperty("userId", userId);
+        jsonRequestObject.addProperty("authorizationKey", key);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/joinactivityapplication/" + activityId;
+        String url = URL_CONTEXT+"v1/activity_leave/" + activityId;
 
-        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url,
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url,
                 jsonRequestObject.toString(),
                 new Response.Listener<NetworkResponse>() {
                     @Override
