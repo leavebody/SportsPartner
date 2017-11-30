@@ -44,23 +44,18 @@ public class ActivityOutlineVOTest {
         activityOutlineVO.setCapacity(4);
         activityOutlineVO.setSize(1);
 
-//        assertEquals("01",activityOutlineVO.getActivityId());
-//        assertEquals("u1",activityOutlineVO.getCreatorId());
-//        assertEquals("OPEN",activityOutlineVO.getStatus());
-//        assertEquals("NULL",activityOutlineVO.getSportIconUUID());
-//        assertEquals("Basketball",activityOutlineVO.getSportName());
-//        assertEquals(new Date(1234), activityOutlineVO.getStartTime());
-//        assertEquals(new Date(1234),activityOutlineVO.getEndTime());
-//        assertEquals("0.0", String.valueOf(activityOutlineVO.getLatitude()));
-//        assertEquals("0.1", String.valueOf(activityOutlineVO.getLongitude()));
-//        assertEquals("JHU",activityOutlineVO.getAddress());
-//        assertEquals(4,activityOutlineVO.getCapacity());
-//        assertEquals(1,activityOutlineVO.getSize());
-//        assertEquals("001",activityOutlineVO.getFacilityId());
-        assertEquals("01 u1 OPEN NULL Basketball Wed Dec 31 19:00:01 EST 1969 Wed Dec 31 19:00:01 EST 1969 0.0 0.1JHU 4 1 001",activityOutlineVO.getActivityId()+ " " + activityOutlineVO.getCreatorId()+ " " + activityOutlineVO.getStatus() +
-                " " +activityOutlineVO.getSportIconUUID() + " " +activityOutlineVO.getSportName() + " " + activityOutlineVO.getStartTime()
-                + " "+ activityOutlineVO.getEndTime()+ " "+ String.valueOf(activityOutlineVO.getLatitude())+" " + String.valueOf(activityOutlineVO.getLongitude()
-                + activityOutlineVO.getAddress())+ " "+ activityOutlineVO.getCapacity()+ " " +activityOutlineVO.getSize()+ " " + activityOutlineVO.getFacilityId());
+
+        Date date = new Date(1234);
+        String expected = "01 u1 OPEN NULL Basketball " + date.toString() + " " + date.toString()
+                + " 0.0 0.1 JHU 4 1 001";
+        String actual = activityOutlineVO.getActivityId() + " " +  activityOutlineVO.getCreatorId() + " "
+                + activityOutlineVO.getStatus() + " " + activityOutlineVO.getSportIconUUID() + " " + activityOutlineVO.getSportName() + " "
+                + activityOutlineVO.getStartTime().toString() + " " + activityOutlineVO.getEndTime().toString() + " "
+                + String.valueOf(activityOutlineVO.getLatitude()) + " " + String.valueOf(activityOutlineVO.getLongitude()) + " "
+                + activityOutlineVO.getAddress() + " " + String.valueOf(activityOutlineVO.getCapacity()) + " "
+                + String.valueOf(activityOutlineVO.getSize()) + " " + activityOutlineVO.getFacilityId();
+
+        assertEquals(expected, actual);
     }
 
 }
