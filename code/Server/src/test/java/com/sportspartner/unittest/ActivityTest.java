@@ -290,7 +290,7 @@ public class ActivityTest {
         //String response =responseJson.getAsString();
         //String respond = responseJson.get("response").toString();
         //assertEquals ("\"true\"",respond);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Nov 30, 2017 9:00:00 AM\",\"endTime\":\"Nov 30, 2017 8:00:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}",responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}",responseBody);
     }
 
     /**
@@ -614,7 +614,7 @@ public class ActivityTest {
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            String body = "{\"userId\":\"u24\",\"key\":\"ASD\",\"activity\":{\"activityId\":\"NULL\",\"address\":\"Sydney NSW, Australia\",\"capacity\":10,\"creatorId\":\"u1\",\"description\":\"t\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"NULL\",\"latitude\":-33.850770532400865,\"longitude\":151.2113021314144,\"size\":1,\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"status\":\"OPEN\",\"zipcode\":\"2000\"}}";
+            String body = "{\"userId\":\"u24\",\"key\":\"ASD\",\"activity\":{\"activityId\":\"NULL\",\"address\":\"Sydney NSW, Australia\",\"capacity\":10,\"creatorId\":\"u24\",\"description\":\"t\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"NULL\",\"latitude\":-33.850770532400865,\"longitude\":151.2113021314144,\"size\":1,\"sportId\":\"004\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"status\":\"OPEN\",\"zipcode\":\"2000\"}}";
 
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
                 wr.writeBytes(body);
