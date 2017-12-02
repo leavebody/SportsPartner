@@ -1,7 +1,5 @@
 package com.sportspartner.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.sportspartner.dao.ActivityDao;
 import com.sportspartner.dao.FacilityCommentDao;
 import com.sportspartner.dao.impl.ActivityDaoImpl;
@@ -63,6 +61,4 @@ public class FacilityService {
 
         return new JsonResponse(true);
     }
-
-
 }

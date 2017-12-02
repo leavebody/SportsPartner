@@ -27,20 +27,31 @@ public class UserOutlineVOTest {
      */
     @Test
     public void testUserOutlineVO() {
-        Person person = new Person("02", "u2", "Baltimore", "Female", 23, 5, 10, 5, 10, "Path");
-
         UserOutlineVO userOutlineVO = new UserOutlineVO();
         userOutlineVO.setUserId("01");
         userOutlineVO.setUserName("u1");
         userOutlineVO.setIconUUID("UUID");
 
-        assertEquals("01", userOutlineVO.getUserId());
-        assertEquals("u1", userOutlineVO.getUserName());
-        assertEquals("UUID", userOutlineVO.getIconUUID());
+        String expected = "01 u1 UUID";
+        String actual = userOutlineVO.getUserId() + " " +  userOutlineVO.getUserName() + " "
+                + userOutlineVO.getIconUUID();
 
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Test when SetFromPerson is called
+     */
+    @Test
+    public void testSetFromPerson() {
+        Person person = new Person("02", "u2", "Baltimore", "Female", 23, 5, 10, 5, 10, "Path");
+        UserOutlineVO userOutlineVO = new UserOutlineVO();
         userOutlineVO.setFromPerson(person);
-        assertEquals("02", userOutlineVO.getUserId());
-        assertEquals("u2", userOutlineVO.getUserName());
-        assertEquals("Path", userOutlineVO.getIconUUID());
+
+        String expected = "02 u2 Path";
+        String actual = userOutlineVO.getUserId() + " " +  userOutlineVO.getUserName() + " "
+                + userOutlineVO.getIconUUID();
+
+        assertEquals(expected, actual);
     }
 }

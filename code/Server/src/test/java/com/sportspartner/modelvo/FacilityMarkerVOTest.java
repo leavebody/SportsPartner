@@ -32,9 +32,9 @@ public class FacilityMarkerVOTest {
         facilityMarkerVO.setLatitude(1.0);
         facilityMarkerVO.setLongitude(0.1);
 
-        assertEquals("001", facilityMarkerVO.getFacilityId());
-        assertEquals("facility", facilityMarkerVO.getFacilityName());
-        assertEquals("1.0", String.valueOf(facilityMarkerVO.getLatitude()));
-        assertEquals("0.1", String.valueOf(facilityMarkerVO.getLongitude()));
+        assertEquals("001 facility 1.0 0.1", facilityMarkerVO.getFacilityId() +" "+ facilityMarkerVO.getFacilityName()+ " "+ String.valueOf(facilityMarkerVO.getLatitude())+ " "+ String.valueOf(facilityMarkerVO.getLongitude()));
+//        assertEquals("facility", facilityMarkerVO.getFacilityName());
+//        assertEquals("1.0", String.valueOf(facilityMarkerVO.getLatitude()));
+//        assertEquals("0.1", String.valueOf(facilityMarkerVO.getLongitude()));
     }
 }
