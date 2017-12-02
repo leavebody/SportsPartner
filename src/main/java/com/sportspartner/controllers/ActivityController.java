@@ -134,6 +134,19 @@ public class ActivityController {
             return reps;
         }, new JsonTransformer());
 
+        //Todo
+        //GET https://api.sportspartner.com/v1/search?type=activity
+        get(API_CONTEXT + "search", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse(true);
+            try {
+                reps = activityService.searchActivity(request.queryParams("type"), Integer.parseInt(request.queryParams("limit")), Integer.parseInt(request.queryParams("offset")), request.body());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            response.status(200);
+            return reps;
+        }, new JsonTransformer());
+
     }
 
 }

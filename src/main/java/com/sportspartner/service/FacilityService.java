@@ -1,7 +1,5 @@
 package com.sportspartner.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.sportspartner.dao.impl.FacilityDaoImpl;
 import com.sportspartner.model.Facility;
 import com.sportspartner.modelvo.FacilityMarkerVO;
@@ -28,6 +26,4 @@ public class FacilityService {
         resp.setResponse("true");
         return resp;
     }
-
-
 }

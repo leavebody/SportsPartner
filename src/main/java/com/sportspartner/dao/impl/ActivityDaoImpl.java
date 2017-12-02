@@ -228,6 +228,7 @@ public class ActivityDaoImpl implements ActivityDao {
     /**
      * Delete an activity from database by activityId.
      * @param activityId The UUID for the activity.
+     * @param activityId The UUID for the activity.
      * @return "true" or "false" for whether successfully delete the activity.
      */
     @Override
