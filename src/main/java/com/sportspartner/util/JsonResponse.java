@@ -22,6 +22,7 @@ public class JsonResponse {
     private JsonObject userOutline;
     private JsonObject activity;
     private String type;
+    private FacilityOutlineVO facilityOutline;
 
     private JsonArray interests;
     private String authorization;
@@ -60,6 +61,79 @@ public class JsonResponse {
         this.response = response;
         this.message = message;
     }
+
+    public void setProfile(JsonObject profile) {
+        this.profile = profile;
+    }
+
+    public void setUserOutline(JsonObject userOutline) {
+        this.userOutline = userOutline;
+    }
+
+    public void setActivity(JsonObject activity) {
+        this.activity = activity;
+    }
+
+    public FacilityOutlineVO getFacilityOutline() {
+        return facilityOutline;
+    }
+
+    public void setFacilityOutline(FacilityOutlineVO facilityOutline) {
+        this.facilityOutline = facilityOutline;
+    }
+
+    public void setInterests(JsonArray interests) {
+        this.interests = interests;
+    }
+
+    public void setProfileComments(JsonArray profileComments) {
+        this.profileComments = profileComments;
+    }
+
+    public JsonArray getSports() {
+        return sports;
+    }
+
+    public void setSports(JsonArray sports) {
+        this.sports = sports;
+    }
+
+    public JsonObject getActivityOutline() {
+        return activityOutline;
+    }
+
+    public void setActivityOutline(JsonObject activityOutline) {
+        this.activityOutline = activityOutline;
+    }
+
+    public JsonArray getActivityOutlines() {
+        return activityOutlines;
+    }
+
+    public void setActivityOutlines(JsonArray activityOutlines) {
+        this.activityOutlines = activityOutlines;
+    }
+
+    public JsonArray getFriendlist() {
+        return friendlist;
+    }
+
+    public void setFriendlist(JsonArray friendlist) {
+        this.friendlist = friendlist;
+    }
+
+    public JsonArray getMembers() {
+        return members;
+    }
+
+    public void setMembers(JsonArray members) {
+        this.members = members;
+    }
+
+    public void setFacilities(JsonArray facilities) {
+        this.facilities = facilities;
+    }
+
     public String getType() {
         return type;
     }
