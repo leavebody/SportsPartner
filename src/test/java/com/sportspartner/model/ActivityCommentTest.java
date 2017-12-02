@@ -27,12 +27,10 @@ public class ActivityCommentTest {
      */
     @Test
     public void testActivityComment(){
+        Date date = new Date(1234);
         ActivityComment activityComment = new ActivityComment("a001", "001", "u1", new Date(1234), "good");
-        assertEquals("a001", activityComment.getActivityId());
-        assertEquals("001", activityComment.getCommentId());
-        assertEquals("u1", activityComment.getAuthorId());
-        assertEquals(new Date(1234), activityComment.getTime());
-        assertEquals("good", activityComment.getContent());
-
+        String result = activityComment.getActivityId() + "," + activityComment.getCommentId() + "," + activityComment.getAuthorId()
+                +","+activityComment.getTime().toString() + "," + activityComment.getContent();
+        assertEquals("a001,001,u1," + date.toString() +",good", result);
     }
 }

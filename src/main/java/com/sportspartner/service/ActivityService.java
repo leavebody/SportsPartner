@@ -385,10 +385,10 @@ public class ActivityService {
     }
 
     //    public void searchActivity(){
-//        //TODO
-//    }
-//
-//
+        //TODO
+        JsonResponse resp = new JsonResponse();
+        ActivitySearch activitySearch = new Gson().fromJson(body, ActivitySearch.class);
+
     public JsonResponse reviewActivity(String activityId, String body) throws Exception {
         JsonResponse response;
 
