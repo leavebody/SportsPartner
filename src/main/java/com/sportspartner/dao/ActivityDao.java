@@ -1,6 +1,7 @@
 package com.sportspartner.dao;
 
 import com.sportspartner.model.Activity;
+import com.sportspartner.model.ActivitySearch;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,4 +14,6 @@ public interface ActivityDao {
     public boolean deleteActivity(String activityId) throws SQLException;
     public List<Activity> getUpcomingActivities(String userId) throws SQLException;
     public List<Activity> getPastActivities(String userId) throws SQLException;
+    public List<Activity> getActivitiesBySport(String sportId) throws SQLException;
+    public List<Activity> getAllActivitiesByCapacity(int capacity) throws SQLException;
 }

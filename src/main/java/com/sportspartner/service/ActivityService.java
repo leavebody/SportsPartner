@@ -384,11 +384,51 @@ public class ActivityService {
         return resp;
     }
 
-    public JsonResponse searchActivity(String type, int limit, int offset, String body){
+    public JsonResponse searchActivity(int limit, int offset, String body) throws SQLException{
         //TODO
         JsonResponse resp = new JsonResponse();
         ActivitySearch activitySearch = new Gson().fromJson(body, ActivitySearch.class);
 
+        List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+        List<Activity> searchActivities = new ArrayList<>();
+        //1. search by sport
+        if (!activitySearch.getSport().equals("NULL")) {
+            searchActivities = activityDaoImpl.getActivitiesBySport(activitySearch.getSport());
+        }
+
+        //2. search by capacity
+        if (activitySearch.getCapacity() != -1 && searchActivities.size() == 0) {
+            searchActivities = activityDaoImpl.getAllActivitiesByCapacity(activitySearch.getCapacity());
+        }
+        else if (activitySearch.getCapacity() != -1 && searchActivities.size() == 0){
+            for (Activity activity : searchActivities){
+                if (activity.getCapacity() != activitySearch.getCapacity()){
+                    searchActivities.remove(activity);
+                }
+            }
+        }
+
+        //3.search by time
+
+        //4.search by location
+
+
+        if (searchActivities.size() <= offset) {
+            resp.setResponse("true");
+            resp.setMessage("No more search result");
+            resp.setActivityOutlines(new ArrayList<>());
+        } else {
+            List<Activity> searchActivitySubset = searchActivities.subList(offset, min(offset + limit, searchActivities.size()));
+            for (Activity searchActi : searchActivitySubset) {
+                Sport sport = sportDaoImpl.getSport(searchActi.getSportId());
+                ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+                activityOutlineVO.setFromActivity(searchActi);
+                activityOutlineVO.setFromSport(sport);
+                activityOutlineVOs.add(activityOutlineVO);
+            }
+            resp.setActivityOutlines(activityOutlineVOs);
+            resp.setResponse("true");
+        }
         return resp;
     }
 
