@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.models.UserReview;
 import com.sportspartner.request.ActivityRequest;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
@@ -320,5 +322,21 @@ public class ActivityService extends Service {
                 callBack.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Leave activity"));
             }
         }, activityId);
+    }
+
+    /**
+     * review an activity.
+     * @param c Caller context
+     * @param callback
+     */
+    public static void reviewActivity(Context c, String activityId, ArrayList<UserReview> userReviews, FacilityReview facilityReview, final ActivityCallBack callback) {
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.reviewRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Review activity "));
+            }
+        }, activityId, userReviews, facilityReview);
     }
 }
