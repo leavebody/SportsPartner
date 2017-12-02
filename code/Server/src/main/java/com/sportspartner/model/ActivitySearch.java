@@ -1,33 +1,49 @@
 package com.sportspartner.model;
 
 public class ActivitySearch {
-    private String sport;
+    private String sportId;
     private String starttime;
     private String endtime;
     private String place;
+    private double latitude;
+    private double longitude;
     private int capacity;
-    private int size;
-    private String detail;
 
     public ActivitySearch() {
     }
 
-    public ActivitySearch(String sport, String starttime, String endtime, String place, int capacity, int size, String detail) {
-        this.sport = sport;
+    public ActivitySearch(String sport, String starttime, String endtime, String place, double latitude, double longitude, int capacity) {
+        this.sportId = sport;
         this.starttime = starttime;
         this.endtime = endtime;
         this.place = place;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.capacity = capacity;
-        this.size = size;
-        this.detail = detail;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getSport() {
-        return sport;
+        return sportId;
     }
 
     public void setSport(String sport) {
-        this.sport = sport;
+        this.sportId = sport;
     }
 
     public String getStarttime() {
@@ -60,21 +76,5 @@ public class ActivitySearch {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 }
