@@ -55,12 +55,11 @@ public class ActivityService {
             List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
             for (ActivityMember activityMember : activityMembers) {
                 String memberId = activityMember.getUserId();
-                if (!activityVO.getCreatorId().equals(memberId)) {
-                    Person person = personDaoImpl.getPerson(memberId);
-                    UserOutlineVO userOutlineVO = new UserOutlineVO();
-                    userOutlineVO.setFromPerson(person);
-                    members.add(userOutlineVO);
-                }
+                Person person = personDaoImpl.getPerson(memberId);
+                UserOutlineVO userOutlineVO = new UserOutlineVO();
+                userOutlineVO.setFromPerson(person);
+                members.add(userOutlineVO);
+
             }
             activityVO.setMembers(members);
             //Comment Info
@@ -392,17 +391,23 @@ public class ActivityService {
         String userId = reviewActivityVO.getUserId();
         String key = reviewActivityVO.getKey();
 
-        if (!isAuthorized(userId, key)){
+        if (!isAuthorized(userId, key)) {
             return new JsonResponse("not authorized: did you log in?");
         }
-        if (!activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, userId))){
+        if (!activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, userId))) {
             return new JsonResponse("this user is not a member of the activity");
         } else {
             ArrayList<JsonResponse> allResponse = new ArrayList<>();
-            allResponse.add(new FacilityService().reviewFacility(reviewActivityVO.getFacilityReviewVO()));
-            for (UserReviewVO userReviewVO:
-                 reviewActivityVO.getUserReviewVOs()) {
-                allResponse.add(new ProfileService().reviewPerson(userReviewVO));
+            FacilityReviewVO facilityReviewVO = reviewActivityVO.getFacilityReviewVO();
+            if (facilityReviewVO != null) {
+                allResponse.add(new FacilityService().reviewFacility(facilityReviewVO));
+            }
+            ArrayList<UserReviewVO> userReviewVOS = reviewActivityVO.getUserReviewVOs();
+            if (userReviewVOS != null) {
+                for (UserReviewVO userReviewVO :
+                        reviewActivityVO.getUserReviewVOs()) {
+                    allResponse.add(new ProfileService().reviewPerson(userReviewVO));
+                }
             }
             response = JsonResponse.combineBinaryJsonResponses(allResponse);
         }
