@@ -92,22 +92,24 @@ public class JsonResponseTest {
         resp.setFacilities(facilityMarkerVOs);
         JsonArray facilities = resp.getFacilities();
 
-        assertEquals("PERSON", type);
-        assertEquals("HELLO", message);
-        assertEquals("key", key);
-        assertEquals("001", userId);
-        assertEquals("pass", password);
-        assertEquals("{\"userId\":\"personId\",\"age\":0,\"punctuality\":0.0,\"participation\":0.0}", new Gson().toJson(profile));
-        assertEquals("{\"userId\":\"userOutlineId\"}", new Gson().toJson(userOutline));
-        assertEquals("[{\"sportId\":\"001\"}]",new Gson().toJson(interests));
-        assertEquals("asd", authorization);
-        assertEquals("[{\"userId\":\"009\"}]", new Gson().toJson(comments));
-        assertEquals("{\"activityId\":\"008\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":0,\"size\":0}", new Gson().toJson(activity));
-        assertEquals("image", image);
-        assertEquals("uuid", iconUUID);
-        assertEquals("STRANGE", userType);
-        assertEquals("004", activityId);
-        assertEquals("[{\"facilityId\":\"005\",\"longitude\":0.0,\"latitude\":0.0}]", new Gson().toJson(facilities));
+//        assertEquals("PERSON", type);
+//        assertEquals("HELLO", message);
+//        assertEquals("key", key);
+//        assertEquals("001", userId);
+//        assertEquals("pass", password);
+//        assertEquals("{\"userId\":\"personId\",\"age\":0,\"punctuality\":0.0,\"participation\":0.0}", new Gson().toJson(profile));
+//        assertEquals("{\"userId\":\"userOutlineId\"}", new Gson().toJson(userOutline));
+//        assertEquals("[{\"sportId\":\"001\"}]",new Gson().toJson(interests));
+//        assertEquals("asd", authorization);
+//        assertEquals("[{\"userId\":\"009\"}]", new Gson().toJson(comments));
+//        assertEquals("{\"activityId\":\"008\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":0,\"size\":0}", new Gson().toJson(activity));
+//        assertEquals("image", image);
+//        assertEquals("uuid", iconUUID);
+//        assertEquals("STRANGE", userType);
+//        assertEquals("004", activityId);
+//        assertEquals("[{\"facilityId\":\"005\",\"longitude\":0.0,\"latitude\":0.0}]", new Gson().toJson(facilities));
+        assertEquals("PERSON HELLO key 001 pass {\"userId\":\"personId\",\"age\":0,\"punctuality\":0.0,\"participation\":0.0} {\"userId\":\"userOutlineId\"} [{\"sportId\":\"001\"}] asd [{\"userId\":\"009\"}] {\"activityId\":\"008\",\"longitude\":0.0,\"latitude\":0.0,\"capacity\":0,\"size\":0} image uuid STRANGE 004 [{\"facilityId\":\"005\",\"longitude\":0.0,\"latitude\":0.0}]", type+" "+message+" "+key+" "+userId+" "+password+" "+new Gson().toJson(profile) +" "+ new Gson().toJson(userOutline)+" "+ new Gson().toJson(interests)+" " + authorization+" " + new Gson().toJson(comments)+" " + new Gson().toJson(activity)+" "+ image+" " + iconUUID+" " + userType+" " + activityId+" " + new Gson().toJson(facilities));
+
 
     }
 }

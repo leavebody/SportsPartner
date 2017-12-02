@@ -58,8 +58,8 @@ public class ReviewSaActivity extends BasicActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Review an Activity");
 
-        reviewRecycler = findViewById(R.id.recycler_evaluate);
-        activityCardView = findViewById(R.id.reviewed_activity);
+        reviewRecycler = (RecyclerView) findViewById(R.id.recycler_evaluate);
+        activityCardView = (View) findViewById(R.id.reviewed_activity);
 
 
 
