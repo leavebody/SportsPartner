@@ -21,7 +21,7 @@ public class ActivityController {
     private void setupEndpoints() {
         // get activity details
         get(API_CONTEXT + "/activity/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 if(request.queryParams("content").equals("full")){
                     reps = activityService.getActivityDetail(request.params(":id"), request.queryParams("requestorId"),request.queryParams("requestorKey"));
@@ -40,7 +40,7 @@ public class ActivityController {
 
         // get upcoming activity outlines
         get(API_CONTEXT + "/activity_upcoming", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.getUpcomingActivity(request.queryParams("id"), Integer.parseInt(request.queryParams("offset")), Integer.parseInt(request.queryParams("limit")));
             } catch (Exception ex) {
@@ -52,7 +52,7 @@ public class ActivityController {
 
         // get past activity outlines
         get(API_CONTEXT + "/activity_past", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.getPastActivity(request.queryParams("id"), Integer.parseInt(request.queryParams("offset")), Integer.parseInt(request.queryParams("limit")));
             } catch (Exception ex) {
@@ -64,7 +64,7 @@ public class ActivityController {
 
         // get activity members
         get(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.getActivityMembers(request.params("id"));
             } catch (Exception ex) {
@@ -76,7 +76,7 @@ public class ActivityController {
 
         // add an activity member
         post(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.addActivityMember(request.params("id"),request.body());
             } catch (Exception ex) {
@@ -88,7 +88,7 @@ public class ActivityController {
 
         // remove an activity member
         delete(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.removeActivityMember(request.params("id"),request.body());
             } catch (Exception ex) {
@@ -100,7 +100,7 @@ public class ActivityController {
 
         // create an activity
         post(API_CONTEXT + "/activity", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.newActivity(request.body());
             } catch (Exception ex) {
@@ -112,7 +112,7 @@ public class ActivityController {
 
         //update an activity info
         put(API_CONTEXT + "/activity/:activityId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.updateActivity(request.params(":activityId"),request.body());
             } catch (Exception ex) {
@@ -124,7 +124,7 @@ public class ActivityController {
 
         // Delete(cancel) an activity
         delete(API_CONTEXT + "/activity/:activityId/:userId/:key", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try{
                 reps = activityService.deleteActivity(request.params("activityId"), request.params("userId"), request.params("key"));
             } catch(Exception ex){
@@ -134,13 +134,13 @@ public class ActivityController {
             return reps;
         }, new JsonTransformer());
 
-        //Todo
-        //GET https://api.sportspartner.com/v1/search?type=activity
-        get(API_CONTEXT + "search", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+        // When an activity has finished, the participants of the activity can review the activity by rating teammates and facilities.
+        // {"userId":"u24","key":"ASD","facilityreview":{"activityid":"a002", "reviewer":"u24", "reviewee":"001", "score":5, "comments":"test facility comment 057"}, "userreviews":[{"activityid":"a002", "reviewer":"u24", "reviewee":"u1", "punctuality":5,"participation":5, "comments":"test comment 057"}]}
+        post(API_CONTEXT + "/activityreview/:id","application/json",(request, response) -> {
+            JsonResponse reps = new JsonResponse(false);
             try {
-                reps = activityService.searchActivity(request.queryParams("type"), Integer.parseInt(request.queryParams("limit")), Integer.parseInt(request.queryParams("offset")), request.body());
-            } catch (Exception ex) {
+                reps = activityService.reviewActivity(request.params("id"), request.body());
+            } catch(Exception ex){
                 ex.printStackTrace();
             }
             response.status(200);

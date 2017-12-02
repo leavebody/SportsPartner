@@ -6,6 +6,7 @@ import org.json.JSONException;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,11 +42,23 @@ public class JsonResponse {
     public JsonResponse() {
     }
 
-    public JsonResponse(boolean defaultError){
-        if (defaultError){
-            setResponse("fault");
+    public JsonResponse(boolean response){
+        if (response){
+            setResponse("true");
+        }else{
+            setResponse("false");
             setMessage("default error message");
         }
+    }
+
+    public JsonResponse(String errorMessage) {
+        this.response = "false";
+        this.message = errorMessage;
+    }
+
+    public JsonResponse(String response, String message) {
+        this.response = response;
+        this.message = message;
     }
     public String getType() {
         return type;
@@ -286,5 +299,27 @@ public class JsonResponse {
         }catch(JSONException e){
             // TODO Auto-generated catch block
         }
+    }
+
+    public static JsonResponse combineBinaryJsonResponses(ArrayList<JsonResponse> jsonResponses) {
+        JsonResponse result = new JsonResponse();
+        result.setResponse("true");
+        for (JsonResponse jsonResponse:
+             jsonResponses) {
+            if (jsonResponse.getResponse().equals("false")) {
+                result.setResponse("false");
+                result.setMessage(jsonResponse.getMessage());
+                break;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "JsonResponse{" +
+                "response='" + response + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

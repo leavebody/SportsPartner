@@ -23,7 +23,7 @@ public class ImageController {
     private void setupEndpoints() {
         //get an image
         get(API_CONTEXT + "/resource/:iconUUID", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = imageService.getImage(request.params(":iconUUID"), request.queryParams("type"));
             } catch (Exception ex) {
@@ -35,7 +35,7 @@ public class ImageController {
 
         //upload an image
         post(API_CONTEXT + "/resource/icon/:spId", "application/json", (request, response)->{
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try{
                 reps = imageService.updateIcon(request.params("spId"), request.body());
             }catch(Exception ex) {
