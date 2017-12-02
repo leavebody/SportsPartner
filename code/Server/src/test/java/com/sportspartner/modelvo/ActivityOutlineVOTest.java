@@ -43,7 +43,7 @@ public class ActivityOutlineVOTest {
         activityOutlineVO.setAddress("JHU");
         activityOutlineVO.setCapacity(4);
         activityOutlineVO.setSize(1);
-
+        
         Date date = new Date(1234);
         String expected = "01 u1 OPEN NULL Basketball " + date.toString() + " " + date.toString()
                 + " 0.0 0.1 JHU 4 1 001";
