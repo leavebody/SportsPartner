@@ -21,7 +21,7 @@ public class FacilityController {
     private void setupEndpoints() {
         // get all facilities for map display
         get(API_CONTEXT + "/facility_markers", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 double longitude_small = Double.parseDouble(request.queryParams("los"));
                 double longitude_large = Double.parseDouble(request.queryParams("lol"));

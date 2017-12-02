@@ -55,12 +55,11 @@ public class ActivityService {
             List<UserOutlineVO> members = new ArrayList<UserOutlineVO>();
             for (ActivityMember activityMember : activityMembers) {
                 String memberId = activityMember.getUserId();
-                if (!activityVO.getCreatorId().equals(memberId)) {
-                    Person person = personDaoImpl.getPerson(memberId);
-                    UserOutlineVO userOutlineVO = new UserOutlineVO();
-                    userOutlineVO.setFromPerson(person);
-                    members.add(userOutlineVO);
-                }
+                Person person = personDaoImpl.getPerson(memberId);
+                UserOutlineVO userOutlineVO = new UserOutlineVO();
+                userOutlineVO.setFromPerson(person);
+                members.add(userOutlineVO);
+
             }
             activityVO.setMembers(members);
             //Comment Info
@@ -384,57 +383,36 @@ public class ActivityService {
         return resp;
     }
 
-    public JsonResponse searchActivity(int limit, int offset, String body) throws SQLException{
-        //TODO
-        JsonResponse resp = new JsonResponse();
-        ActivitySearch activitySearch = new Gson().fromJson(body, ActivitySearch.class);
 
-        List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
-        List<Activity> searchActivities = new ArrayList<>();
-        //1. search by sport
-        if (!activitySearch.getSport().equals("NULL")) {
-            searchActivities = activityDaoImpl.getActivitiesBySport(activitySearch.getSport());
-        }
+    public JsonResponse reviewActivity(String activityId, String body) throws Exception {
+        JsonResponse response;
 
-        //2. search by capacity
-        if (activitySearch.getCapacity() != -1 && searchActivities.size() == 0) {
-            searchActivities = activityDaoImpl.getAllActivitiesByCapacity(activitySearch.getCapacity());
+        ReviewActivityVO reviewActivityVO = new Gson().fromJson(body, ReviewActivityVO.class);
+        String userId = reviewActivityVO.getUserId();
+        String key = reviewActivityVO.getKey();
+
+        if (!isAuthorized(userId, key)) {
+            return new JsonResponse("not authorized: did you log in?");
         }
-        else if (activitySearch.getCapacity() != -1 && searchActivities.size() == 0){
-            for (Activity activity : searchActivities){
-                if (activity.getCapacity() != activitySearch.getCapacity()){
-                    searchActivities.remove(activity);
+        if (!activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, userId))) {
+            return new JsonResponse("this user is not a member of the activity");
+        } else {
+            ArrayList<JsonResponse> allResponse = new ArrayList<>();
+            FacilityReviewVO facilityReviewVO = reviewActivityVO.getFacilityReviewVO();
+            if (facilityReviewVO != null) {
+                allResponse.add(new FacilityService().reviewFacility(facilityReviewVO));
+            }
+            ArrayList<UserReviewVO> userReviewVOS = reviewActivityVO.getUserReviewVOs();
+            if (userReviewVOS != null) {
+                for (UserReviewVO userReviewVO :
+                        reviewActivityVO.getUserReviewVOs()) {
+                    allResponse.add(new ProfileService().reviewPerson(userReviewVO));
                 }
             }
+            response = JsonResponse.combineBinaryJsonResponses(allResponse);
         }
-
-        //3.search by time
-
-        //4.search by location
-
-
-        if (searchActivities.size() <= offset) {
-            resp.setResponse("true");
-            resp.setMessage("No more search result");
-            resp.setActivityOutlines(new ArrayList<>());
-        } else {
-            List<Activity> searchActivitySubset = searchActivities.subList(offset, min(offset + limit, searchActivities.size()));
-            for (Activity searchActi : searchActivitySubset) {
-                Sport sport = sportDaoImpl.getSport(searchActi.getSportId());
-                ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
-                activityOutlineVO.setFromActivity(searchActi);
-                activityOutlineVO.setFromSport(sport);
-                activityOutlineVOs.add(activityOutlineVO);
-            }
-            resp.setActivityOutlines(activityOutlineVOs);
-            resp.setResponse("true");
-        }
-        return resp;
+        return response;
     }
-
-//    public void reviewctivity(){
-//        //TODO
-//    }
 //    public void activityInfoUpdate(){
 //        //TODO
 //    }
@@ -480,6 +458,5 @@ public class ActivityService {
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
         return authorizationDaoImpl.hasAuthorization(authorization);
     }
-
 
 }

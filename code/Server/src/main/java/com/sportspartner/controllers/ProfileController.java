@@ -22,7 +22,7 @@ public class ProfileController {
     private void setupEndpoints() {
         //get the profile
         get(API_CONTEXT + "/profile/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getProfile(request.params(":userId"), request.queryParams("requestorId"), request.queryParams("requestorKey"));
@@ -35,7 +35,7 @@ public class ProfileController {
 
         //update the profile
         put(API_CONTEXT + "/profile/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = profileService.updateProfile(request.params(":userId"),request.body());
             } catch (Exception ex) {
@@ -47,7 +47,7 @@ public class ProfileController {
 
         // get the interests
         get(API_CONTEXT + "/interests/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getInterests(request.params(":userId"));
@@ -60,7 +60,7 @@ public class ProfileController {
 
         //update the interests
         put(API_CONTEXT + "/interests/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = profileService.updateInterest(request.params(":userId"),request.body());
             } catch (Exception ex) {
@@ -72,7 +72,7 @@ public class ProfileController {
 
         // get the user outline
         get(API_CONTEXT + "/profile/outline/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getUserOutline(request.params(":userId"));
@@ -85,7 +85,7 @@ public class ProfileController {
 
         // get the profile comments
         get(API_CONTEXT + "/profile_comments/:userId", "application/json", (request, response) ->{
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getProfileComment(request.params(":userId"));
@@ -98,7 +98,7 @@ public class ProfileController {
 
         // create a new profile comment
         post(API_CONTEXT + "/profile_comments/:userId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = profileService.newProfileComment(request.params(":userId"), request.body());
             } catch (Exception ex) {
@@ -110,7 +110,7 @@ public class ProfileController {
 
         // get all sports
         get(API_CONTEXT + "/sports", "application/json", (request, response) ->{
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             //System.out.println(request.queryParams("id") + " " + request.queryParams("type"));
             try {
                 reps = profileService.getAllSports();
