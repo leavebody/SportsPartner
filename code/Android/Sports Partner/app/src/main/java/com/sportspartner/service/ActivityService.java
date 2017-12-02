@@ -283,7 +283,7 @@ public class ActivityService extends Service {
         request.deleteActivityRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Update activity "));
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Delete activity "));
             }
         }, activityId);
     }
@@ -300,8 +300,25 @@ public class ActivityService extends Service {
         request.joinActivityRequest(new VolleyCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Update activity "));
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Join activity "));
             }
         }, activityId, creatorId);
+    }
+
+    /**
+     * leave an activity.
+     * @param c Caller context
+     * @param activityId The UUID of the activity.
+     * @param callBack
+     */
+    public static void leaveActivity(Context c, String activityId, final ActivityCallBack callBack){
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.leaveActivityRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response){
+                callBack.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Leave activity"));
+            }
+        }, activityId);
     }
 }

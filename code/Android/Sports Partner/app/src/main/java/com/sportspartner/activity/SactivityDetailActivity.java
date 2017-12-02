@@ -220,7 +220,7 @@ public class SactivityDetailActivity extends BasicActivity {
                     @Override
                     public void getModelOnSuccess(ModelResult modelResult) {
                         if (modelResult.isStatus()){
-                            Toast.makeText(SactivityDetailActivity.this, "Delete Success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SactivityDetailActivity.this, "Delete Succeeded!", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }
                         else {
@@ -230,7 +230,17 @@ public class SactivityDetailActivity extends BasicActivity {
                 });
                 break;
             case "MEMBER":
-                //todo leave
+                ActivityService.leaveActivity(this, activityDetail.getActivityId(), new ActivityCallBack() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult modelResult) {
+                        if(modelResult.isStatus()){
+                            Toast.makeText(SactivityDetailActivity.this, "Leave Actviity Succeeded!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(SactivityDetailActivity.this, "Leave Activity Failed: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             case "STRANGER":
                 ActivityService.joinActivity(this, activityDetail.getActivityId(), activityDetail.getCreatorId(), new ActivityCallBack() {
