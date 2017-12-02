@@ -384,11 +384,14 @@ public class ActivityService {
         return resp;
     }
 
-//    public void searchActivity(){
-//        //TODO
-//    }
-//
-//
+    public JsonResponse searchActivity(String type, int limit, int offset, String body){
+        //TODO
+        JsonResponse resp = new JsonResponse();
+        ActivitySearch activitySearch = new Gson().fromJson(body, ActivitySearch.class);
+
+        return resp;
+    }
+
 //    public void reviewctivity(){
 //        //TODO
 //    }
