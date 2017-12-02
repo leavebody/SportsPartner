@@ -384,14 +384,34 @@ public class ActivityService {
         return resp;
     }
 
-//    public void searchActivity(){
+    //    public void searchActivity(){
 //        //TODO
 //    }
 //
 //
-//    public void reviewctivity(){
-//        //TODO
-//    }
+    public JsonResponse reviewActivity(String activityId, String body) throws Exception {
+        JsonResponse response;
+
+        ReviewActivityVO reviewActivityVO = new Gson().fromJson(body, ReviewActivityVO.class);
+        String userId = reviewActivityVO.getUserId();
+        String key = reviewActivityVO.getKey();
+
+        if (!isAuthorized(userId, key)){
+            return new JsonResponse("not authorized: did you log in?");
+        }
+        if (!activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, userId))){
+            return new JsonResponse("this user is not a member of the activity");
+        } else {
+            ArrayList<JsonResponse> allResponse = new ArrayList<>();
+            allResponse.add(new FacilityService().reviewFacility(reviewActivityVO.getFacilityReviewVO()));
+            for (UserReviewVO userReviewVO:
+                 reviewActivityVO.getUserReviewVOs()) {
+                allResponse.add(new ProfileService().reviewPerson(userReviewVO));
+            }
+            response = JsonResponse.combineBinaryJsonResponses(allResponse);
+        }
+        return response;
+    }
 //    public void activityInfoUpdate(){
 //        //TODO
 //    }

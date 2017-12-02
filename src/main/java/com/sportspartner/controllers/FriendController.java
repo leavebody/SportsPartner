@@ -22,7 +22,7 @@ public class FriendController {
 
         // get all friends of the user
         get(API_CONTEXT + "/:userId/friends", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = friendService.getFriendList(request.params(":userId"));
             } catch (Exception ex) {
@@ -34,7 +34,7 @@ public class FriendController {
 
         // delete a friend
         delete(API_CONTEXT + "/deletefriend/:userId1/:userId2", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = friendService.deleteFriend(request.params(":userId1"),request.params(":userId2"));
             } catch (Exception ex) {
