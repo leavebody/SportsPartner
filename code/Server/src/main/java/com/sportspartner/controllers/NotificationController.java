@@ -18,7 +18,7 @@ public class NotificationController {
     // send a friend request
     private void setupEndpoints() {
         post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.sendFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch(Exception ex) {
@@ -30,7 +30,7 @@ public class NotificationController {
 
         // accept a freind request
         post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.acceptFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch (Exception ex) {
@@ -42,7 +42,7 @@ public class NotificationController {
 
         // decline a friend request
         post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.declineFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch (Exception ex) {

@@ -2,6 +2,7 @@ package com.sportspartner.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sportspartner.dao.ProfileCommentDao;
 import com.sportspartner.dao.impl.*;
 import com.sportspartner.model.*;
 import com.sportspartner.modelvo.*;
@@ -9,6 +10,7 @@ import com.sportspartner.util.JsonResponse;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 public class ProfileService {
     private PersonDaoImpl personDaoImpl = new PersonDaoImpl();
     private FriendDaoImpl friendDaoImpl = new FriendDaoImpl();
+    private ProfileCommentDao profileCommentDao = new ProfileCommentDaoImpl();
 
     /**
      * Get the profile of a user
@@ -245,6 +248,42 @@ public class ProfileService {
 
         return resp;
     }
+
+    public JsonResponse reviewPerson(UserReviewVO userReviewVO) throws Exception {
+        String userId = userReviewVO.getReviewee();
+
+        Person person = personDaoImpl.getPerson(userId);
+        if (person == null) {
+            return new JsonResponse("false", "no such user: " + userId);
+        }
+        {
+            double scorePaBefore = person.getParticipation();
+            int countPaBefore = person.getParticipationCount();
+            person.setParticipation((scorePaBefore * countPaBefore + userReviewVO.getParticipation()) / (countPaBefore + 1));
+            person.setParticipationCount(countPaBefore + 1);
+        }
+        {
+            double scorePuBefore = person.getPunctuality();
+            int countPuBefore = person.getPunctualityCount();
+            person.setPunctuality((scorePuBefore * countPuBefore + userReviewVO.getPunctuality()) / (countPuBefore + 1));
+            person.setPunctualityCount(countPuBefore + 1);
+        }
+        personDaoImpl.updatePerson(person);
+
+        ProfileComment profileComment = new ProfileComment();
+
+        profileComment.setAuthorId(userReviewVO.getReviewer());
+        profileComment.setCommentId(UUID.randomUUID().toString());
+        profileComment.setContent(userReviewVO.getComments());
+        profileComment.setTime(new Date());
+        profileComment.setUserId(userReviewVO.getReviewee());
+        profileComment.setAuthorName(personDaoImpl.getPerson(userReviewVO.getReviewer()).getUserName());
+        profileCommentDao.newProfileComment(profileComment);
+
+
+        return new JsonResponse(true);
+    }
+
 
     /**
      * Get information about all of the sports
