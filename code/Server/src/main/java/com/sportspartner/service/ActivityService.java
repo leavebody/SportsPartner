@@ -441,5 +441,4 @@ public class ActivityService {
         return authorizationDaoImpl.hasAuthorization(authorization);
     }
 
-
 }
