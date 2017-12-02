@@ -11,10 +11,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sportspartner.models.ActivityReview;
+import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.models.UserReview;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
+
+import java.util.ArrayList;
 
 
 /**
@@ -299,6 +304,42 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         );
         queue.add(nrRequest);
     }
+    /**
+     * Send a request to review members and facility of an activity
+     * @param callback
+     */
+    public void reviewRequest(final VolleyCallback callback, String activityId, ArrayList<UserReview> userReviews, FacilityReview facilityReview) {
+        LoginDBHelper db = LoginDBHelper.getInstance(contextf);
+        String userEmail = db.getEmail();
+        String key = db.getKey();
 
+        ActivityReview review = new ActivityReview();
+        review.setKey(key);
+        review.setUserId(userEmail);
+        review.setFacilityreview(facilityReview);
+        review.setUserreviews(userReviews);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+"v1/activityreview/"+activityId;
+        Log.d("ActivityRequest", "POST "+new Gson().toJson(review));
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url,
+                new Gson().toJson(review),
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
     
 }

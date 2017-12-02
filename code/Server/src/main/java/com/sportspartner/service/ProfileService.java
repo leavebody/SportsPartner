@@ -212,12 +212,12 @@ public class ProfileService {
             resp.setResponse("false");
             resp.setMessage("Lack authorization to leave a comment");
         } else {
-                if(profileCommentDaoImpl.newProfileComment(profileComment)){
-                    resp.setResponse("true");
-                }else{
-                    resp.setResponse("false");
-                    resp.setMessage("Failed to create a new comment");
-                }
+            if (profileCommentDaoImpl.newProfileComment(profileComment)) {
+                resp.setResponse("true");
+            } else {
+                resp.setResponse("false");
+                resp.setMessage("Failed to create a new comment");
+            }
         }
 
 //      System.out.println(resp);
@@ -256,13 +256,13 @@ public class ProfileService {
         if (person == null) {
             return new JsonResponse("false", "no such user: " + userId);
         }
-        {
+        if (userReviewVO.getParticipation() > 0) {
             double scorePaBefore = person.getParticipation();
             int countPaBefore = person.getParticipationCount();
             person.setParticipation((scorePaBefore * countPaBefore + userReviewVO.getParticipation()) / (countPaBefore + 1));
             person.setParticipationCount(countPaBefore + 1);
         }
-        {
+        if (userReviewVO.getPunctuality() > 0) {
             double scorePuBefore = person.getPunctuality();
             int countPuBefore = person.getPunctualityCount();
             person.setPunctuality((scorePuBefore * countPuBefore + userReviewVO.getPunctuality()) / (countPuBefore + 1));
@@ -270,16 +270,16 @@ public class ProfileService {
         }
         personDaoImpl.updatePerson(person);
 
-        ProfileComment profileComment = new ProfileComment();
-
-        profileComment.setAuthorId(userReviewVO.getReviewer());
-        profileComment.setCommentId(UUID.randomUUID().toString());
-        profileComment.setContent(userReviewVO.getComments());
-        profileComment.setTime(new Date());
-        profileComment.setUserId(userReviewVO.getReviewee());
-        profileComment.setAuthorName(personDaoImpl.getPerson(userReviewVO.getReviewer()).getUserName());
-        profileCommentDao.newProfileComment(profileComment);
-
+        if (userReviewVO.getComments() != null && userReviewVO.getComments().length() > 0) {
+            ProfileComment profileComment = new ProfileComment();
+            profileComment.setAuthorId(userReviewVO.getReviewer());
+            profileComment.setCommentId(UUID.randomUUID().toString());
+            profileComment.setContent(userReviewVO.getComments());
+            profileComment.setTime(new Date());
+            profileComment.setUserId(userReviewVO.getReviewee());
+            profileComment.setAuthorName(personDaoImpl.getPerson(userReviewVO.getReviewer()).getUserName());
+            profileCommentDao.newProfileComment(profileComment);
+        }
 
         return new JsonResponse(true);
     }

@@ -21,6 +21,7 @@ import com.sportspartner.R;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.UserOutline;
+import com.sportspartner.models.UserReview;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
@@ -170,7 +171,13 @@ public class ReviewSaActivity extends BasicActivity {
                     Log.e("ReviewAct", modelResult.getMessage());
                     return;
                 }
-                listMembers = modelResult.getModel().getMembers();
+                listMembers = new ArrayList<>();
+                ArrayList<UserOutline> allMembers = modelResult.getModel().getMembers();
+                for (UserOutline outline: allMembers) {
+                    if (!outline.getUserId().equals(myEmail)){
+                        listMembers.add(outline);
+                    }
+                }
                 setReviewList();
 
             }
@@ -216,7 +223,31 @@ public class ReviewSaActivity extends BasicActivity {
     }
 
     private void sendRating(){
-        // TODO
+        ArrayList<UserReview> userReviews = new ArrayList<>();
+        for (int i = 0; i < reviewMembersAdapter.getItemCount(); i++) {
+            UserReview userReview = new UserReview();
+            ReviewMembersAdapter.MyViewHolder viewHolder =
+                    (ReviewMembersAdapter.MyViewHolder) reviewRecycler.findViewHolderForAdapterPosition(i);
+            userReview.setActivityid(activityId);
+            userReview.setComments(viewHolder.getComment());
+            userReview.setParticipation(viewHolder.getParticipation());
+            userReview.setPunctuality(viewHolder.getPunctuality());
+            userReview.setReviewee(reviewMembersAdapter.getUserIdByPosition(i));
+            userReview.setReviewer(myEmail);
+
+            userReviews.add(userReview);
+        }
+        // TODO facility
+
+        ActivityService.reviewActivity(this, activityId, userReviews, null, new ActivityCallBack(){
+            public void getModelOnSuccess(ModelResult modelResult){
+                if (modelResult.isStatus()) {
+                    Toast.makeText(ReviewSaActivity.this.getApplicationContext(), "review success!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ReviewSaActivity.this.getApplicationContext(), modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
