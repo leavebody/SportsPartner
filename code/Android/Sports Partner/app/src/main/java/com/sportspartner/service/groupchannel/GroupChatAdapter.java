@@ -386,7 +386,7 @@ class GroupChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (msg instanceof FileMessage) {
                 if (message.getRequestId().equals(((FileMessage)msg).getRequestId())) {
                     CircleProgressBar circleProgressBar = mFileMessageMap.get(message);
-                    circleProgressBar.setProgress(percent);
+                    //circleProgressBar.setProgress(percent);
                     break;
                 }
             }

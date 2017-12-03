@@ -135,6 +135,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sportspartner.activity.BasicActivity" />
         </activity>
+        <activity
+            android:name=".service.chatsupport.BlockedMembersListActivity"
+            android:label="@string/blocked_members_list" />
+        <activity android:name=".util.Chat.PhotoViewerActivity" />
+        <activity
+            android:name=".util.Chat.MediaPlayerActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".service.groupchannel.InviteMemberActivity"
+            android:label="@string/invite_member" />
+        <activity
+            android:name=".service.groupchannel.MemberListActivity"
+            android:label="@string/member_list" />
+        <activity
+            android:name=".service.groupchannel.CreateGroupChannelActivity"
+            android:label="@string/create_group_channel" />
+        <activity android:name=".service.groupchannel.GroupChannelActivity" />
+
     </application>
 
 </manifest>

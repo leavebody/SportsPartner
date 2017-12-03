@@ -866,7 +866,8 @@ public class GroupChatFragment extends Fragment {
                     FileMessage fileMessage = mFileProgressHandlerMap.get(this);
                     if (fileMessage != null && totalBytesToSend > 0) {
                         int percent = (totalBytesSent * 100) / totalBytesToSend;
-                        mChatAdapter.setFileProgressPercent(fileMessage, percent);
+                       // mChatAdapter.setFileProgressPercent(fileMessage, percent);
+                        Log.d("sending...","666");
                     }
                 }
 

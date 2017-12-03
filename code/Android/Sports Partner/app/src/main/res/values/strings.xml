@@ -49,4 +49,6 @@
     <!-- Message Status -->
     <string name="message_sending">Sending</string>
     <string name="message_failed">Failed</string>
+
+    <string name="blocked_members_list">Blocked members</string>
 </resources>

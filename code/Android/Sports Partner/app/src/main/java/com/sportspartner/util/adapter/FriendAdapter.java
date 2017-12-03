@@ -11,14 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sendbird.android.GroupChannel;
+import com.sendbird.android.SendBirdException;
 import com.sportspartner.R;
 import com.sportspartner.activity.ProfileActivity;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.groupchannel.GroupChannelActivity;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yujiaxiao on 11/5/17.
@@ -49,9 +54,29 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                 UserOutline friend = friendsList.get(position);
-                myIntent = new Intent(context, ProfileActivity.class);
-                myIntent.putExtra("userId",friend.getUserId());
-                context.startActivity(myIntent);
+
+                //Get 2 user ID
+                List<String> userIds = new ArrayList<>();
+                userIds.add(friend.getUserId());
+                LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
+                userIds.add(dbHelper.getEmail());
+                GroupChannel.createChannelWithUserIds(userIds,true, new GroupChannel.GroupChannelCreateHandler() {
+                    @Override
+                    public void onResult(GroupChannel groupChannel, SendBirdException e) {
+                        if (e != null) {
+                            // Error!
+                            return;
+                        }
+                        myIntent = new Intent(context, GroupChannelActivity.class);
+                        myIntent.putExtra("groupChannelUrl",groupChannel.getUrl());
+                        //myIntent.putExtra("isGroupChannel","666");
+                        context.startActivity(myIntent);
+
+                    }
+                });
+
+
+
                 }
         }
     }

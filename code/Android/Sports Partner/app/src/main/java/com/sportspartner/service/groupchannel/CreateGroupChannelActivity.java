@@ -155,7 +155,7 @@ public class CreateGroupChannelActivity extends AppCompatActivity
      *                  If you attempt to create another Distinct channel with the same members,
      *                  the existing channel instance will be returned.
      */
-    private void createGroupChannel(List<String> userIds, boolean distinct) {
+    public void createGroupChannel(List<String> userIds, boolean distinct) {
         GroupChannel.createChannelWithUserIds(userIds, distinct, new GroupChannel.GroupChannelCreateHandler() {
             @Override
             public void onResult(GroupChannel groupChannel, SendBirdException e) {

@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.sportspartner.R;
@@ -23,10 +25,11 @@ public class GroupChannelActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24_dp);
-            //*??
         }
+        String flag = getIntent().getStringExtra("isGroupChannel");
 
         if (savedInstanceState == null) {
+            Log.d("666","111");
             // If started from launcher, load list of Open Channels
             Fragment fragment = GroupChannelListFragment.newInstance();
 
@@ -43,10 +46,16 @@ public class GroupChannelActivity extends AppCompatActivity {
             // If started from notification
             Fragment fragment = GroupChatFragment.newInstance(channelUrl);
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.container_group_channel, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            //manager.popBackStack();
+
+            FragmentTransaction transaction =
+                    manager.beginTransaction()
+                    .replace(R.id.container_group_channel, fragment);
+            if (flag!=null){
+                transaction = transaction.addToBackStack(null);
+            }
+            transaction.commit();
+
         }
     }
 
