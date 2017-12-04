@@ -95,7 +95,7 @@ public class Connection {
                     return;
                 }
 
-                PreferenceUtils.setNickname(context, user.getNickname());
+                PreferenceUtils.setNickname(context, userNickname);
                 PreferenceUtils.setProfileUrl(context, user.getProfileUrl());
                 PreferenceUtils.setConnected(context, true);
 

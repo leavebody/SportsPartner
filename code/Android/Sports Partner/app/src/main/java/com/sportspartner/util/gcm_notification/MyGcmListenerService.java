@@ -63,15 +63,6 @@ public class MyGcmListenerService extends GcmListenerService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            try {
-                if (new JSONObject(data.getString("sendbird")).getJSONObject("sender").getJSONObject("id").equals(LoginDBHelper.getInstance(this).getEmail())) {
-                    Log.d(TAG, "self messaging filter");
-                    return;
-                }
-            } catch (JSONException e) {
-                Log.d(TAG, "self messaging filter");
-                e.printStackTrace();
-            }
             MyFirebaseMessagingService.sendNotification(this, data.getString("message"), channelUrl);
                 return;
 
