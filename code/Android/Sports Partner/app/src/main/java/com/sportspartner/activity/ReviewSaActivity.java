@@ -24,6 +24,7 @@ import com.sportspartner.models.UserOutline;
 import com.sportspartner.models.UserReview;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
@@ -49,6 +50,11 @@ public class ReviewSaActivity extends BasicActivity {
     private RecyclerView reviewRecycler;
     private View activityCardView;
 
+    private View titleRateMember;
+    private View titleRateFacility;
+
+    private View rateFacilityView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +67,12 @@ public class ReviewSaActivity extends BasicActivity {
 
         reviewRecycler = (RecyclerView) findViewById(R.id.recycler_evaluate);
         activityCardView = (View) findViewById(R.id.reviewed_activity);
+        titleRateMember = findViewById(R.id.title_evaluate);
+        titleRateFacility = findViewById(R.id.title_rate_facility);
+        rateFacilityView = findViewById(R.id.facility_review);
 
-
+        titleRateFacility.setVisibility(View.INVISIBLE);
+        rateFacilityView.setVisibility(View.INVISIBLE);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         reviewRecycler.setLayoutManager(mLayoutManager);
@@ -97,12 +107,10 @@ public class ReviewSaActivity extends BasicActivity {
     }
 
     private void setTitle() {
-        View title1 = (View) findViewById(R.id.title_evaluate);
-        TextView title1Text = (TextView) title1.findViewById(R.id.title);
+        TextView title1Text = (TextView) titleRateMember.findViewById(R.id.title);
         title1Text.setText("Evaluate your teammates");
 
-        View title2 = (View) findViewById(R.id.title_rate_facility);
-        TextView title2Text = (TextView) title2.findViewById(R.id.title);
+        TextView title2Text = (TextView) titleRateFacility.findViewById(R.id.title);
         title2Text.setText("Rate the facility");
     }
 
@@ -171,8 +179,9 @@ public class ReviewSaActivity extends BasicActivity {
                     Log.e("ReviewAct", modelResult.getMessage());
                     return;
                 }
+                SActivity sActivity = modelResult.getModel();
                 listMembers = new ArrayList<>();
-                ArrayList<UserOutline> allMembers = modelResult.getModel().getMembers();
+                ArrayList<UserOutline> allMembers = sActivity.getMembers();
                 for (UserOutline outline: allMembers) {
                     if (!outline.getUserId().equals(myEmail)){
                         listMembers.add(outline);
@@ -180,9 +189,21 @@ public class ReviewSaActivity extends BasicActivity {
                 }
                 setReviewList();
 
+                if (sActivity.getFacilityId()!=null){
+                    setFacility(sActivity.getFacilityId());
+                }
+
             }
         });
     }
+
+    private void setFacility(String facilityId){
+        //todo
+
+        titleRateFacility.setVisibility(View.VISIBLE);
+        rateFacilityView.setVisibility(View.VISIBLE);
+    }
+
     private void setReviewList(){
         reviewMembersAdapter = new ReviewMembersAdapter(listMembers, ReviewSaActivity.this);
         reviewRecycler.setAdapter(reviewMembersAdapter);

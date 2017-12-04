@@ -70,4 +70,27 @@ public class FacilityRequest extends Request {
         );
         queue.add(nrRequest);
     }
+
+    public void facilityOutlineRequest(String facilityId, final VolleyCallback callback){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+String.format("v1/facility_markers?las=%s&lal=%s&los=%s&lol=%s", las, lal, los, lol);
+        Log.d("FacilityRequest", url);
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
 }
