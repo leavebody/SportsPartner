@@ -16,8 +16,13 @@ import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
 import com.sportspartner.activity.SettingActivity;
 import com.sportspartner.models.NightMode;
+import com.sportspartner.service.chatsupport.MyFirebaseMessagingService;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,9 +47,37 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param data Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
      */
+
 // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
+
+
+        if(data.getString("sendbird")!=null)
+        {
+            String channelUrl = null;
+            try {
+                JSONObject sendBird = new JSONObject(data.getString("sendbird"));
+                JSONObject channel = (JSONObject) sendBird.get("channel");
+                channelUrl = (String) channel.get("channel_url");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (new JSONObject(data.getString("sendbird")).getJSONObject("sender").getJSONObject("id").equals(LoginDBHelper.getInstance(this).getEmail())) {
+                    Log.d(TAG, "self messaging filter");
+                    return;
+                }
+            } catch (JSONException e) {
+                Log.d(TAG, "self messaging filter");
+                e.printStackTrace();
+            }
+            MyFirebaseMessagingService.sendNotification(this, data.getString("message"), channelUrl);
+                return;
+
+        }
+
+
         String title = data.getString("title");
         String detail = data.getString("detail");
         String sender = data.getString("sender");

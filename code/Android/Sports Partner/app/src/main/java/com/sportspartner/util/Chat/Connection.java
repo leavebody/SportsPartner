@@ -104,7 +104,7 @@ public class Connection {
                 updateCurrentUserProfileImage(context,profileImage);
 
 
-//                updateCurrentUserPushToken();
+                updateCurrentUserPushToken(context);
 //
 //                // Proceed to MainActivity
 //                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -129,6 +129,9 @@ public class Connection {
                 PreferenceUtils.setNickname(context, userNickname);
             }
         });
+    }
+    public static void updateCurrentUserPushToken(final Context context) {
+        PushUtils.registerPushTokenForCurrentUser(context, null);
     }
 
     public static void updateCurrentUserProfileImage(final Context context, final Bitmap profileImage) {
