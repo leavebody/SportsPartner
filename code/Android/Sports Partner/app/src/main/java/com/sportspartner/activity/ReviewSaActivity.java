@@ -12,12 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.models.FacilityOutline;
+import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.UserOutline;
@@ -43,6 +47,7 @@ import java.util.Locale;
 public class ReviewSaActivity extends BasicActivity {
     private String activityId;
     private String myEmail;
+    private String facilityId;
 
     private ReviewMembersAdapter reviewMembersAdapter;
     private ArrayList<UserOutline> listMembers;
@@ -190,7 +195,8 @@ public class ReviewSaActivity extends BasicActivity {
                 setReviewList();
 
                 if (sActivity.getFacilityId()!=null){
-                    setFacility(sActivity.getFacilityId());
+                    facilityId = sActivity.getFacilityId();
+                    setFacility(facilityId);
                 }
 
             }
@@ -198,10 +204,33 @@ public class ReviewSaActivity extends BasicActivity {
     }
 
     private void setFacility(String facilityId){
-        //todo
+        FacilityService.getFacilityOutline(this, facilityId, new ActivityCallBack<FacilityOutline>() {
+            @Override
+            public void getModelOnSuccess(ModelResult<FacilityOutline> modelResult) {
+                if (modelResult.isStatus()) {
+                    FacilityOutline outline = modelResult.getModel();
+                    TextView facilityNameTextView = rateFacilityView.findViewById(R.id.facility_name);
+                    facilityNameTextView.setText(outline.getFacilityName());
 
-        titleRateFacility.setVisibility(View.VISIBLE);
-        rateFacilityView.setVisibility(View.VISIBLE);
+                    ResourceService.getImage(ReviewSaActivity.this,
+                            outline.getSportUUID(), ResourceService.IMAGE_SMALL,
+                            new ActivityCallBack<Bitmap>() {
+                        @Override
+                        public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                            if (modelResult.isStatus()) {
+                                ImageView sportImageView = rateFacilityView.findViewById(R.id.sport_photo);
+                                sportImageView.setImageBitmap(modelResult.getModel());
+                            }
+                        }
+                    });
+                    titleRateFacility.setVisibility(View.VISIBLE);
+                    rateFacilityView.setVisibility(View.VISIBLE);
+                } else {
+                    Log.e("facilityOutlineFail", modelResult.getMessage());
+                }
+            }
+        });
+
     }
 
     private void setReviewList(){
@@ -240,6 +269,7 @@ public class ReviewSaActivity extends BasicActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+        onBackPressed();
         return true;
     }
 
@@ -258,9 +288,21 @@ public class ReviewSaActivity extends BasicActivity {
 
             userReviews.add(userReview);
         }
-        // TODO facility
 
-        ActivityService.reviewActivity(this, activityId, userReviews, null, new ActivityCallBack(){
+        FacilityReview facilityReview = null;
+        if (facilityId!=null) {
+            facilityReview = new FacilityReview();
+            facilityReview.setActivityid(activityId);
+            facilityReview.setReviewee(facilityId);
+            facilityReview.setReviewer(myEmail);
+            RatingBar ratingBar = rateFacilityView.findViewById(R.id.rating_facility);
+            facilityReview.setScore(ratingBar.getRating());
+            EditText commentField = rateFacilityView.findViewById(R.id.comment);
+            facilityReview.setComments(commentField.getText().toString());
+        }
+
+
+        ActivityService.reviewActivity(this, activityId, userReviews, facilityReview, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult modelResult){
                 if (modelResult.isStatus()) {
                     Toast.makeText(ReviewSaActivity.this.getApplicationContext(), "review success!", Toast.LENGTH_SHORT).show();

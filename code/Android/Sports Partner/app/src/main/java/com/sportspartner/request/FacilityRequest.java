@@ -74,8 +74,8 @@ public class FacilityRequest extends Request {
     public void facilityOutlineRequest(String facilityId, final VolleyCallback callback){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+String.format("v1/facility_markers?las=%s&lal=%s&los=%s&lol=%s", las, lal, los, lol);
-        Log.d("FacilityRequest", url);
+        String url = URL_CONTEXT+String.format("v1/facility/outline/%s", facilityId);
+        Log.d("FacilityRequest", "GET "+url);
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
                 new Response.Listener<NetworkResponse>() {
                     @Override

@@ -1,9 +1,10 @@
-package com.sportspartner.modelvo;
+package com.sportspartner.models;
 
-import com.sportspartner.model.Facility;
-import com.sportspartner.model.Sport;
+/**
+ * @author Xiaochen Li
+ */
 
-public class FacilityOutlineVO {
+public class FacilityOutline {
     private String facilityId;
     private String facilityName;
     private String sportId;
@@ -13,20 +14,6 @@ public class FacilityOutlineVO {
     private double latitude;
     private String address;
     private double score;
-
-    public FacilityOutlineVO(){}
-
-    public FacilityOutlineVO(String facility, String facilityName, String sportId, String sportName, String sportUUID, double longitude, double latitude, String address, double score) {
-        this.facilityId = facility;
-        this.facilityName = facilityName;
-        this.sportId = sportId;
-        this.sportName = sportName;
-        this.sportUUID = sportUUID;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-        this.score = score;
-    }
 
     public String getFacilityId() {
         return facilityId;
@@ -98,20 +85,5 @@ public class FacilityOutlineVO {
 
     public void setScore(double score) {
         this.score = score;
-    }
-
-    public void setFromFacility(Facility facility){
-         this.facilityId = facility.getFacilityId();
-         this.facilityName = facility.getFacilityName();
-         this.sportId = facility.getSportId();
-         this.longitude = facility.getLongitude();
-         this.latitude = facility.getLatitude();
-         this.address = facility.getAddress();
-         this.score = facility.getScore();
-    }
-
-    public void setFromSport(Sport sport){
-        this.sportName = sport.getSportName();
-        this.sportUUID = sport.getSportIconUUID();
     }
 }

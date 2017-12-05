@@ -75,7 +75,7 @@
             android:layout_weight="1">
 
             <RatingBar
-                android:id="@+id/rating_punctuality"
+                android:id="@+id/rating_facility"
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
