@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -95,7 +96,7 @@ public class Connection {
                     return;
                 }
 
-                PreferenceUtils.setNickname(context, userNickname);
+                PreferenceUtils.setNickname(context, user.getNickname());
                 PreferenceUtils.setProfileUrl(context, user.getProfileUrl());
                 PreferenceUtils.setConnected(context, true);
 
@@ -138,7 +139,7 @@ public class Connection {
         final String nickname = PreferenceUtils.getNickname(context);
 
         try {
-            File f = new File(context.getCacheDir(), "temp");
+            File f = new File(context.getCacheDir(), "temp.jpg");
             f.createNewFile();
 
 //Convert bitmap to byte array
@@ -152,7 +153,6 @@ public class Connection {
             fos.write(bitmapdata);
             fos.flush();
             fos.close();
-
             SendBird.updateCurrentUserInfoWithProfileImage(nickname, f, new SendBird.UserInfoUpdateHandler() {
                 @Override
                 public void onUpdated(SendBirdException e) {
@@ -165,6 +165,7 @@ public class Connection {
                     }
                     try {
                         PreferenceUtils.setProfileUrl(context, SendBird.getCurrentUser().getProfileUrl());
+
                         //ImageUtils.displayRoundImageFromUrlWithoutCache(context, Uri.fromFile(profileImage).toString(), imageView);
                     } catch (Exception e1) {
                         e1.printStackTrace();
