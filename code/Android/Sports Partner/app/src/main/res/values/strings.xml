@@ -35,7 +35,7 @@
     <string name="member_list">Members</string>
     <string name="invite_member">Invite members</string>
 
-    <string name="all_group_channels">Group Channels</string>
+    <string name="all_group_channels">Chat List</string>
 
     <!-- Menu actions -->
     <string name="action_create_channel">Create channel</string>

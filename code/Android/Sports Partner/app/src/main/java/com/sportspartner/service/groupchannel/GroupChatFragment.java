@@ -396,13 +396,13 @@ public class GroupChatFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_group_chat, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -419,7 +419,7 @@ public class GroupChatFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
