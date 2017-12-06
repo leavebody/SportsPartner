@@ -9,6 +9,7 @@ import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -378,6 +379,33 @@ public class ActivityService {
 //            else {
 //                resp.setResponse("true");
 //            }
+        }
+
+        return resp;
+    }
+
+    public JsonResponse searchActivity(int limit, int offset, String body) throws SQLException, ParseException {
+        //TODO
+        JsonResponse resp = new JsonResponse();
+        ActivitySearchVO activitySearchVO = new Gson().fromJson(body, ActivitySearchVO.class);
+
+        List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+        List<Activity> searchResults = activityDaoImpl.searchActivity(activitySearchVO);
+        if (searchResults.size() <= offset) {
+            resp.setResponse("true");
+            resp.setMessage("No more search results");
+            resp.setActivityOutlines(new ArrayList<>());
+        } else {
+            List<Activity> searchResultsSubset = searchResults.subList(offset, min(offset + limit, searchResults.size()));
+            for (Activity resultActivity : searchResultsSubset) {
+                Sport sport = sportDaoImpl.getSport(resultActivity.getSportId());
+                ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+                activityOutlineVO.setFromActivity(resultActivity);
+                activityOutlineVO.setFromSport(sport);
+                activityOutlineVOs.add(activityOutlineVO);
+            }
+            resp.setActivityOutlines(activityOutlineVOs);
+            resp.setResponse("true");
         }
 
         return resp;

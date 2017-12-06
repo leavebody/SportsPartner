@@ -10,8 +10,9 @@ public class ActivityController {
 
     private static final String API_CONTEXT = "/api.sportspartner.com/v1";
     private ActivityService activityService;
-    public ActivityController(ActivityService activityService){
-        this.activityService= activityService;
+
+    public ActivityController(ActivityService activityService) {
+        this.activityService = activityService;
         setupEndpoints();
     }
 
@@ -23,11 +24,11 @@ public class ActivityController {
         get(API_CONTEXT + "/activity/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
-                if(request.queryParams("content").equals("full")){
-                    reps = activityService.getActivityDetail(request.params(":id"), request.queryParams("requestorId"),request.queryParams("requestorKey"));
-                }else if(request.queryParams("content").equals("outline")){
+                if (request.queryParams("content").equals("full")) {
+                    reps = activityService.getActivityDetail(request.params(":id"), request.queryParams("requestorId"), request.queryParams("requestorKey"));
+                } else if (request.queryParams("content").equals("outline")) {
                     reps = activityService.getActivityOutline(request.params(":id"));
-                }else{
+                } else {
                     reps.setResponse("false");
                     reps.setMessage("No such content");
                 }
@@ -78,7 +79,7 @@ public class ActivityController {
         post(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
-                reps = activityService.addActivityMember(request.params("id"),request.body());
+                reps = activityService.addActivityMember(request.params("id"), request.body());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -90,7 +91,7 @@ public class ActivityController {
         delete(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
-                reps = activityService.removeActivityMember(request.params("id"),request.body());
+                reps = activityService.removeActivityMember(request.params("id"), request.body());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -114,7 +115,7 @@ public class ActivityController {
         put(API_CONTEXT + "/activity/:activityId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
-                reps = activityService.updateActivity(request.params(":activityId"),request.body());
+                reps = activityService.updateActivity(request.params(":activityId"), request.body());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -125,9 +126,9 @@ public class ActivityController {
         // Delete(cancel) an activity
         delete(API_CONTEXT + "/activity/:activityId/:userId/:key", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
-            try{
+            try {
                 reps = activityService.deleteActivity(request.params("activityId"), request.params("userId"), request.params("key"));
-            } catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
             response.status(200);
@@ -136,21 +137,36 @@ public class ActivityController {
 
         // When an activity has finished, the participants of the activity can review the activity by rating teammates and facilities.
         // {"userId":"u24","key":"ASD","facilityreview":{"activityid":"a002", "reviewer":"u24", "reviewee":"001", "score":5, "comments":"test facility comment 057"}, "userreviews":[{"activityid":"a002", "reviewer":"u24", "reviewee":"u1", "punctuality":5,"participation":5, "comments":"test comment 057"}]}
-        post(API_CONTEXT + "/activityreview/:id","application/json",(request, response) -> {
+        post(API_CONTEXT + "/activityreview/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
-                if (request.queryParams("type").equals("activity")) {
-                    reps = activityService.searchActivity(Integer.parseInt(request.queryParams("limit")), Integer.parseInt(request.queryParams("offset")), request.body());
-                }
+                reps = activityService.reviewActivity(request.params("id"), request.body());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                reps.setResponse("false");
-                reps.setMessage(ex.getMessage());
             }
             response.status(200);
             return reps;
         }, new JsonTransformer());
 
+        //Todo
+        //GET https://api.sportspartner.com/v1/search?type=activity
+        post(API_CONTEXT + "/search", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse(false);
+            try {
+                if (request.queryParams("type").equals("activity")) {
+                    reps = activityService.searchActivity(Integer.parseInt(request.queryParams("limit")), Integer.parseInt(request.queryParams("offset")), request.body());
+                } else {
+                    reps.setResponse("false");
+                    reps.setMessage("No such content");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                reps.setResponse("false");
+                reps.setMessage(ex + " " + ex.getMessage());
+            } finally {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
     }
-
 }
