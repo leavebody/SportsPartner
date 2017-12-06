@@ -12,18 +12,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.models.FacilityOutline;
+import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.models.UserReview;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
@@ -42,12 +47,18 @@ import java.util.Locale;
 public class ReviewSaActivity extends BasicActivity {
     private String activityId;
     private String myEmail;
+    private String facilityId;
 
     private ReviewMembersAdapter reviewMembersAdapter;
     private ArrayList<UserOutline> listMembers;
 
     private RecyclerView reviewRecycler;
     private View activityCardView;
+
+    private View titleRateMember;
+    private View titleRateFacility;
+
+    private View rateFacilityView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +72,12 @@ public class ReviewSaActivity extends BasicActivity {
 
         reviewRecycler = (RecyclerView) findViewById(R.id.recycler_evaluate);
         activityCardView = (View) findViewById(R.id.reviewed_activity);
+        titleRateMember = findViewById(R.id.title_evaluate);
+        titleRateFacility = findViewById(R.id.title_rate_facility);
+        rateFacilityView = findViewById(R.id.facility_review);
 
-
+        titleRateFacility.setVisibility(View.INVISIBLE);
+        rateFacilityView.setVisibility(View.INVISIBLE);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         reviewRecycler.setLayoutManager(mLayoutManager);
@@ -97,12 +112,10 @@ public class ReviewSaActivity extends BasicActivity {
     }
 
     private void setTitle() {
-        View title1 = (View) findViewById(R.id.title_evaluate);
-        TextView title1Text = (TextView) title1.findViewById(R.id.title);
+        TextView title1Text = (TextView) titleRateMember.findViewById(R.id.title);
         title1Text.setText("Evaluate your teammates");
 
-        View title2 = (View) findViewById(R.id.title_rate_facility);
-        TextView title2Text = (TextView) title2.findViewById(R.id.title);
+        TextView title2Text = (TextView) titleRateFacility.findViewById(R.id.title);
         title2Text.setText("Rate the facility");
     }
 
@@ -171,8 +184,9 @@ public class ReviewSaActivity extends BasicActivity {
                     Log.e("ReviewAct", modelResult.getMessage());
                     return;
                 }
+                SActivity sActivity = modelResult.getModel();
                 listMembers = new ArrayList<>();
-                ArrayList<UserOutline> allMembers = modelResult.getModel().getMembers();
+                ArrayList<UserOutline> allMembers = sActivity.getMembers();
                 for (UserOutline outline: allMembers) {
                     if (!outline.getUserId().equals(myEmail)){
                         listMembers.add(outline);
@@ -180,9 +194,45 @@ public class ReviewSaActivity extends BasicActivity {
                 }
                 setReviewList();
 
+                if (sActivity.getFacilityId()!=null){
+                    facilityId = sActivity.getFacilityId();
+                    setFacility(facilityId);
+                }
+
             }
         });
     }
+
+    private void setFacility(String facilityId){
+        FacilityService.getFacilityOutline(this, facilityId, new ActivityCallBack<FacilityOutline>() {
+            @Override
+            public void getModelOnSuccess(ModelResult<FacilityOutline> modelResult) {
+                if (modelResult.isStatus()) {
+                    FacilityOutline outline = modelResult.getModel();
+                    TextView facilityNameTextView = rateFacilityView.findViewById(R.id.facility_name);
+                    facilityNameTextView.setText(outline.getFacilityName());
+
+                    ResourceService.getImage(ReviewSaActivity.this,
+                            outline.getSportUUID(), ResourceService.IMAGE_SMALL,
+                            new ActivityCallBack<Bitmap>() {
+                        @Override
+                        public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                            if (modelResult.isStatus()) {
+                                ImageView sportImageView = rateFacilityView.findViewById(R.id.sport_photo);
+                                sportImageView.setImageBitmap(modelResult.getModel());
+                            }
+                        }
+                    });
+                    titleRateFacility.setVisibility(View.VISIBLE);
+                    rateFacilityView.setVisibility(View.VISIBLE);
+                } else {
+                    Log.e("facilityOutlineFail", modelResult.getMessage());
+                }
+            }
+        });
+
+    }
+
     private void setReviewList(){
         reviewMembersAdapter = new ReviewMembersAdapter(listMembers, ReviewSaActivity.this);
         reviewRecycler.setAdapter(reviewMembersAdapter);
@@ -219,6 +269,7 @@ public class ReviewSaActivity extends BasicActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+        onBackPressed();
         return true;
     }
 
@@ -237,9 +288,21 @@ public class ReviewSaActivity extends BasicActivity {
 
             userReviews.add(userReview);
         }
-        // TODO facility
 
-        ActivityService.reviewActivity(this, activityId, userReviews, null, new ActivityCallBack(){
+        FacilityReview facilityReview = null;
+        if (facilityId!=null) {
+            facilityReview = new FacilityReview();
+            facilityReview.setActivityid(activityId);
+            facilityReview.setReviewee(facilityId);
+            facilityReview.setReviewer(myEmail);
+            RatingBar ratingBar = rateFacilityView.findViewById(R.id.rating_facility);
+            facilityReview.setScore(ratingBar.getRating());
+            EditText commentField = rateFacilityView.findViewById(R.id.comment);
+            facilityReview.setComments(commentField.getText().toString());
+        }
+
+
+        ActivityService.reviewActivity(this, activityId, userReviews, facilityReview, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult modelResult){
                 if (modelResult.isStatus()) {
                     Toast.makeText(ReviewSaActivity.this.getApplicationContext(), "review success!", Toast.LENGTH_SHORT).show();
