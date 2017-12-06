@@ -148,7 +148,7 @@ public class ActivityController {
             return reps;
         }, new JsonTransformer());
 
-        //Todo
+        //search an activity
         //GET https://api.sportspartner.com/v1/search?type=activity
         post(API_CONTEXT + "/search", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
@@ -159,6 +159,23 @@ public class ActivityController {
                     reps.setResponse("false");
                     reps.setMessage("No such content");
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                reps.setResponse("false");
+                reps.setMessage(ex + " " + ex.getMessage());
+            } finally {
+                response.status(200);
+                return reps;
+            }
+        }, new JsonTransformer());
+
+        //Todo leave an activity
+        //DELETE https://api.sportspartner.com/v1/activity_leave/:activityId/userId/key
+        delete(API_CONTEXT + "/activity_leave/:activityId/userId/key", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse(false);
+            try {
+                reps = activityService.leaveActivity(request.params(":activityId"), request.queryParams("userId"), request.queryParams("authorizationKey"));
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 reps.setResponse("false");
