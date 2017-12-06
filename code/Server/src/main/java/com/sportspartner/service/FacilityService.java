@@ -2,14 +2,19 @@ package com.sportspartner.service;
 
 import com.sportspartner.dao.ActivityDao;
 import com.sportspartner.dao.FacilityCommentDao;
+import com.sportspartner.dao.SportDao;
 import com.sportspartner.dao.impl.ActivityDaoImpl;
 import com.sportspartner.dao.impl.FacilityCommentDaoImpl;
 import com.sportspartner.dao.impl.FacilityDaoImpl;
+import com.sportspartner.dao.impl.SportDaoImpl;
 import com.sportspartner.model.Facility;
 import com.sportspartner.model.FacilityComment;
 import com.sportspartner.model.ProfileComment;
+import com.sportspartner.model.Sport;
 import com.sportspartner.modelvo.FacilityMarkerVO;
+import com.sportspartner.modelvo.FacilityOutlineVO;
 import com.sportspartner.modelvo.FacilityReviewVO;
+import com.sportspartner.modelvo.FacilityVO;
 import com.sportspartner.util.JsonResponse;
 
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ import java.util.UUID;
 public class FacilityService {
     private FacilityDaoImpl facilityDaoImpl = new FacilityDaoImpl();
     private FacilityCommentDao facilityCommentDao = new FacilityCommentDaoImpl();
+    private SportDao sportDao = new SportDaoImpl();
 
     public JsonResponse getFacilityMarkers(double longitude_small, double longitude_large, double latitude_small, double latitude_large) throws Exception {
         JsonResponse resp = new JsonResponse();
@@ -33,6 +39,24 @@ public class FacilityService {
         }
         resp.setFacilities(facilityMarkerVOs);
         resp.setResponse("true");
+        return resp;
+    }
+
+    public JsonResponse getFacilityOutline(String facilityId) throws Exception {
+        JsonResponse resp = new JsonResponse();
+
+        Facility facility = facilityDaoImpl.getFacility(facilityId);
+        if (facility==null){
+            return new JsonResponse("no such facility: "+facilityId);
+        }
+        FacilityOutlineVO facilityOutlineVO = new FacilityOutlineVO();
+        facilityOutlineVO.setFromFacility(facility);
+
+        Sport sport = sportDao.getSport(facility.getSportId());
+        facilityOutlineVO.setFromSport(sport);
+
+        resp.setResponse("true");
+        resp.setFacilityOutline(facilityOutlineVO);
         return resp;
     }
 
