@@ -277,17 +277,12 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         String userId = db.getEmail();
         String key = db.getKey();
 
-        JsonObject jsonRequestObject = new JsonObject();
-
-        jsonRequestObject.addProperty("userId", userId);
-        jsonRequestObject.addProperty("authorizationKey", key);
-
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/activity_leave/" + activityId;
+        String url = URL_CONTEXT+"v1/activity_leave/" + activityId + "/" + userId + "/" + key;
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url,
-                jsonRequestObject.toString(),
+                null,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
