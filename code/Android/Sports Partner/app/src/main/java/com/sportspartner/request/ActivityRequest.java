@@ -279,7 +279,7 @@ public class ActivityRequest extends com.sportspartner.request.Request{
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
-        String url = URL_CONTEXT+"v1/activity_leave/" + activityId + "/" + userId + "/" + key;
+        String url = URL_CONTEXT+"v1/activity_leave/" + activityId + "?userId="+userId+"&key="+key;
 
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url,
                 null,

@@ -422,16 +422,9 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         }
     }
 
-
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
         finish();
     }
 

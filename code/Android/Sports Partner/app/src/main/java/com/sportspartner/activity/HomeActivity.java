@@ -110,6 +110,13 @@ public class HomeActivity extends BasicActivity {
         setTitle();
         setListCommingActivity();
         setListRecommend();
+        //setRefresh();
+        //refresh();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         setRefresh();
         refresh();
     }
