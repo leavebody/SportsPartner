@@ -69,6 +69,42 @@ public class ActivityRequest extends com.sportspartner.request.Request{
     }
 
     /**
+     * Send request for a group of activity outlines
+     * @param callback
+     * @param id the activity for whom
+     * @param limit The maximum number of results to return.
+     * @param offset The index of the first result to return.
+     */
+    public void recommendActivitiesOutlineRequest(final VolleyCallback callback,
+                                                  String id, int limit, int offset,
+                                                  double latitude, double longitude) {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+"v1/activity_recommend"+"?id="+id+"&offset="+offset+"&limit="+limit+
+                "&latitude="+latitude+"&longitude="+longitude;
+        Log.d("activityOtlRequest", url);
+
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.GET, url, null,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
+
+
+    /**
      * Send request to get the detail of an activity
      * @param callback
      * @param type either "full" for full activity or "outline" for activity outline

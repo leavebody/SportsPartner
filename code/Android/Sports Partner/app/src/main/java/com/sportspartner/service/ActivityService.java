@@ -1,6 +1,9 @@
 package com.sportspartner.service;
 
+import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.google.gson.Gson;
@@ -12,6 +15,7 @@ import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.UserReview;
 import com.sportspartner.request.ActivityRequest;
+import com.sportspartner.request.ResourceRequest;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -32,7 +36,10 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getUpcomingActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
+    public static final double DEFAULT_LATITUDE = 38.567;
+    public static final double DEFAULT_LONGITUDE = 76.312;
+
+    public static void getUpcomingActivities(Context c, String email, int limit, int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
 
         ActivityRequest request = new ActivityRequest(c);
         request.activitiesOutlineRequest(new VolleyCallback() {
@@ -51,7 +58,7 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getHistoryActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
+    public static void getHistoryActivities(Context c, String email, int limit, int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
 
         ActivityRequest request = new ActivityRequest(c);
         request.activitiesOutlineRequest(new VolleyCallback() {
@@ -70,15 +77,30 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getRecommendActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
-
-        ActivityRequest request = new ActivityRequest(c);
-        request.activitiesOutlineRequest(new VolleyCallback() {
+    public static void getRecommendActivities(final Activity c, final String email, final int limit, final int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
+        final ActivityRequest request = new ActivityRequest(c);
+        ResourceService.getDeviceLocation(c, new ActivityCallBack<Location>() {
             @Override
-            public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
+            public void getModelOnSuccess(ModelResult<Location> modelResult) {
+                double latitude;
+                double longitude;
+                if(modelResult.isStatus()){
+                    latitude = modelResult.getModel().getLatitude();
+                    longitude = modelResult.getModel().getLongitude();
+                } else {
+                    Toast.makeText(c.getApplicationContext(), "get device location failed, using default", Toast.LENGTH_LONG).show();
+                    latitude = ActivityService.DEFAULT_LATITUDE;
+                    longitude = ActivityService.DEFAULT_LONGITUDE;
+                }
+                request.recommendActivitiesOutlineRequest(new VolleyCallback() {
+                    @Override
+                    public void onSuccess(NetworkResponse response) {
+                        callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
+                    }
+                }, email, limit, offset, latitude, longitude);
             }
-        }, "recommend", email, limit, offset);
+        });
+
     }
 
     /**
