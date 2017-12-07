@@ -225,9 +225,11 @@ public class BasicActivity extends AppCompatActivity
                 this.finish();
         } else if (id == R.id.nav_signout) {
             signOut();
+            finishAffinity();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);

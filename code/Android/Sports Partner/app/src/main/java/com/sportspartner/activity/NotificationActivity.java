@@ -81,4 +81,10 @@ public class NotificationActivity extends BasicActivity {
         super.finish();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
 }
