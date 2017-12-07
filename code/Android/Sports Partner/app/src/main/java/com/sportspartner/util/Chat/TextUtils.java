@@ -1,5 +1,7 @@
 package com.sportspartner.util.Chat;
 
+import android.util.Log;
+
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.Member;
 import com.sendbird.android.SendBird;
@@ -26,6 +28,12 @@ public class TextUtils {
             }
             return names.delete(0, 2).toString();
         } else {
+            /**
+             * If the channel name is not default, set it to be the customized name, else just set it as the combination of Members
+             */
+            if (!channel.getName().equals("Group Channel")){
+                return channel.getName();
+            }
             int count = 0;
             StringBuffer names = new StringBuffer();
             for (User member : members) {

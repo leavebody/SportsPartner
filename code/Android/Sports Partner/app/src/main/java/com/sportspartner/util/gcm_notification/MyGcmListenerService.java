@@ -52,7 +52,6 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
 
-        Log.d("1","666");
         if(data.getString("sendbird")!=null)
         {
             String channelUrl = null;

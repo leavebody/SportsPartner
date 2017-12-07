@@ -2,6 +2,7 @@ package com.sportspartner.service.groupchannel;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,12 +132,12 @@ public class GroupChatFragment extends Fragment {
         }
 
         Log.d(LOG_TAG, mChannelUrl);
-
         mChatAdapter = new GroupChatAdapter(getActivity());
         setUpChatListAdapter();
 
         // Load messages from cache.
         mChatAdapter.load(mChannelUrl);
+
     }
 
     @Nullable
@@ -228,7 +230,7 @@ public class GroupChatFragment extends Fragment {
 
         setUpRecyclerView();
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
 
         return rootView;
     }
@@ -251,7 +253,9 @@ public class GroupChatFragment extends Fragment {
                         public void onResult(List<BaseMessage> list, SendBirdException e) {
                             mChatAdapter.markAllMessagesAsRead();
                         }
-                    });
+                    }
+
+                    );
                     updateActionBarTitle();
                 }
             });
@@ -396,31 +400,93 @@ public class GroupChatFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    /*@Override
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_group_chat, menu);
+        menu.setGroupVisible(0,true);
         super.onCreateOptionsMenu(menu, inflater);
-    }*/
+    }
 
-   /* @Override
+//   @Override
+//    public void invalidateOptionsMenu() {
+//        //change the visibility of toolbar edit button
+//        MenuItem editItem = myMenu.getItem(0);
+//        switch (userType) {
+//            case "SELF":
+//                editItem.setIcon(R.drawable.edit);
+//                editItem.setVisible(true);
+//                break;
+//            case "FRIEND":
+//                editItem.setIcon(R.drawable.delete);
+//                editItem.setVisible(true);
+//                break;
+//            case "STRANGER":
+//                editItem.setIcon(R.drawable.add);
+//                editItem.setVisible(true);
+//                break;
+//            default:
+//                Toast.makeText(this, "UserType Error", Toast.LENGTH_SHORT).show();
+//                break;
+//        }
+//
+//        onPrepareOptionsMenu(myMenu);
+//
+//    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_group_channel_invite) {
-            Intent intent = new Intent(getActivity(), InviteMemberActivity.class);
-            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_group_channel_view_members) {
-            Intent intent = new Intent(getActivity(), MemberListActivity.class);
-            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
-            startActivity(intent);
+        if (id == R.id.action_change_group_channel_name) {
+//            Intent intent = new Intent(getActivity(), ChangeChannelName.class);
+//            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
+//            startActivity(intent);
+            showDialog(mChannel.getName());
             return true;
         }
+//        else if (id == R.id.action_group_channel_view_members) {
+//            Intent intent = new Intent(getActivity(), MemberListActivity.class);
+//            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
+//            startActivity(intent);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
+    private void showDialog(String name){
+        final Dialog d = new Dialog(getContext());
+        d.setTitle("Change Channel Name");
+        d.setContentView(R.layout.layout_change_channel);
+        final Button b1 = (Button) d.findViewById(R.id.dialog_button_set);
+        Button b2 = (Button) d.findViewById(R.id.dialog_button_cancel);
+        final TextView namefield = d.findViewById(R.id.channel_name);
+        namefield.setText(name);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                mChannel.updateChannel(namefield.getText().toString(),null, null,new GroupChannel.GroupChannelUpdateHandler(){
+                    @Override
+                    public void onResult(GroupChannel var1, SendBirdException var2){
+                        refresh();
+                    }
+                });
+                d.dismiss();
+//                Log.d("CreateActivity length",String.valueOf(listSports.size()) + String.valueOf(listSports.size()));
+//                Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
 
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -735,6 +801,9 @@ public class GroupChatFragment extends Fragment {
 
         if(mChannel != null) {
             title = TextUtils.getGroupChannelTitle(mChannel);
+            if(!mChannel.isDistinct()){
+                setHasOptionsMenu(true);
+            }
         }
 
         // Set action bar title to name of channel

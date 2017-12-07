@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<item android:id="@+id/action_group_channel_view_members"
-        android:title="View members"
-        android:orderInCategory="10"
-        app:showAsAction="never" />
+    <!--<item android:id="@+id/action_group_channel_view_members"-->
+        <!--android:title="View members"-->
+        <!--android:orderInCategory="10"-->
+        <!--app:showAsAction="never" />-->
 
-    <item android:id="@+id/action_group_channel_invite"
-        android:title="Invite members"
+    <!--<item android:id="@+id/action_group_channel_invite"-->
+        <!--android:title="Invite members"-->
+        <!--android:orderInCategory="20"-->
+        <!--app:showAsAction="never"/>-->
+    <item android:id="@+id/action_change_group_channel_name"
+        android:title="Set Name"
         android:orderInCategory="20"
-        app:showAsAction="never"/>-->
+        app:showAsAction="never"/>
 
 </menu>
