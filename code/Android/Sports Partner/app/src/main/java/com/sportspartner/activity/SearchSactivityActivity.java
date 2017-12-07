@@ -259,4 +259,10 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         finish();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
 }

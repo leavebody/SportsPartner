@@ -318,4 +318,10 @@ public class ReviewSaActivity extends BasicActivity {
         super.onBackPressed();
         finish();
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
 }

@@ -468,5 +468,11 @@ public class MapActivity extends BasicActivity
         finish();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
 
 }

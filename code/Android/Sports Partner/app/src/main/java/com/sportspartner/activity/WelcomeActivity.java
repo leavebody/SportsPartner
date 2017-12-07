@@ -82,6 +82,12 @@ public class WelcomeActivity extends Activity {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
