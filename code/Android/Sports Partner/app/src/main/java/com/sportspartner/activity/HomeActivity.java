@@ -3,6 +3,7 @@ package com.sportspartner.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -187,6 +188,7 @@ public class HomeActivity extends BasicActivity {
         if (status){
             //if successfully get Activities, get the data
             ArrayList<SActivityOutline> moreSAs = moreActivitiesResult.getModel();
+            Log.d("home", moreSAs.toString());
             int size = moreSAs.size();
             recommendCount += size;
             if (size < REFRESH_LIMIT){
@@ -227,6 +229,7 @@ public class HomeActivity extends BasicActivity {
                     new ActivityCallBack<ArrayList<SActivityOutline>>(){
                         @Override
                         public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result){
+                            Log.d("home", "getModelOnSuccess");
                             loadRecommendHandler(result);
                         }
                     });

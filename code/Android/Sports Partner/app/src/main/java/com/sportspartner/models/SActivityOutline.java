@@ -130,4 +130,22 @@ public class SActivityOutline {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return "SActivityOutline{" +
+                "activityId='" + activityId + '\'' +
+                ", creatorId='" + creatorId + '\'' +
+                ", status='" + status + '\'' +
+                ", sportIconUUID='" + sportIconUUID + '\'' +
+                ", sportName='" + sportName + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", facilityId='" + facilityId + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", address='" + address + '\'' +
+                ", capacity=" + capacity +
+                ", size=" + size +
+                '}';
+    }
 }
