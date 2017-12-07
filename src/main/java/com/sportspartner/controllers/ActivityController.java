@@ -63,6 +63,23 @@ public class ActivityController {
             return reps;
         }, new JsonTransformer());
 
+        // get recommend activity outlines
+        get(API_CONTEXT + "/activity_recommend", "application/json", (request, response) -> {
+            // test GET /activity_recommend?id=u2&latitude=38.567&langitude=76.312&limit=10&offset=0
+            JsonResponse reps = new JsonResponse(false);
+            try {
+                reps = activityService.getRecommendActivity(request.queryParams("id"),
+                        Integer.parseInt(request.queryParams("offset")),
+                        Integer.parseInt(request.queryParams("limit")),
+                        Double.parseDouble(request.queryParams("latitude")),
+                        Double.parseDouble(request.queryParams("longitude")));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            response.status(200);
+            return reps;
+        }, new JsonTransformer());
+
         // get activity members
         get(API_CONTEXT + "/activity_members/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);

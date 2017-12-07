@@ -188,6 +188,32 @@ public class ActivityService {
     }
 
     /**
+     * Get the recommend activities of a user
+     *
+     * @param userId Id of a user
+     * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
+     * @param limit  The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
+     * @return Json Response to the front-end
+     */
+    public JsonResponse getRecommendActivity(String userId, int offset, int limit, double latitude, double longitude) throws Exception {
+        JsonResponse resp = new JsonResponse(false);
+
+        if (!hasUser(userId)) {
+            resp.setMessage("No such user");
+        } else {
+            List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+            List<Activity> activities = activityDaoImpl.getRecommendActivities(userId, longitude, latitude, limit, offset);
+            for(Activity activity : activities) {
+                activityOutlineVOs.add(new ActivityOutlineVO().setFromActivity(activity));
+            }
+            resp.setActivityOutlines(activityOutlineVOs);
+            resp.setResponse("true");
+            resp.setMessage(null);
+        }
+        return resp;
+    }
+
+    /**
      * Get all members of an activity.
      *
      * @param activityId The UUID of the activity.
