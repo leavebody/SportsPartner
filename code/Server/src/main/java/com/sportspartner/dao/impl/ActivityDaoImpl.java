@@ -363,16 +363,16 @@ public class ActivityDaoImpl implements ActivityDao {
      * @return
      * @throws SQLException
      */
-     public List<Activity> getRecommendActivities(String userId) throws SQLException{
+     public List<Activity> getRecommendActivities(String userId, double longitudeUser, double latitudeUser, int limit, int offset) throws SQLException{
          Connection c = new ConnectionUtil().connectDB();
          PreparedStatement stmt = null;
          ResultSet rs = null;
          List<Activity> activities = new ArrayList<Activity>();
 
          try {
-             stmt = c.prepareStatement("SELECT * FROM \"Activity\", \"Activity_Member\" WHERE \"Activity_Member\".\"userId\"=? AND \"Activity\".\"activityId\"=\"Activity_Member\".\"activityId\" " +
-                     "AND  \"endTime\" < CURRENT_TIMESTAMP ORDER BY \"startTime\" DESC;");
-             stmt.setString(1, userId);
+             String queryString = this.getRecommendQueryString( userId,  longitudeUser,  latitudeUser,  limit,  offset);
+             //System.out.println(queryString);
+             stmt = c.prepareStatement(queryString);
              rs = stmt.executeQuery();
              while (rs.next()) {
                  String activityId = rs.getString("activityId");
@@ -405,6 +405,67 @@ public class ActivityDaoImpl implements ActivityDao {
          }
          return activities;
      }
+
+    private String getRecommendQueryString(String userId, double longitude, double latitude, int limit, int offset){
+         return String.format("\n" +
+                 "select Activity.*, %f/(%f+Distance.distance) as disScore, /*fall off distance 01*/\n" +
+                 "    (1-power(0.5,Friend_Count.friendcount)) as friScore, \n" +
+                 "    Interest.interest_match as intScore,\n" +
+                 "    %f*%f/(%f+Distance.distance)+%f*(1-power(0.5,Friend_Count.friendcount))+%f*Interest.interest_match as score \n" +
+                 "    /*fall off distance, weight of three 23456*/\n" +
+                 "from (select * from \"Activity\" as Act\n" +
+                 "    where Act.\"status\"='OPEN' and Act.\"startTime\" > CURRENT_TIMESTAMP \n" +
+                 "    and not exists(\n" +
+                 "    select * from \"Activity_Member\" as Mem\n" +
+                 "    where Mem.\"userId\"='%s' /*user id 7*/\n" +
+                 "    and Mem.\"activityId\"=Act.\"activityId\")) as Activity\n" +
+                 "\n" +
+                 "join (\n" +
+                 "    select \"activityId\", case when B.distance is null then %f else B.distance end as distance/*default distance 8*/\n" +
+                 "    from\n" +
+                 "    (select \n" +
+                 "      \"activityId\", (point(longitude,latitude)  <@>\n" +
+                 "      point(%f,%f))* 1.609344 as distance /*point latlng 9 10*/\n" +
+                 "    from \"Activity\") as B\n" +
+                 ") as Distance\n" +
+                 "on Activity.\"activityId\"=Distance.\"activityId\" \n" +
+                 "\n" +
+                 "join (\n" +
+                 "    select distinct A.\"activityId\",  case when B.friendcount is null then 0 else B.friendcount end as friendcount \n" +
+                 "\tfrom \"Activity_Member\" as A left outer join (\n" +
+                 "\t\tselect \"Activity_Member\".\"activityId\", count(\"Activity_Member\".\"activityId\") as friendcount \n" +
+                 "        from \"Activity_Member\" join \"Friend\" on \n" +
+                 "  \t\t\t((\"Activity_Member\".\"userId\"=\"Friend\".\"userId\" and \"Friend\".\"friendId\"='%s') /*user id 11*/\n" +
+                 "   \t\t\tor(\"Activity_Member\".\"userId\"=\"Friend\".\"friendId\" and \"Friend\".\"userId\"='%s')) /*user id 12*/\n" +
+                 "    \tgroup by \"Activity_Member\".\"activityId\"\n" +
+                 "    ) as B ON A.\"activityId\" = B.\"activityId\"\n" +
+                 ") as Friend_Count\n" +
+                 "on Activity.\"activityId\"=Friend_Count.\"activityId\"\n" +
+                 "\n" +
+                 "join (\n" +
+                 "    select A.\"activityId\", case when B.interest_match is null then 0 else (1) end as interest_match \n" +
+                 "    from \"Activity\" A left outer join \n" +
+                 "    (\n" +
+                 "     select \"Activity\".\"activityId\", (1) as interest_match from \"Activity\" join \"Interest\" on \n" +
+                 "      \"Interest\".\"userId\"='%s' and \"Activity\".\"sportId\"=\"Interest\".\"sportId\" /*user id 13*/\n" +
+                 "        group by \"Activity\".\"activityId\"\n" +
+                 "    ) B on A.\"activityId\" = B.\"activityId\"\n" +
+                 ") as Interest\n" +
+                 "on Activity.\"activityId\"=Interest.\"activityId\"\n" +
+                 "order by score desc\n" +
+                 "OFFSET %d LIMIT %d /*limit and offset 14 15*/\n",
+                 ActivityDao.FALL_OFF_DISTANCE, ActivityDao.FALL_OFF_DISTANCE,
+                 ActivityDao.DISTANCE_WEIGHT, ActivityDao.FALL_OFF_DISTANCE, ActivityDao.FALL_OFF_DISTANCE, ActivityDao.FRIEND_WEIGHT, ActivityDao.INTEREST_WEIGHT,
+                 userId,
+                 ActivityDao.DEFAULT_DISTANCE,
+                 longitude, latitude,
+                 userId,
+                 userId,
+                 userId,
+                 offset, limit);
+    }
+
+
 
     @Override
     public List<Activity> searchActivity(ActivitySearchVO activitySearchVO) throws SQLException, ParseException {
