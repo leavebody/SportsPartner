@@ -224,3 +224,20 @@ All notable changes to this project will be documented in this file.
   - [PersonVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#personvo)
   - [ActivityVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityvo)
   - [ActivityOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityoutlinevo)
+ 
+## Iteration5 (2017-11-18 ~ 2017-12-8)
+### Added
+  * Android: Chat
+  - Chat List
+    - A page to view all the chat channels
+    - Enable/ Disable Corresponding Notifications
+  - One-to-one Chat
+    - Click a friend in the friendlist and open the distinct chat channel with a friend
+    - Message and file transfer
+    - Edit and delete messages
+  - Group Chat
+    - Click "+" button in the chat list to create a joinable chat channel.
+    - Set channel name
+    - Invite others to join the chat
+    - Mute some members
+    - Leave a group chat
