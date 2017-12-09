@@ -439,18 +439,27 @@ public class GroupChatFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_change_group_channel_name) {
-//            Intent intent = new Intent(getActivity(), ChangeChannelName.class);
-//            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
-//            startActivity(intent);
             showDialog(mChannel.getName());
             return true;
         }
-//        else if (id == R.id.action_group_channel_view_members) {
-//            Intent intent = new Intent(getActivity(), MemberListActivity.class);
-//            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
-//            startActivity(intent);
-//            return true;
-//        }
+        else if (id == R.id.action_group_channel_view_members) {
+            Intent intent = new Intent(getActivity(), MemberListActivity.class);
+            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
+            startActivity(intent);
+            return true;
+        }
+        else if (id==R.id.action_group_channel_invite){
+            Intent intent = new Intent(getActivity(), InviteMemberActivity.class);
+            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl);
+            ArrayList <String> channelMembers = new ArrayList<>();
+            List <Member> members = mChannel.getMembers();
+            for (Member member : members){
+                channelMembers.add(member.getUserId());
+            }
+            intent.putStringArrayListExtra("channelMemberList", channelMembers);
+            startActivity(intent);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -191,34 +191,52 @@ public class GroupChannelListFragment extends Fragment {
     private void showChannelOptionsDialog(final GroupChannel channel) {
         String[] options;
         final boolean pushCurrentlyEnabled = channel.isPushEnabled();
+        if(!channel.isDistinct()) {
+            options = pushCurrentlyEnabled
+                    ? new String[]{"Leave channel", "Turn push notifications OFF"}
+                    : new String[]{"Leave channel", "Turn push notifications ON"};
 
-        options = pushCurrentlyEnabled
-                ? new String[]{"Leave channel", "Turn push notifications OFF"}
-                : new String[]{"Leave channel", "Turn push notifications ON"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Channel options")
-                .setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            // Show a dialog to confirm that the user wants to leave the channel.
-                            new AlertDialog.Builder(getActivity())
-                                    .setTitle("Leave channel " + channel.getName() + "?")
-                                    .setPositiveButton("Leave", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            leaveChannel(channel);
-                                        }
-                                    })
-                                    .setNegativeButton("Cancel", null)
-                                    .create().show();
-                        } else if (which == 1) {
-                            setChannelPushPreferences(channel, !pushCurrentlyEnabled);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Channel options")
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                // Show a dialog to confirm that the user wants to leave the channel.
+                                new AlertDialog.Builder(getActivity())
+                                        .setTitle("Leave channel " + channel.getName() + "?")
+                                        .setPositiveButton("Leave", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                leaveChannel(channel);
+                                            }
+                                        })
+                                        .setNegativeButton("Cancel", null)
+                                        .create().show();
+                            } else if (which == 1) {
+                                setChannelPushPreferences(channel, !pushCurrentlyEnabled);
+                            }
                         }
-                    }
-                });
-        builder.create().show();
+                    });
+            builder.create().show();
+        }
+        else{
+            options = pushCurrentlyEnabled
+                    ? new String[]{ "Turn push notifications OFF"}
+                    : new String[]{"Turn push notifications ON"};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Channel options")
+                    .setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                                if (which == 0) {
+                                setChannelPushPreferences(channel, !pushCurrentlyEnabled);
+                            }
+                        }
+                    });
+            builder.create().show();
+        }
     }
 
     /**

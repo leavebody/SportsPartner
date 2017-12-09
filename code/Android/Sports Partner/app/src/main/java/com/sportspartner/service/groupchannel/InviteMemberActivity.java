@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +18,13 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserListQuery;
 import com.sportspartner.R;
+import com.sportspartner.models.UserOutline;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.FriendService;
+import com.sportspartner.service.ModelResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,7 +42,8 @@ public class InviteMemberActivity extends AppCompatActivity {
     private UserListQuery mUserListQuery;
     private String mChannelUrl;
     private Button mInviteButton;
-
+    private ArrayList <String> friendIdList = new ArrayList<>();
+    private List <String> memberList = new ArrayList<>();
     private List<String> mSelectedUserIds;
 
     @Override
@@ -75,7 +82,7 @@ public class InviteMemberActivity extends AppCompatActivity {
         }
 
         mChannelUrl = getIntent().getStringExtra(GroupChatFragment.EXTRA_CHANNEL_URL);
-
+        memberList = getIntent().getStringArrayListExtra("channelMemberList");
         mInviteButton = (Button) findViewById(R.id.button_invite_member);
         mInviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +95,19 @@ public class InviteMemberActivity extends AppCompatActivity {
         mInviteButton.setEnabled(false);
 
         setUpRecyclerView();
+        FriendService.getFriendList(getApplicationContext(), new ActivityCallBack<ArrayList<UserOutline>>() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult<ArrayList<UserOutline>> modelResult) {
+                        if (modelResult.isStatus()) {
+                            for (UserOutline userOutline : modelResult.getModel()) {
+                                friendIdList.add(userOutline.getUserId());
+                            }
+                            Log.d("666",memberList.toString());
+                            loadInitialUserList(memberList,friendIdList,20);
+                        }
+                    }
+                });
 
-        loadInitialUserList(15);
     }
 
     @Override
@@ -114,7 +132,7 @@ public class InviteMemberActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (mLayoutManager.findLastVisibleItemPosition() == mListAdapter.getItemCount() - 1) {
-                    loadNextUserList(10);
+                    loadNextUserList(memberList,friendIdList,15);
                 }
             }
         });
@@ -162,12 +180,33 @@ public class InviteMemberActivity extends AppCompatActivity {
                     // Error!
                     return;
                 }
-
                 mListAdapter.setUserList(list);
             }
         });
     }
+    private void loadInitialUserList(final List<String> memberListList,final List<String> friendIdList,int size) {
+        mUserListQuery = SendBird.createUserListQuery();
 
+        mUserListQuery.setLimit(size);
+        mUserListQuery.next(new UserListQuery.UserListQueryResultHandler() {
+            @Override
+            public void onResult(List<User> list, SendBirdException e) {
+                if (e != null) {
+                    // Error!
+                    return;
+                }
+                //Remove non-friend
+                List<User> copylist = new ArrayList<>(list);
+                for (User user : list) {
+                    if ((!friendIdList.contains(user.getUserId()))||memberListList.contains(user.getUserId())) {
+                        copylist.remove(user);
+                    }
+                }
+                mListAdapter.setUserList(copylist);
+
+            }
+        });
+    }
     /**
      * Loads users and adds them to current user list.
      *
@@ -186,6 +225,25 @@ public class InviteMemberActivity extends AppCompatActivity {
 
                 for (User user : list) {
                     mListAdapter.addLast(user);
+                }
+            }
+        });
+    }
+    private void loadNextUserList(final List<String> memberList,final List<String> friendIdList,int size) {
+        mUserListQuery.setLimit(size);
+
+        mUserListQuery.next(new UserListQuery.UserListQueryResultHandler() {
+            @Override
+            public void onResult(List<User> list, SendBirdException e) {
+                if (e != null) {
+                    // Error!
+                    return;
+                }
+
+                for (User user : list) {
+                    if (friendIdList.contains(user.getUserId())&&! memberList.contains(user.getUserId())){
+                        mListAdapter.addLast(user);
+                    }
                 }
             }
         });

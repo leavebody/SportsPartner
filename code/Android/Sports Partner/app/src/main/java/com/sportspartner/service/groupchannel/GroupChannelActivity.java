@@ -29,7 +29,6 @@ public class GroupChannelActivity extends AppCompatActivity {
         String flag = getIntent().getStringExtra("isGroupChannel");
 
         if (savedInstanceState == null) {
-            Log.d("666","111");
             // If started from launcher, load list of Open Channels
             Fragment fragment = GroupChannelListFragment.newInstance();
 
