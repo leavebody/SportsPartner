@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,12 @@ import android.widget.Button;
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.SendBirdException;
 import com.sportspartner.R;
+import com.sportspartner.models.UserOutline;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.FriendService;
+import com.sportspartner.service.ModelResult;
 import com.sportspartner.util.Chat.PreferenceUtils;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,59 +45,73 @@ public class CreateGroupChannelActivity extends AppCompatActivity
     private boolean mIsDistinct = true;
 
     private int mCurrentState;
-
+    private ArrayList <String> friendIdList = new ArrayList<>();
     private Toolbar mToolbar;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_group_channel);
-
-        mSelectedIds = new ArrayList<>();
-
-        if (savedInstanceState == null) {
-            Fragment fragment = SelectUserFragment.newInstance();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.container_create_group_channel, fragment)
-                    .commit();
-        }
-
-        mNextButton = (Button) findViewById(R.id.button_create_group_channel_next);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
+        FriendService.getFriendList(getApplicationContext(), new ActivityCallBack<ArrayList<UserOutline>>() {
             @Override
-            public void onClick(View v) {
-                if (mCurrentState == STATE_SELECT_USERS) {
-                    Fragment fragment = SelectDistinctFragment.newInstance();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_create_group_channel, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            }
-        });
-        mNextButton.setEnabled(false);
+            public void getModelOnSuccess(ModelResult<ArrayList<UserOutline>> modelResult) {
+                if (modelResult.isStatus()) {
+                    for (UserOutline userOutline : modelResult.getModel()) {
+                        friendIdList.add(userOutline.getUserId());
+                    }
+                    mSelectedIds = new ArrayList<>();
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("friendlist", friendIdList);
+                    if (savedInstanceState == null) {
+                        Fragment fragment = SelectUserFragment.newInstance();
+                        fragment.setArguments(bundle);
+                        FragmentManager manager = getSupportFragmentManager();
+                        manager.beginTransaction()
+                                .replace(R.id.container_create_group_channel, fragment)
+                                .commit();
+                    }
 
-        mCreateButton = (Button) findViewById(R.id.button_create_group_channel_create);
-        mCreateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCurrentState == STATE_SELECT_USERS) {
+                    mNextButton = (Button) findViewById(R.id.button_create_group_channel_next);
+                    mNextButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mCurrentState == STATE_SELECT_USERS) {
+                                Fragment fragment = SelectDistinctFragment.newInstance();
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container_create_group_channel, fragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        }
+                    });
+                    mNextButton.setEnabled(false);
+
+                    mCreateButton = (Button) findViewById(R.id.button_create_group_channel_create);
+                    mCreateButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mCurrentState == STATE_SELECT_USERS) {
 //                if (mCurrentState == STATE_SELECT_DISTINCT) {
-                    mIsDistinct = PreferenceUtils.getGroupChannelDistinct(CreateGroupChannelActivity.this);
-                    createGroupChannel(mSelectedIds, mIsDistinct);
-                }
-            }
-        });
-        mCreateButton.setEnabled(false);
+                                mIsDistinct = PreferenceUtils.getGroupChannelDistinct(CreateGroupChannelActivity.this);
+                                createGroupChannel(mSelectedIds, false);
+                            }
+                        }
+                    });
+                    mCreateButton.setEnabled(false);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_create_group_channel);
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24_dp);
-        }
+                    mToolbar = (Toolbar) findViewById(R.id.toolbar_create_group_channel);
+                    setSupportActionBar(mToolbar);
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24_dp);
+                    }
+
+                }
+
+            }
+
+        });
 
     }
 

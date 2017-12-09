@@ -22,14 +22,13 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
-    <!--<android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_group_channel_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:useCompatPadding="true"
         app:srcCompat="@drawable/ic_add_white_24dp" />
--->
 
 
 </FrameLayout>

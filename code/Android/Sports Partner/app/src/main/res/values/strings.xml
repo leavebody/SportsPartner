@@ -31,7 +31,7 @@
     <!-- Group Channel List -->
     <string name="group_channel_list_file_message_text">%1$s has uploaded a file.</string>
 
-    <string name="create_group_channel">Create Group Channel</string>
+    <string name="create_group_channel">New Chat Channel</string>
     <string name="member_list">Members</string>
     <string name="invite_member">Invite members</string>
 

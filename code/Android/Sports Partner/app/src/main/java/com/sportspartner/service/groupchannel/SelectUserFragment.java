@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,12 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserListQuery;
 import com.sportspartner.R;
+import com.sportspartner.models.UserOutline;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.FriendService;
+import com.sportspartner.service.ModelResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +36,7 @@ public class SelectUserFragment extends Fragment {
 
     private UserListQuery mUserListQuery;
     private UsersSelectedListener mListener;
+    private List <String> friendIdList = null;
 
     // To pass selected user IDs to the parent Activity.
     interface UsersSelectedListener {
@@ -64,8 +71,12 @@ public class SelectUserFragment extends Fragment {
         mListener = (UsersSelectedListener) getActivity();
 
         setUpRecyclerView();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            friendIdList = bundle.getStringArrayList("friendlist");
+        }
 
-        loadInitialUserList(15);
+        loadInitialUserList(friendIdList,20);
 
         ((CreateGroupChannelActivity) getActivity()).setState(CreateGroupChannelActivity.STATE_SELECT_USERS);
 
@@ -81,7 +92,9 @@ public class SelectUserFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (mLayoutManager.findLastVisibleItemPosition() == mListAdapter.getItemCount() - 1) {
-                    loadNextUserList(10);
+                    if(friendIdList!=null) {
+                        loadNextUserList(friendIdList, 10);
+                    }
                 }
             }
         });
@@ -104,6 +117,48 @@ public class SelectUserFragment extends Fragment {
                 }
 
                 mListAdapter.setUserList(list);
+            }
+        });
+    }
+
+    private void loadInitialUserList(final List<String> friendIdList, int size) {
+        mUserListQuery = SendBird.createUserListQuery();
+
+        mUserListQuery.setLimit(size);
+        mUserListQuery.next(new UserListQuery.UserListQueryResultHandler() {
+            @Override
+            public void onResult(List<User> list, SendBirdException e) {
+                if (e != null) {
+                    // Error!
+                    return;
+                }
+                //Remove non-friend
+                List<User> copylist = new ArrayList<>(list);
+                for (User user : list) {
+                    if (!friendIdList.contains(user.getUserId())) {
+                        copylist.remove(user);
+                    }
+                }
+                mListAdapter.setUserList(copylist);
+            }
+        });
+    }
+    private void loadNextUserList(final List<String> friendIdList ,int size) {
+        mUserListQuery.setLimit(size);
+
+        mUserListQuery.next(new UserListQuery.UserListQueryResultHandler() {
+            @Override
+            public void onResult(List<User> list, SendBirdException e) {
+                if (e != null) {
+                    // Error!
+                    return;
+                }
+                for (User user : list) {
+                    if (friendIdList.contains(user.getUserId())){
+                        mListAdapter.addLast(user);
+                    }
+
+                }
             }
         });
     }
