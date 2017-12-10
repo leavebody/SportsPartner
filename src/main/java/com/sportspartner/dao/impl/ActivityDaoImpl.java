@@ -466,7 +466,13 @@ public class ActivityDaoImpl implements ActivityDao {
     }
 
 
-
+    /**
+     * Generate SQL to search activities
+     * @param activitySearchVO
+     * @return
+     * @throws SQLException
+     * @throws ParseException
+     */
     @Override
     public List<Activity> searchActivity(ActivitySearchVO activitySearchVO) throws SQLException, ParseException {
         Connection c = new ConnectionUtil().connectDB();
@@ -476,7 +482,9 @@ public class ActivityDaoImpl implements ActivityDao {
         String sql = "SELECT * FROM \"Activity\"";
         ArrayList<ArrayList<String>> stmtPara = new ArrayList<ArrayList<String>>();
 
-        //String s = activitySearchVO.getSportId();
+        if (activitySearchVO == null){
+            return activities;
+        }
 
         if (!activitySearchVO.getSportId().equals("NULL") || activitySearchVO.getCapacity() != -1
                 || !activitySearchVO.getStarttime().equals("NULL") || !activitySearchVO.getEndtime().equals("NULL")

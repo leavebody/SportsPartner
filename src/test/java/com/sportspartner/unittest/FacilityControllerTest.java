@@ -99,6 +99,6 @@ public class FacilityControllerTest {
         }
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response = responseJson.toString();
-        assertEquals(true, response);
+        assertEquals(true, !response.isEmpty());
     }
 }
