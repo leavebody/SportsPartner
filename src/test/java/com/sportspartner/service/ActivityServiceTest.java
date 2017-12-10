@@ -3,6 +3,7 @@ package com.sportspartner.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sportspartner.dao.ActivityMemberDao;
 import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
 import com.sportspartner.main.Bootstrap;
 import com.sportspartner.model.Activity;
@@ -29,10 +30,13 @@ import com.sportspartner.controllers.ActivityController;
 public class ActivityServiceTest {
     private ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();
     private ActivityService activityService = new ActivityService();
+    private static ActivityMemberDaoImpl activityMemberDao = new ActivityMemberDaoImpl();
     private JsonResponse resp = new JsonResponse();
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception{
+        ActivityMember addMember = new ActivityMember("aTest", "test2");
+        activityMemberDao.newActivityMember(addMember);
     }
 
     @AfterClass
@@ -348,6 +352,21 @@ public class ActivityServiceTest {
             String userId = "u2";
             String body = new Gson().toJson(new ActivityMember(activityId, userId));
             resp = activityService.removeActivityMember(activityId, body);
+            response = new Gson().toJson(resp);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        assertEquals("{\"response\":\"true\"}", response);
+    }
+
+    /**
+     * Test LeaveActivity succeed.
+     */
+    @Test
+    public void testLeaveActivity(){
+        String response = null;
+        try{
+            resp = activityService.leaveActivity("aTest", "test2", "testKey2");
             response = new Gson().toJson(resp);
         }catch(Exception e){
             e.printStackTrace();
