@@ -187,8 +187,7 @@ public class ActivityController {
         }, new JsonTransformer());
 
         //DELETE https://api.sportspartner.com/v1/activity_leave/:activityId?userId=userId&key=key
-        delete(API_CONTEXT + "/activity_leave/:activityId", "" +
-                "//application/json", (request, response) -> {
+        delete(API_CONTEXT + "/activity_leave/:activityId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.leaveActivity(request.params(":activityId"), request.queryParams("userId"), request.queryParams("key"));

@@ -27,6 +27,7 @@ public class FacilityTest {
      */
     @Test
     public void testFacility() {
+        FacilityComment facilityComment = new FacilityComment("001", "NULL", "u1", "NULL", "good", new Date(1234));
         Facility faclity1 = new Facility("001","002","UUID", "0011", 0.0, 1.1, "21210", "address",
                 "provider", 5.0, 6, "time", "good");
         Facility facility = new Facility();

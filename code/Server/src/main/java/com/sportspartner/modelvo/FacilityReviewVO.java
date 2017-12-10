@@ -8,7 +8,6 @@ public class FacilityReviewVO {
     private String comments;
 
     public String getActivityid() {
-
         return activityid;
     }
 
