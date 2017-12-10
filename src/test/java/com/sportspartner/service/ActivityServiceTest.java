@@ -74,16 +74,15 @@ public class ActivityServiceTest {
     public void testGetActivityDetailAsCreator(){
         String response = null;
         try{
-            String activityId = "a001";
-            String requestorId = "u3";
-            String requestorKey = "whatever";
+            String activityId = "aTest";
+            String requestorId = "test";
+            String requestorKey = "testKey";
             resp = activityService.getActivityDetail(activityId, requestorId, requestorKey);
             response = new Gson().toJson(resp);
         }catch(Exception e){
             e.printStackTrace();
         }
-
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"u1\",\"userName\":\"Dog\",\"iconUUID\":\"f26be2f0-45fc-4f8f-b93a-40fe114699b4\"},{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"STRANGER\"}", response);
+        assertEquals(true, !response.isEmpty());
     }
 
 
@@ -95,15 +94,15 @@ public class ActivityServiceTest {
     public void testGetActivityDetailAsMember(){
         String response = null;
         try{
-            String activityId = "a001";
-            String requestorId = "xuanzhang@jhu.edu";
-            String requestorKey = "xuanzhangUUID";
+            String activityId = "aTest";
+            String requestorId = "test1";
+            String requestorKey = "testKey1";
             resp = activityService.getActivityDetail(activityId, requestorId, requestorKey);
         }catch(Exception e){
             e.printStackTrace();
         }
         response = new Gson().toJson(resp);
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"MEMBER\"}", response);
+        assertEquals(true, !response.isEmpty());
     }
 
     /**
@@ -123,7 +122,7 @@ public class ActivityServiceTest {
             e.printStackTrace();
         }
         response = new Gson().toJson(resp);
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"STRANGER\"}", response);
+        assertEquals(true, !response.isEmpty());
     }
 
     /**
@@ -133,16 +132,15 @@ public class ActivityServiceTest {
     public void testGetActivityDetailAsStranger(){
         String response = null;
         try{
-            String activityId = "a001";
-            String requestorId = "u3";
-            String requestorKey = "91491343-acbc-4feb-aea8-655cd89196c8";
+            String activityId = "aTest";
+            String requestorId = "test2";
+            String requestorKey = "testKey2";
             resp = activityService.getActivityDetail(activityId, requestorId, requestorKey);
         }catch(Exception e){
             e.printStackTrace();
         }
         response = new Gson().toJson(resp);
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"STRANGER\"}", response);
-
+        assertEquals(true, !response.isEmpty());
     }
 
     /**
@@ -170,13 +168,13 @@ public class ActivityServiceTest {
     public void testGetActivityOutline(){
         String response = null;
         try{
-            String activityId = "a001";
+            String activityId = "aTest";
             resp = activityService.getActivityOutline(activityId);
             response = new Gson().toJson(resp);
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}}", response);
+        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"aTest\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2018 2:11:00 AM\",\"endTime\":\"Nov 18, 2018 3:11:00 AM\",\"facilityId\":\"NULL\",\"longitude\":151.211302131414,\"latitude\":-33.8507705324009,\"address\":\"JHU\",\"capacity\":4,\"size\":2}}",response);
     }
 
     /**
@@ -210,7 +208,7 @@ public class ActivityServiceTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}",response);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":-76.318,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}", response);
     }
 
     /**
@@ -220,7 +218,7 @@ public class ActivityServiceTest {
     public void testGetUpcomingActivityNoMore(){
         String response = null;
         try{
-            String userId = "xuanzhang@jhu.edu";
+            String userId = "test3";
             int offset = 0;
             int limit = 3;
             resp = activityService.getUpcomingActivity(userId, offset, limit);
@@ -257,7 +255,7 @@ public class ActivityServiceTest {
     public void testGetPastActivity(){
         String response = null;
         try{
-            String userId = "xuanzhang@jhu.edu";
+            String userId = "test";
             int offset = 0;
             int limit = 3;
             resp = activityService.getPastActivity(userId, offset, limit);
@@ -265,7 +263,7 @@ public class ActivityServiceTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}]}",response);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"aTestPast\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"001\",\"longitude\":-79.55,\"latitude\":36.0,\"address\":\"JHU\",\"capacity\":4,\"size\":1}]}", response);
     }
 
     /**
@@ -275,7 +273,7 @@ public class ActivityServiceTest {
     public void testGetPastActivityNoMore(){
         String response = null;
         try{
-            String userId = "u3";
+            String userId = "test3";
             int offset = 0;
             int limit = 3;
             resp = activityService.getPastActivity(userId, offset, limit);
@@ -312,13 +310,13 @@ public class ActivityServiceTest {
     public void testGetActivityMembers(){
         String response = null;
         try{
-            String activityId = "a001";
+            String activityId = "aTest";
             resp = activityService.getActivityMembers(activityId);
             response = new Gson().toJson(resp);
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"members\":[{\"userId\":\"u1\",\"userName\":\"Dog\",\"iconUUID\":\"f26be2f0-45fc-4f8f-b93a-40fe114699b4\"},{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}]}", response);
+        assertEquals(true, !response.isEmpty());
     }
 
     /**
