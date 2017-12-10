@@ -153,7 +153,7 @@ public class ActivityController {
         }, new JsonTransformer());
 
         // When an activity has finished, the participants of the activity can review the activity by rating teammates and facilities.
-        // {"userId":"u24","key":"ASD","facilityreview":{"activityid":"a002", "reviewer":"u24", "reviewee":"001", "score":5, "comments":"test facility comment 057"}, "userreviews":[{"activityid":"a002", "reviewer":"u24", "reviewee":"u1", "punctuality":5,"participation":5, "comments":"test comment 057"}]}
+        // {"userId":"test","key":"testKey","facilityreview":{"activityid":"aTestPast", "reviewer":"test", "reviewee":"001", "score":5, "comments":"test facility comment 057"}, "userreviews":[{"activityid":"aTestPast", "reviewer":"u24", "reviewee":"test1", "punctuality":5,"participation":5, "comments":"test comment 057"}]}
         post(API_CONTEXT + "/activityreview/:id", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
@@ -186,8 +186,9 @@ public class ActivityController {
             }
         }, new JsonTransformer());
 
-        //DELETE https://api.sportspartner.com/v1/activity_leave/:activityId/userId/key
-        delete(API_CONTEXT + "/activity_leave/:activityId", "application/json", (request, response) -> {
+        //DELETE https://api.sportspartner.com/v1/activity_leave/:activityId?userId=userId&key=key
+        delete(API_CONTEXT + "/activity_leave/:activityId", "" +
+                "//application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
                 reps = activityService.leaveActivity(request.params(":activityId"), request.queryParams("userId"), request.queryParams("key"));

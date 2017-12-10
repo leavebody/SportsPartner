@@ -6,6 +6,7 @@ import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
 import com.sportspartner.main.Bootstrap;
 import com.sportspartner.model.Activity;
 import com.sportspartner.model.ActivityMember;
+import com.sportspartner.modelvo.ActivitySearchVO;
 import com.sportspartner.service.ActivityService;
 import com.google.gson.JsonObject;
 import org.junit.*;
@@ -58,6 +59,8 @@ public class ActivityTest {
             activityDao.newActivity(toDelete);
             activityMemberDao.newActivityMember(new ActivityMember("toDelete001", "u24"));
 
+            ActivityMember addMember = new ActivityMember("aTest", "test2");
+            activityMemberDao.newActivityMember(addMember);
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -114,7 +117,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            String activityId = "a001";
+            String activityId = "aTest";
             URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/" + activityId+ "?content=full");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -136,7 +139,7 @@ public class ActivityTest {
         //assertEquals ("true",respond);
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activity\":{\"activityId\":\"a001\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5,\"creatorId\":\"u1\",\"members\":[{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}],\"detail\":\"Join us!\",\"discussion\":[{\"activityId\":\"a001\",\"commentId\":\"001\",\"authorId\":\"u1\",\"time\":\"Oct 26, 2017 5:24:02 PM\",\"content\":\"Good activity!\"}]},\"userType\":\"STRANGER\"}", response);
+        assertEquals(true, !responseBody.isEmpty());
     }
 
     /**
@@ -178,7 +181,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            String activityId = "a001";
+            String activityId = "aTest";
             URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity/" + activityId+ "?content=outline");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -199,7 +202,7 @@ public class ActivityTest {
         //String respond = responseJson.get("response").getAsString();
         //assertEquals ("\"true\"",respond);
         //String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}}", responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutline\":{\"activityId\":\"aTest\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2018 2:11:00 AM\",\"endTime\":\"Nov 18, 2018 3:11:00 AM\",\"facilityId\":\"NULL\",\"longitude\":151.211302131414,\"latitude\":-33.8507705324009,\"address\":\"JHU\",\"capacity\":4,\"size\":2}}", responseBody);
     }
 
     @Test
@@ -290,7 +293,7 @@ public class ActivityTest {
         //String response =responseJson.getAsString();
         //String respond = responseJson.get("response").toString();
         //assertEquals ("\"true\"",respond);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":0.0,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}",responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":-76.318,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}", responseBody);
     }
 
     /**
@@ -359,7 +362,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_past" + "?id=xuanzhang@jhu.edu&offset=0&limit=5");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_past" + "?id=test&offset=0&limit=5");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
@@ -375,7 +378,7 @@ public class ActivityTest {
         }
 
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a001\",\"creatorId\":\"u1\",\"status\":\"FINISHED\",\"sportIconUUID\":\"35c2c8c2-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Tennis\",\"startTime\":\"Oct 25, 2017 12:00:00 PM\",\"endTime\":\"Oct 25, 2017 2:00:00 PM\",\"facilityId\":\"001\",\"longitude\":76.312,\"latitude\":38.567,\"address\":\"JHU Gym\",\"capacity\":6,\"size\":5}]}",responseBody);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"aTestPast\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2017 2:11:00 AM\",\"endTime\":\"Nov 18, 2017 3:11:00 AM\",\"facilityId\":\"001\",\"longitude\":-79.55,\"latitude\":36.0,\"address\":\"JHU\",\"capacity\":4,\"size\":1}]}",responseBody);
     }
 
     /**
@@ -387,7 +390,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/activity_past" + "?id=estelle7w7@gmail.com&offset=0&limit=5");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/activity_past" + "?id=test2&offset=0&limit=5");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
@@ -445,7 +448,7 @@ public class ActivityTest {
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
         try{
-            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_members/a001");
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_members/aTest");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
@@ -462,7 +465,7 @@ public class ActivityTest {
 
         //JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         //String response =responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"members\":[{\"userId\":\"u1\",\"userName\":\"Dog\",\"iconUUID\":\"f26be2f0-45fc-4f8f-b93a-40fe114699b4\"},{\"userId\":\"xuanzhang@jhu.edu\",\"userName\":\"Xuan Zhang\",\"iconUUID\":\"20e7d49f-5bb6-431e-a511-bc5e0edb349f\"},{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"iconUUID\":\"007\"},{\"userId\":\"leavebody@hotmail.com\",\"userName\":\"Xiaochen Li\",\"iconUUID\":\"92cf9134-e40b-40f5-baf3-f7d9990a61bf\"},{\"userId\":\"yujiaxiao0223@gmail.com\",\"userName\":\"Yujia Xiao\",\"iconUUID\":\"6c1e2972-d140-4055-8560-af5bad24448d\"}]}", responseBody);
+        assertEquals(true, !responseBody.isEmpty());
     }
 
     /**
@@ -805,4 +808,113 @@ public class ActivityTest {
         assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to cancel the activity\"}", responseBody);
 
     }
+
+    @Test
+    public void testSearchActivity(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"2017.11.18 AD at 07:11:00 UTC\", \"endTime\":\"2017.11.18 AD at 09:11:00 UTC\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals("{\"response\":\"false\",\"message\":\"Lack authorization to cancel the activity\"}", responseBody);
+    }
+
+    @Test
+    public void testRecommendActivity(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+        // test GET /activity_recommend?id=u2&latitude=38.567&langitude=76.312&limit=10&offset=0
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_recommend?id=u2&latitude=38.567&longitude=76.312&limit=10&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }
+
+    // {"userId":"u24","key":"ASD","facilityreview":{"activityid":"a002", "reviewer":"u24", "reviewee":"001", "score":5, "comments":"test facility comment 057"}, "userreviews":[{"activityid":"a002", "reviewer":"u24", "reviewee":"u1", "punctuality":5,"participation":5, "comments":"test comment 057"}]}
+    @Test
+    public void testReviewActivity(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activityreview/aTestPast");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            String body = "{\"userId\":\"test\",\"key\":\"testKey\",\"facilityreview\":{\"activityid\":\"aTestPast\", \"reviewer\":\"test\", \"reviewee\":\"001\", \"score\":5, \"comments\":\"test facility comment 057\"}, \"userreviews\":[{\"activityid\":\"aTestPast\", \"reviewer\":\"test\", \"reviewee\":\"test1\", \"punctuality\":5,\"participation\":5, \"comments\":\"test comment 057\"}]}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+
+    //DELETE https://api.sportspartner.com/v1/activity_leave/:activityId?userId=userId&key=key
+    @Test
+    public void testLeaveActivity(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/activity_leave/aTest?userId=test2&key=testKey2");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals("{\"response\":\"true\"}", responseBody);
+    }
+
+
+
+
 }

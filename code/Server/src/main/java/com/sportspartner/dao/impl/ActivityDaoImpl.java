@@ -476,6 +476,8 @@ public class ActivityDaoImpl implements ActivityDao {
         String sql = "SELECT * FROM \"Activity\"";
         ArrayList<ArrayList<String>> stmtPara = new ArrayList<ArrayList<String>>();
 
+        //String s = activitySearchVO.getSportId();
+
         if (!activitySearchVO.getSportId().equals("NULL") || activitySearchVO.getCapacity() != -1
                 || !activitySearchVO.getStarttime().equals("NULL") || !activitySearchVO.getEndtime().equals("NULL")
                 || activitySearchVO.getLatitude() != 1000 || activitySearchVO.getLongitude() != 1000){
