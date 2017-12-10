@@ -248,9 +248,11 @@ All notable changes to this project will be documented in this file.
       - The activity is open
       - The activity is not started yet
       - Current user is not in this activity
-    - Score metric
+    - Sorting metric
       - Friends - how many friends of this user is in this activity?
       - Interest - does the sports type of the activity match user interests?
       - Distance - how far is the activity located related to the user?
-
+      
+   * Android and Server: Review activity
+     - After an activity is finish, members in the activity can review each other as well as the facility used in the activity.
 
