@@ -254,5 +254,5 @@ All notable changes to this project will be documented in this file.
       - Distance - how far is the activity located related to the user?
       
    * Android and Server: Review activity
-     - After an activity is finish, members in the activity can review each other as well as the facility used in the activity.
+     - After an activity is finished, members in the activity can review each other as well as the facility used in the activity.
 
