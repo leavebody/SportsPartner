@@ -241,3 +241,16 @@ All notable changes to this project will be documented in this file.
       - Invite others to join the chat
       - Mute some members
       - Leave a group chat
+      
+  * Server: Recommendation System
+    - Recommends activities to users who might be interested in it.
+    - Hard constraints
+      - The activity is open
+      - The activity is not started yet
+      - Current user is not in this activity
+    - Score metric
+      - Friends - how many friends of this user is in this activity?
+      - Interest - does the sports type of the activity match user interests?
+      - Distance - how far is the activity located related to the user?
+
+
