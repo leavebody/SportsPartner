@@ -496,4 +496,10 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
 }

@@ -10,23 +10,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.sportspartner.R;
+import com.sportspartner.models.ActivitySearch;
 import com.sportspartner.models.SActivity;
+import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.PickPlaceResult;
+import com.sportspartner.util.adapter.MyActivityAdapter;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author yujiaxiao
@@ -49,7 +60,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     private Calendar myCalendar = Calendar.getInstance();
 
     //Activity Object
-    private SActivity sActivity= new SActivity();
+    private SActivity sActivity = new SActivity();
     private ArrayList<Sport> listSports = new ArrayList<Sport>();
     private int sportPosition;
     private String id;
@@ -58,12 +69,27 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     private String zipcode;
     private String address;
 
+    //refresh
+    RefreshLayout refreshLayout;
+
+    //search result
+    private ActivitySearch activitySearch = new ActivitySearch();
+    private MyActivityAdapter searchListAdapter;
+    private ListView listSearchActivity;
+
+    //refresh helper data
+    private int searchResultCount = 0; // the count of loaded upcomming activities
+    private boolean searchResultFinished = true; // no more upcomming activity to load
+    private final int REFRESH_LIMIT = 3;
+
+
 
     // The object being sent and received from map
     private PickPlaceResult pickPlaceResult;
 
     /**
      * OnCreate Method of thie Activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -71,6 +97,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         super.onCreate(savedInstanceState);
         ViewGroup content = (ViewGroup) findViewById(R.id.layout_home);
         getLayoutInflater().inflate(R.layout.activity_search_sportsactivity, content, true);
+        refreshLayout = (RefreshLayout) findViewById(R.id.search_refresh);
 
         //set title of toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -94,7 +121,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
             @Override
             public void getModelOnSuccess(ModelResult<ArrayList<Sport>> result) {
                 if (!result.isStatus()) {
-                    Log.e("SearchActivity","Load sports Error: " + result.getMessage());
+                    Log.e("SearchActivity", "Load sports Error: " + result.getMessage());
                     listSports = new ArrayList<>();
                     return;
                 }
@@ -104,34 +131,46 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
 
 
         //find widget by Id
-        textSport= (TextView) findViewById(R.id.edit_sport);
-        textStartDate= (TextView) findViewById(R.id.edit_create_startDate);
-        textEndDate= (TextView) findViewById(R.id.edit_create_endDate);
-        textStartTime= (TextView) findViewById(R.id.edit_create_starttime);
-        textEndTime= (TextView) findViewById(R.id.edit_create_endtime);
-        textLocation= (TextView) findViewById(R.id.edit_create_location);
-        textCapacity= (TextView) findViewById(R.id.edit_create_capacity);
-        editDescription= (EditText) findViewById(R.id.edit_create_discription);
+        listSearchActivity = (ListView) findViewById(R.id.list_search_result);
+        textSport = (TextView) findViewById(R.id.edit_sport);
+        textStartDate = (TextView) findViewById(R.id.edit_create_startDate);
+        textEndDate = (TextView) findViewById(R.id.edit_create_endDate);
+        textStartTime = (TextView) findViewById(R.id.edit_create_starttime);
+        textEndTime = (TextView) findViewById(R.id.edit_create_endtime);
+        textLocation = (TextView) findViewById(R.id.edit_create_location);
+        textCapacity = (TextView) findViewById(R.id.edit_create_capacity);
+        editDescription = (EditText) findViewById(R.id.edit_create_discription);
 
         //set onCLick Listener
         textSport.setOnClickListener(mySportListener);
         textStartDate.setOnClickListener(new MyPickDateListener(SearchSactivityActivity.this, myStratTime, textStartDate));
         textEndDate.setOnClickListener(new MyPickDateListener(SearchSactivityActivity.this, myEndTime, textEndDate));
-        textStartTime.setOnClickListener(new MyPickTimeListener(SearchSactivityActivity.this, myStratTime, textStartTime) );
+        textStartTime.setOnClickListener(new MyPickTimeListener(SearchSactivityActivity.this, myStratTime, textStartTime));
         textEndTime.setOnClickListener(new MyPickTimeListener(SearchSactivityActivity.this, myEndTime, textEndTime));
         textLocation.setOnClickListener(myLocationListener);
         textCapacity.setOnClickListener(myCapacityListener);
 
+        //set Adapter
+        searchListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
+        listSearchActivity.setAdapter(searchListAdapter);
+
     }
 
-     /**
+    @Override
+    public void onResume(){
+        super.onResume();
+        setRefresh();
+    }
+
+    /**
      * Show the NumberPicker Dialog
      * Set the content of the textView according to selection result of the user
-     * @param strings    The String shows in the NumberPicker
-     * @param textView  The textView which should be changed
+     *
+     * @param strings  The String shows in the NumberPicker
+     * @param textView The textView which should be changed
      */
     //all types of listener
-    private void showDialog(String[] strings, final TextView textView){
+    private void showDialog(String[] strings, final TextView textView) {
         final Dialog d = new Dialog(SearchSactivityActivity.this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.layout_dialog);
@@ -143,16 +182,14 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         np.setMaxValue(strings.length - 1);
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(this);
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
                 d.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 d.dismiss();
@@ -176,7 +213,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     private View.OnClickListener mySportListener = new View.OnClickListener() {
         public void onClick(View v) {
             String[] sports = new String[listSports.size()];
-            for (int i = 0; i < listSports.size(); i++){
+            for (int i = 0; i < listSports.size(); i++) {
                 sports[i] = listSports.get(i).getSportName();
             }
             showDialog(sports, textSport);
@@ -191,7 +228,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
      */
     private View.OnClickListener myCapacityListener = new View.OnClickListener() {
         public void onClick(View v) {
-            String[] capacity = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+            String[] capacity = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
             showDialog(capacity, textCapacity);
         }
     };
@@ -208,11 +245,13 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
             startActivityForResult(intent, 1);
         }
     };
+
     /**
      * get the data from the inner activity
+     *
      * @param requestCode
      * @param resultCode
-     * @param data data from the inner activity
+     * @param data        data from the inner activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -223,7 +262,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
                 if (b != null) {
                     pickPlaceResult = (PickPlaceResult) b.getSerializable("PickPlaceResult");
 
-                    if (pickPlaceResult.isFacility()){
+                    if (pickPlaceResult.isFacility()) {
                         //Todo get id
                         id = "NULL";
                         latitude = 0.0;
@@ -241,20 +280,118 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
                     }
                 }
             } else if (resultCode == 0) {
-                Toast.makeText(this,"RESULT CANCELLED", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "RESULT CANCELLED", Toast.LENGTH_LONG).show();
             }
         }
     }
+
     /**
      * Onclick Listener of "Search" button
+     *
      * @param v
      */
-    public void SearchActivity(View v){
-        //TODO
+    public void SearchActivity(View v) {
+        searchResultFinished = false;
+        //set sportId
+        if (!textSport.getText().toString().equals("")) {
+            activitySearch.setSportId(listSports.get(sportPosition).getSportId());
+        }
+        //set capacity
+        if (!textCapacity.getText().toString().equals("")) {
+            activitySearch.setCapacity(Integer.parseInt(textCapacity.getText().toString()));
+        }
+        //set location
+        if (!textLocation.getText().toString().equals("")) {
+            activitySearch.setLatitude(latitude);
+            activitySearch.setLongitude(longitude);
+        }
+        //set startTime
+        SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z", Locale.US);
+        if (!textStartDate.getText().toString().equals("") && !textStartTime.getText().toString().equals("")) {
+            activitySearch.setStartTime(df.format(myStratTime.getTime()));
+            Log.d("SearchStart1",df.format(myStratTime.getTime()));
+        } else if (!textStartTime.getText().toString().equals("")) {
+            myStratTime.set(1900, 1, 1);
+            Log.d("SearchStart2",df.format(myStratTime.getTime()));
+            activitySearch.setStartTime(df.format(myStratTime.getTime()));
+        } else if (!textStartDate.getText().toString().equals("")) {
+            Log.d("SearchStart3",df.format(myStratTime.getTime()));
+            activitySearch.setStartTime(df.format(myStratTime.getTime()));
+        }
+        //set endTime
+        if (!textEndDate.getText().toString().equals("") && !textEndTime.getText().toString().equals("")) {
+            activitySearch.setEndTime(df.format(myEndTime.getTime()));
+        } else if (!textEndTime.getText().toString().equals("")) {
+            myStratTime.set(1900, 1, 1);
+            activitySearch.setEndTime(df.format(myEndTime.getTime()));
+        } else if (!textEndDate.getText().toString().equals("")) {
+            activitySearch.setEndTime(df.format(myEndTime.getTime()));
+        }
+
+        ActivityService.searchActivity(getApplication(), activitySearch, 3, 0, new ActivityCallBack() {
+            @Override
+            public void getModelOnSuccess(ModelResult modelResult) {
+                searchActivitiesHandler(modelResult);
+            }
+        });
+
+    }
+
+    private void searchActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> result){
+        if (result.isStatus()) {
+            ArrayList<SActivityOutline> searchResults = new ArrayList<>(result.getModel());
+            int size = searchResults.size();
+            searchResultCount += size;
+            if (size < REFRESH_LIMIT) {
+                searchResultFinished = true;
+            }
+            if (size > 0) {
+                searchListAdapter.appendList(searchResults);
+                searchListAdapter.notifyDataSetChanged();
+                //set the height of the listview
+                MyActivityAdapter.setListViewHeightBasedOnChildren(listSearchActivity);
+            }
+            Toast.makeText(SearchSactivityActivity.this, "Search Succeeded!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(SearchSactivityActivity.this, "Search Failed: " + result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void refresh() {
+        if (!searchResultFinished) {
+            //get upcomming activities
+            ActivityService.searchActivity(getApplication(), activitySearch, 3, 0, new ActivityCallBack() {
+                @Override
+                public void getModelOnSuccess(ModelResult modelResult) {
+                    searchActivitiesHandler(modelResult);
+                }
+            });
+        } else {
+            Toast toast = Toast.makeText(SearchSactivityActivity.this, "no more activities to load", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    /**
+     * Assign the setOnLoadmoreListener to the current Layout
+     * Set the Animate for the refresh
+     * In the Listener, call refresh() function
+     */
+    private void setRefresh(){
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setAnimatingColor(getResources().getColor(R.color.background_blue)));
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refresh();
+                refreshlayout.finishLoadmore(100);
+
+            }
+        });
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
     }

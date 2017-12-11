@@ -57,6 +57,7 @@ public class SignupActivity extends AppCompatActivity {
     public void backToLogin(View v) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**
@@ -99,19 +100,21 @@ public class SignupActivity extends AppCompatActivity {
         // handle the result here
         String message = signupResult.getMessage();
         if (message != null) {
-            Toast toast = Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT);
             toast.show();
         }
         //get the token from GCM
         String token = RegistrationIntentService.getToken();
         if (signupResult.isStatus()) {
-            Toast toast = Toast.makeText(SignupActivity.this, "sign up successfully!", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(SignupActivity.this, "sign up successfully!", Toast.LENGTH_SHORT);
             toast.show();
             UserService.login(this, email, password, token, new ActivityCallBack(){
                 public void getModelOnSuccess(ModelResult booleanResult) {
                     Context context = getApplicationContext();
                     Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("userId", email);
                     startActivity(intent);
+                    finish();
                 }
             });
         }
@@ -120,6 +123,12 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
         finish();
     }
 

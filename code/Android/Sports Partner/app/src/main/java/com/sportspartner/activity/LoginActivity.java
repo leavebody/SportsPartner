@@ -16,7 +16,6 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
 
 public class LoginActivity extends AppCompatActivity {
@@ -98,10 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         if (booleanResult.isStatus()) {
             Context context = getApplicationContext();
 
-            //get userId from SQLite
-            LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
-            String email = dbHelper.getEmail();
-
             //go to profile activity
             Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
@@ -124,5 +119,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 }
 

@@ -35,6 +35,17 @@ public class FacilityController {
             return reps;
         }, new JsonTransformer());
 
-
+        // get facility outline
+        get(API_CONTEXT + "/facility/outline/:id", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse(false);
+            try {
+                String id = request.params("id");
+                reps = facilityService.getFacilityOutline(id);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            response.status(200);
+            return reps;
+        }, new JsonTransformer());
     }
 }

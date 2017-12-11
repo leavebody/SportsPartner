@@ -317,4 +317,10 @@ public class SactivityDetailActivity extends BasicActivity {
         finish();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
 }

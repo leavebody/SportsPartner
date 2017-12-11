@@ -1,17 +1,36 @@
 package com.sportspartner.service;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sportspartner.R;
+import com.sportspartner.activity.MapActivity;
+import com.sportspartner.models.FacilityMarker;
 import com.sportspartner.models.MapApiResult;
 import com.sportspartner.models.Sport;
 import com.sportspartner.request.ResourceRequest;
@@ -34,7 +53,8 @@ import java.util.ArrayList;
 public class ResourceService extends Service {
     public final static String IMAGE_SMALL = "small";
     public final static String IMAGE_ORIGIN = "origin";
-
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static boolean mLocationPermissionGranted;
     /**
      * Get an image.
      *
@@ -249,6 +269,41 @@ public class ResourceService extends Service {
             }
         }, latLng, key);
 
+    }
+
+    /**
+     * Get the addresses and zipcode by latLng.
+     *
+     * @param c        Caller context.
+     */
+    public static void getDeviceLocation(final Activity c, final ActivityCallBack<Location> callBack) {
+        String key = c.getResources().getString(R.string.google_maps_web_key);
+        if (ContextCompat.checkSelfPermission(c.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(c,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(c);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(c, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        ModelResult<Location> modelResult = new ModelResult<>();
+                        if (location != null) {
+                            modelResult.setModel(location);
+                            modelResult.setStatus(true);
+                        } else {
+                            modelResult.setStatus(false);
+                            modelResult.setMessage("can't get device location");
+                        }
+                        callBack.getModelOnSuccess(modelResult);
+                    }
+                });
     }
 
     /**

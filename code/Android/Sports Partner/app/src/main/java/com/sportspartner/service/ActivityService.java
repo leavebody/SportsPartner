@@ -1,21 +1,26 @@
 package com.sportspartner.service;
 
+import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sportspartner.models.ActivitySearch;
+import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.models.UserReview;
 import com.sportspartner.request.ActivityRequest;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Xiaochen Li
@@ -30,7 +35,10 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getUpcomingActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
+    public static final double DEFAULT_LATITUDE = 38.567;
+    public static final double DEFAULT_LONGITUDE = 76.312;
+
+    public static void getUpcomingActivities(Context c, String email, int limit, int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
 
         ActivityRequest request = new ActivityRequest(c);
         request.activitiesOutlineRequest(new VolleyCallback() {
@@ -49,7 +57,7 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getHistoryActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
+    public static void getHistoryActivities(Context c, String email, int limit, int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
 
         ActivityRequest request = new ActivityRequest(c);
         request.activitiesOutlineRequest(new VolleyCallback() {
@@ -68,15 +76,30 @@ public class ActivityService extends Service {
      * @param offset The index of the first activity that will return.
      * @param callback
      */
-    public static void getRecommendActivities(Context c, String email, int limit, int offset, final ActivityCallBack callback) {
-
-        ActivityRequest request = new ActivityRequest(c);
-        request.activitiesOutlineRequest(new VolleyCallback() {
+    public static void getRecommendActivities(final Activity c, final String email, final int limit, final int offset, final ActivityCallBack<ArrayList<SActivityOutline>> callback) {
+        final ActivityRequest request = new ActivityRequest(c);
+        ResourceService.getDeviceLocation(c, new ActivityCallBack<Location>() {
             @Override
-            public void onSuccess(NetworkResponse response) {
-                callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
+            public void getModelOnSuccess(ModelResult<Location> modelResult) {
+                double latitude;
+                double longitude;
+                if(modelResult.isStatus()){
+                    latitude = modelResult.getModel().getLatitude();
+                    longitude = modelResult.getModel().getLongitude();
+                } else {
+                    Toast.makeText(c.getApplicationContext(), "get device location failed, using default", Toast.LENGTH_LONG).show();
+                    latitude = ActivityService.DEFAULT_LATITUDE;
+                    longitude = ActivityService.DEFAULT_LONGITUDE;
+                }
+                request.recommendActivitiesOutlineRequest(new VolleyCallback() {
+                    @Override
+                    public void onSuccess(NetworkResponse response) {
+                        callback.getModelOnSuccess(ActivityService.getActivitiesOutlineRespProcess(response));
+                    }
+                }, email, limit, offset, latitude, longitude);
             }
-        }, "recommend", email, limit, offset);
+        });
+
     }
 
     /**
@@ -321,4 +344,70 @@ public class ActivityService extends Service {
             }
         }, activityId);
     }
+
+    /**
+     * review an activity.
+     * @param c Caller context
+     * @param callback
+     */
+    public static void reviewActivity(Context c, String activityId, ArrayList<UserReview> userReviews, FacilityReview facilityReview, final ActivityCallBack callback) {
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.reviewRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Review activity "));
+            }
+        }, activityId, userReviews, facilityReview);
+    }
+
+    /**
+     * Search activities
+     * @param c
+     * @param activitySearch the object of ActivitySearch
+     * @param limit the max number of the result of activities
+     * @param offset return activities whose index of the list of the search result is larger than the offset
+     * @param callback
+     */
+    public static void searchActivity(Context c, ActivitySearch activitySearch, int limit, int offset, final ActivityCallBack callback) {
+        ActivityRequest request = new ActivityRequest(c);
+        request.searchRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.searchActivityRespProcess(response));
+            }
+        }, activitySearch, limit, offset);
+    }
+
+    /**
+     * The helper method to process the result of search activity outline request.
+     * @param response The network response to process
+     * @return A ModelResult with model type StArrayList<ActivitySearch>, which is the list of the activities
+     */
+    public static ModelResult<ArrayList<SActivityOutline>> searchActivityRespProcess(NetworkResponse response){
+        ModelResult<ArrayList<SActivityOutline>> result = new ModelResult<>();
+        switch (response.statusCode){
+            case 200:
+                boolean status;
+                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
+                status = (jsResp.get("response").getAsString().equals("true"));
+                result.setStatus(status);
+                if(status) {
+                    Gson gson = new Gson();
+                    JsonArray jsArrayAct = jsResp.getAsJsonArray("activityOutlines");
+                    ArrayList<SActivityOutline> arrayAct = gson.fromJson(jsArrayAct,
+                            new TypeToken<ArrayList<SActivityOutline>>(){}.getType());
+
+                    result.setModel(arrayAct);
+                } else {
+                    result.setMessage("search activity request failed: "+jsResp.get("message").getAsString());
+                }
+                break;
+
+            default:
+                result.setMessage("bad response:"+response.statusCode);
+        }
+        return result;
+    }
+
 }

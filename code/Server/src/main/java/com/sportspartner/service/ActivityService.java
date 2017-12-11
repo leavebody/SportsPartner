@@ -9,6 +9,7 @@ import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -183,6 +184,32 @@ public class ActivityService {
             }
         }
 
+        return resp;
+    }
+
+    /**
+     * Get the recommend activities of a user
+     *
+     * @param userId Id of a user
+     * @param offset The index of the first result to return. Default: 0 (i.e., the first result). Maximum offset: 200. Use with limit to get the next page of search results.
+     * @param limit  The maximum number of results to return. Default: 3. Minimum: 1. Maximum: 10.
+     * @return Json Response to the front-end
+     */
+    public JsonResponse getRecommendActivity(String userId, int offset, int limit, double latitude, double longitude) throws Exception {
+        JsonResponse resp = new JsonResponse(false);
+
+        if (!hasUser(userId)) {
+            resp.setMessage("No such user");
+        } else {
+            List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+            List<Activity> activities = activityDaoImpl.getRecommendActivities(userId, longitude, latitude, limit, offset);
+            for(Activity activity : activities) {
+                activityOutlineVOs.add(new ActivityOutlineVO().setFromActivity(activity));
+            }
+            resp.setActivityOutlines(activityOutlineVOs);
+            resp.setResponse("true");
+            resp.setMessage(null);
+        }
         return resp;
     }
 
@@ -383,6 +410,33 @@ public class ActivityService {
         return resp;
     }
 
+    public JsonResponse searchActivity(int limit, int offset, String body) throws SQLException, ParseException {
+        //TODO
+        JsonResponse resp = new JsonResponse();
+        ActivitySearchVO activitySearchVO = new Gson().fromJson(body, ActivitySearchVO.class);
+        System.out.println(body);
+        List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
+        List<Activity> searchResults = activityDaoImpl.searchActivity(activitySearchVO);
+        if (searchResults.size() <= offset) {
+            resp.setResponse("true");
+            resp.setMessage("No more search results");
+            resp.setActivityOutlines(new ArrayList<>());
+        } else {
+            List<Activity> searchResultsSubset = searchResults.subList(offset, min(offset + limit, searchResults.size()));
+            for (Activity resultActivity : searchResultsSubset) {
+                Sport sport = sportDaoImpl.getSport(resultActivity.getSportId());
+                ActivityOutlineVO activityOutlineVO = new ActivityOutlineVO();
+                activityOutlineVO.setFromActivity(resultActivity);
+                activityOutlineVO.setFromSport(sport);
+                activityOutlineVOs.add(activityOutlineVO);
+            }
+            resp.setActivityOutlines(activityOutlineVOs);
+            resp.setResponse("true");
+        }
+
+        return resp;
+    }
+
 
     public JsonResponse reviewActivity(String activityId, String body) throws Exception {
         JsonResponse response;
@@ -411,6 +465,28 @@ public class ActivityService {
             }
             response = JsonResponse.combineBinaryJsonResponses(allResponse);
         }
+        return response;
+    }
+
+    public JsonResponse leaveActivity(String activityId, String userId, String key) throws SQLException {
+        JsonResponse response = new JsonResponse();
+
+        if (!isAuthorized(userId, key)) {
+            return new JsonResponse("not authorized: did you log in?");
+        }
+        if (!activityMemberDaoImpl.hasActivityMember(new ActivityMember(activityId, userId))) {
+            return new JsonResponse("this user is not a member of the activity");
+        } else {
+            Boolean boolResult = activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId));
+            if (boolResult){
+                //activityDaoImpl.updateActivityCapacity();
+                response.setResponse("true");
+            }
+            else {
+                response.setResponse("false");
+            }
+        }
+
         return response;
     }
 //    public void activityInfoUpdate(){
