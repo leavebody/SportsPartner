@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult booleanResult) {
+                Log.d("notifitest", "login 90");
                 loginHandler(booleanResult);
             }
         });

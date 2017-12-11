@@ -1,5 +1,6 @@
 package com.sportspartner.util.gcm_notification;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.sportspartner.R;
@@ -30,14 +32,14 @@ import java.util.UUID;
  * Created by xuanzhang on 12/4/17.
  */
 
-public class MyNotificationService extends Service {
+public class MyNotificationService extends IntentService {
 
     Thread thread;
     Date currentLatestTime;
     Date upcomingTime;
 
     public MyNotificationService() {
-        super();
+        super("Moti");
     }
 
     @Override
@@ -53,10 +55,17 @@ public class MyNotificationService extends Service {
 
     @Override
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
+        onHandleIntent(intent);
+        return super.onStartCommand(intent, flags, startId);
+
+    }
+
+    @Override
+    public void onHandleIntent(final Intent intent) {
         upcomingTime = (Date)intent.getSerializableExtra("upcomingDate");
         final String email = intent.getStringExtra("email");
         final Context context = this;
-
+        Log.d("notifitest", "service 60");
         // if the new activity's time is later than the current latest time
         // then the thread will not be killed
         if(upcomingTime.getTime()<currentLatestTime.getTime()){
@@ -99,7 +108,6 @@ public class MyNotificationService extends Service {
             thread.run();
 
         }
-        return super.onStartCommand(intent, flags, startId);
 
     }
 
