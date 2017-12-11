@@ -317,10 +317,10 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                     loadCreateActivityHandler(result);
 
                     // start the upcoming activity notification service
-                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+                    /*Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
                     i.putExtra("email", myEmail);
                     i.putExtra("upcomingDate", myStratTime.getTime());
-                    getApplicationContext().startService(i);
+                    getApplicationContext().startService(i);*/
                 }
             });
         }
@@ -339,6 +339,13 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             //if successfully get Activity, get the data
             String id = result.getModel();
             Toast.makeText(CreateSactivityActivity.this, "Create Sports Activity Success!", Toast.LENGTH_LONG).show();
+
+            // start the upcoming activity notification service
+            Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+            i.putExtra("email", myEmail);
+            i.putExtra("upcomingDate", myStratTime.getTime());
+            getApplicationContext().startService(i);
+
             onBackPressed();
         }
         else {

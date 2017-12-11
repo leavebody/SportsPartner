@@ -1,5 +1,6 @@
 package com.sportspartner.util.gcm_notification;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -20,6 +21,7 @@ import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +32,7 @@ import java.util.UUID;
  * Created by xuanzhang on 12/4/17.
  */
 
-public class MyNotificationService extends Service {
+public class MyNotificationService extends IntentService {
 
     Thread thread;
     Date currentLatestTime;
@@ -78,9 +80,12 @@ public class MyNotificationService extends Service {
                     sendNotification("Upcoming Activity Notification",
                             "You have an activity starting in less than 1 hour.");
                     // put the notification to database
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                    String dateString = format.format(Calendar.getInstance().getTime());
+
                     NotificationDBHelper.getInstance(context).insert(UUID.randomUUID().toString(),
                             "Upcoming Activity Notification", "You have an activity starting in less than 1 hour.",
-                            "system", "MESSAGE",new Date().toString(), 0);
+                            "system", "MESSAGE", dateString, 0);
 
                     // get the other latest activity from backend
                     new ActivityService().getUpcomingActivities(context, email, 1, 0,
@@ -113,6 +118,11 @@ public class MyNotificationService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
     }
 
     /**
