@@ -127,11 +127,6 @@ public class MyNotificationService extends IntentService {
         return null;
     }
 
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
-    }
-
     /**
      * Create and show a simple notification containing the received GCM message.
      * @param title GCM title.
