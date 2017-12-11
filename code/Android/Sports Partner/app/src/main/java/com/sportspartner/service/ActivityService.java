@@ -10,18 +10,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sportspartner.models.ActivitySearch;
 import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.models.UserReview;
 import com.sportspartner.request.ActivityRequest;
-import com.sportspartner.request.ResourceRequest;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Xiaochen Li
@@ -361,4 +360,54 @@ public class ActivityService extends Service {
             }
         }, activityId, userReviews, facilityReview);
     }
+
+    /**
+     * Search activities
+     * @param c
+     * @param activitySearch the object of ActivitySearch
+     * @param limit the max number of the result of activities
+     * @param offset return activities whose index of the list of the search result is larger than the offset
+     * @param callback
+     */
+    public static void searchActivity(Context c, ActivitySearch activitySearch, int limit, int offset, final ActivityCallBack callback) {
+        ActivityRequest request = new ActivityRequest(c);
+        request.searchRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.searchActivityRespProcess(response));
+            }
+        }, activitySearch, limit, offset);
+    }
+
+    /**
+     * The helper method to process the result of search activity outline request.
+     * @param response The network response to process
+     * @return A ModelResult with model type StArrayList<ActivitySearch>, which is the list of the activities
+     */
+    public static ModelResult<ArrayList<SActivityOutline>> searchActivityRespProcess(NetworkResponse response){
+        ModelResult<ArrayList<SActivityOutline>> result = new ModelResult<>();
+        switch (response.statusCode){
+            case 200:
+                boolean status;
+                JsonObject jsResp = NetworkResponseRequest.parseToJsonObject(response);
+                status = (jsResp.get("response").getAsString().equals("true"));
+                result.setStatus(status);
+                if(status) {
+                    Gson gson = new Gson();
+                    JsonArray jsArrayAct = jsResp.getAsJsonArray("activityOutlines");
+                    ArrayList<SActivityOutline> arrayAct = gson.fromJson(jsArrayAct,
+                            new TypeToken<ArrayList<SActivityOutline>>(){}.getType());
+
+                    result.setModel(arrayAct);
+                } else {
+                    result.setMessage("search activity request failed: "+jsResp.get("message").getAsString());
+                }
+                break;
+
+            default:
+                result.setMessage("bad response:"+response.statusCode);
+        }
+        return result;
+    }
+
 }

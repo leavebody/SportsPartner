@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
 import com.sportspartner.request.UserRequest;
+import com.sportspartner.util.Chat.PushUtils;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
@@ -99,6 +100,7 @@ public class UserService extends Service {
             }
         });
         LoginDBHelper.getInstance(c).delete();
+        PushUtils.unregisterPushTokenForCurrentUser(c, null);
     }
 
     /**

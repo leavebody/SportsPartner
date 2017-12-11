@@ -414,7 +414,7 @@ public class ActivityService {
         //TODO
         JsonResponse resp = new JsonResponse();
         ActivitySearchVO activitySearchVO = new Gson().fromJson(body, ActivitySearchVO.class);
-
+        System.out.println(body);
         List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
         List<Activity> searchResults = activityDaoImpl.searchActivity(activitySearchVO);
         if (searchResults.size() <= offset) {
@@ -479,6 +479,7 @@ public class ActivityService {
         } else {
             Boolean boolResult = activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId));
             if (boolResult){
+                //activityDaoImpl.updateActivityCapacity();
                 response.setResponse("true");
             }
             else {

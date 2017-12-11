@@ -179,7 +179,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             }
         });
         d.show();
-
     }
 
     /**

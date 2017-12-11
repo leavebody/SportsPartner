@@ -20,6 +20,15 @@ public class UserOutline implements Serializable{
         this.iconUUID = iconUUID;
     }
 
+    @Override
+    public String toString() {
+        return "UserOutline{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", iconUUID='" + iconUUID + '\'' +
+                '}';
+    }
+
     public String getUserId() {
         return userId;
     }
