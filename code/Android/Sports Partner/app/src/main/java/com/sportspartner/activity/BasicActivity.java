@@ -28,6 +28,7 @@ import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
+import com.sportspartner.util.gcm_notification.MyNotificationService;
 
 import java.util.ArrayList;
 
@@ -256,6 +257,10 @@ public class BasicActivity extends AppCompatActivity
 
                     NightModeDBHelper nightDBHelper = NightModeDBHelper.getInstance(context);
                     nightDBHelper.deleteAllrows();
+
+                    // destroy service when log out
+                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+                    stopService(i);
                 }
             }
         });

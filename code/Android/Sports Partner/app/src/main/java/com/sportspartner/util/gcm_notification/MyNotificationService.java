@@ -33,14 +33,14 @@ import java.util.UUID;
  * Created by xuanzhang on 12/4/17.
  */
 
-public class MyNotificationService extends IntentService {
+public class MyNotificationService extends Service {
 
     Thread thread;
     Date currentLatestTime;
     Date upcomingTime;
 
     public MyNotificationService() {
-        super("Moti");
+        super();
     }
 
     @Override
@@ -61,7 +61,6 @@ public class MyNotificationService extends IntentService {
 
     }
 
-    @Override
     public void onHandleIntent(final Intent intent) {
         upcomingTime = (Date)intent.getSerializableExtra("upcomingDate");
         final String email = intent.getStringExtra("email");
@@ -71,46 +70,50 @@ public class MyNotificationService extends IntentService {
         // then the thread will not be killed
         if(upcomingTime.getTime()<currentLatestTime.getTime()){
             currentLatestTime = upcomingTime;
+            if(thread != null && thread.isAlive()){
+                thread.destroy();
+            }
             thread = new Thread(new Runnable() {
-                @Override
+
                 public void run() {
-                    Date currentTime = new Date();
-                    // let the thread sleep till 1 hour before the latest activity
-                    long diff = upcomingTime.getTime() - currentTime.getTime();
-                    if(diff>=3600000) {
-                        try {
-                            thread.sleep(diff - 3600000);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
+
+                        Date currentTime = new Date();
+                        // let the thread sleep till 1 hour before the latest activity
+                        long diff = upcomingTime.getTime() - currentTime.getTime();
+                        if (diff >= 3600000) {
+                            try {
+                                Thread.currentThread().sleep(diff - 3600000);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
                         }
+                        // wake up the thread and send the notification
+                        sendNotification("Upcoming Activity Notification",
+                                "You have an activity starting in less than 1 hour.");
+                        // put the notification to database
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                        String dateString = format.format(Calendar.getInstance().getTime());
+
+                        NotificationDBHelper.getInstance(context).insert(UUID.randomUUID().toString(),
+                                "Upcoming Activity Notification", "You have an activity starting in less than 1 hour.",
+                                "system", "MESSAGE", dateString, 0);
+
+                        // get the other latest activity from backend
+                        new ActivityService().getUpcomingActivities(context, email, 1, 0,
+                                new ActivityCallBack<ArrayList<SActivityOutline>>() {
+                                    @Override
+                                    public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> modelResult) {
+                                        ArrayList<SActivityOutline> sActivityOutlines = modelResult.getModel();
+                                        currentLatestTime = sActivityOutlines.get(0).getStartTime();
+                                        upcomingTime = currentLatestTime;
+                                        // start a new thread
+                                        //run();
+                                    }
+                                });
                     }
-                    // wake up the thread and send the notification
-                    sendNotification("Upcoming Activity Notification",
-                            "You have an activity starting in less than 1 hour.");
-                    // put the notification to database
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
-                    String dateString = format.format(Calendar.getInstance().getTime());
 
-                    NotificationDBHelper.getInstance(context).insert(UUID.randomUUID().toString(),
-                            "Upcoming Activity Notification", "You have an activity starting in less than 1 hour.",
-                            "system", "MESSAGE", dateString, 0);
-
-                    // get the other latest activity from backend
-                    new ActivityService().getUpcomingActivities(context, email, 1, 0,
-                            new ActivityCallBack<ArrayList<SActivityOutline>>(){
-                                @Override
-                                public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> modelResult) {
-                                    ArrayList<SActivityOutline> sActivityOutlines  = modelResult.getModel();
-                                    currentLatestTime = sActivityOutlines.get(0).getStartTime();
-                                    upcomingTime = currentLatestTime;
-                                    // start a new thread
-                                    run();
-                                }
-                            });
-                }
             });
             thread.run();
-
         }
 
     }
