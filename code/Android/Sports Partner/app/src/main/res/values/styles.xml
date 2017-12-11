@@ -45,4 +45,7 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorPrimary">#ffffff</item>
+    </style>
 </resources>

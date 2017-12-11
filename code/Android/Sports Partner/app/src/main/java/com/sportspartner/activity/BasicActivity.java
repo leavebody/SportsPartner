@@ -25,6 +25,7 @@ import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.groupchannel.GroupChannelActivity;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
@@ -202,6 +203,13 @@ public class BasicActivity extends AppCompatActivity
         } else if (id == R.id.nav_friends) {
             // Goto the FriendList Page
             Intent intent = new Intent(context, FriendListActivity.class);
+            startActivity(intent);
+            if (!(this instanceof HomeActivity))
+                this.finish();
+        }else if (id == R.id.nav_chatlist) {
+            // Goto the Moment Page
+            Intent intent = new Intent(context, GroupChannelActivity.class);
+            intent.putExtra("isGroupChannel","true");
             startActivity(intent);
             if (!(this instanceof HomeActivity))
                 this.finish();
