@@ -27,4 +27,12 @@ public class ActivityMember {
     public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
+
+    @Override
+    public String toString() {
+        return "ActivityMember{" +
+                "activityId='" + activityId + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

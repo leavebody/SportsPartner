@@ -2,6 +2,8 @@ package com.sportspartner.model;
 
 import org.junit.*;
 
+import static org.junit.Assert.assertEquals;
+
 public class ActivityTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception{
@@ -35,5 +37,6 @@ public class ActivityTest {
         activity.setDescription("join");
         activity.setFromFacility(facility);
 
+        assertEquals("f01", activity.getFacilityId());
     }
 }

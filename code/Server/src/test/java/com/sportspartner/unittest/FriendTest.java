@@ -49,7 +49,7 @@ public class FriendTest {
     public void getFriendSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
-        String userId = "u3";
+        String userId = "test";
 
         try{
             URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/"+userId+"/friends" );
@@ -66,8 +66,7 @@ public class FriendTest {
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
-
-        assertEquals("{\"response\":\"true\",\"friendlist\":[{\"userId\":\"u1\",\"userName\":\"Dog\",\"iconUUID\":\"f26be2f0-45fc-4f8f-b93a-40fe114699b4\"}]}", responseBody);
+        assertEquals("{\"response\":\"true\",\"friendlist\":[{\"userId\":\"test2\"},{\"userId\":\"test1\"}]}", responseBody);
     }
 
     @Test

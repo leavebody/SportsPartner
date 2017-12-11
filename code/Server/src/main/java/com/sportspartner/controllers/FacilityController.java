@@ -21,7 +21,7 @@ public class FacilityController {
     private void setupEndpoints() {
         // get all facilities for map display
         get(API_CONTEXT + "/facility_markers", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 double longitude_small = Double.parseDouble(request.queryParams("los"));
                 double longitude_large = Double.parseDouble(request.queryParams("lol"));
@@ -35,6 +35,17 @@ public class FacilityController {
             return reps;
         }, new JsonTransformer());
 
-
+        // get facility outline
+        get(API_CONTEXT + "/facility/outline/:id", "application/json", (request, response) -> {
+            JsonResponse reps = new JsonResponse(false);
+            try {
+                String id = request.params("id");
+                reps = facilityService.getFacilityOutline(id);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            response.status(200);
+            return reps;
+        }, new JsonTransformer());
     }
 }

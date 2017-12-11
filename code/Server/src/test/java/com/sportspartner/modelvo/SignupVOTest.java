@@ -2,6 +2,8 @@ package com.sportspartner.modelvo;
 
 import org.junit.*;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 public class SignupVOTest {
@@ -32,11 +34,11 @@ public class SignupVOTest {
         signupVO.setConfirmPassword("hopkins");
         signupVO.setType("PERSON");
 
-        assertEquals("John", signupVO.getUserId());
-        assertEquals("hopkins", signupVO.getPassword());
-        assertEquals("hopkins", signupVO.getConfirmPassword());
-        assertEquals("PERSON", signupVO.getType());
+        String expected = "John hopkins hopkins PERSON";
+        String actual = signupVO.getUserId() + " " +  signupVO.getPassword() + " "
+                + signupVO.getConfirmPassword() + " " + signupVO.getType();
 
+        assertEquals(expected, actual);
     }
 
 

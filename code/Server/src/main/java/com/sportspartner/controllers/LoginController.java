@@ -22,7 +22,7 @@ public class LoginController {
 
         //login
         post(API_CONTEXT + "/login", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = userService.login(request.body());
             } catch (Exception ex) {

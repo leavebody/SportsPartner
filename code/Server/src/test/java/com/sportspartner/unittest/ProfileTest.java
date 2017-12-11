@@ -51,7 +51,7 @@ public class ProfileTest {
     public void testProfileSuccess(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
-        String userId = "zxiao10@jhu.edu";
+        String userId = "u24";
 
         try{
             URL url = new URL("http", Bootstrap.IP_ADDRESS, Bootstrap.PORT, API_CONTEXT + "/profile/" + userId+"?requestorId=u1&requestorKey=none");
@@ -69,7 +69,7 @@ public class ProfileTest {
             ioe.printStackTrace();
         }
 
-        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"zxiao10@jhu.edu\",\"userName\":\"Zihao Xiao\",\"address\":\"Baltimore\",\"gender\":\"male\",\"age\":23,\"punctuality\":4.9,\"participation\":5.0,\"iconUUID\":\"007\"},\"userType\":\"STRANGER\"}", responseBody);
+        assertEquals("{\"response\":\"true\",\"profile\":{\"userId\":\"u24\",\"age\":0,\"punctuality\":0.0,\"participation\":0.0},\"userType\":\"STRANGER\"}", responseBody);
     }
 
     @Test

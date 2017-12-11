@@ -74,6 +74,31 @@ public class FacilityControllerTest {
         }
         JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
         String response = responseJson.toString();
-        assertEquals("{\"response\":\"true\",\"facilities\":[{\"facilityId\":\"001\",\"facilityName\":\"JHU gym\",\"longitude\":-76.6206,\"latitude\":39.3329},{\"facilityId\":\"002\",\"facilityName\":\"Wyman Park\",\"longitude\":-76.6249,\"latitude\":39.3326},{\"facilityId\":\"003\",\"facilityName\":\"Oriole Park\",\"longitude\":-76.6216,\"latitude\":39.2836}]}", response);
+        assertEquals(true, !response.isEmpty());
+    }
+
+    @Test
+    public void testGetFacilityOutLineSuccess() {
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try {
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/facility/outline/001");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            responseBody = IOUtils.toString(connection.getInputStream());
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        JsonObject responseJson = new Gson().fromJson(responseBody, JsonObject.class);
+        String response = responseJson.toString();
+        assertEquals(true, !response.isEmpty());
     }
 }

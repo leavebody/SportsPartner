@@ -40,10 +40,11 @@ public class IconTest {
         icon.setOriginPath("4");
         icon.setObject("5");
 
-        assertEquals("1", icon.getSpId());
-        assertEquals("2", icon.getIconUUID());
-        assertEquals("3", icon.getSmallPath());
-        assertEquals("4", icon.getOriginPath());
-        assertEquals("5", icon.getObject());
+        String expected = "1 2 3 4 5";
+        String actual = icon.getSpId() + " " + icon.getIconUUID() + " "
+                + icon.getSmallPath() + " " + icon.getOriginPath() + " " + icon.getObject();
+
+        assertEquals(expected, actual);
+
     }
 }
