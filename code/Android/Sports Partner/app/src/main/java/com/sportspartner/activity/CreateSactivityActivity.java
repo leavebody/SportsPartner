@@ -2,10 +2,8 @@ package com.sportspartner.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -25,10 +23,10 @@ import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
+import com.sportspartner.util.gcm_notification.MyNotificationService;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -281,7 +279,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * @param v The Create layout
      */
     public void CreateActivity(View v) throws ParseException {
-        boolean isValid = checkAllFileds();
+        boolean isValid = checkAllFields();
 
         if(isValid){
             //ToDO faclity ID LO La Zipcode
@@ -317,6 +315,12 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 @Override
                 public void getModelOnSuccess(ModelResult<String> result) {
                     loadCreateActivityHandler(result);
+
+                    // start the upcoming activity notification service
+                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+                    i.putExtra("email", myEmail);
+                    i.putExtra("upcomingDate", myStratTime.getTime());
+                    getApplicationContext().startService(i);
                 }
             });
         }
@@ -348,7 +352,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * check whether all the fields are valid
      * @return true, if the above statement is true
      */
-    private boolean checkAllFileds(){
+    private boolean checkAllFields(){
         boolean isFull = checkIfNull();
         if (isFull){
             try {
@@ -409,8 +413,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             e.printStackTrace();
             return false;
         }
-        String startDateString = format.format(start);
-        String endDateString = format.format(end);
+//        String startDateString = format.format(start);
+//        String endDateString = format.format(end);
         if (start.before(end)){
             sActivity.setStartTime(start);
             sActivity.setEndTime(end);

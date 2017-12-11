@@ -1,12 +1,16 @@
 package com.sportspartner.models;
 
+import android.content.Context;
+
+import org.json.JSONException;
+
 import java.util.Date;
 
 /**
  * Created by yujiaxiao on 11/11/17.
  */
 
-public class Notification {
+public abstract class Notification {
     private String uuid;
     private String title;
     private String detail;
@@ -93,4 +97,6 @@ public class Notification {
     public void setRead(Boolean read) {
         isRead = read;
     }
+
+    public abstract void showDialog(Context context, String myEmail) throws JSONException;
 }

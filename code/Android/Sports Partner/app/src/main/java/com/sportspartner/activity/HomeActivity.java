@@ -213,7 +213,7 @@ public class HomeActivity extends BasicActivity {
      */
     private void refresh(){
         if (!upcommingFinished) {
-            //get upcomming activities
+            //get upcoming activities
             ActivityService.getUpcomingActivities(this, usermail, REFRESH_LIMIT, upcommingCount,
                     new ActivityCallBack<ArrayList<SActivityOutline>>(){
                         @Override

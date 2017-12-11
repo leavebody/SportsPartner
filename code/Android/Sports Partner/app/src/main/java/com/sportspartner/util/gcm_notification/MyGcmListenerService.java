@@ -16,8 +16,16 @@ import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
 import com.sportspartner.activity.SettingActivity;
 import com.sportspartner.models.NightMode;
+import com.sportspartner.models.SActivity;
+import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ActivityService;
+import com.sportspartner.service.ModelResult;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -130,7 +138,31 @@ public class MyGcmListenerService extends GcmListenerService {
             }
         }
         else {
-            sendNotification(title, detail);
+            if(priority==0) {
+                String activityId = null;
+                try {
+                    activityId = new JSONObject(detail).getString("activityId");
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                ActivityService.getSActivity(getApplicationContext(), activityId, new ActivityCallBack<SActivity>() {
+                    @Override
+                    public void getModelOnSuccess(ModelResult<SActivity> modelResult) {
+                        if (modelResult.isStatus()) {
+                            SActivity sActivity = modelResult.getModel();
+                            Intent intent = new Intent(getApplicationContext(), MyNotificationService.class);
+                            intent.putExtra("email", LoginDBHelper.getInstance(getApplicationContext()).getEmail());
+                            intent.putExtra("upcomingTime", sActivity.getStartTime());
+                            getApplicationContext().startService(intent);
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Get Sport Activity Error:" + modelResult.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }else {
+                sendNotification(title, detail);
+            }
         }
         // [END_EXCLUDE]
     }
@@ -140,7 +172,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param title GCM title.
      * @param content GCM content.
      */
-    private void sendNotification(String title, String content) {
+    public void sendNotification(String title, String content) {
         Intent intent = new Intent(this, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -156,7 +188,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }

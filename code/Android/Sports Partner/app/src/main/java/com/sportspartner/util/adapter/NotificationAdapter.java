@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,9 @@ import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -40,6 +44,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ImageView photo;
         public TextView title;
         public TextView detail;
+        public LinearLayout outline;
         public RelativeLayout relativeLayout;
         private Context context;
 
@@ -48,6 +53,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.photo = (ImageView) view.findViewById(R.id.noti_icon);
             this.title = (TextView) view.findViewById(R.id.noti_title);
             this.detail = (TextView) view.findViewById(R.id.noti_detail);
+            this.outline = (LinearLayout) view.findViewById(R.id.noti_outline);
             this.relativeLayout = (RelativeLayout) view.findViewById(R.id.noti_RelativeLayout);
             this.context = context;
             view.setOnClickListener(this);
@@ -64,116 +70,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     photo.setBackgroundResource(R.drawable.read);
                     noti.setRead(true);
                 }
-                showDialog(noti);
+                try {
+                    noti.showDialog(context, myEmail);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
             }
         }
 
-        private void showDialog(final Notification noti) {
-            final Dialog dialog = new Dialog(context);
-            //set content
-            dialog.setTitle(noti.getTitle());
-            dialog.setContentView(R.layout.layout_dialog_notification);
-
-            //find widgets
-            final TextView contentText = (TextView) dialog.findViewById(R.id.noti_detail);
-            final ImageView userPhoto = (ImageView) dialog.findViewById(R.id.noti_icon);
-            final Button ok = (Button) dialog.findViewById(R.id.save);
-            final Button cancel = (Button) dialog.findViewById(R.id.cancel);
-            final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.RecyclerView);
-
-            //set detail and photo
-            contentText.setText(noti.getDetail());
-
-            ProfileService.getProfileInfo(context, noti.getSender(), new ActivityCallBack<Profile>() {
-                @Override
-                public void getModelOnSuccess(ModelResult<Profile> userProfileResult) {
-                    // handle the result of request here
-                    String message = userProfileResult.getMessage();
-                    Boolean status = userProfileResult.isStatus();
-                    Profile profile;
-
-                    if (status) {
-                        //if successfully get the data, then get the data
-                        profile = userProfileResult.getModel();
-
-                        //set profile photo
-                        String iconUUID = profile.getIconUUID();
-                        ResourceService.getImage(context, iconUUID, ResourceService.IMAGE_SMALL, new ActivityCallBack<Bitmap>() {
-                            @Override
-                            public void getModelOnSuccess(ModelResult<Bitmap> result) {
-                                if (result.isStatus()) {
-                                    userPhoto.setImageBitmap(result.getModel());
-                                } else {
-                                    //if failure, show a toast
-                                    Toast toast = Toast.makeText(context,
-                                            "Load user icon error: " + result.getMessage(), Toast.LENGTH_LONG);
-                                    toast.show();
-                                }
-                            }
-                        });
-                    } else {
-                        //if failure, show a toast
-                        Toast toast = Toast.makeText(context, "Load ProfileInfo Error: " + message, Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                }
-            });
-
-            //Todo switch dialog according to the priority
-            if (noti.getType().equals("INTERACTION")) {
-                ok.setText("Accept");
-                cancel.setText("Reject");
-                ok.setVisibility(View.VISIBLE);
-                cancel.setVisibility(View.VISIBLE);
-            } else {
-                ok.setText("Ok");
-                ok.setVisibility(View.VISIBLE);
-                cancel.setVisibility(View.INVISIBLE);
-            }
-
-            //Set ClickListener
-            ok.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (noti.getType().equals("INTERACTION")) {
-                        //accept the friend request
-                        FriendService.acceptFriendRequest(context, myEmail, noti.getSender(), new ActivityCallBack() {
-                            @Override
-                            public void getModelOnSuccess(ModelResult modelResult) {
-                                if (!modelResult.isStatus()) {
-                                    Toast toast = Toast.makeText(context,
-                                            "Accept Friend Request error: " + modelResult.getMessage(), Toast.LENGTH_LONG);
-                                    toast.show();
-                                }
-                                else {
-                                    Toast.makeText(context, "Add a new friend successfully! ", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-                    }
-                    dialog.dismiss();
-                }
-            });
-
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //decline friend request
-                    FriendService.declineFriendRequest(context, noti.getSender(), myEmail, new ActivityCallBack() {
-                        @Override
-                        public void getModelOnSuccess(ModelResult modelResult) {
-                            if (!modelResult.isStatus()) {
-                                Toast toast = Toast.makeText(context,
-                                        "Decline Friend Request error: " + modelResult.getMessage(), Toast.LENGTH_LONG);
-                                toast.show();
-                            }
-                        }
-                    });
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        }
     }
 
 

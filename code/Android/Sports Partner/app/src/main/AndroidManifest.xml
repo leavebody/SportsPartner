@@ -54,6 +54,10 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
+        <service
+            android:name=".util.gcm_notification.MyNotificationService"
+            >
+        </service>
 
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
@@ -135,10 +139,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sportspartner.activity.BasicActivity" />
         </activity>
-        <activity
-            android:name=".activity.testActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
