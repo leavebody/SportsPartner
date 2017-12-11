@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "399317819434",
+    "firebase_url": "https://sports-partner-chat.firebaseio.com",
+    "project_id": "sports-partner-chat",
+    "storage_bucket": "sports-partner-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399317819434:android:10d49e40eb91c2b1",
+        "android_client_info": {
+          "package_name": "com.sportspartner.util"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399317819434-4i39gpaao2utqjevjo3i5fnmvo0b7c0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd9YBcWxSU6A7IY5rMpIlzr3dHSgDjFns"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

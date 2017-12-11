@@ -15,6 +15,10 @@
             android:icon="@drawable/people"
             android:title="Friend List" />
         <item
+            android:id="@+id/nav_chatlist"
+            android:icon="@drawable/chat"
+            android:title="Chat List" />
+        <item
             android:id="@+id/nav_moments"
             android:icon="@drawable/star"
             android:title="Moments" />

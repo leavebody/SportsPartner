@@ -32,6 +32,7 @@ import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.Chat.Connection;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
@@ -415,6 +416,7 @@ public class EditProfileActivity extends BasicActivity {
         // handle the result here
         String message = result.getMessage();
         if (result.isStatus()) {
+            Connection.updateSendBird(this,userEmail);
             Toast toast = Toast.makeText(EditProfileActivity.this, "Update Success!", Toast.LENGTH_LONG);
             toast.show();
             Intent intent = new Intent(this, ProfileActivity.class);
