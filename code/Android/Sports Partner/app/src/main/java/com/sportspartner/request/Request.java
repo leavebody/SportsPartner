@@ -10,11 +10,11 @@ import android.content.Context;
  * The base class of all requests
  */
 public class Request {
-    //for heroku
+    //server: heroku
     protected static final String URL_CONTEXT = "http://oosesportspartner.herokuapp.com/api.sportspartner.com/";
-    //for tablet
+    //server: localhost, device: tablet
     //protected static final String URL_CONTEXT = "http://10.194.79.55:4567/api.sportspartner.com/";
-    //for emulator
+    //server: localhost, device: emulator
     //protected static final String URL_CONTEXT = "http://10.0.2.2:4567/api.sportspartner.com/";
     protected Context contextf;
 
