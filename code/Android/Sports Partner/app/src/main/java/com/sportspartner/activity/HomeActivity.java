@@ -125,6 +125,10 @@ public class HomeActivity extends BasicActivity {
     @Override
     public void onResume(){
         super.onResume();
+        upcommingCount = 0;
+        recommendCount = 0;
+        upcommingFinished = false;
+        recommendFinished = false;
         setRefresh();
         refresh();
     }
@@ -266,7 +270,6 @@ public class HomeActivity extends BasicActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refresh();
                 refreshlayout.finishLoadmore(100);
-
             }
         });
     }
