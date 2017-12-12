@@ -1,9 +1,6 @@
 package com.sportspartner.util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DaoUtil {
 
@@ -11,5 +8,14 @@ public class DaoUtil {
             rs.close();
             stmt.close();
             c.close();
+    }
+    public static void CloseDaoNoRs (PreparedStatement stmt, Connection c)throws SQLException{
+        stmt.close();
+        c.close();
+    }
+    public static void CloseDao (ResultSet rs, Statement stmt, Connection c)throws SQLException{
+        rs.close();
+        stmt.close();
+        c.close();
     }
 }

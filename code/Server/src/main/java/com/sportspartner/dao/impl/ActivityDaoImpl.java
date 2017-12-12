@@ -4,6 +4,7 @@ import com.sportspartner.dao.ActivityDao;
 import com.sportspartner.model.Activity;
 import com.sportspartner.modelvo.ActivitySearchVO;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -253,10 +254,7 @@ public class ActivityDaoImpl implements ActivityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-                stmt.close();
-                c.close();
-
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -300,11 +298,7 @@ public class ActivityDaoImpl implements ActivityDao {
          } catch (SQLException e) {
              e.printStackTrace();
          } finally {
-
-                 rs.close();
-                 stmt.close();
-                 c.close();
-
+             DaoUtil.CloseDao(rs,stmt,c);
          }
          return activities;
      }
@@ -349,9 +343,7 @@ public class ActivityDaoImpl implements ActivityDao {
              e.printStackTrace();
          } finally {
 
-                 rs.close();
-                 stmt.close();
-                 c.close();
+             DaoUtil.CloseDao(rs,stmt,c);
 
          }
          return activities;
@@ -397,10 +389,7 @@ public class ActivityDaoImpl implements ActivityDao {
          } catch (SQLException e) {
              e.printStackTrace();
          } finally {
-
-                 rs.close();
-                 stmt.close();
-                 c.close();
+             DaoUtil.CloseDao(rs,stmt,c);
 
          }
          return activities;
@@ -737,9 +726,10 @@ public class ActivityDaoImpl implements ActivityDao {
         }
         finally {
             if (rs != null)
-                rs.close();
-            stmt.close();
-            c.close();
+                DaoUtil.CloseDao(rs,stmt,c);
+            else{
+                DaoUtil.CloseDaoNoRs(stmt,c);
+            }
         }
 
         return activities;
