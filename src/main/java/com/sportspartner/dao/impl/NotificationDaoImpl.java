@@ -4,6 +4,7 @@ import com.sportspartner.dao.NotificationDao;
 import com.sportspartner.model.Activity;
 import com.sportspartner.model.Notification;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,9 +41,7 @@ public class NotificationDaoImpl implements NotificationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
         }
         return notifications;
     }
@@ -64,8 +63,7 @@ public class NotificationDaoImpl implements NotificationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -146,8 +144,7 @@ public class NotificationDaoImpl implements NotificationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
