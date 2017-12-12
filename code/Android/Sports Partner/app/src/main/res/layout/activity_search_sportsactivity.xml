@@ -47,7 +47,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="sport"
+                        android:hint="Sport"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -86,7 +86,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="startDate"
+                        android:hint="StartDate"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -109,7 +109,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="endDate"
+                        android:hint="EndDate"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -141,7 +141,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="startTime"
+                        android:hint="StartTime"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -164,7 +164,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="endTime"
+                        android:hint="EndTime"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -196,7 +196,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="location"
+                        android:hint="Location"
                         android:minHeight="30dp"
                         android:textColor="@color/black"
                         android:textSize="15dp"
@@ -228,7 +228,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="capacity"
+                        android:hint="Capacity"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
