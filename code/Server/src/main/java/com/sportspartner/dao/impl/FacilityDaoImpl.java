@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.FacilityDao;
 import com.sportspartner.model.Facility;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,7 +66,7 @@ public class FacilityDaoImpl implements FacilityDao {
         List<Facility> facilities = new ArrayList<Facility>();
 
         ResultSet rs = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         try {
             statement = c.prepareStatement("SELECT * from \"Facility\" WHERE \"longitude\">? AND \"longitude\"<? AND \"latitude\">? AND \"latitude\"<?");
             statement.setDouble(1, longitude_small);
@@ -95,8 +96,8 @@ public class FacilityDaoImpl implements FacilityDao {
             e.printStackTrace();
         } finally {
             try {
-                rs.close();
-                c.close();
+
+                DaoUtil.CloseDao(rs,statement,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -114,7 +115,7 @@ public class FacilityDaoImpl implements FacilityDao {
     public Facility getFacility(String facilityId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
         ResultSet rs = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         Facility facility = null;
         try {
             statement = c.prepareStatement("SELECT * from \"Facility\" WHERE \"facilityId\" = ?");
@@ -141,8 +142,7 @@ public class FacilityDaoImpl implements FacilityDao {
             e.printStackTrace();
         } finally {
             try {
-                rs.close();
-                c.close();
+                DaoUtil.CloseDao(rs,statement,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -195,8 +195,7 @@ public class FacilityDaoImpl implements FacilityDao {
             e.printStackTrace();
         } finally {
             try {
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDaoNoRs(stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -251,8 +250,7 @@ public class FacilityDaoImpl implements FacilityDao {
 
         } finally {
 
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
 
         }
         return result;
@@ -277,8 +275,7 @@ public class FacilityDaoImpl implements FacilityDao {
             e.printStackTrace();
         } finally {
             try {
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDaoNoRs(stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
