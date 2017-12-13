@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.SportDao;
 import com.sportspartner.model.Sport;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,9 +41,7 @@ public class SportDaoImpl implements SportDao {
             e.printStackTrace();
         } finally {
 
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
 
         }
         return sports;
@@ -77,9 +76,8 @@ public class SportDaoImpl implements SportDao {
             e.printStackTrace();
         } finally {
 
-            rs.close();
-            statement.close();
-            c.close();
+            DaoUtil.CloseDao(rs,statement,c);
+
 
         }
         return sport;

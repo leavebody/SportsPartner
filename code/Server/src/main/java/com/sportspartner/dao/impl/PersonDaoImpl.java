@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 public class PersonDaoImpl {
     /**
@@ -90,9 +91,7 @@ public class PersonDaoImpl {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                rs.close();
-                stmt.close();
-                c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return person;
     }

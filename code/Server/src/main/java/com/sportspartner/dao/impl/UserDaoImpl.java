@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 
 public class UserDaoImpl implements UserDao {
@@ -80,9 +81,8 @@ public class UserDaoImpl implements UserDao {
             //
         } finally {
 
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
+
 
         }
         return user;
@@ -120,8 +120,8 @@ public class UserDaoImpl implements UserDao {
 
         } finally {
 
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
+
 
         }
         return result;
@@ -193,8 +193,8 @@ public class UserDaoImpl implements UserDao {
 
         } finally {
 
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
+
 
 
         }

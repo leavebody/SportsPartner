@@ -204,7 +204,9 @@ public class ActivityService {
             List<ActivityOutlineVO> activityOutlineVOs = new ArrayList<ActivityOutlineVO>();
             List<Activity> activities = activityDaoImpl.getRecommendActivities(userId, longitude, latitude, limit, offset);
             for(Activity activity : activities) {
-                activityOutlineVOs.add(new ActivityOutlineVO().setFromActivity(activity));
+                Sport sport = sportDaoImpl.getSport(activity.getSportId());
+                activityOutlineVOs.add(new ActivityOutlineVO().setFromActivity(activity)
+                                                              .setFromSport(sport));
             }
             resp.setActivityOutlines(activityOutlineVOs);
             resp.setResponse("true");
