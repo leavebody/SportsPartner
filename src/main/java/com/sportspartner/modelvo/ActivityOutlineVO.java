@@ -140,8 +140,9 @@ public class ActivityOutlineVO {
         return this;
     }
 
-    public void setFromSport(Sport sport){
+    public ActivityOutlineVO setFromSport(Sport sport){
         this.sportName = sport.getSportName();
         this.sportIconUUID = sport.getSportIconUUID();
+        return this;
     }
 }

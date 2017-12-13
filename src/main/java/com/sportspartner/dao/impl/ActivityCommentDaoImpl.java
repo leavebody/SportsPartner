@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.ActivityCommentDao;
 import com.sportspartner.model.ActivityComment;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,10 +39,7 @@ public class ActivityCommentDaoImpl implements ActivityCommentDao{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-                rs.close();
-                stmt.close();
-                c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
 
         }
         return activityComments;
