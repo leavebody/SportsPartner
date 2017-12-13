@@ -64,7 +64,6 @@ public class NotificationTest {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
-            System.out.println(connection.getURL());
         }catch(Exception e){
             e.printStackTrace();
         }
