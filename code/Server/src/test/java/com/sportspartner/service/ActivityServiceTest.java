@@ -2,30 +2,12 @@ package com.sportspartner.service;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.sportspartner.dao.ActivityMemberDao;
 import com.sportspartner.dao.impl.ActivityMemberDaoImpl;
-import com.sportspartner.main.Bootstrap;
-import com.sportspartner.model.Activity;
 import com.sportspartner.model.ActivityMember;
 import com.sportspartner.util.JsonResponse;
-import com.sportspartner.util.JsonTransformer;
 import org.junit.*;
 import spark.Spark;
-import spark.utils.IOUtils;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static com.sportspartner.main.Bootstrap.PORT;
 import static org.junit.Assert.assertEquals;
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
-
-import com.sportspartner.service.ActivityService;
-import com.sportspartner.controllers.ActivityController;
 
 public class ActivityServiceTest {
     private ActivityMemberDaoImpl activityMemberDaoImpl = new ActivityMemberDaoImpl();
@@ -204,7 +186,7 @@ public class ActivityServiceTest {
     public void testGetUpcomingActivity(){
         String response = null;
         try{
-            String userId = "u2";
+            String userId = "test";
             int offset = 0;
             int limit = 3;
             resp = activityService.getUpcomingActivity(userId, offset, limit);
@@ -212,7 +194,7 @@ public class ActivityServiceTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"a007\",\"creatorId\":\"u2\",\"status\":\"OPEN\",\"sportIconUUID\":\"3f0c94e4-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Baseball\",\"startTime\":\"Dec 30, 2017 9:00:00 AM\",\"endTime\":\"Dec 30, 2017 10:00:00 AM\",\"facilityId\":\"001\",\"longitude\":-76.6201,\"latitude\":39.3372406837219,\"address\":\"JHU\",\"capacity\":4,\"size\":3}]}", response);
+        assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"aTest\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2018 2:11:00 AM\",\"endTime\":\"Nov 18, 2018 3:11:00 AM\",\"facilityId\":\"NULL\",\"longitude\":151.211302131414,\"latitude\":-33.8507705324009,\"address\":\"JHU\",\"capacity\":4,\"size\":2}]}", response);
     }
 
     /**
