@@ -141,7 +141,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="StartTime"
+                        android:hint="Start time"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -164,7 +164,7 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:hint="EndTime"
+                        android:hint="End time"
                         android:textColor="@color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />

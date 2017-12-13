@@ -1,10 +1,12 @@
 package com.sportspartner.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -46,6 +50,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class EditProfileActivity extends BasicActivity {
+    //private String[] gender_list={"Female","Male","Other"};
+
     //Image
     private ImagePicker imagePicker;
 
@@ -71,7 +77,8 @@ public class EditProfileActivity extends BasicActivity {
     //widget
     private ImageView photoView;
     private EditText userName;
-    private EditText gender;
+    //private EditText gender;
+    private Spinner gender;
     private EditText age;
     private EditText city;
     private RecyclerView interestRecyclerView;
@@ -102,17 +109,44 @@ public class EditProfileActivity extends BasicActivity {
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
-        gender = (EditText) findViewById(R.id.text_gender);
+        //gender = (EditText) findViewById(R.id.edit_gender);
+        gender = (Spinner) findViewById(R.id.spinner_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
         interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearRecycler = (LinearLayout) findViewById(R.id.ListView_Recycler);
 
         //set all the contents
-        gender.setText(profile.getGender());
-        age.setText(Integer.toString(profile.getAge()));
+        if (profile.getAge() == 0){
+            age.setText("");
+        }
+        else {
+            age.setText(Integer.toString(profile.getAge()));
+        }
+        //gender.setText(profile.getGender());
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
+
+        //set gender onCilck listener
+        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender.setAdapter(spinnerAdapter);
+        /*gender.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                new AlertDialog.Builder(EditProfileActivity.this)
+                        .setTitle("Select your gender")
+                        .setAdapter(spinnerAdapter, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                gender.setText(gender_list[which].toString());
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+            }
+        });*/
+
 
         //set profile image
         ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
@@ -173,12 +207,6 @@ public class EditProfileActivity extends BasicActivity {
                     //setSelected(true) to all my interests
                     allSports = new ArrayList<>(result.getModel());
                     Log.d("get allSports", String.valueOf(allSports.size()));
-
-                            /*for (Sport sport : interests){
-                                int index = allSports.indexOf(sport);
-                                sport.setSelected(true);
-                                allSports.set(index,sport);
-                            }*/
 
                     HashMap<String, Sport> mapAllSports = new HashMap<>();
                     for (Sport sport : allSports){
@@ -396,7 +424,7 @@ public class EditProfileActivity extends BasicActivity {
     private void updateProfile() {
         //set profile
         profile.setUserName(userName.getText().toString());
-        profile.setGender(gender.getText().toString());
+        //profile.setGender(gender.getText().toString());
         profile.setAge(Integer.parseInt(age.getText().toString()));
         profile.setAddress(city.getText().toString());
 
@@ -425,7 +453,7 @@ public class EditProfileActivity extends BasicActivity {
             finish();
         }
         else{
-            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT);
             toast.show();
         }
 

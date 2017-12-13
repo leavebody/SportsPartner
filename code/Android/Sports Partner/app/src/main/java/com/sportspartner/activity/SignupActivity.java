@@ -9,10 +9,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.models.Profile;
+import com.sportspartner.models.Sport;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+
+import java.util.ArrayList;
 
 public class SignupActivity extends AppCompatActivity {
     EditText emailField;
@@ -111,8 +115,9 @@ public class SignupActivity extends AppCompatActivity {
             UserService.login(this, email, password, token, new ActivityCallBack(){
                 public void getModelOnSuccess(ModelResult booleanResult) {
                     Context context = getApplicationContext();
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra("userId", email);
+                    Intent intent = new Intent(context, EditProfileActivity.class);
+                    intent.putExtra("interest", new ArrayList<Sport>());
+                    intent.putExtra("profile", new Profile());
                     startActivity(intent);
                     finish();
                 }
