@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.FriendDao;
 import com.sportspartner.model.User;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ public class FriendDaoImpl implements FriendDao {
         Connection c = new ConnectionUtil().connectDB();
         List<User> users = new ArrayList<User>();
         ResultSet rs = null;
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         try {
             statement = c.prepareStatement("SELECT * from \"Friend\" WHERE \"userId\" = ? OR \"friendId\" = ? ");
             statement.setString(1, user);
@@ -45,8 +46,7 @@ public class FriendDaoImpl implements FriendDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            c.close();
+            DaoUtil.CloseDao(rs,statement,c);
         }
         return users;
     }
@@ -75,8 +75,7 @@ public class FriendDaoImpl implements FriendDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            c.close();
+            DaoUtil.CloseDao(rs,statement,c);
         }
         return indicator;
     }
@@ -104,8 +103,7 @@ public class FriendDaoImpl implements FriendDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            statement.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(statement,c);
         }
         return indicator;
 
@@ -120,7 +118,7 @@ public class FriendDaoImpl implements FriendDao {
      */
     public boolean deleteFriend(String user1, String user2) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         boolean indicator = false;
         try {
             statement = c.prepareStatement("DELETE FROM \"Friend\" WHERE \"userId\" = ? AND \"friendId\" = ?");
@@ -134,7 +132,7 @@ public class FriendDaoImpl implements FriendDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            c.close();
+            DaoUtil.CloseDaoNoRs(statement,c);
         }
         return indicator;
     }
