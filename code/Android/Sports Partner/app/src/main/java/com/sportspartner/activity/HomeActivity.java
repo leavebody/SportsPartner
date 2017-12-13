@@ -129,6 +129,8 @@ public class HomeActivity extends BasicActivity {
         recommendCount = 0;
         upcommingFinished = false;
         recommendFinished = false;
+        setListCommingActivity();
+        setListRecommend();
         setRefresh();
         refresh();
     }
