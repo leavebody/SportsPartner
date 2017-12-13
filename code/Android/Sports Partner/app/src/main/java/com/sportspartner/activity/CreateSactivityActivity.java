@@ -15,12 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.models.ActivityNoti;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
 import com.sportspartner.util.gcm_notification.MyNotificationService;
@@ -314,13 +316,18 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             ActivityService.createActivity(this, sActivity, new ActivityCallBack<String>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<String> result) {
-                    loadCreateActivityHandler(result);
+                    String activityId = loadCreateActivityHandler(result);
+
+                    // put a new upcoming activity to SQLite
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                    String dateString = format.format(myStratTime.getTime());
+                    ActivityNotiDBHelper.getInstance(getApplicationContext()).insert(activityId, dateString);
 
                     // start the upcoming activity notification service
-                    /*Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
-                    i.putExtra("email", myEmail);
+                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
                     i.putExtra("upcomingDate", myStratTime.getTime());
-                    getApplicationContext().startService(i);*/
+                    i.putExtra("activityId", activityId);
+                    getApplicationContext().startService(i);
                 }
             });
         }
@@ -330,7 +337,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * Handle the create SActivity result from the server
      * @param result The result from the server
      */
-    private void loadCreateActivityHandler(ModelResult<String> result) {
+    private String loadCreateActivityHandler(ModelResult<String> result) {
         // handle the result of request here
         String message = result.getMessage();
         Boolean status = result.isStatus();
@@ -347,12 +354,15 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             getApplicationContext().startService(i);
 
             onBackPressed();
+            return id;
         }
         else {
             //if failure, show a toast
             Toast toast = Toast.makeText(CreateSactivityActivity.this, "Create SActivity Error: " + message, Toast.LENGTH_LONG);
             toast.show();
+            return "";
         }
+
     }
 
     /**

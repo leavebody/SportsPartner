@@ -80,10 +80,10 @@ public class LoginActivity extends AppCompatActivity {
         String token = RegistrationIntentService.getToken();
         System.out.println(token);
 
-        Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
-        i.putExtra("email", email);
-        i.putExtra("upcomingDate", new Date());
-        getApplicationContext().startService(i);
+//        Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+//        i.putExtra("email", email);
+//        i.putExtra("upcomingDate", new Date());
+//        getApplicationContext().startService(i);
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult booleanResult) {
