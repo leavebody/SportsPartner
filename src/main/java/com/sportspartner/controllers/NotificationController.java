@@ -1,7 +1,6 @@
 package com.sportspartner.controllers;
 import static spark.Spark.*;
 
-import com.sportspartner.model.Notification;
 import com.sportspartner.service.*;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
@@ -15,8 +14,12 @@ public class NotificationController {
         setupEndpoints();
     }
 
-    // send a friend request
+
+    /**
+     * Set all endpoints for notification
+     */
     private void setupEndpoints() {
+        //send a friend request
         post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse(false);
             try {
