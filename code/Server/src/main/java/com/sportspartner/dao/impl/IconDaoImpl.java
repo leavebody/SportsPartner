@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.IconDao;
 import com.sportspartner.model.Icon;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 
@@ -36,9 +37,7 @@ public class IconDaoImpl implements IconDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
         }
         return icon;
     }
@@ -77,8 +76,7 @@ public class IconDaoImpl implements IconDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -111,8 +109,7 @@ public class IconDaoImpl implements IconDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -138,8 +135,7 @@ public class IconDaoImpl implements IconDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }

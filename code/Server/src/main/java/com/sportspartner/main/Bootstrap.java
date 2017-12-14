@@ -67,6 +67,9 @@ public class Bootstrap {
             
             FacilityService facilityService = new FacilityService();
             new FacilityController(facilityService);
+
+            NotificationService notificationService = new NotificationService();
+            new NotificationController(notificationService);
             
             
         } catch (Exception ex) {

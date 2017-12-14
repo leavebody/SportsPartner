@@ -3,6 +3,8 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.ProfileCommentDao;
 import com.sportspartner.model.ProfileComment;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
+
 import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
@@ -37,9 +39,7 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                rs.close();
-                stmt.close();
-                c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
         }
         return profileComments;
     }
@@ -126,8 +126,7 @@ public class ProfileCommentDaoImpl implements ProfileCommentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                stmt.close();
-                c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
 
