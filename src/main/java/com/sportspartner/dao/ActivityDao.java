@@ -18,6 +18,7 @@ public interface ActivityDao {
     public Activity getActivity(String activityId) throws SQLException;
     public boolean newActivity(Activity activity) throws SQLException;
     public boolean updateActivity(Activity activity) throws SQLException;
+    public boolean updateCapacityById(String activityId) throws SQLException;
     public boolean deleteActivity(String activityId) throws SQLException;
     public List<Activity> getUpcomingActivities(String userId) throws SQLException;
     public List<Activity> getPastActivities(String userId) throws SQLException;
