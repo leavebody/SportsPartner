@@ -18,6 +18,10 @@ public class Profile implements Serializable {
 
     public Profile(){}
 
+    public Profile(String userId) {
+        this.userId = userId;
+    }
+
     public Profile(String userId, String userName, String iconUUID, String gender, int age, String address, double punctuality, double participation) {
         this.userId = userId;
         this.userName = userName;

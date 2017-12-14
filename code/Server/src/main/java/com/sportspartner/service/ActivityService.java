@@ -481,7 +481,7 @@ public class ActivityService {
         } else {
             Boolean boolResult = activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId));
             if (boolResult){
-                //activityDaoImpl.updateActivityCapacity();
+                activityDaoImpl.updateCapacityById(activityId);
                 response.setResponse("true");
             }
             else {

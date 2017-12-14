@@ -230,6 +230,36 @@ public class ActivityDaoImpl implements ActivityDao {
     }
 
     /**
+     *
+     * @param activityId
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public boolean updateCapacityById(String activityId) throws SQLException {
+        Connection c = new ConnectionUtil().connectDB();
+
+        PreparedStatement stmt = null;
+        int rs;
+        boolean result = false;
+        try {
+            stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"capacity\" = \"capacity\" - 1 WHERE \"activityId\"=? ;");
+            stmt.setString(1, activityId);
+            rs = stmt.executeUpdate();
+            if(rs>0)
+                result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            stmt.close();
+            c.close();
+
+        }
+        return result;
+    }
+
+    /**
      * Delete an activity from database by activityId.
      * @param activityId The UUID for the activity.
      * @param activityId The UUID for the activity.

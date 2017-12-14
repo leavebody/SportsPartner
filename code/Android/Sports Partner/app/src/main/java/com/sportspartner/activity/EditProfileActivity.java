@@ -1,13 +1,10 @@
 package com.sportspartner.activity;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +47,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class EditProfileActivity extends BasicActivity implements AdapterView.OnItemSelectedListener {
-    //private String[] gender_list={"Female","Male","Other"};
+public class EditProfileActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {// {
+    private final ArrayList<String> listGender= new ArrayList<String>(){{
+        add("Female");
+        add("Male");
+        add("Other");
+    }};
+    private int genderPosition;
 
     //Image
     private ImagePicker imagePicker;
@@ -80,8 +80,8 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
     //widget
     private ImageView photoView;
     private EditText userName;
-    //private EditText gender;
-    private Spinner gender;
+    private EditText gender;
+    //private Spinner gender;
     private EditText age;
     private EditText city;
     private RecyclerView interestRecyclerView;
@@ -112,8 +112,8 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
-        //gender = (EditText) findViewById(R.id.edit_gender);
-        gender = (Spinner) findViewById(R.id.spinner_gender);
+        gender = (EditText) findViewById(R.id.edit_gender);
+        //gender = (Spinner) findViewById(R.id.spinner_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
         interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
@@ -126,17 +126,12 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
         else {
             age.setText(Integer.toString(profile.getAge()));
         }
-        //gender.setText(profile.getGender());
+        gender.setText(profile.getGender());
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
 
         //set gender onCilck listener
-        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.gender_array, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gender.setAdapter(spinnerAdapter);
-        gender.setOnItemSelectedListener(this);
-
+        gender.setOnClickListener(myGenderListener);
 
         //set profile image
         ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
@@ -181,23 +176,59 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
     }
 
     /**
-     * onItemSelected of Spinner
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
+     * Show the NumberPicker Dialog
+     * Set the content of the textView according to selection result of the user
+     * @param strings    The String shows in the NumberPicker
+     * @param textView  The textView which should be changed
      */
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+    //all types of listener
+    private void showDialog(final String[] strings, final TextView textView){
+        final Dialog d = new Dialog(EditProfileActivity.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.layout_dialog);
+        final Button b1 = (Button) d.findViewById(R.id.dialog_button_set);
+        Button b2 = (Button) d.findViewById(R.id.dialog_button_cancel);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.dialog_numPicker);
+        np.setDisplayedValues(strings);
+        np.setMinValue(0);
+        np.setMaxValue(strings.length - 1);
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(this);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                textView.setText(np.getDisplayedValues()[np.getValue()]);
+                genderPosition = np.getValue()%listGender.size();
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
 
-        // Showing selected spinner item
-        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-    }
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
-    }
+    /**
+     * myGenderListener:
+     * An object of OnClickListener,
+     * Set the content of the string, which will be shown in the Dialog
+     * Show a dialog
+     */
+    private View.OnClickListener myGenderListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            String[] sports = new String[listGender.size()];
+            for (int i = 0; i < listGender.size(); i++){
+                sports[i] = listGender.get(i);
+            }
+            showDialog(sports, gender);
+        }
+    };
+
 
     /**
      * show a choose sport dialog when the interest row is clicked
@@ -432,7 +463,7 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
     private void updateProfile() {
         //set profile
         profile.setUserName(userName.getText().toString());
-        //profile.setGender(gender.getText().toString());
+        profile.setGender(gender.getText().toString());
         profile.setAge(Integer.parseInt(age.getText().toString()));
         profile.setAddress(city.getText().toString());
 
@@ -477,4 +508,8 @@ public class EditProfileActivity extends BasicActivity implements AdapterView.On
         finish();
     }
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+    }
 }

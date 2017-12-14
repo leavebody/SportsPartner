@@ -56,7 +56,7 @@ public class HomeActivity extends BasicActivity {
     private int upcommingCount = 0; // the count of loaded upcomming activities
     private int recommendCount = 0; // the count of loaded history activities
     private boolean upcommingFinished = false; // no more upcomming activity to load
-    private boolean recommendFinished = false; // no more history activity to load
+    private boolean recommendFinished = false; // no more recommend activity to load
     private final int REFRESH_LIMIT = 3;
 
     /**

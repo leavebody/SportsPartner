@@ -117,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
                     Context context = getApplicationContext();
                     Intent intent = new Intent(context, EditProfileActivity.class);
                     intent.putExtra("interest", new ArrayList<Sport>());
-                    intent.putExtra("profile", new Profile());
+                    intent.putExtra("profile", new Profile(email));
                     startActivity(intent);
                     finish();
                 }

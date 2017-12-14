@@ -290,7 +290,7 @@ public class ReviewSaActivity extends BasicActivity {
         }
 
         FacilityReview facilityReview = null;
-        if (facilityId!=null) {
+        if (facilityId!=null && !facilityId.equals("NULL")) {
             facilityReview = new FacilityReview();
             facilityReview.setActivityid(activityId);
             facilityReview.setReviewee(facilityId);

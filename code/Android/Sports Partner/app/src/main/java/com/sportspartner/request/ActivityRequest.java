@@ -355,6 +355,7 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(contextf);
         String url = URL_CONTEXT+"v1/activityreview/"+activityId;
+        Log.d("ActivityRequestURL", url);
         Log.d("ActivityRequest", "POST "+new Gson().toJson(review));
         NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url,
                 new Gson().toJson(review),
