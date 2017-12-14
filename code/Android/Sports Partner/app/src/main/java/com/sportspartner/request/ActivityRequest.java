@@ -232,7 +232,6 @@ public class ActivityRequest extends com.sportspartner.request.Request{
     public void joinActivityRequest(final VolleyCallback callback, String activityId, String creatorId) {
         LoginDBHelper db = LoginDBHelper.getInstance(contextf);
         String userEmail = db.getEmail();
-        String key = db.getKey();
 
         JsonObject jsonRequestObject = new JsonObject();
 

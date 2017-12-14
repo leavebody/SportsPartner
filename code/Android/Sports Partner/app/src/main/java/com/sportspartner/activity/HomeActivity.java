@@ -83,7 +83,6 @@ public class HomeActivity extends BasicActivity {
                 //activityItems
                 SActivityOutline activityOutline = upcommingListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
-                String activity = activityOutline.getSportName();
 
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);
@@ -99,7 +98,6 @@ public class HomeActivity extends BasicActivity {
                 //activityItems
                 SActivityOutline activityOutline = recommendListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
-                String activity = activityOutline.getSportName();
 
                 intent.putExtra("activityId",activityId);
                 startActivity(intent);

@@ -20,6 +20,7 @@ import com.sportspartner.models.SActivity;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
+import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
@@ -138,7 +139,7 @@ public class MyGcmListenerService extends GcmListenerService {
             }
         }
         else {
-            if(priority==0) {
+            if(priority==2) {
                 String activityId = null;
                 try {
                     activityId = new JSONObject(detail).getString("activityId");
@@ -150,8 +151,15 @@ public class MyGcmListenerService extends GcmListenerService {
                     public void getModelOnSuccess(ModelResult<SActivity> modelResult) {
                         if (modelResult.isStatus()) {
                             SActivity sActivity = modelResult.getModel();
+
+                            // add activity to SQLite
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                            String dateString = format.format(sActivity.getStartTime());
+                            ActivityNotiDBHelper.getInstance(getApplicationContext()).insert(sActivity.getActivityId(), dateString);
+
+                            // start upcoming activity notification service
                             Intent intent = new Intent(getApplicationContext(), MyNotificationService.class);
-                            intent.putExtra("email", LoginDBHelper.getInstance(getApplicationContext()).getEmail());
+                            intent.putExtra("activityId", sActivity.getActivityId());
                             intent.putExtra("upcomingTime", sActivity.getStartTime());
                             getApplicationContext().startService(intent);
                         }else{

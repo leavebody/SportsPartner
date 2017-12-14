@@ -51,7 +51,7 @@ public class NotificationController {
             response.status(200);
             return reps;
         }, new JsonTransformer());
-/*
+
         // send a join activity application
         post(API_CONTEXT + "/joinactivityapplication/:activityId", "application/json", (request, response) -> {
             JsonResponse reps = new JsonResponse();
@@ -93,6 +93,6 @@ public class NotificationController {
             }
 
         }, new JsonTransformer());
-    */}
+    }
 
 }

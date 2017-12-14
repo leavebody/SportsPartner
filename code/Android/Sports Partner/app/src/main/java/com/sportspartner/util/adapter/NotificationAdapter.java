@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.activity.NotificationActivity;
+import com.sportspartner.activity.SactivityDetailActivity;
 import com.sportspartner.models.Notification;
 import com.sportspartner.models.Profile;
 import com.sportspartner.service.ActivityCallBack;
@@ -71,7 +73,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     noti.setRead(true);
                 }
                 try {
-                    noti.showDialog(context, myEmail);
+                    if(noti.getPriority()==0){
+                        final Intent intent = new Intent(context, SactivityDetailActivity.class);
+                        String activityId = new JSONObject(noti.getDetail()).getString("activityId");
+                        intent.putExtra("activityId",activityId);
+                        context.startActivity(intent);
+                    }else {
+                        noti.showDialog(context, myEmail);
+                    }
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
