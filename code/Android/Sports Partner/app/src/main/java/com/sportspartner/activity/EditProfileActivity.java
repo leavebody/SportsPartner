@@ -1,10 +1,13 @@
 package com.sportspartner.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -45,7 +52,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class EditProfileActivity extends BasicActivity {
+public class EditProfileActivity extends BasicActivity implements AdapterView.OnItemSelectedListener {
+    //private String[] gender_list={"Female","Male","Other"};
+
     //Image
     private ImagePicker imagePicker;
 
@@ -71,7 +80,8 @@ public class EditProfileActivity extends BasicActivity {
     //widget
     private ImageView photoView;
     private EditText userName;
-    private EditText gender;
+    //private EditText gender;
+    private Spinner gender;
     private EditText age;
     private EditText city;
     private RecyclerView interestRecyclerView;
@@ -102,17 +112,31 @@ public class EditProfileActivity extends BasicActivity {
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
-        gender = (EditText) findViewById(R.id.text_gender);
+        //gender = (EditText) findViewById(R.id.edit_gender);
+        gender = (Spinner) findViewById(R.id.spinner_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
         interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearRecycler = (LinearLayout) findViewById(R.id.ListView_Recycler);
 
         //set all the contents
-        gender.setText(profile.getGender());
-        age.setText(Integer.toString(profile.getAge()));
+        if (profile.getAge() == 0){
+            age.setText("");
+        }
+        else {
+            age.setText(Integer.toString(profile.getAge()));
+        }
+        //gender.setText(profile.getGender());
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
+
+        //set gender onCilck listener
+        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gender_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender.setAdapter(spinnerAdapter);
+        gender.setOnItemSelectedListener(this);
+
 
         //set profile image
         ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
@@ -157,6 +181,25 @@ public class EditProfileActivity extends BasicActivity {
     }
 
     /**
+     * onItemSelected of Spinner
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+
+    /**
      * show a choose sport dialog when the interest row is clicked
      */
     private void onInterestClick(){
@@ -173,12 +216,6 @@ public class EditProfileActivity extends BasicActivity {
                     //setSelected(true) to all my interests
                     allSports = new ArrayList<>(result.getModel());
                     Log.d("get allSports", String.valueOf(allSports.size()));
-
-                            /*for (Sport sport : interests){
-                                int index = allSports.indexOf(sport);
-                                sport.setSelected(true);
-                                allSports.set(index,sport);
-                            }*/
 
                     HashMap<String, Sport> mapAllSports = new HashMap<>();
                     for (Sport sport : allSports){
@@ -277,7 +314,6 @@ public class EditProfileActivity extends BasicActivity {
         });
         dialog.show();
     }
-
 
     /**
      * go to ImageGridActivity when the user click his profile photo
@@ -396,7 +432,7 @@ public class EditProfileActivity extends BasicActivity {
     private void updateProfile() {
         //set profile
         profile.setUserName(userName.getText().toString());
-        profile.setGender(gender.getText().toString());
+        //profile.setGender(gender.getText().toString());
         profile.setAge(Integer.parseInt(age.getText().toString()));
         profile.setAddress(city.getText().toString());
 
@@ -425,7 +461,7 @@ public class EditProfileActivity extends BasicActivity {
             finish();
         }
         else{
-            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT);
             toast.show();
         }
 

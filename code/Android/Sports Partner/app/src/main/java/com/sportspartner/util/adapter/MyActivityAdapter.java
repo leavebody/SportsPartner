@@ -142,7 +142,7 @@ public class MyActivityAdapter extends BaseAdapter {
                         }
  						else{
                     		//if failure, show a toast
-                    		Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_LONG).show();
+                    		Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_SHORT).show();
                 		}
                     }
                 });
