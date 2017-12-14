@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.AuthorizationDao;
 import com.sportspartner.model.Authorization;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,9 +34,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             e.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDao(rs,stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -70,9 +69,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             e.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDao(rs,stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -106,8 +103,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             e.printStackTrace();
         }finally{
             try {
-                statement.close();
-                c.close();
+                DaoUtil.CloseDaoNoRs(statement,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -145,8 +141,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             e.printStackTrace();
         } finally {
             try {
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDaoNoRs(stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -181,8 +176,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
             e.printStackTrace();
         } finally {
             try {
-                stmt.close();
-                c.close();
+                DaoUtil.CloseDaoNoRs(stmt,c);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
