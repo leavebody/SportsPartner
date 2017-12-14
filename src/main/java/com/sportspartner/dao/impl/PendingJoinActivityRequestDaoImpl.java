@@ -1,5 +1,5 @@
 package com.sportspartner.dao.impl;
-//
+
 import com.sportspartner.dao.PendingJoinActivityRequestDao;
 import com.sportspartner.model.PendingJoinActivityRequest;
 import com.sportspartner.util.ConnectionUtil;

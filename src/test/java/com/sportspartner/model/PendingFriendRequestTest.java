@@ -28,5 +28,7 @@ public class PendingFriendRequestTest {
         PendingFriendRequest pendingFriendRequest = new PendingFriendRequest();
         pendingFriendRequest.setSenderId("u1");
         pendingFriendRequest.setReceiverId("u2");
+
+        assertEquals("u1u2", pendingFriendRequest.getSenderId()+pendingFriendRequest.getReceiverId());
     }
 }

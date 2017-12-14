@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 import com.sportspartner.dao.ActivityMemberDao;
 import com.sportspartner.model.ActivityMember;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,9 +35,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
             e.printStackTrace();
         } finally {
 
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
 
         }
         return activityMembers;
@@ -69,9 +68,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
 
         }
         return hasActivityMember;
@@ -105,8 +102,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
             e.printStackTrace();
         } finally {
 
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
 
         }
         return result;
@@ -141,8 +137,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
             e.printStackTrace();
         } finally {
 
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
 
         }
         return result;
@@ -172,10 +167,7 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            stmt.close();
-            c.close();
-
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }

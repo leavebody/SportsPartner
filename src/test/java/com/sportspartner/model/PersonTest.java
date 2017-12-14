@@ -29,6 +29,8 @@ public class PersonTest {
         person.setUserId("u1");
         person.setPunctualityCount(5);
         person.setParticipationCount(6);
-        assertEquals("6", String.valueOf(person.getParticipationCount()));
+
+        String actual = person.getUserId() + " " + person.getPunctualityCount() + " " + String.valueOf(person.getParticipationCount());
+        assertEquals("u1 5 6", actual);
     }
 }
