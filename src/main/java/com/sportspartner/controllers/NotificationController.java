@@ -1,7 +1,6 @@
 package com.sportspartner.controllers;
 import static spark.Spark.*;
 
-import com.sportspartner.model.Notification;
 import com.sportspartner.service.*;
 import com.sportspartner.util.JsonResponse;
 import com.sportspartner.util.JsonTransformer;
@@ -15,10 +14,14 @@ public class NotificationController {
         setupEndpoints();
     }
 
-    // send a friend request
+
+    /**
+     * Set all endpoints for notification
+     */
     private void setupEndpoints() {
+        //send a friend request
         post(API_CONTEXT + "/friendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.sendFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch(Exception ex) {
@@ -30,7 +33,7 @@ public class NotificationController {
 
         // accept a freind request
         post(API_CONTEXT + "/acceptfriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.acceptFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch (Exception ex) {
@@ -42,7 +45,7 @@ public class NotificationController {
 
         // decline a friend request
         post(API_CONTEXT + "/declinefriendrequest/:receiverId/:senderId", "application/json", (request, response) -> {
-            JsonResponse reps = new JsonResponse(true);
+            JsonResponse reps = new JsonResponse(false);
             try {
                 reps = notificationService.declineFriendRequest(request.params(":receiverId"), request.params(":senderId"));
             } catch (Exception ex) {
