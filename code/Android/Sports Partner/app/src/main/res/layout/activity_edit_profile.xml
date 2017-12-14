@@ -100,7 +100,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="11"
-                android:backgroundTint="@color/gray"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text=""

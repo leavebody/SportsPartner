@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,12 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -49,7 +52,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class EditProfileActivity extends BasicActivity {
+public class EditProfileActivity extends BasicActivity implements AdapterView.OnItemSelectedListener {
     //private String[] gender_list={"Female","Male","Other"};
 
     //Image
@@ -132,20 +135,7 @@ public class EditProfileActivity extends BasicActivity {
                 R.array.gender_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gender.setAdapter(spinnerAdapter);
-        /*gender.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                new AlertDialog.Builder(EditProfileActivity.this)
-                        .setTitle("Select your gender")
-                        .setAdapter(spinnerAdapter, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                gender.setText(gender_list[which].toString());
-                                dialog.dismiss();
-                            }
-                        }).create().show();
-            }
-        });*/
+        gender.setOnItemSelectedListener(this);
 
 
         //set profile image
@@ -188,6 +178,25 @@ public class EditProfileActivity extends BasicActivity {
                 EditProfileActivity.this.onPhotoClick();
             }
         });
+    }
+
+    /**
+     * onItemSelected of Spinner
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
     }
 
     /**
@@ -305,7 +314,6 @@ public class EditProfileActivity extends BasicActivity {
         });
         dialog.show();
     }
-
 
     /**
      * go to ImageGridActivity when the user click his profile photo
