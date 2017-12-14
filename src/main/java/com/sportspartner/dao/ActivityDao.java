@@ -10,7 +10,7 @@ import java.util.List;
 public interface ActivityDao {
     public static final double FALL_OFF_DISTANCE = 5; // in km
     public static final double FRIEND_WEIGHT = 1;
-    public static final double DISTANCE_WEIGHT = 1;
+    public static final double DISTANCE_WEIGHT = 2;
     public static final double INTEREST_WEIGHT = 1;
     public static final double DEFAULT_DISTANCE = 20000; // in km
 
