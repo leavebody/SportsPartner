@@ -7,6 +7,7 @@ import com.sportspartner.model.*;
 import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -176,8 +177,8 @@ public class NotificationService {
         return resp;
     }
 
-    /*
-    public JsonResponse sendJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
+
+    public JsonResponse sendJoinActivityRequest(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
         try {
@@ -221,11 +222,11 @@ public class NotificationService {
                 }
             }
         } catch (Exception ex) {
-            throw new NotificationServiceException("Fail to send new notification for joining an acticity", ex);
+            throw new Exception("Fail to send new notification for joining an acticity", ex);
         }
         return resp;
     }
-    */
+
 
     /**
      * Creator of an activity accept a new join application.
@@ -234,10 +235,10 @@ public class NotificationService {
      * @param activityId The UUID of the acitivity.
      * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
      * @return JsonResponse object
-     * @throws NotificationServiceException
+     * @throws Exception
      */
-    /*
-    public JsonResponse acceptJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
+
+    public JsonResponse acceptJoinActivityRequest(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
         try{
@@ -278,11 +279,11 @@ public class NotificationService {
                 }
             }
         }catch (Exception ex) {
-            throw new NotificationServiceException("acceptJoinActivityRequest error", ex);
+            throw new Exception("acceptJoinActivityRequest error", ex);
         }
         return resp;
 
-    }*/
+    }
 
     /**
      * Creator of the activity decline join application.
@@ -290,10 +291,10 @@ public class NotificationService {
      * @param activityId The UUID of the activity.
      * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
      * @return JsonResponse Object
-     * @throws NotificationServiceException
+     * @throws Exception
      */
-    /*
-    public JsonResponse declineJoinActivityRequest(String activityId, String body) throws NotificationServiceException {
+
+    public JsonResponse declineJoinActivityRequest(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
         try{
@@ -331,11 +332,11 @@ public class NotificationService {
                 }
             }
         }catch (Exception ex) {
-            throw new NotificationServiceException("declineJoinActivityRequest error", ex);
+            throw new Exception("declineJoinActivityRequest error", ex);
         }
         return resp;
 
-    }*/
+    }
 
     /**
      * Check whether a user is authorized
@@ -343,12 +344,18 @@ public class NotificationService {
      * @param key login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    /*
-    public boolean isAuthorized(String userId, String key){
+    public boolean isAuthorized(String userId, String key) {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
-        return authorizationDaoImpl.hasAuthorization(authorization);
+        boolean authorized = false;
+        try{
+            authorized = authorizationDaoImpl.hasAuthorization(authorization);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return authorized;
     }
-    */
+
+
 
 }
