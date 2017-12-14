@@ -3,6 +3,7 @@ package com.sportspartner.dao.impl;
 
 import com.sportspartner.model.Interest;
 import com.sportspartner.util.ConnectionUtil;
+import com.sportspartner.util.DaoUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,9 +77,7 @@ public class InterestDaoImpl {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            rs.close();
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDao(rs,stmt,c);
         }
         return interests;
     }
@@ -103,12 +102,11 @@ public class InterestDaoImpl {
             stmt.setString(1, userId);
             stmt.setString(2, sportId);
             rs = stmt.executeUpdate();
-            result = true;
+            result = (rs>0);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -139,8 +137,7 @@ public class InterestDaoImpl {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }
@@ -169,8 +166,7 @@ public class InterestDaoImpl {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            stmt.close();
-            c.close();
+            DaoUtil.CloseDaoNoRs(stmt,c);
         }
         return result;
     }

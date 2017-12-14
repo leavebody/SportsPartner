@@ -200,7 +200,26 @@ public class MapActivity extends BasicActivity
                     return;
                 }
                 ArrayList<FacilityMarker> newMarkers = modelResult.getModel();
+      /*          /////////////////////////////////////////////
+                ////// for drawing custom markers   /////////
+                /////////////////////////////////////////////
+                newMarkers = new ArrayList<>();
+                //newMarkers.add(new FacilityMarker(39.3361, -76.6229, "user", "Hopkins House"));
+                //newMarkers.add(new FacilityMarker(39.3283, -76.6173, "user", "My home"));
+                //newMarkers.add(new FacilityMarker(39.2972, -76.6151, "user", "My home"));
+                newMarkers.add(new FacilityMarker(39.3321, -76.6213, "a001", "JHU Recreation Center"));
+                newMarkers.add(new FacilityMarker(39.3321, -76.6215, "a002", "JHU Recreation Center"));
+                newMarkers.add(new FacilityMarker(39.3276, -76.6204, "a003", "Wyman quad, JHU"));
+                newMarkers.add(new FacilityMarker(39.3265, -76.6216, "a004", "Decker Quad, JHU"));
+                newMarkers.add(new FacilityMarker(39.3292, -76.6179, "a005", "JHU East Gate"));
+                newMarkers.add(new FacilityMarker(39.2971, -76.6152, "a006", "Peabody"));
+                newMarkers.add(new FacilityMarker(39.2971, -76.6151, "a007", "Peabody"));
 
+
+
+                /////////////////////////////////////////////
+                ////// end of drawing custom markers   //////
+                /////////////////////////////////////////////*/
                 for (FacilityMarker f : newMarkers) {
                     MarkerOptions markerOptions = new MarkerOptions()
                             .position(new LatLng(f.getLatitude(), f.getLongitude()));
@@ -465,6 +484,12 @@ public class MapActivity extends BasicActivity
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
         finish();
     }
 

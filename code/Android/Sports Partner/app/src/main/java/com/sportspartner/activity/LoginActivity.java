@@ -87,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
 
         UserService.login(this, email, password, token, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult booleanResult) {
-                Log.d("notifitest", "login 90");
                 loginHandler(booleanResult);
             }
         });
@@ -135,5 +134,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 }
 

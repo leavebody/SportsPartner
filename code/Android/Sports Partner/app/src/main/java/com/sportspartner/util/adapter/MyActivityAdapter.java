@@ -125,19 +125,10 @@ public class MyActivityAdapter extends BaseAdapter {
         // Get view for row item
         View rowView = inflater.inflate(R.layout.layout_activity, parent, false);
 
-        //populate each element with relevant data
-        SActivityOutline activity = (SActivityOutline) getItem(position);
+        // Get view for row item
+        //if (convertView == null)
+            //convertView = inflater.inflate(R.layout.layout_activity, parent, false);
 
-        return setView(rowView, activity);
-    }
-
-    /**
-     * Set the content of the activity outline view.
-     * @param rowView The view of the activity outline.
-     * @param activity The ActivityOutline object.
-     * @return
-     */
-    public View setView(View rowView, SActivityOutline activity){
         //get element from the layout
         final ImageView activityPhoto = (ImageView) rowView.findViewById(R.id.activity_photo);
         TextView sportName = (TextView) rowView.findViewById(R.id.sport_name);
@@ -146,6 +137,9 @@ public class MyActivityAdapter extends BaseAdapter {
         TextView activityLocation = (TextView) rowView.findViewById(R.id.activity_location);
         TextView activityMember = (TextView) rowView.findViewById(R.id.activity_member);
 
+        //populate each element with relevant data
+        SActivityOutline activity = (SActivityOutline) getItem(position);
+
         ResourceService.getImage(myContext, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
                 new ActivityCallBack<Bitmap>(){
                     @Override
@@ -153,10 +147,10 @@ public class MyActivityAdapter extends BaseAdapter {
                         if (modelResult.isStatus()) {
                             activityPhoto.setImageBitmap(modelResult.getModel());
                         }
-                        else{
-                            //if failure, show a toast
-                            Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_LONG).show();
-                        }
+ 						else{
+                    		//if failure, show a toast
+                    		Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                		}
                     }
                 });
 

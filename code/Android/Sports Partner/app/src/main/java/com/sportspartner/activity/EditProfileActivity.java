@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -32,6 +34,7 @@ import com.sportspartner.service.ProfileService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.Chat.Connection;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PicassoImageLoader;
 import com.sportspartner.util.adapter.Divider;
@@ -44,7 +47,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class EditProfileActivity extends BasicActivity {
+public class EditProfileActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {// {
+    private final ArrayList<String> listGender= new ArrayList<String>(){{
+        add("Female");
+        add("Male");
+        add("Other");
+    }};
+    private int genderPosition;
+
     //Image
     private ImagePicker imagePicker;
 
@@ -71,6 +81,7 @@ public class EditProfileActivity extends BasicActivity {
     private ImageView photoView;
     private EditText userName;
     private EditText gender;
+    //private Spinner gender;
     private EditText age;
     private EditText city;
     private RecyclerView interestRecyclerView;
@@ -101,17 +112,26 @@ public class EditProfileActivity extends BasicActivity {
         //find all widgets by id
         photoView = (ImageView) findViewById(R.id.profile_photo);
         userName = (EditText) findViewById(R.id.profile_name);
-        gender = (EditText) findViewById(R.id.text_gender);
+        gender = (EditText) findViewById(R.id.edit_gender);
+        //gender = (Spinner) findViewById(R.id.spinner_gender);
         age = (EditText) findViewById(R.id.edit_age);
         city = (EditText) findViewById(R.id.text_city);
         interestRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearRecycler = (LinearLayout) findViewById(R.id.ListView_Recycler);
 
         //set all the contents
+        if (profile.getAge() == 0){
+            age.setText("");
+        }
+        else {
+            age.setText(Integer.toString(profile.getAge()));
+        }
         gender.setText(profile.getGender());
-        age.setText(Integer.toString(profile.getAge()));
         city.setText(profile.getAddress());
         userName.setText(profile.getUserName());
+
+        //set gender onCilck listener
+        gender.setOnClickListener(myGenderListener);
 
         //set profile image
         ResourceService.getImage(this, profile.getIconUUID(), ResourceService.IMAGE_SMALL,
@@ -156,6 +176,61 @@ public class EditProfileActivity extends BasicActivity {
     }
 
     /**
+     * Show the NumberPicker Dialog
+     * Set the content of the textView according to selection result of the user
+     * @param strings    The String shows in the NumberPicker
+     * @param textView  The textView which should be changed
+     */
+    //all types of listener
+    private void showDialog(final String[] strings, final TextView textView){
+        final Dialog d = new Dialog(EditProfileActivity.this);
+        d.setTitle("NumberPicker");
+        d.setContentView(R.layout.layout_dialog);
+        final Button b1 = (Button) d.findViewById(R.id.dialog_button_set);
+        Button b2 = (Button) d.findViewById(R.id.dialog_button_cancel);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.dialog_numPicker);
+        np.setDisplayedValues(strings);
+        np.setMinValue(0);
+        np.setMaxValue(strings.length - 1);
+        np.setWrapSelectorWheel(true);
+        np.setOnValueChangedListener(this);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                textView.setText(np.getDisplayedValues()[np.getValue()]);
+                genderPosition = np.getValue()%listGender.size();
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
+
+    /**
+     * myGenderListener:
+     * An object of OnClickListener,
+     * Set the content of the string, which will be shown in the Dialog
+     * Show a dialog
+     */
+    private View.OnClickListener myGenderListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            String[] sports = new String[listGender.size()];
+            for (int i = 0; i < listGender.size(); i++){
+                sports[i] = listGender.get(i);
+            }
+            showDialog(sports, gender);
+        }
+    };
+
+
+    /**
      * show a choose sport dialog when the interest row is clicked
      */
     private void onInterestClick(){
@@ -172,12 +247,6 @@ public class EditProfileActivity extends BasicActivity {
                     //setSelected(true) to all my interests
                     allSports = new ArrayList<>(result.getModel());
                     Log.d("get allSports", String.valueOf(allSports.size()));
-
-                            /*for (Sport sport : interests){
-                                int index = allSports.indexOf(sport);
-                                sport.setSelected(true);
-                                allSports.set(index,sport);
-                            }*/
 
                     HashMap<String, Sport> mapAllSports = new HashMap<>();
                     for (Sport sport : allSports){
@@ -276,7 +345,6 @@ public class EditProfileActivity extends BasicActivity {
         });
         dialog.show();
     }
-
 
     /**
      * go to ImageGridActivity when the user click his profile photo
@@ -415,6 +483,7 @@ public class EditProfileActivity extends BasicActivity {
         // handle the result here
         String message = result.getMessage();
         if (result.isStatus()) {
+            Connection.updateSendBird(this,userEmail);
             Toast toast = Toast.makeText(EditProfileActivity.this, "Update Success!", Toast.LENGTH_LONG);
             toast.show();
             Intent intent = new Intent(this, ProfileActivity.class);
@@ -423,7 +492,7 @@ public class EditProfileActivity extends BasicActivity {
             finish();
         }
         else{
-            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT);
             toast.show();
         }
 
@@ -439,4 +508,8 @@ public class EditProfileActivity extends BasicActivity {
         finish();
     }
 
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+    }
 }

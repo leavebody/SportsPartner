@@ -35,13 +35,12 @@ public class PersonVOTest {
         personVO.setParticipation(5);
         personVO.setIconUUID("UUID");
 
-        assertEquals("u1", personVO.getUserId());
-        assertEquals("Name", personVO.getUserName());
-        assertEquals("JHU", personVO.getAddress());
-        assertEquals("Female", personVO.getGender());
-        assertEquals("20", String.valueOf(personVO.getAge()));
-        assertEquals("5.0", String.valueOf(personVO.getPunctuality()));
-        assertEquals("5.0", String.valueOf(personVO.getParticipation()));
-        assertEquals("UUID", personVO.getIconUUID());
+        String expected = "u1 Name JHU Female 20 5.0 5.0 UUID";
+        String actual = personVO.getUserId() + " " +  personVO.getUserName() + " "
+                + personVO.getAddress() + " " + personVO.getGender() + " "
+                + String.valueOf(personVO.getAge()) + " " + String.valueOf(personVO.getPunctuality()) + " "
+                + String.valueOf(personVO.getParticipation()) + " " +personVO.getIconUUID();
+
+        assertEquals(expected, actual);
     }
 }

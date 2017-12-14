@@ -25,6 +25,7 @@ import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.groupchannel.GroupChannelActivity;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
@@ -206,6 +207,13 @@ public class BasicActivity extends AppCompatActivity
             startActivity(intent);
             if (!(this instanceof HomeActivity))
                 this.finish();
+        }else if (id == R.id.nav_chatlist) {
+            // Goto the Moment Page
+            Intent intent = new Intent(context, GroupChannelActivity.class);
+            intent.putExtra("isGroupChannel","true");
+            startActivity(intent);
+            if (!(this instanceof HomeActivity))
+                this.finish();
         } else if (id == R.id.nav_moments) {
             // Goto the Moment Page
             Intent intent = new Intent(context, MomentActivity.class);
@@ -226,9 +234,11 @@ public class BasicActivity extends AppCompatActivity
                 this.finish();
         } else if (id == R.id.nav_signout) {
             signOut();
+            finishAffinity();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);

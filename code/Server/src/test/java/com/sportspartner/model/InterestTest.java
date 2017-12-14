@@ -2,6 +2,8 @@ package com.sportspartner.model;
 
 import org.junit.*;
 
+import static org.junit.Assert.assertEquals;
+
 public class InterestTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception{
@@ -25,5 +27,7 @@ public class InterestTest {
     public void testInterest(){
         Interest interest = new Interest();
         interest.setUserId("u1");
+
+        assertEquals("u1", interest.getUserId());
     }
 }

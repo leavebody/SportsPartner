@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
 import com.sportspartner.request.UserRequest;
+import com.sportspartner.util.Chat.PushUtils;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
@@ -37,8 +38,8 @@ public class UserService extends Service {
     /**
      * The helper method to process the result of login request.
      * @param response The network response to process
-     * @return A BooleanResult.
-     * @see BooleanResult
+     * @return A ModelResult.
+     * @see ModelResult
      */
     public static ModelResult loginRespProcess(NetworkResponse response, Context c, String email){
         ModelResult result = new ModelResult();
@@ -52,8 +53,6 @@ public class UserService extends Service {
                     String key = jsResp.get("key").getAsString();
                     LoginDBHelper dbHelper = LoginDBHelper.getInstance(c);
                     dbHelper.insert(email, key, RegistrationIntentService.getToken());
-                    //ArrayList<String> list =  dbHelper.getAll();
-                    //System.out.println("loginRespProcess list size:"+ String.valueOf(list.size()));
                 } else {
                     result.setMessage("login failed: "+jsResp.get("message").getAsString());
                 }
@@ -101,6 +100,7 @@ public class UserService extends Service {
             }
         });
         LoginDBHelper.getInstance(c).delete();
+        PushUtils.unregisterPushTokenForCurrentUser(c, null);
     }
 
     /**

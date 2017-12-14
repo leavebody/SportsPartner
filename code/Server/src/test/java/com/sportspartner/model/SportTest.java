@@ -29,5 +29,7 @@ public class SportTest {
         sport.setSportId("001");
         sport.setSportName("tennis");
         sport.setSportIconUUID("path");
+
+        assertEquals("001 tennis path", sport.getSportId()+" "+sport.getSportName()+" "+sport.getSportIconUUID());
     }
 }

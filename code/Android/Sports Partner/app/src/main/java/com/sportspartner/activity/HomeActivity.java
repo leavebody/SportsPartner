@@ -1,8 +1,10 @@
 package com.sportspartner.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,13 +16,19 @@ import android.widget.Toast;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.sendbird.android.SendBird;
 import com.sportspartner.R;
 import com.sportspartner.models.SActivityOutline;
+import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.service.ProfileService;
+import com.sportspartner.service.ResourceService;
+import com.sportspartner.service.UserService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.MyActivityAdapter;
+import com.sportspartner.util.Chat.Connection;
 
 import java.util.ArrayList;
 
@@ -48,7 +56,7 @@ public class HomeActivity extends BasicActivity {
     private int upcommingCount = 0; // the count of loaded upcomming activities
     private int recommendCount = 0; // the count of loaded history activities
     private boolean upcommingFinished = false; // no more upcomming activity to load
-    private boolean recommendFinished = false; // no more history activity to load
+    private boolean recommendFinished = false; // no more recommend activity to load
     private final int REFRESH_LIMIT = 3;
 
     /**
@@ -104,8 +112,21 @@ public class HomeActivity extends BasicActivity {
             }
 
         });
-
+        Connection.connectSendBird(this,usermail);
         setTitle();
+        setListCommingActivity();
+        setListRecommend();
+        //setRefresh();
+        //refresh();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        upcommingCount = 0;
+        recommendCount = 0;
+        upcommingFinished = false;
+        recommendFinished = false;
         setListCommingActivity();
         setListRecommend();
         setRefresh();
@@ -185,6 +206,7 @@ public class HomeActivity extends BasicActivity {
         if (status){
             //if successfully get Activities, get the data
             ArrayList<SActivityOutline> moreSAs = moreActivitiesResult.getModel();
+            Log.d("home", moreSAs.toString());
             int size = moreSAs.size();
             recommendCount += size;
             if (size < REFRESH_LIMIT){
@@ -225,6 +247,7 @@ public class HomeActivity extends BasicActivity {
                     new ActivityCallBack<ArrayList<SActivityOutline>>(){
                         @Override
                         public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result){
+                            Log.d("home", "getModelOnSuccess");
                             loadRecommendHandler(result);
                         }
                     });
@@ -247,7 +270,6 @@ public class HomeActivity extends BasicActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refresh();
                 refreshlayout.finishLoadmore(100);
-
             }
         });
     }

@@ -130,7 +130,7 @@ public class ProfileActivity extends BasicActivity {
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.HORIZONTAL));
         recyclerView.setAdapter(interestAdapter);
 
-        final Intent intent = new Intent(this, SactivityDetailActivity.class);
+        final Intent intentDetail = new Intent(this, SactivityDetailActivity.class);
         //Set List OnClick Listener
         upcommingActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -144,12 +144,13 @@ public class ProfileActivity extends BasicActivity {
                 Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
                 toast.show();
 
-                intent.putExtra("activityId", activityId);
-                startActivity(intent);
+                intentDetail.putExtra("activityId", activityId);
+                startActivity(intentDetail);
             }
 
         });
 
+        final Intent intentReview = new Intent(this, ReviewSaActivity.class);
         historyActivityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -159,11 +160,8 @@ public class ProfileActivity extends BasicActivity {
                 SActivityOutline activityOutline = historyListAdapter.getActivityByindex(position);
                 String activityId = activityOutline.getActivityId();
 
-                Toast toast = Toast.makeText(ProfileActivity.this, "Id" + activityId, Toast.LENGTH_LONG);
-                toast.show();
-
-                intent.putExtra("activityId", activityId);
-                startActivity(intent);
+                intentReview.putExtra("activityId", activityId);
+                startActivity(intentReview);
             }
 
         });
@@ -534,6 +532,13 @@ public class ProfileActivity extends BasicActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
         finish();
     }
 

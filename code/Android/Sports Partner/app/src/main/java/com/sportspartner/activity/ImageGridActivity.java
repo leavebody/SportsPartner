@@ -264,7 +264,7 @@ public class ImageGridActivity extends com.lzy.imagepicker.ui.ImageBaseActivity 
                     Intent intent = new Intent(ImageGridActivity.this, ImageCropActivity.class);
                     startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP);
                 } else {
-                    Intent intent = new Intent();
+                     Intent intent = new Intent();
                     intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
                     setResult(ImagePicker.RESULT_CODE_ITEMS, intent);
                     finish();

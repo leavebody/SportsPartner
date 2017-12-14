@@ -125,7 +125,7 @@ public class ActivityOutlineVO {
         this.size = size;
     }
 
-    public void setFromActivity(Activity activity){
+    public ActivityOutlineVO setFromActivity(Activity activity){
         this.activityId = activity.getActivityId();
         this.creatorId = activity.getCreatorId();
         this.status = activity.getStatus();
@@ -137,10 +137,12 @@ public class ActivityOutlineVO {
         this.address = activity.getAddress();
         this.capacity = activity.getCapacity();
         this.size = activity.getSize();
+        return this;
     }
 
-    public void setFromSport(Sport sport){
+    public ActivityOutlineVO setFromSport(Sport sport){
         this.sportName = sport.getSportName();
         this.sportIconUUID = sport.getSportIconUUID();
+        return this;
     }
 }

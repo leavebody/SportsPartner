@@ -25,7 +25,7 @@ public class FriendService extends Service{
      * @param c Caller context.
      * @param callback
      */
-    public static void getFriendList(Context c, final ActivityCallBack callback) {
+    public static void getFriendList(Context c, final ActivityCallBack<ArrayList<UserOutline>> callback) {
         FriendRequest request = new FriendRequest(c);
         request.friendListVolleyRequest(new VolleyCallback() {
             @Override

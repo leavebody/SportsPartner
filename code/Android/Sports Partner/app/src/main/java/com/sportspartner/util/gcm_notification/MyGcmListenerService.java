@@ -21,6 +21,7 @@ import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
+import com.sportspartner.service.chatsupport.MyFirebaseMessagingService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
@@ -51,9 +52,27 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param data Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
      */
+
 // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
+
+        if(data.getString("sendbird")!=null)
+        {
+            String channelUrl = null;
+            try {
+                JSONObject sendBird = new JSONObject(data.getString("sendbird"));
+                JSONObject channel = (JSONObject) sendBird.get("channel");
+                channelUrl = (String) channel.get("channel_url");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            MyFirebaseMessagingService.sendNotification(this, data.getString("message"), channelUrl);
+                return;
+
+        }
+
+
         String title = data.getString("title");
         String detail = data.getString("detail");
         String sender = data.getString("sender");

@@ -126,7 +126,7 @@ public class SettingActivity extends BasicActivity {
         textStart.setOnClickListener(new MyPickTimeListener(SettingActivity.this, myStratCalendar, textStart) );
         textEnd.setOnClickListener(new MyPickTimeListener(SettingActivity.this, myEndCalendar, textEnd));
 
-        clearCache = findViewById(R.id.clear_cache);
+        clearCache = (TextView) findViewById(R.id.clear_cache);
         clearCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +220,12 @@ public class SettingActivity extends BasicActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
         finish();
     }
 

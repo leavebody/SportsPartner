@@ -29,7 +29,6 @@ public class DeviceRegistrationTest {
         deviceRegistration.setUserId("u1");
         deviceRegistration.setRegistrationId("001");
 
-        assertEquals("u1", deviceRegistration.getUserId());
-        assertEquals("001", deviceRegistration.getRegistrationId());
+        assertEquals("u1 001", deviceRegistration.getUserId() +" "+deviceRegistration.getRegistrationId());
     }
 }

@@ -179,7 +179,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             }
         });
         d.show();
-
     }
 
     /**
@@ -442,7 +441,6 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             return false;
         }
     }
-
 
     @Override
     public void onBackPressed(){

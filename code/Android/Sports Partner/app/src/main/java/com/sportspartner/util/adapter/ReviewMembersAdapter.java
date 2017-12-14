@@ -7,11 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.sportspartner.R;
 import com.sportspartner.models.UserOutline;
+import com.sportspartner.models.UserReview;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
@@ -65,26 +68,43 @@ public class ReviewMembersAdapter extends RecyclerView.Adapter<ReviewMembersAdap
         return listMembers.size();
     }
 
+    public String getUserIdByPosition(int pos) {
+        try {
+            return listMembers.get(pos).getUserId();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView icon;
         public TextView name;
         private Context context;
+        public RatingBar punctuality;
+        public RatingBar participation;
+        public EditText comment;
 
         public MyViewHolder(View view, Context context) {
             super(view);
             this.icon = (ImageView) view.findViewById(R.id.profile_photo);
             this.name = (TextView) view.findViewById(R.id.profile_name);
             this.context = context;
-            view.setOnClickListener(this);
+            this.punctuality = view.findViewById(R.id.rating_punctuality);
+            this.participation = view.findViewById(R.id.rating_participation);
+            this.comment = view.findViewById(R.id.comment);
         }
 
-        // Handles the row being being clicked
-        @Override
-        public void onClick(View view) {
+        public double getPunctuality() {
+            return punctuality.getRating();
+        }
 
+        public double getParticipation() {
+            return participation.getRating();
+        }
+
+        public String getComment() {
+            return comment.getText().toString();
         }
     }
 }
