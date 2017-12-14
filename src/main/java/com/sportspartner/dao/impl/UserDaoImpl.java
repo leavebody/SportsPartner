@@ -82,8 +82,6 @@ public class UserDaoImpl implements UserDao {
         } finally {
 
             DaoUtil.CloseDao(rs,stmt,c);
-
-
         }
         return user;
     }
