@@ -194,6 +194,10 @@ public class ActivityServiceTest {
         }catch(Exception e){
             e.printStackTrace();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 710584e3d9c24e1dd8f97e9e96ca33727dedb8a9
         assertEquals("{\"response\":\"true\",\"activityOutlines\":[{\"activityId\":\"aTest\",\"creatorId\":\"test\",\"status\":\"OPEN\",\"sportIconUUID\":\"27858272-c73a-11e7-abc4-cec278b6b50a\",\"sportName\":\"Swimming\",\"startTime\":\"Nov 18, 2018 2:11:00 AM\",\"endTime\":\"Nov 18, 2018 3:11:00 AM\",\"facilityId\":\"NULL\",\"longitude\":151.211302131414,\"latitude\":-33.8507705324009,\"address\":\"JHU\",\"capacity\":4,\"size\":2}]}", response);
     }
 
