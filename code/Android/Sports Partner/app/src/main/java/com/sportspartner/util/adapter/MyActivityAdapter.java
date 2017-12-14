@@ -53,6 +53,11 @@ public class MyActivityAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public MyActivityAdapter(Context context) {
+        this.myContext = context;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
     /**
      * Set the height of ListView
      * @param listView The listView of which we wants to change height

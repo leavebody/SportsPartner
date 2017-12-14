@@ -139,7 +139,9 @@ public class MyGcmListenerService extends GcmListenerService {
             }
         }
         else {
-            if(priority==2) {
+            // if the activity joining application is accepted
+            // the user will have a new upcoming activity
+            if(priority==21) {
                 String activityId = null;
                 try {
                     activityId = new JSONObject(detail).getString("activityId");

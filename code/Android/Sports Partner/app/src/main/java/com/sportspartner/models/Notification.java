@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by yujiaxiao on 11/11/17.
  */
 
-public abstract class Notification {
+public class Notification {
     private String uuid;
     private String title;
     private String detail;
@@ -98,5 +98,5 @@ public abstract class Notification {
         isRead = read;
     }
 
-    public abstract void showDialog(Context context, String myEmail) throws JSONException;
+    public void showDialog(Context context, String myEmail) throws JSONException{};
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
+import com.sportspartner.activity.ProfileActivity;
 import com.sportspartner.activity.SactivityDetailActivity;
 import com.sportspartner.models.Notification;
 import com.sportspartner.models.Profile;
@@ -73,14 +75,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     noti.setRead(true);
                 }
                 try {
-                    if(noti.getPriority()==0){
+                    if(noti.getPriority()==0 || noti.getPriority()==21 || noti.getPriority()==22){
+                        // if the notification is one of upcoming activity notification(0), accept activity application(21), decline activity application(22)
+                        // click will lead to the activity detail page
                         final Intent intent = new Intent(context, SactivityDetailActivity.class);
                         String activityId = new JSONObject(noti.getDetail()).getString("activityId");
                         intent.putExtra("activityId",activityId);
                         context.startActivity(intent);
-                    }else {
-                        noti.showDialog(context, myEmail);
                     }
+                    noti.showDialog(context, myEmail);
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
@@ -110,7 +113,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification noti = notiList.get(position);
 
         holder.title.setText(noti.getTitle());
-        holder.detail.setText(noti.getDetail());
+        try {
+            holder.detail.setText(new JSONObject(noti.getDetail()).getString("detail"));
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
         holder.photo.setBackgroundResource(R.drawable.message);
 
     }

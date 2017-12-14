@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +36,7 @@ public class JoinSANotification extends Notification {
         super(uuid, title, detail, sender, type, date, priority, isread);
     }
 
-    private MyActivityAdapter activityAdapter = new MyActivityAdapter();
+    private MyActivityAdapter activityAdapter;
 
     public void showDialog(final Context context, final String myEmail) throws JSONException{
         final Dialog dialog = new Dialog(context);
@@ -44,6 +45,7 @@ public class JoinSANotification extends Notification {
         dialog.setContentView(R.layout.layout_dialog_jsa_notification);
 
         //find widgets
+        activityAdapter = new MyActivityAdapter(context);
         final TextView contentText = (TextView) dialog.findViewById(R.id.noti_detail);
         final ImageView userPhoto = (ImageView) dialog.findViewById(R.id.noti_icon);
         final View activity_outline = (View) dialog.findViewById(R.id.noti_outline);
@@ -51,7 +53,7 @@ public class JoinSANotification extends Notification {
         final Button cancel = (Button) dialog.findViewById(R.id.cancel);
         final RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.RecyclerView);
 
-        //set detail and photo
+        //set detail and photos
         String jsaDetail = new JSONObject(getDetail()).getString("detail");
         contentText.setText(jsaDetail);
 

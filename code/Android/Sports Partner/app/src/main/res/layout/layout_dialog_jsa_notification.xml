@@ -54,7 +54,7 @@
         android:orientation="vertical">
         <include
             android:id="@+id/noti_outline"
-            android:layout="@layout/layout_activity"/>
+            layout="@layout/layout_activity"/>
     </LinearLayout>
 
 

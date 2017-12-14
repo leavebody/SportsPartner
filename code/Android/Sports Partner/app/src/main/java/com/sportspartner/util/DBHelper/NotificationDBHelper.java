@@ -76,9 +76,12 @@ public class NotificationDBHelper extends SQLiteOpenHelper {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 
                 Date date = format.parse(time);
-                switch(priority){
-                    case 1: allNoti.add(new FriendRequestNotification(uuid, title, detail, sender, type, date, priority, false));
-                    case 2: allNoti.add(new JoinSANotification(uuid, title, detail, sender, type, date, priority, false));
+                if((priority==1)&&(type.equals("INTERACTION"))) {
+                    allNoti.add(new FriendRequestNotification(uuid, title, detail, sender, type, date, priority, false));
+                }else if((priority==2)&&(type.equals("INTERACTION"))) {
+                    allNoti.add(new JoinSANotification(uuid, title, detail, sender, type, date, priority, false));
+                }else{
+                    allNoti.add(new Notification(uuid, title, detail, sender, type, date, priority, false));
                 }
                 cursor.moveToNext();
             }
