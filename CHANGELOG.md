@@ -224,3 +224,35 @@ All notable changes to this project will be documented in this file.
   - [PersonVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#personvo)
   - [ActivityVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityvo)
   - [ActivityOutlineVO](https://github.com/jhu-oose/2017-group-4/wiki/RESTful-Endpoints-View-Model#activityoutlinevo)
+ 
+## Iteration5 (2017-11-18 ~ 2017-12-8)
+### Added
+  * Android: Chat
+    - Chat List
+      - A page to view all the chat channels
+      - Enable/ Disable Corresponding Notifications
+    - One-to-one Chat
+      - Click a friend in the friendlist and open the distinct chat channel with a friend
+      - Message and file transfer
+      - Edit and delete messages
+    - Group Chat
+      - Click "+" button in the chat list to create a joinable chat channel.
+      - Set channel name
+      - Invite others to join the chat
+      - Mute some members
+      - Leave a group chat
+      
+  * Server: Recommendation System
+    - Recommends activities to users who might be interested in it.
+    - Hard constraints
+      - The activity is open
+      - The activity is not started yet
+      - Current user is not in this activity
+    - Sorting metric
+      - Friends - how many friends of this user is in this activity?
+      - Interest - does the sports type of the activity match user interests?
+      - Distance - how far is the activity located related to the user?
+      
+   * Android and Server: Review activity
+     - After an activity is finished, members in the activity can review each other as well as the facility used in the activity.
+

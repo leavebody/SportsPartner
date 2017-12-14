@@ -177,28 +177,8 @@ public class SactivityDetailActivity extends BasicActivity {
 
         //member
         memberInfo = activityDetail.getMembers();
+        memberAdapter.updateMember(memberInfo);
 
-        //get creator Info
-        ProfileService.getProfileOutline(this, activityDetail.getCreatorId(), new ActivityCallBack() {
-            @Override
-            public void getModelOnSuccess(ModelResult modelResult) {
-                String message = modelResult.getMessage();
-                Boolean status = modelResult.isStatus();
-
-                if (status){
-                    //if successfully get the data, then get the data
-                    UserOutline creator = (UserOutline) modelResult.getModel();
-                    memberInfo.add(creator);
-                    memberAdapter.updateMember(memberInfo);
-                    Log.d("memberInfo1", String.valueOf(memberInfo.size()));
-                }
-                else{
-                    //if failure, show a toast
-                    Toast toast = Toast.makeText(SactivityDetailActivity.this, "Load ProfileInfo Error: " + message, Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-        });
         Log.d("getMembers", String.valueOf(activityDetail.getMembers().size()));
         Log.d("memberInfo", String.valueOf(memberInfo.size()));
 
