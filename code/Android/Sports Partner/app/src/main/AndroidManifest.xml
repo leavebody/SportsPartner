@@ -95,10 +95,6 @@
             android:label="@string/title_activity_friend_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.MomentActivity"
-            android:label="@string/title_activity_moment"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.FriendListActivity"
             android:label="@string/title_activity_search_sportsactivity"
             android:theme="@style/AppTheme.NoActionBar" />

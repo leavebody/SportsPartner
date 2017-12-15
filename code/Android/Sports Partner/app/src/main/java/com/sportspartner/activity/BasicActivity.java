@@ -214,13 +214,7 @@ public class BasicActivity extends AppCompatActivity
             startActivity(intent);
             if (!(this instanceof HomeActivity))
                 this.finish();
-        } else if (id == R.id.nav_moments) {
-            // Goto the Moment Page
-            Intent intent = new Intent(context, MomentActivity.class);
-            startActivity(intent);
-            if (!(this instanceof HomeActivity))
-                this.finish();
-        } else if (id == R.id.nav_noti) {
+        }else if (id == R.id.nav_noti) {
             // Goto the Notification Page
             Intent intent = new Intent(context, NotificationActivity.class);
             startActivity(intent);

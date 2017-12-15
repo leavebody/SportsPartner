@@ -19,10 +19,6 @@
             android:icon="@drawable/chat"
             android:title="Chat List" />
         <item
-            android:id="@+id/nav_moments"
-            android:icon="@drawable/star"
-            android:title="Moments" />
-        <item
             android:id="@+id/nav_noti"
             android:icon="@drawable/notification"
             android:title="Notification" />
