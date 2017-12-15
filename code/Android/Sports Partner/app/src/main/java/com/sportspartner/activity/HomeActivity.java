@@ -114,10 +114,6 @@ public class HomeActivity extends BasicActivity {
         });
         Connection.connectSendBird(this,usermail);
         setTitle();
-        setListCommingActivity();
-        setListRecommend();
-        //setRefresh();
-        //refresh();
     }
 
     @Override
@@ -130,7 +126,7 @@ public class HomeActivity extends BasicActivity {
         setListCommingActivity();
         setListRecommend();
         setRefresh();
-        refresh();
+        refresh(true);
     }
 
     /**
@@ -230,8 +226,9 @@ public class HomeActivity extends BasicActivity {
      * Sent the corresponding request to the server
      * If not reach the end of the Upcoming Activity, get the content of Upcoming Activity
      * Else, get the content of Recommend Activity
+     * @param firstLoad is true when this is the first time loading this activity
      */
-    private void refresh(){
+    private void refresh(final boolean firstLoad){
         if (!upcommingFinished) {
             //get upcoming activities
             ActivityService.getUpcomingActivities(this, usermail, REFRESH_LIMIT, upcommingCount,
@@ -239,6 +236,9 @@ public class HomeActivity extends BasicActivity {
                         @Override
                         public void getModelOnSuccess(ModelResult<ArrayList<SActivityOutline>> result){
                             loadUpcommingActivitiesHandler(result);
+                            if (firstLoad){
+                                refresh(false);
+                            }
                         }
                     });
         } else if (!recommendFinished){
@@ -268,7 +268,7 @@ public class HomeActivity extends BasicActivity {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refresh();
+                refresh(false);
                 refreshlayout.finishLoadmore(100);
             }
         });

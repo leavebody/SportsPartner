@@ -125,6 +125,72 @@ public class MyActivityAdapter extends BaseAdapter {
         // Get view for row item
         View rowView = inflater.inflate(R.layout.layout_activity, parent, false);
 
+        //populate each element with relevant data
+        SActivityOutline activity = (SActivityOutline) getItem(position);
+
+        return setView(rowView, activity);
+    }
+
+
+    /**
+     * Set the content of the activity outline view.
+     * @param rowView The view of the activity outline.
+     * @param activity The ActivityOutline object.
+     * @return
+     */
+    public View setView(View rowView, SActivityOutline activity){
+        //get element from the layout
+        final ImageView activityPhoto = (ImageView) rowView.findViewById(R.id.activity_photo);
+        TextView sportName = (TextView) rowView.findViewById(R.id.sport_name);
+        TextView activityDate = (TextView) rowView.findViewById(R.id.activity_date);
+        TextView activityTime = (TextView) rowView.findViewById(R.id.activity_time);
+        TextView activityLocation = (TextView) rowView.findViewById(R.id.activity_location);
+        TextView activityMember = (TextView) rowView.findViewById(R.id.activity_member);
+
+        ResourceService.getImage(myContext, activity.getSportIconUUID(), ResourceService.IMAGE_ORIGIN,
+                new ActivityCallBack<Bitmap>(){
+                    @Override
+                    public void getModelOnSuccess(ModelResult<Bitmap> modelResult) {
+                        if (modelResult.isStatus()) {
+                            activityPhoto.setImageBitmap(modelResult.getModel());
+                        }
+                        else{
+                            //if failure, show a toast
+                            Toast.makeText(myContext, "Load Activity icon error: "+modelResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        sportName.setText(activity.getSportName());
+
+        //Parse time
+        SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.US);
+        String startDate = df.format(activity.getStartTime());
+        String endDate = df.format(activity.getEndTime());
+
+        activityDate.setText(startDate);
+        activityTime.setText(endDate);
+
+        activityLocation.setText(activity.getAddress());
+        String curCapacity = String.valueOf(activity.getSize()) + "/" + String.valueOf(activity.getCapacity());
+        activityMember.setText(curCapacity);
+
+
+        return rowView;
+    }
+    /**
+     * Fill the content of the list
+     * @param position position of the content
+     * @param convertView
+     * @param parent The parent View
+     * @return
+     *//*
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        // Get view for row item
+        View rowView = inflater.inflate(R.layout.layout_activity, parent, false);
+
         // Get view for row item
         //if (convertView == null)
             //convertView = inflater.inflate(R.layout.layout_activity, parent, false);
@@ -171,6 +237,8 @@ public class MyActivityAdapter extends BaseAdapter {
 
         return rowView;
     }
+
+    */
 
     /**
      * Add the item to the list
