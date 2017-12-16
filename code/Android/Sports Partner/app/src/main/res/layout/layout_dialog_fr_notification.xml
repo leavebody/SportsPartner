@@ -92,4 +92,14 @@
             android:layout_weight="4" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/noti_outline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+    </LinearLayout>
+
 </LinearLayout>

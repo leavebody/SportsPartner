@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sportspartner.models.FriendRequestNotification;
+import com.sportspartner.models.JoinSANotification;
 import com.sportspartner.models.Notification;
 
 import java.text.ParseException;
@@ -74,7 +76,13 @@ public class NotificationDBHelper extends SQLiteOpenHelper {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 
                 Date date = format.parse(time);
-                allNoti.add(new Notification(uuid, title, detail, sender, type, date, priority, false));
+                if((priority==1)&&(type.equals("INTERACTION"))) {
+                    allNoti.add(new FriendRequestNotification(uuid, title, detail, sender, type, date, priority, false));
+                }else if((priority==2)&&(type.equals("INTERACTION"))) {
+                    allNoti.add(new JoinSANotification(uuid, title, detail, sender, type, date, priority, false));
+                }else{
+                    allNoti.add(new Notification(uuid, title, detail, sender, type, date, priority, false));
+                }
                 cursor.moveToNext();
             }
         }

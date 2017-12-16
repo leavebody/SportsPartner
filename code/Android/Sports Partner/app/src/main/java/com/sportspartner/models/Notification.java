@@ -1,5 +1,9 @@
 package com.sportspartner.models;
 
+import android.content.Context;
+
+import org.json.JSONException;
+
 import java.util.Date;
 
 /**
@@ -93,4 +97,6 @@ public class Notification {
     public void setRead(Boolean read) {
         isRead = read;
     }
+
+    public void showDialog(Context context, String myEmail) throws JSONException{};
 }

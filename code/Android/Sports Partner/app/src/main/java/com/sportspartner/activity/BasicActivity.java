@@ -29,6 +29,7 @@ import com.sportspartner.service.groupchannel.GroupChannelActivity;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.DBHelper.NightModeDBHelper;
 import com.sportspartner.util.DBHelper.NotificationDBHelper;
+import com.sportspartner.util.gcm_notification.MyNotificationService;
 
 import java.util.ArrayList;
 
@@ -213,13 +214,7 @@ public class BasicActivity extends AppCompatActivity
             startActivity(intent);
             if (!(this instanceof HomeActivity))
                 this.finish();
-        } else if (id == R.id.nav_moments) {
-            // Goto the Moment Page
-            Intent intent = new Intent(context, MomentActivity.class);
-            startActivity(intent);
-            if (!(this instanceof HomeActivity))
-                this.finish();
-        } else if (id == R.id.nav_noti) {
+        }else if (id == R.id.nav_noti) {
             // Goto the Notification Page
             Intent intent = new Intent(context, NotificationActivity.class);
             startActivity(intent);
@@ -266,6 +261,10 @@ public class BasicActivity extends AppCompatActivity
 
                     NightModeDBHelper nightDBHelper = NightModeDBHelper.getInstance(context);
                     nightDBHelper.deleteAllrows();
+
+                    // destroy service when log out
+                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+                    stopService(i);
                 }
             }
         });

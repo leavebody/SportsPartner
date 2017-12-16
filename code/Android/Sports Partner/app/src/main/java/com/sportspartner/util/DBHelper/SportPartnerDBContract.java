@@ -39,4 +39,10 @@ public final class SportPartnerDBContract {
         public static final String COLUMN_START_TIME = "startTime";
         public static final String COLUMN_END_TIME = "endTime";
     }
+
+    public static class ActivityNotiDB implements BaseColumns{
+        public static final String TABLE_NAME = "activitynoti";
+        public static final String COLUMN_ACTIVITYID = "activityId";
+        public static final String COLUMN_START_TIME = "startTime";
+    }
 }

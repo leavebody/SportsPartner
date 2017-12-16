@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +17,11 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.gcm_notification.MyNotificationService;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";
@@ -75,6 +80,11 @@ public class LoginActivity extends AppCompatActivity {
         String token = RegistrationIntentService.getToken();
         System.out.println(token);
 
+//        Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+//        i.putExtra("email", email);
+//        i.putExtra("upcomingDate", new Date());
+//        getApplicationContext().startService(i);
+
         UserService.login(this, email, password, token, new ActivityCallBack(){
             public void getModelOnSuccess(ModelResult booleanResult) {
                 loginHandler(booleanResult);
@@ -97,10 +107,15 @@ public class LoginActivity extends AppCompatActivity {
         if (booleanResult.isStatus()) {
             Context context = getApplicationContext();
 
+            //get userId from SQLite
+            LoginDBHelper dbHelper = LoginDBHelper.getInstance(context);
+            String email = dbHelper.getEmail();
+
             //go to profile activity
             Intent intent = new Intent(context, HomeActivity.class);
             startActivity(intent);
             finish();
+            System.gc();
         }
     }
 

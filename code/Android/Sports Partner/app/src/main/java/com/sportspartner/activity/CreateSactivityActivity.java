@@ -2,10 +2,8 @@ package com.sportspartner.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -17,18 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
+import com.sportspartner.models.ActivityNoti;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
+import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
+import com.sportspartner.util.gcm_notification.MyNotificationService;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -280,7 +280,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * @param v The Create layout
      */
     public void CreateActivity(View v) throws ParseException {
-        boolean isValid = checkAllFileds();
+        boolean isValid = checkAllFields();
 
         if(isValid){
             //ToDO faclity ID LO La Zipcode
@@ -315,7 +315,18 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             ActivityService.createActivity(this, sActivity, new ActivityCallBack<String>(){
                 @Override
                 public void getModelOnSuccess(ModelResult<String> result) {
-                    loadCreateActivityHandler(result);
+                    String activityId = loadCreateActivityHandler(result);
+
+                    // put a new upcoming activity to SQLite
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+                    String dateString = format.format(myStratTime.getTime());
+                    ActivityNotiDBHelper.getInstance(getApplicationContext()).insert(activityId, dateString);
+
+                    // start the upcoming activity notification service
+                    Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+                    i.putExtra("upcomingDate", myStratTime.getTime());
+                    i.putExtra("activityId", activityId);
+                    getApplicationContext().startService(i);
                 }
             });
         }
@@ -325,7 +336,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
      * Handle the create SActivity result from the server
      * @param result The result from the server
      */
-    private void loadCreateActivityHandler(ModelResult<String> result) {
+    private String loadCreateActivityHandler(ModelResult<String> result) {
         // handle the result of request here
         String message = result.getMessage();
         Boolean status = result.isStatus();
@@ -334,20 +345,30 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             //if successfully get Activity, get the data
             String id = result.getModel();
             Toast.makeText(CreateSactivityActivity.this, "Create Sports Activity Success!", Toast.LENGTH_LONG).show();
+
+            // start the upcoming activity notification service
+            Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
+            i.putExtra("email", myEmail);
+            i.putExtra("upcomingDate", myStratTime.getTime());
+            getApplicationContext().startService(i);
+
             onBackPressed();
+            return id;
         }
         else {
             //if failure, show a toast
             Toast toast = Toast.makeText(CreateSactivityActivity.this, "Create SActivity Error: " + message, Toast.LENGTH_LONG);
             toast.show();
+            return "";
         }
+
     }
 
     /**
      * check whether all the fields are valid
      * @return true, if the above statement is true
      */
-    private boolean checkAllFileds(){
+    private boolean checkAllFields(){
         boolean isFull = checkIfNull();
         if (isFull){
             try {
@@ -408,8 +429,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             e.printStackTrace();
             return false;
         }
-        String startDateString = format.format(start);
-        String endDateString = format.format(end);
+//        String startDateString = format.format(start);
+//        String endDateString = format.format(end);
         if (start.before(end)){
             sActivity.setStartTime(start);
             sActivity.setEndTime(end);

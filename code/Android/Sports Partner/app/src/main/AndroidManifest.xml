@@ -54,6 +54,10 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
+        <service
+            android:name=".util.gcm_notification.MyNotificationService"
+            >
+        </service>
 
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
@@ -89,10 +93,6 @@
         <activity
             android:name=".activity.SearchSactivityActivity"
             android:label="@string/title_activity_friend_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.MomentActivity"
-            android:label="@string/title_activity_moment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.FriendListActivity"

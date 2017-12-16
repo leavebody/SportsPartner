@@ -328,6 +328,28 @@ public class ActivityService extends Service {
         }, activityId, creatorId);
     }
 
+    public static void acceptJoinActivity(Context c, String activityId, String userId, final ActivityCallBack callback){
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.acceptJoinActivityVolleyRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Accept Join activity "));
+            }
+        }, activityId, userId);
+    }
+
+    public static void declineJoinActivity(Context c, String activityId, String userId, final ActivityCallBack callback){
+
+        ActivityRequest request = new ActivityRequest(c);
+        request.declineJoinActivityVolleyRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                callback.getModelOnSuccess(ActivityService.booleanRespProcess(response, "Decline Join activity "));
+            }
+        }, activityId, userId);
+    }
+
     /**
      * leave an activity.
      * @param c Caller context

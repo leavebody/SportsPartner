@@ -23,9 +23,8 @@ import com.sportspartner.util.VolleyCallback;
 
 import java.util.ArrayList;
 
-
 /**
- * @author Xiaochen Li
+ * @author Xiaochen Li, Xuan Zhang
  */
 
 public class ActivityRequest extends com.sportspartner.request.Request{
@@ -275,7 +274,6 @@ public class ActivityRequest extends com.sportspartner.request.Request{
     public void joinActivityRequest(final VolleyCallback callback, String activityId, String creatorId) {
         LoginDBHelper db = LoginDBHelper.getInstance(contextf);
         String userEmail = db.getEmail();
-        String key = db.getKey();
 
         JsonObject jsonRequestObject = new JsonObject();
 
@@ -304,6 +302,85 @@ public class ActivityRequest extends com.sportspartner.request.Request{
         );
         queue.add(nrRequest);
     }
+
+    /**
+     * accept an application to join an activity
+     * @param callback
+     * @param activityId The UUID of the activity.
+     * @param userId The userId of the user who sent the application to join the activity.
+     */
+    public void acceptJoinActivityVolleyRequest(final VolleyCallback callback, String activityId, String userId ){
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
+        String creatorId = dbHelper.getEmail();
+        String creatorKey = dbHelper.getKey();
+
+        JsonObject jsonRequestObject = new JsonObject();
+
+        jsonRequestObject.addProperty("creatorId", creatorId.trim().toLowerCase());
+        jsonRequestObject.addProperty("creatorKey", creatorKey);
+        jsonRequestObject.addProperty("userId", userId);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+"v1/acceptjoinactivityapplication/"+activityId;
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url,
+                jsonRequestObject.toString(),
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
+
+    /**
+     * decline an application to join an activity
+     * @param callback
+     * @param activityId The UUID of the activity.
+     * @param userId The userId of the user who sent the activity joining application.
+     */
+    public void declineJoinActivityVolleyRequest(final VolleyCallback callback, String activityId, String userId){
+        LoginDBHelper dbHelper = LoginDBHelper.getInstance(contextf);
+        String creatorId = dbHelper.getEmail();
+        String creatorKey = dbHelper.getKey();
+
+        JsonObject jsonRequestObject = new JsonObject();
+
+        jsonRequestObject.addProperty("creatorId", creatorId.trim().toLowerCase());
+        jsonRequestObject.addProperty("creatorKey", creatorKey);
+        jsonRequestObject.addProperty("userId", userId);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(contextf);
+        String url = URL_CONTEXT+"v1/declinejoinactivityapplication/"+activityId;
+        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.POST, url,
+                jsonRequestObject.toString(),
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Context context = contextf.getApplicationContext();
+                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+        );
+        queue.add(nrRequest);
+    }
+
 
     /**
      * Send a request to leave an activity.
