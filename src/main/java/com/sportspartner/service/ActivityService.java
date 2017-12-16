@@ -480,7 +480,6 @@ public class ActivityService {
         } else {
             Boolean boolResult = activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId));
             if (boolResult){
-                activityDaoImpl.updateSizeById(activityId);
                 response.setResponse("true");
             }
             else {
