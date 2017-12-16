@@ -302,7 +302,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setStatus("OPEN");
             sActivity.setSportId(listSports.get(sportPosition).getSportId());
             sActivity.setCapacity(Integer.parseInt((String)textCapacity.getText()));
-            sActivity.setSize(1);
+            sActivity.setSize(0);
             sActivity.setCreatorId(myEmail);
             sActivity.setDescription(detail);
             sActivity.setFacilityId(id);

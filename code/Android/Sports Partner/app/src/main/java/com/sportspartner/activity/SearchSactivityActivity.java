@@ -381,7 +381,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     private void refresh() {
         if (!searchResultFinished) {
             //get upcomming activities
-            ActivityService.searchActivity(getApplication(), activitySearch, 3, 0, new ActivityCallBack() {
+            ActivityService.searchActivity(getApplication(), activitySearch, 3, searchResultCount, new ActivityCallBack() {
                 @Override
                 public void getModelOnSuccess(ModelResult modelResult) {
                     searchActivitiesHandler(modelResult);
