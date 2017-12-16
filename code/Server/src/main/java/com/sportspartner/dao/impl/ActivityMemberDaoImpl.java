@@ -96,8 +96,11 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
             stmt.setString(1, activityId);
             stmt.setString(2, userId);
             rs = stmt.executeUpdate();
-            if (rs > 0)
+            if (rs > 0) {
                 result = true;
+                ActivityDaoImpl activityDao = new ActivityDaoImpl();
+                activityDao.updateSizeById(activityId, true);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -132,6 +135,8 @@ public class ActivityMemberDaoImpl implements ActivityMemberDao {
             rs = stmt.executeUpdate();
             if (rs > 0) {
                 result = true;
+                ActivityDaoImpl activityDao = new ActivityDaoImpl();
+                activityDao.updateSizeById(activityId, false);
             }
         } catch (SQLException e) {
             e.printStackTrace();

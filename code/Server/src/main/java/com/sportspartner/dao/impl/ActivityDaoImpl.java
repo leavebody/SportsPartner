@@ -37,12 +37,12 @@ public class ActivityDaoImpl implements ActivityDao {
                 double latitude = rs.getDouble("latitude");
                 String zipcode = rs.getString("zipcode");
                 String address = rs.getString("address");
+                int size = rs.getInt("size");
                 Timestamp startTimeStamp = rs.getTimestamp("startTime");
                 Date startTime = new Date(startTimeStamp.getTime());
                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
                 Date endTime = new Date(endTimeStamp.getTime());
                 int capacity = rs.getInt("capacity");
-                int size = rs.getInt("size");
                 String description = rs.getString("description");
 
                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
@@ -89,9 +89,10 @@ public class ActivityDaoImpl implements ActivityDao {
                 Date startTime = new Date(startTimeStamp.getTime());
                 Timestamp endTimeStamp = rs.getTimestamp("endTime");
                 Date endTime = new Date(endTimeStamp.getTime());
-                int capacity = rs.getInt("capacity");
                 int size = rs.getInt("size");
+                int capacity = rs.getInt("capacity");
                 String description = rs.getString("description");
+
                 activity = new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description);
             }
         } catch (SQLException e) {
@@ -236,14 +237,17 @@ public class ActivityDaoImpl implements ActivityDao {
      * @throws SQLException
      */
     @Override
-    public boolean updateSizeById(String activityId) throws SQLException {
+    public boolean updateSizeById(String activityId, Boolean isAdd) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
         int rs;
         boolean result = false;
         try {
-            stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"size\" = \"size\" - 1 WHERE \"activityId\"=? ;");
+            if (isAdd)
+                stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"size\" = \"size\" + 1 WHERE \"activityId\"=? ;");
+            else
+                stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"size\" = \"size\" - 1 WHERE \"activityId\"=? ;");
             stmt.setString(1, activityId);
             rs = stmt.executeUpdate();
             if(rs>0)
@@ -749,6 +753,7 @@ public class ActivityDaoImpl implements ActivityDao {
                 Date endTime = new Date(endTimeStamp.getTime());
                 int capacity = rs.getInt("capacity");
                 int size = rs.getInt("size");
+
                 String description = rs.getString("description");
 
                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));

@@ -287,6 +287,7 @@ public class NotificationService {
                 }
                 else {
                     resp.setResponse("true");
+                    activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId));
                 }
             }
         }catch (Exception ex) {
