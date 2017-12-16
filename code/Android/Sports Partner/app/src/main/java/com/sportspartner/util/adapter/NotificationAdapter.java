@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.sportspartner.R;
 import com.sportspartner.activity.SactivityDetailActivity;
 import com.sportspartner.models.Notification;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
