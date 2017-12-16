@@ -6,6 +6,7 @@ import com.sportspartner.dao.impl.*;
 import com.sportspartner.model.*;
 import com.sportspartner.util.GCMHelper;
 import com.sportspartner.util.JsonResponse;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class NotificationService {
         else {
             String notificationId = UUID.randomUUID().toString();
             String notificationTitle = " New Friend Request";
-            String notificationDetail = senderName + " sends you a new friend request";
+            String notificationDetail = new JSONObject().put("detail", senderName + " sends you a new friend request").toString();
             String notificationType = "INTERACTION";
             Date time = new Date(System.currentTimeMillis());
             int notificationState = 1;
@@ -104,8 +105,8 @@ public class NotificationService {
         } else {
             String notificationId = UUID.randomUUID().toString();
             String notificationTitle = "Friend Request Accepted";
-            String notificationDetail = receiverName + " has accepted your friend request";
-            String notificationType = "INTERACTION";
+            String notificationDetail = new JSONObject().put("detail",receiverName + " has accepted your friend request").toString();
+            String notificationType = "MESSAGE";
             Date time = new Date(System.currentTimeMillis());
             int notificationState = 1;
             int notificationPriority = 1;
@@ -156,8 +157,8 @@ public class NotificationService {
         else {
             String notificationId = UUID.randomUUID().toString();
             String notificationTitle = "Friend Request Declined";
-            String notificationDetail = receiverName + " has declined your friend request";
-            String notificationType = "INTERACTION";
+            String notificationDetail = new JSONObject().put("detail",receiverName + " has declined your friend request").toString();
+            String notificationType = "MESSAGE";
             Date time = new Date(System.currentTimeMillis());
             int notificationState = 1;
             int notificationPriority = 1;
@@ -178,6 +179,13 @@ public class NotificationService {
     }
 
 
+    /**
+     * Send join application application to the creator of the activity.
+     * @param activityId The UUID of the activity.
+     * @param body The request body.
+     * @return JsonResponse
+     * @throws Exception
+     */
     public JsonResponse sendJoinActivityRequest(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -202,7 +210,8 @@ public class NotificationService {
             else{
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = " New Activity Joining Application";
-                String notificationDetail = senderName + " applies to join the following activity";
+                String notificationDetail = new JSONObject().put("detail",senderName + " applies to join an activity you created.")
+                        .put("activityId",activityId).toString();
                 String notificationType = "INTERACTION";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
@@ -222,7 +231,7 @@ public class NotificationService {
                 }
             }
         } catch (Exception ex) {
-            throw new Exception("Fail to send new notification for joining an acticity", ex);
+            throw new Exception("Fail to send new notification for joining an activity", ex);
         }
         return resp;
     }
@@ -232,11 +241,12 @@ public class NotificationService {
      * Creator of an activity accept a new join application.
      * A join activity request notification will be removed from notification list.
      * And a new member will be added to the activity.
-     * @param activityId The UUID of the acitivity.
+     * @param activityId The UUID of the activity.
      * @param body The Json string from controller, containing "creatorId", "creatorKey", "userId".
      * @return JsonResponse object
      * @throws Exception
      */
+
     public JsonResponse acceptJoinActivityRequest(String activityId, String body) throws Exception {
         JsonResponse resp = new JsonResponse();
         GCMHelper gcmHelper = new GCMHelper();
@@ -249,22 +259,24 @@ public class NotificationService {
             if(!isAuthorized(creatorId, creatorKey)){
                 resp.setResponse("false");
                 resp.setMessage("Lack authorization.");
-            }else if(!activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))){
-                resp.setResponse("false");
-                resp.setMessage("Fail to add a new member to the activity.");
-            }else if(!pendingJoinActivityRequestDaoImpl.deletePendingRequest(new PendingJoinActivityRequest(activityId, userId, creatorId))){
+            }//else if(!activityMemberDaoImpl.newActivityMember(new ActivityMember(activityId, userId))){
+//                resp.setResponse("false");
+//                resp.setMessage("Fail to add a new member to the activity.");
+//            }
+            else if(!pendingJoinActivityRequestDaoImpl.deletePendingRequest(new PendingJoinActivityRequest(activityId, userId, creatorId))){
                 resp.setResponse("false");
                 resp.setMessage("Fail to delete pending join activity application.");
             }else{
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = "Join Activity Application Accepted";
-                String notificationDetail = "Your application for joining the following activity has been accepted by" + creatorName;
-                String notificationType = "INTERACTION";
+                String notificationDetail = new JSONObject().put("detail","Your application for joining the following activity has been accepted by " + creatorName)
+                        .put("activityId",activityId).toString();
+                String notificationType = "MESSAGE";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
-                int notificationPriority = 1;
-                Notification notification = new Notification(creatorId,notificationId,notificationTitle,notificationDetail,notificationType,
-                        userId,time,notificationState,notificationPriority);
+                int notificationPriority = 21;
+                Notification notification = new Notification(userId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        creatorId,time,notificationState,notificationPriority);
                 if(!notificationDaoImpl.newNotification(notification)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to store notification.");
@@ -311,13 +323,14 @@ public class NotificationService {
             }else{
                 String notificationId  = UUID.randomUUID().toString();
                 String notificationTitle = "Join Activity Application Declined";
-                String notificationDetail = "Your application for joining the following activity has been declined by" + creatorName;
-                String notificationType = "INTERACTION";
+                String notificationDetail = new JSONObject().put("detail","Your application for joining the following activity has been declined by " + creatorName)
+                        .put("activityId",activityId).toString();
+                String notificationType = "MESSAGE";
                 Date time = new Date(System.currentTimeMillis());
                 int notificationState = 1;
-                int notificationPriority = 1;
-                Notification notification = new Notification(creatorId,notificationId,notificationTitle,notificationDetail,notificationType,
-                        userId,time,notificationState,notificationPriority);
+                int notificationPriority = 22;
+                Notification notification = new Notification(userId,notificationId,notificationTitle,notificationDetail,notificationType,
+                        creatorId,time,notificationState,notificationPriority);
                 if(!notificationDaoImpl.newNotification(notification)){
                     resp.setResponse("false");
                     resp.setMessage("Fail to store notification.");
@@ -343,10 +356,18 @@ public class NotificationService {
      * @param key login key of a user
      * @return true means the user is authorized,  false means the user isn't authorized
      */
-    public boolean isAuthorized(String userId, String key) throws SQLException {
+    private boolean isAuthorized(String userId, String key) {
         Authorization authorization = new Authorization(userId, key);
         AuthorizationDaoImpl authorizationDaoImpl = new AuthorizationDaoImpl();
-        return authorizationDaoImpl.hasAuthorization(authorization);
+        boolean authorized = false;
+        try{
+            authorized = authorizationDaoImpl.hasAuthorization(authorization);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return authorized;
     }
+
+
 
 }
