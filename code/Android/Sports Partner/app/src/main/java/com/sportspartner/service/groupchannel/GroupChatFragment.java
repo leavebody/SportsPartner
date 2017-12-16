@@ -48,13 +48,13 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserMessage;
 import com.sportspartner.R;
-import com.sportspartner.util.Chat.FileUtils;
-import com.sportspartner.util.Chat.MediaPlayerActivity;
-import com.sportspartner.util.Chat.PhotoViewerActivity;
-import com.sportspartner.util.Chat.PreferenceUtils;
-import com.sportspartner.util.Chat.TextUtils;
-import com.sportspartner.util.Chat.UrlPreviewInfo;
-import com.sportspartner.util.Chat.WebUtils;
+import com.sportspartner.util.chat.FileUtils;
+import com.sportspartner.util.chat.MediaPlayerActivity;
+import com.sportspartner.util.chat.PhotoViewerActivity;
+import com.sportspartner.util.chat.PreferenceUtils;
+import com.sportspartner.util.chat.TextUtils;
+import com.sportspartner.util.chat.UrlPreviewInfo;
+import com.sportspartner.util.chat.WebUtils;
 
 import org.json.JSONException;
 

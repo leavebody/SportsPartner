@@ -5,11 +5,11 @@ import android.content.Context;
 import com.android.volley.NetworkResponse;
 import com.google.gson.JsonObject;
 import com.sportspartner.request.UserRequest;
-import com.sportspartner.util.Chat.PushUtils;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.chat.PushUtils;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
-import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+import com.sportspartner.util.gcmNotification.RegistrationIntentService;
 
 /**
  * @author Xiaochen Li

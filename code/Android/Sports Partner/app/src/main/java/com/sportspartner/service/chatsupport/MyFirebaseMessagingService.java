@@ -28,7 +28,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.sportspartner.R;
 import com.sportspartner.service.groupchannel.GroupChannelActivity;
-import com.sportspartner.util.Chat.PreferenceUtils;
+import com.sportspartner.util.chat.PreferenceUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

@@ -26,10 +26,10 @@ import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.groupchannel.GroupChannelActivity;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.DBHelper.NightModeDBHelper;
-import com.sportspartner.util.DBHelper.NotificationDBHelper;
-import com.sportspartner.util.gcm_notification.MyNotificationService;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.NightModeDBHelper;
+import com.sportspartner.util.dbHelper.NotificationDBHelper;
+import com.sportspartner.util.gcmNotification.MyNotificationService;
 
 import java.util.ArrayList;
 

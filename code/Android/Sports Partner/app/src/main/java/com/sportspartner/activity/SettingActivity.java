@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.sportspartner.R;
 import com.sportspartner.models.NightMode;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.DBHelper.NightModeDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.NightModeDBHelper;
 import com.sportspartner.util.listener.MyPickTimeListener;
 
 import java.text.ParseException;

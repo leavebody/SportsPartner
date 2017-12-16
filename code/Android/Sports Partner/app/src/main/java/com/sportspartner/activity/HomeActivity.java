@@ -20,9 +20,9 @@ import com.sportspartner.models.SActivityOutline;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.MyActivityAdapter;
-import com.sportspartner.util.Chat.Connection;
+import com.sportspartner.util.chat.Connection;
 
 import java.util.ArrayList;
 

@@ -16,8 +16,8 @@ import com.sportspartner.R;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
+import com.sportspartner.util.gcmNotification.RegistrationIntentService;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";

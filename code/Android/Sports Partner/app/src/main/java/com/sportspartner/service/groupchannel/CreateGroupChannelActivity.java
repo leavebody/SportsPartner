@@ -18,7 +18,7 @@ import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ModelResult;
-import com.sportspartner.util.Chat.PreferenceUtils;
+import com.sportspartner.util.chat.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
