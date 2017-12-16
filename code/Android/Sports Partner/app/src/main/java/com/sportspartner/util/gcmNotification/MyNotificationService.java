@@ -82,7 +82,9 @@ public class MyNotificationService extends Service {
 
         @Override
         protected Intent doInBackground(Intent... intent) {
-            upcomingTime = (Date)intent[0].getSerializableExtra("upcomingDate");
+            upcomingTime = (Date)intent[0].getSerializableExtra("upcomingTime");
+            //Log.d("", intent[0].getSerializableExtra("upcomingDate"));
+            Log.d("MyNoti upcomingTime", upcomingTime.toString());
             Log.d("notification", "service 60");
 
             Date currentTime = new Date();

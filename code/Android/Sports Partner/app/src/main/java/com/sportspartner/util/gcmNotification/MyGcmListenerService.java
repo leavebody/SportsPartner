@@ -179,6 +179,7 @@ public class MyGcmListenerService extends GcmListenerService {
                             // start upcoming activity notification service
                             Intent intent = new Intent(getApplicationContext(), MyNotificationService.class);
                             intent.putExtra("activityId", sActivity.getActivityId());
+                            Log.d("MyGCM upcomingTime", sActivity.getStartTime().toString());
                             intent.putExtra("upcomingTime", sActivity.getStartTime());
                             getApplicationContext().startService(intent);
                         }else{

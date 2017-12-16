@@ -3,6 +3,7 @@ package com.sportspartner.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,22 +32,22 @@ public class WelcomeActivity extends Activity {
         }
         SendBird.init(APP_ID, getApplicationContext());
 
-//        //display the logo during 5 seconds,
-//        new CountDownTimer(1000, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//            }
-//
-//            /**
-//             * Check whether user has already logged in on this device
-//             * If yes jump to the Home Page
-//             * Else jump to the Login Page
-//             */
-//            @Override
-//            public void onFinish() {
-//
-//            }
-//        }.start();
+        //display the logo during 5 seconds,
+        /*new CountDownTimer(1000, 10000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            *//**
+             * Check whether user has already logged in on this device
+             * If yes jump to the Home Page
+             * Else jump to the Login Page*//*
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();*/
     }
 
     @Override

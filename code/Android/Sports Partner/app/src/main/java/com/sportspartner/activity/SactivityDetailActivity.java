@@ -215,6 +215,7 @@ public class SactivityDetailActivity extends BasicActivity {
                     public void getModelOnSuccess(ModelResult modelResult) {
                         if(modelResult.isStatus()){
                             Toast.makeText(SactivityDetailActivity.this, "Leave Actviity Succeeded!", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                         else{
                             Toast.makeText(SactivityDetailActivity.this, "Leave Activity Failed: " + modelResult.getMessage(), Toast.LENGTH_SHORT).show();

@@ -59,6 +59,7 @@ public class HomeActivity extends BasicActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("HOme onCreate", "true");
         super.onCreate(savedInstanceState);
         ViewGroup content = (ViewGroup) findViewById(R.id.layout_home);
         getLayoutInflater().inflate(R.layout.activity_home, content, true);
@@ -111,8 +112,10 @@ public class HomeActivity extends BasicActivity {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onStart(){
+        super.onStart();
+        Log.d("HOme onStart", "true");
+
         upcommingCount = 0;
         recommendCount = 0;
         upcommingFinished = false;
@@ -121,6 +124,12 @@ public class HomeActivity extends BasicActivity {
         setListRecommend();
         setRefresh();
         refresh(true);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("HOme onresume", "true");
     }
 
     /**

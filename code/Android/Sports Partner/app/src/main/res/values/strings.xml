@@ -26,10 +26,10 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="title_activity_welcome">welcomeActivity</string>
     <string name="title_activity_map">MapActivity</string>
-    <string name="ip_all_images">All images</string>
+    <string name="ip_all_images">All Images</string>
     <string name="ip_folder_image_count">%1$d images in total</string>
-    <string name="ip_photo_crop">photo crop</string>
-    <string name="ip_complete">complete</string>
+    <string name="ip_photo_crop">Photo Crop</string>
+    <string name="ip_complete">Complete</string>
     <string name="title_activity_edit_sa">EditSaActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_test">testActivity</string>
