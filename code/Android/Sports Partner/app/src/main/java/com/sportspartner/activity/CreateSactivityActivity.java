@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
-import com.sportspartner.models.ActivityNoti;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;

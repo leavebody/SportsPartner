@@ -1,17 +1,12 @@
 package com.sportspartner.util.Chat;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Log;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
-import com.sportspartner.activity.HomeActivity;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ModelResult;

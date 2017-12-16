@@ -1,6 +1,5 @@
 package com.sportspartner.util.gcm_notification;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;

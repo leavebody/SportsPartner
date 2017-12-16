@@ -1,7 +1,5 @@
 package com.sportspartner.util.Chat;
 
-import android.util.Log;
-
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.Member;
 import com.sendbird.android.SendBird;

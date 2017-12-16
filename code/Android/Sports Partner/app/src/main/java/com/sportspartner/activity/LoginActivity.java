@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,10 +17,7 @@ import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.gcm_notification.MyNotificationService;
 import com.sportspartner.util.gcm_notification.RegistrationIntentService;
-
-import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String FILE_CHARSET = "utf-8";

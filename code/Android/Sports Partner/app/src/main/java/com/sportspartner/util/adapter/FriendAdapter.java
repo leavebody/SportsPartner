@@ -16,7 +16,6 @@ import com.sendbird.android.GroupChannel;
 import com.sendbird.android.SendBirdException;
 import com.sportspartner.R;
 import com.sportspartner.activity.ProfileActivity;
-import com.sportspartner.models.Profile;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;

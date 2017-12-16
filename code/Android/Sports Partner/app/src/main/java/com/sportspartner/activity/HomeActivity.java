@@ -1,7 +1,6 @@
 package com.sportspartner.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,16 +15,11 @@ import android.widget.Toast;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.sendbird.android.SendBird;
 import com.sportspartner.R;
 import com.sportspartner.models.SActivityOutline;
-import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.service.ProfileService;
-import com.sportspartner.service.ResourceService;
-import com.sportspartner.service.UserService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.MyActivityAdapter;
 import com.sportspartner.util.Chat.Connection;

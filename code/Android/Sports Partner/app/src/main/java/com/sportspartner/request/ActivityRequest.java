@@ -16,7 +16,6 @@ import com.sportspartner.models.ActivitySearch;
 import com.sportspartner.models.FacilityReview;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.UserReview;
-import com.sportspartner.service.ActivityService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;

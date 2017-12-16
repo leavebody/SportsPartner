@@ -1,32 +1,19 @@
 package com.sportspartner.util.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sportspartner.R;
-import com.sportspartner.activity.NotificationActivity;
-import com.sportspartner.activity.ProfileActivity;
 import com.sportspartner.activity.SactivityDetailActivity;
 import com.sportspartner.models.Notification;
-import com.sportspartner.models.Profile;
-import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.service.FriendService;
-import com.sportspartner.service.ModelResult;
-import com.sportspartner.service.ProfileService;
-import com.sportspartner.service.ResourceService;
 import com.sportspartner.util.DBHelper.LoginDBHelper;
 
 import org.json.JSONException;
