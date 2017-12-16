@@ -236,14 +236,14 @@ public class ActivityDaoImpl implements ActivityDao {
      * @throws SQLException
      */
     @Override
-    public boolean updateCapacityById(String activityId) throws SQLException {
+    public boolean updateSizeById(String activityId) throws SQLException {
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
         int rs;
         boolean result = false;
         try {
-            stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"capacity\" = \"capacity\" - 1 WHERE \"activityId\"=? ;");
+            stmt = c.prepareStatement("UPDATE \"Activity\"  SET  \"size\" = \"size\" - 1 WHERE \"activityId\"=? ;");
             stmt.setString(1, activityId);
             rs = stmt.executeUpdate();
             if(rs>0)
@@ -508,7 +508,7 @@ public class ActivityDaoImpl implements ActivityDao {
         if (!activitySearchVO.getSportId().equals("NULL") || activitySearchVO.getCapacity() != -1
                 || !activitySearchVO.getStarttime().equals("NULL") || !activitySearchVO.getEndtime().equals("NULL")
                 || activitySearchVO.getLatitude() != 1000 || activitySearchVO.getLongitude() != 1000){
-            sql += " WHERE ";
+            sql += " WHERE \"endTime\" > CURRENT_TIMESTAMP AND ";
 
             //1. search sportId
             if (!activitySearchVO.getSportId().equals("NULL")){
