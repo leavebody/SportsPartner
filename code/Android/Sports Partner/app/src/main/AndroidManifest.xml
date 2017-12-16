@@ -30,14 +30,14 @@
         </receiver>
 
         <service
-            android:name=".util.gcm_notification.MyGcmListenerService"
+            android:name=".util.gcmNotification.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".util.gcm_notification.MyInstanceIDListenerService"
+            android:name=".util.gcmNotification.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -45,17 +45,17 @@
         </service>
         <!-- gcm.play.android.samples.com.gcmquickstart -->
         <service
-            android:name=".util.gcm_notification.RegistrationIntentService"
+            android:name=".util.gcmNotification.RegistrationIntentService"
             android:exported="false" />
         <service
-            android:name=".util.gcm_notification.MyInstanceIDService"
+            android:name=".util.gcmNotification.MyInstanceIDService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name=".util.gcm_notification.MyNotificationService"
+            android:name=".util.gcmNotification.MyNotificationService"
             >
         </service>
 
@@ -138,9 +138,9 @@
         <activity
             android:name=".service.chatsupport.BlockedMembersListActivity"
             android:label="@string/blocked_members_list" />
-        <activity android:name=".util.Chat.PhotoViewerActivity" />
+        <activity android:name=".util.chat.PhotoViewerActivity" />
         <activity
-            android:name=".util.Chat.MediaPlayerActivity"
+            android:name=".util.chat.MediaPlayerActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".service.groupchannel.InviteMemberActivity"
