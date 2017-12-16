@@ -1,4 +1,4 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,17 +14,15 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
-import com.sportspartner.activity.SettingActivity;
 import com.sportspartner.models.NightMode;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ModelResult;
-import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
+import com.sportspartner.util.dbHelper.ActivityNotiDBHelper;
 import com.sportspartner.service.chatsupport.MyFirebaseMessagingService;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.DBHelper.NightModeDBHelper;
-import com.sportspartner.util.DBHelper.NotificationDBHelper;
+import com.sportspartner.util.dbHelper.NightModeDBHelper;
+import com.sportspartner.util.dbHelper.NotificationDBHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;

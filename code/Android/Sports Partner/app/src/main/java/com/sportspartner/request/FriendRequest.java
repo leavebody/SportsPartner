@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 import com.sportspartner.util.NetworkResponseRequest;
 import com.sportspartner.util.VolleyCallback;
 
@@ -168,28 +168,6 @@ public class FriendRequest extends Request{
                     @Override
                     public void onResponse(NetworkResponse response) {
                         callback.onSuccess(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Context context = contextf.getApplicationContext();
-                Toast toast = Toast.makeText(context, "volley error: "+error.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }
-        );
-        queue.add(nrRequest);
-    }
-
-    public void deteleFriendChannelVolleyRequest(String url ){
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(contextf);
-        NetworkResponseRequest nrRequest = new NetworkResponseRequest(com.android.volley.Request.Method.DELETE, url, null,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -1,4 +1,4 @@
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 import android.os.AsyncTask;
 import android.util.Patterns;

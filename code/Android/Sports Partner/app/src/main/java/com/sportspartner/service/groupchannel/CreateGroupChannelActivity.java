@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +18,7 @@ import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.FriendService;
 import com.sportspartner.service.ModelResult;
-import com.sportspartner.util.Chat.PreferenceUtils;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.chat.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;

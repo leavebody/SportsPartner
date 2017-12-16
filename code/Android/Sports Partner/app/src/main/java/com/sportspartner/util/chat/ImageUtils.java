@@ -1,4 +1,4 @@
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 /**
  * Created by zhxiao on 12/1/17.

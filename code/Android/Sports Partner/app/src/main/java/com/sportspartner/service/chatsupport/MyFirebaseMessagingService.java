@@ -24,16 +24,11 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 import com.sportspartner.R;
 import com.sportspartner.service.groupchannel.GroupChannelActivity;
-import com.sportspartner.util.Chat.PreferenceUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sportspartner.util.chat.PreferenceUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

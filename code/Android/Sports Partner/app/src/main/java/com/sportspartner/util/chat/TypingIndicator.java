@@ -1,4 +1,4 @@
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

@@ -1,4 +1,4 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
 import android.content.Intent;
 

@@ -1,4 +1,4 @@
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;

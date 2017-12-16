@@ -16,13 +16,12 @@ import com.sendbird.android.GroupChannel;
 import com.sendbird.android.SendBirdException;
 import com.sportspartner.R;
 import com.sportspartner.activity.ProfileActivity;
-import com.sportspartner.models.Profile;
 import com.sportspartner.models.UserOutline;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
 import com.sportspartner.service.groupchannel.GroupChannelActivity;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;

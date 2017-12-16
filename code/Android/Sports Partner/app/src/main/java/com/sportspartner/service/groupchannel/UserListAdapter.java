@@ -15,7 +15,7 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sportspartner.R;
-import com.sportspartner.util.Chat.ImageUtils;
+import com.sportspartner.util.chat.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;

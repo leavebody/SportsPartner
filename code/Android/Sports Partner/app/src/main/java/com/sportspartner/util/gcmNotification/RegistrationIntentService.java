@@ -1,9 +1,8 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;

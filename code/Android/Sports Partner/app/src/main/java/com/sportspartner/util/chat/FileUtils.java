@@ -1,4 +1,4 @@
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 import android.annotation.TargetApi;
 import android.app.DownloadManager;

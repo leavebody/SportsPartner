@@ -1,6 +1,5 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -18,8 +17,8 @@ import android.widget.Toast;
 import com.sportspartner.R;
 import com.sportspartner.activity.NotificationActivity;
 import com.sportspartner.models.ActivityNoti;
-import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
-import com.sportspartner.util.DBHelper.NotificationDBHelper;
+import com.sportspartner.util.dbHelper.ActivityNotiDBHelper;
+import com.sportspartner.util.dbHelper.NotificationDBHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

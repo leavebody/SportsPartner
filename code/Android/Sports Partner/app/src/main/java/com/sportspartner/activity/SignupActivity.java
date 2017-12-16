@@ -14,7 +14,7 @@ import com.sportspartner.models.Sport;
 import com.sportspartner.service.UserService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+import com.sportspartner.util.gcmNotification.RegistrationIntentService;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
-import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.iid.InstanceIDListenerService;
 
 /**

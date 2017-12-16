@@ -1,9 +1,6 @@
 package com.sportspartner.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,19 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.google.android.gms.nearby.messages.internal.Update;
 import com.sportspartner.R;
 import com.sportspartner.models.NightMode;
-import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.DBHelper.NightModeDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.NightModeDBHelper;
 import com.sportspartner.util.listener.MyPickTimeListener;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

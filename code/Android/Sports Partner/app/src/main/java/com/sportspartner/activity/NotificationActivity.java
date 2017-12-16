@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.sportspartner.R;
 import com.sportspartner.models.Notification;
-import com.sportspartner.util.DBHelper.NotificationDBHelper;
+import com.sportspartner.util.dbHelper.NotificationDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.NotificationAdapter;
 

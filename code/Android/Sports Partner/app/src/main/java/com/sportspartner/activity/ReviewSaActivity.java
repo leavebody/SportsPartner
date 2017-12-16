@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +30,7 @@ import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.FacilityService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ResourceService;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 import com.sportspartner.util.adapter.Divider;
 import com.sportspartner.util.adapter.ReviewMembersAdapter;
 

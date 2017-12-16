@@ -9,8 +9,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.sendbird.android.SendBird;
 import com.sportspartner.R;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
-import com.sportspartner.util.gcm_notification.RegistrationIntentService;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
+import com.sportspartner.util.gcmNotification.RegistrationIntentService;
 
 public class WelcomeActivity extends Activity {
     private Intent intent;

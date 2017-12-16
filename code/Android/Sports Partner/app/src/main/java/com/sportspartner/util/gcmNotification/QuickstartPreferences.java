@@ -1,4 +1,4 @@
-package com.sportspartner.util.gcm_notification;
+package com.sportspartner.util.gcmNotification;
 
 /**
  * Created by yujiaxiao on 11/4/17.

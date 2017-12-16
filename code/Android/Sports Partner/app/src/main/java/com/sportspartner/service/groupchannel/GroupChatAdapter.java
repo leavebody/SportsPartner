@@ -21,11 +21,11 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserMessage;
 import com.sportspartner.R;
-import com.sportspartner.util.Chat.DateUtils;
-import com.sportspartner.util.Chat.FileUtils;
-import com.sportspartner.util.Chat.ImageUtils;
-import com.sportspartner.util.Chat.TextUtils;
-import com.sportspartner.util.Chat.UrlPreviewInfo;
+import com.sportspartner.util.chat.DateUtils;
+import com.sportspartner.util.chat.FileUtils;
+import com.sportspartner.util.chat.ImageUtils;
+import com.sportspartner.util.chat.TextUtils;
+import com.sportspartner.util.chat.UrlPreviewInfo;
 
 import org.json.JSONException;
 

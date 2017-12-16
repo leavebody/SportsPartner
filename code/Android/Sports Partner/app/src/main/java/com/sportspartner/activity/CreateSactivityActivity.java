@@ -15,17 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sportspartner.R;
-import com.sportspartner.models.ActivityNoti;
 import com.sportspartner.models.SActivity;
 import com.sportspartner.models.Sport;
 import com.sportspartner.service.ActivityService;
 import com.sportspartner.service.ResourceService;
 import com.sportspartner.service.ModelResult;
 import com.sportspartner.service.ActivityCallBack;
-import com.sportspartner.util.DBHelper.ActivityNotiDBHelper;
-import com.sportspartner.util.DBHelper.LoginDBHelper;
+import com.sportspartner.util.dbHelper.ActivityNotiDBHelper;
+import com.sportspartner.util.dbHelper.LoginDBHelper;
 import com.sportspartner.util.PickPlaceResult;
-import com.sportspartner.util.gcm_notification.MyNotificationService;
+import com.sportspartner.util.gcmNotification.MyNotificationService;
 import com.sportspartner.util.listener.MyPickDateListener;
 import com.sportspartner.util.listener.MyPickTimeListener;
 

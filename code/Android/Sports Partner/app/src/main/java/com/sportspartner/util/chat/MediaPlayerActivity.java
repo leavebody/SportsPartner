@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.sportspartner.util.Chat;
+package com.sportspartner.util.chat;
 
 import android.app.Activity;
 import android.content.res.Configuration;
