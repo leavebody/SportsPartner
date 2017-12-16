@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -154,6 +155,22 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         searchListAdapter = new MyActivityAdapter(this, new ArrayList<SActivityOutline>());
         listSearchActivity.setAdapter(searchListAdapter);
 
+        final Intent intent = new Intent(this, SactivityDetailActivity.class);
+        listSearchActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                //activityItems
+                SActivityOutline activityOutline = searchListAdapter.getActivityByindex(position);
+                String activityId = activityOutline.getActivityId();
+
+                intent.putExtra("activityId",activityId);
+                startActivity(intent);
+            }
+
+        });
+
     }
 
     @Override
@@ -182,21 +199,23 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
         np.setMaxValue(strings.length - 1);
         np.setWrapSelectorWheel(true);
         np.setOnValueChangedListener(this);
-        b1.setOnClickListener(new View.OnClickListener() {
+        b1.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
+                sportPosition = np.getValue()%listSports.size();
                 d.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener() {
+        b2.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 d.dismiss();
             }
         });
         d.show();
-
     }
 
     @Override
@@ -291,6 +310,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
      * @param v
      */
     public void SearchActivity(View v) {
+
         searchResultFinished = false;
         //set sportId
         if (!textSport.getText().toString().equals("")) {
@@ -339,6 +359,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
 
     private void searchActivitiesHandler(ModelResult<ArrayList<SActivityOutline>> result){
         if (result.isStatus()) {
+
             ArrayList<SActivityOutline> searchResults = new ArrayList<>(result.getModel());
             int size = searchResults.size();
             searchResultCount += size;
@@ -346,7 +367,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
                 searchResultFinished = true;
             }
             if (size > 0) {
-                searchListAdapter.appendList(searchResults);
+                searchListAdapter.addToList(searchResults);
                 searchListAdapter.notifyDataSetChanged();
                 //set the height of the listview
                 MyActivityAdapter.setListViewHeightBasedOnChildren(listSearchActivity);

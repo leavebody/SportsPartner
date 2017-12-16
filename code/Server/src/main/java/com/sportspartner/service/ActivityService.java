@@ -413,7 +413,6 @@ public class ActivityService {
     }
 
     public JsonResponse searchActivity(int limit, int offset, String body) throws SQLException, ParseException {
-        //TODO
         JsonResponse resp = new JsonResponse();
         ActivitySearchVO activitySearchVO = new Gson().fromJson(body, ActivitySearchVO.class);
         System.out.println(body);
@@ -481,7 +480,7 @@ public class ActivityService {
         } else {
             Boolean boolResult = activityMemberDaoImpl.deleteActivityMember(new ActivityMember(activityId, userId));
             if (boolResult){
-                activityDaoImpl.updateCapacityById(activityId);
+                activityDaoImpl.updateSizeById(activityId);
                 response.setResponse("true");
             }
             else {

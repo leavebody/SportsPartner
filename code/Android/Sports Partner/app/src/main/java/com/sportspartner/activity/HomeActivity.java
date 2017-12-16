@@ -135,7 +135,7 @@ public class HomeActivity extends BasicActivity {
     private void setTitle(){
         View viewComming = (View) findViewById(R.id.home_title_upcomming_activity);
         TextView titleupComming = (TextView) viewComming.findViewById(R.id.title);
-        titleupComming.setText("UpComing Activity");
+        titleupComming.setText("Upcoming Activity");
 
         viewRecommend = (View) findViewById(R.id.home_title_recommend);
         TextView titleRecommend = (TextView) viewRecommend.findViewById(R.id.title);
