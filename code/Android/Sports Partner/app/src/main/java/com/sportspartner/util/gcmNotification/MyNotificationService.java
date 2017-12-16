@@ -150,7 +150,7 @@ public class MyNotificationService extends Service {
         currentLatestTime = activityNoti.getStartTime();
         activityId = activityNoti.getActivityId();
         upcomingTime = currentLatestTime;
-        intent.putExtra("upcomingDate", upcomingTime);
+        intent.putExtra("upcomingTime", upcomingTime);
         intent.putExtra("activityId", activityId);
         upcomingNotification = new UpcomingNotification().execute(intent);
 

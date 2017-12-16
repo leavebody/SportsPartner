@@ -323,7 +323,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
 
                     // start the upcoming activity notification service
                     Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
-                    i.putExtra("upcomingDate", myStratTime.getTime());
+                    i.putExtra("upcomingTime", myStratTime.getTime());
                     i.putExtra("activityId", activityId);
                     getApplicationContext().startService(i);
                 }
@@ -348,7 +348,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             // start the upcoming activity notification service
             Intent i = new Intent(getApplicationContext(), MyNotificationService.class);
             i.putExtra("email", myEmail);
-            i.putExtra("upcomingDate", myStratTime.getTime());
+            i.putExtra("upcomingTime", myStratTime.getTime());
             getApplicationContext().startService(i);
 
             onBackPressed();
