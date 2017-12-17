@@ -364,6 +364,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
             int size = searchResults.size();
             searchResultCount += size;
             if (size < REFRESH_LIMIT) {
+                Log.d("searchSize", String.valueOf(size));
                 searchResultFinished = true;
             }
             if (size > 0) {

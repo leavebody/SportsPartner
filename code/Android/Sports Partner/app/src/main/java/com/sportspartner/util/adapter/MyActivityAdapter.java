@@ -255,8 +255,8 @@ public class MyActivityAdapter extends BaseAdapter {
      * @param newActivity The item we want to add
      */
     public void addToList(ArrayList<SActivityOutline> newActivity){
+        activityItems = new ArrayList<>();
         for (SActivityOutline sa : newActivity) {
-            activityItems = new ArrayList<>();
             activityItems.add(sa);
         }
     }
