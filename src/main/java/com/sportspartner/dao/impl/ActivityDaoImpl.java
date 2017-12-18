@@ -151,8 +151,11 @@ public class ActivityDaoImpl implements ActivityDao {
             stmt.setDouble(7, latitude);
             stmt.setString(8, zipcode);
             stmt.setString(9, address);
-            stmt.setTimestamp(10,startTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
-            stmt.setTimestamp(11,endTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
+            //stmt.setTimestamp(10,startTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
+            //stmt.setTimestamp(11,endTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
+            stmt.setTimestamp(10,startTimeStamp);
+            stmt.setTimestamp(11,endTimeStamp);
+
             stmt.setInt(12,capacity);
             stmt.setInt(13,size);
             stmt.setString(14,description);
