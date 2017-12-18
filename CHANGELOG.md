@@ -256,3 +256,19 @@ All notable changes to this project will be documented in this file.
    * Android and Server: Review activity
      - After an activity is finished, members in the activity can review each other as well as the facility used in the activity.
 
+## Iteration 6
+   * Notification
+      - Notificaiton for applicaiton of joining activity
+      - Notificaiton for upcomming activity
+      - Bug fix in previous notification function
+   * Refactor package name and arrangement of Android code
+   * Recomendation formula update
+   * Fixed a bug that causes times in device and database doesn't match
+   * Fix a bug that makes the member count of an activity wrong
+   * Add DAOutility
+   * User can choose gender from a list now
+   * Update refresh logic in main activity
+   * UI improvement: fix typos and capitalize some texts
+   * Fix a bug that causes the recomendated activities have no sport icon
+   * Add more test case for backend
+   
