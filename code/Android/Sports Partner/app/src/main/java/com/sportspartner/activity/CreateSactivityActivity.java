@@ -167,7 +167,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
                 sportPosition = np.getValue()%listSports.size();
                 d.dismiss();
-                Log.d("CreateActivity length",String.valueOf(listSports.size()) + String.valueOf(listSports.size()));
+                Log.d("CreateActivity length",String.valueOf(listSports.size()));
                 Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
             }
         });
@@ -302,6 +302,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setActivityId("NULL");
             sActivity.setStatus("OPEN");
             sActivity.setSportId(listSports.get(sportPosition).getSportId());
+            Log.d("CreateActivity sportId",listSports.get(sportPosition).getSportId());
+
             sActivity.setCapacity(Integer.parseInt((String)textCapacity.getText()));
             sActivity.setSize(0);
             sActivity.setCreatorId(myEmail);
