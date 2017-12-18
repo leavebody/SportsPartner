@@ -130,7 +130,7 @@ public class ActivityDaoImpl implements ActivityDao {
         Date startTime = activity.getStartTime();
         Timestamp startTimeStamp = new Timestamp(startTime.getTime());
         Date endTime = activity.getEndTime();
-        Timestamp endTimeStamp = new Timestamp(endTime.getTime());
+       Timestamp endTimeStamp = new Timestamp(endTime.getTime());
         int capacity = activity.getCapacity();
         int size = activity.getSize();
         String description = activity.getDescription();
@@ -155,7 +155,6 @@ public class ActivityDaoImpl implements ActivityDao {
             //stmt.setTimestamp(11,endTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
             stmt.setTimestamp(10,startTimeStamp);
             stmt.setTimestamp(11,endTimeStamp);
-
             stmt.setInt(12,capacity);
             stmt.setInt(13,size);
             stmt.setString(14,description);
