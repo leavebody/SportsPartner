@@ -136,6 +136,9 @@ public class ActivityDaoImpl implements ActivityDao {
         String description = activity.getDescription();
         boolean result = false;
 
+        //System.out.println("startTime"+startTime.toString());
+        //System.out.println("startTimeStamp"+startTimeStamp.toString());
+
         try {
             stmt = c.prepareStatement("INSERT INTO \"Activity\" (\"activityId\", \"creatorId\",\"facilityId\", \"status\", \"sportId\", \"longitude\", \"latitude\", \"zipcode\", \"address\", \"startTime\", \"endTime\" , \"capacity\",\"size\",\"description\")"+
                     "VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -148,8 +151,8 @@ public class ActivityDaoImpl implements ActivityDao {
             stmt.setDouble(7, latitude);
             stmt.setString(8, zipcode);
             stmt.setString(9, address);
-            stmt.setTimestamp(10,startTimeStamp);
-            stmt.setTimestamp(11,endTimeStamp);
+            stmt.setTimestamp(10,startTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
+            stmt.setTimestamp(11,endTimeStamp, Calendar.getInstance(TimeZone.getTimeZone("GMT-5")));
             stmt.setInt(12,capacity);
             stmt.setInt(13,size);
             stmt.setString(14,description);
