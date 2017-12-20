@@ -46,7 +46,7 @@ public class ActivityDaoImpl implements ActivityDao {
                 String description = rs.getString("description");
 
                 activities.add(new Activity(activityId, creatorId,facilityId, status,sportId, longitude, latitude, zipcode, address, startTime, endTime, capacity, size,description));
-        }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             
