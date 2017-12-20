@@ -95,13 +95,7 @@ public class FacilityDaoImpl implements FacilityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-
-                DaoUtil.CloseDao(rs,statement,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            DaoUtil.CloseDao(rs, statement, c);
         }
         return facilities;
     }
@@ -141,12 +135,9 @@ public class FacilityDaoImpl implements FacilityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDao(rs,statement,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDao(rs, statement, c);
+
         }
         return facility;
     }
@@ -194,12 +185,10 @@ public class FacilityDaoImpl implements FacilityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDaoNoRs(stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDaoNoRs(stmt, c);
+
+
         }
         return result;
     }
@@ -250,7 +239,7 @@ public class FacilityDaoImpl implements FacilityDao {
 
         } finally {
 
-            DaoUtil.CloseDaoNoRs(stmt,c);
+            DaoUtil.CloseDaoNoRs(stmt, c);
 
         }
         return result;
@@ -274,12 +263,9 @@ public class FacilityDaoImpl implements FacilityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDaoNoRs(stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDaoNoRs(stmt, c);
+
         }
         return result;
     }
