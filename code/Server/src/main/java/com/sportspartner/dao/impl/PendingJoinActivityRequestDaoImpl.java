@@ -20,7 +20,7 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
      * @return List of PendingJoinActivityRequest
      */
     @Override
-    public List<PendingJoinActivityRequest> getAllPendingRequests(String creatorId) {
+    public List<PendingJoinActivityRequest> getAllPendingRequests(String creatorId) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         List<PendingJoinActivityRequest> requests = new ArrayList<PendingJoinActivityRequest>();
         PreparedStatement stmt = null;
@@ -34,18 +34,13 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
                 String activityId = rs.getString("activityId");
                 requests.add(new PendingJoinActivityRequest(activityId, requestorId, creatorId));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
 
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            rs.close();
+            stmt.close();
+            c.close();
         }
         return requests;
 
@@ -57,7 +52,7 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
      * @return true if the pendingJoinActivityRequest exists ; false if not
      */
     @Override
-    public boolean hasPendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) {
+    public boolean hasPendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -74,19 +69,13 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
             if (rs.next()) {
                 hasPendingRequest = true;
             }
-        } catch (Exception e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //
+
         } finally {
-            try {
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            rs.close();
+            stmt.close();
+            c.close();
         }
         return hasPendingRequest;
     }
@@ -97,7 +86,7 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
      * @return true if the process succeeds; false if not
      */
     @Override
-    public boolean newPendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) {
+    public boolean newPendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -116,18 +105,12 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            stmt.close();
+            c.close();
         }
         return result;
 
@@ -138,7 +121,7 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
      * @return true if the process succeeds; false if not
      */
     @Override
-    public boolean deletePendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) {
+    public boolean deletePendingRequest(PendingJoinActivityRequest pendingJoinActivityRequest) throws SQLException{
         Connection c = new ConnectionUtil().connectDB();
 
         PreparedStatement stmt = null;
@@ -154,18 +137,12 @@ public class PendingJoinActivityRequestDaoImpl implements PendingJoinActivityReq
             rs = stmt.executeUpdate();
             if(rs>0)
                 result = true;
-        } catch (Exception e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            stmt.close();
+            c.close();
         }
         return result;
     }

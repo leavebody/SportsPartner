@@ -92,6 +92,31 @@ public class JsonResponseTest {
         resp.setFacilities(facilityMarkerVOs);
         JsonArray facilities = resp.getFacilities();
 
+        JsonResponse r1 = new JsonResponse("error");
+        JsonResponse r2 = new JsonResponse("false", "error");
+        r1.setProfile(new JsonObject());
+        r2.setUserOutline(new JsonObject());
+        r1.getUserOutline();
+        r1.setActivity(new JsonObject());
+        r1.setInterests(new JsonArray());
+        r1.setProfileComments(new JsonArray());
+        r1.getSports();
+        r1.setSports(new JsonArray());
+        r1.setActivityOutline(new JsonObject());
+        r1.getActivityOutlines();
+        r1.setActivityOutlines(new JsonArray());
+        r1.getFriendlist();
+        r1.setFriendlist(new JsonArray());
+        r1.getMembers();
+        r1.setMembers(new JsonArray());
+        r1.setFacilities(new JsonArray());
+        r1.toString();
+        ArrayList<JsonResponse> jslist = new ArrayList<>();
+        jslist.add(new JsonResponse(false));
+        JsonResponse.combineBinaryJsonResponses(jslist);
+        r1.getFacilityOutline();
+        r1.getActivityOutline();
+
 //        assertEquals("PERSON", type);
 //        assertEquals("HELLO", message);
 //        assertEquals("key", key);

@@ -33,12 +33,9 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
+
                 DaoUtil.CloseDao(rs,stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return authorizations;
     }
@@ -68,12 +65,9 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
+
                 DaoUtil.CloseDao(rs,stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return hasAuthorization;
     }
@@ -102,12 +96,9 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally{
-            try {
+
                 DaoUtil.CloseDaoNoRs(statement,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return indicator;
     }
@@ -140,12 +131,9 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
+
                 DaoUtil.CloseDaoNoRs(stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return indicator;
     }
@@ -175,12 +163,9 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
+
                 DaoUtil.CloseDaoNoRs(stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
         }
         return result;
     }
