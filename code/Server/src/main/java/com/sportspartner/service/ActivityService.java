@@ -314,6 +314,7 @@ public class ActivityService {
             resp.setMessage("Lack Authorization");
         } else {
             Activity activity = new Gson().fromJson(json.get("activity").getAsJsonObject(), Activity.class);
+            //System.out.println(activity.getStartTime().toString());
 
             String activityId = UUID.randomUUID().toString();
             activity.setActivityId(activityId);
