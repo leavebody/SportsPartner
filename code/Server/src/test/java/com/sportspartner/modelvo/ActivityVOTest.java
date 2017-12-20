@@ -39,6 +39,7 @@ public class ActivityVOTest {
 
         ActivityVO activityVO = new ActivityVO();
         activityVO.setActivityId("01");
+        activityVO.setId(activityVO.getId());
         activityVO.setCreatorId("u1");
         activityVO.setStatus("OPEN");
         activityVO.setSportIconUUID("NULL");
@@ -56,28 +57,11 @@ public class ActivityVOTest {
         activityVO.setMembers(members);
         activityVO.setDetail("detail");
         activityVO.setDiscussion(disscussion);
+        ;
 
 
-//        assertEquals("01",activityVO.getActivityId());
-//        assertEquals("u1",activityVO.getCreatorId());
-//        assertEquals("OPEN",activityVO.getStatus());
-//        assertEquals("NULL",activityVO.getSportIconUUID());
-//        assertEquals("Path",activityVO.getSportIconPath());
-//        assertEquals("Basketball",activityVO.getSportName());
-//        assertEquals(new Date(1234), activityVO.getStartTime());
-//        assertEquals(new Date(1234), activityVO.getEndTime());
-//        assertEquals("0.0", String.valueOf(activityVO.getLatitude()));
-//        assertEquals("0.1", String.valueOf(activityVO.getLongitude()));
-//        assertEquals("JHU", activityVO.getAddress());
-//        assertEquals(4, activityVO.getCapacity());
-//        assertEquals(1, activityVO.getSize());
-//        assertEquals("001", activityVO.getFacilityId());
-//        assertEquals("facility", activityVO.getFacilityName());
-//        assertEquals(members, activityVO.getMembers());
-//        assertEquals("detail", activityVO.getDetail());
-//        assertEquals(disscussion, activityVO.getDiscussion());
 
-        assertEquals("01 u1 OPEN NULL Path Basketball Wed Dec 31 19:00:01 EST 1969 Wed Dec 31 19:00:01 EST 1969 0.0 0.1 JHU 4 1 001 facility 1 detail 1 1",activityVO.getActivityId()+ " " +activityVO.getCreatorId() + " " + activityVO.getStatus()
+        assertEquals("false 01 u1 OPEN NULL Path Basketball Wed Dec 31 19:00:01 EST 1969 Wed Dec 31 19:00:01 EST 1969 0.0 0.1 JHU 4 1 001 facility 1 detail 1 1",Boolean.toString(activityVO.isMissingField())+" "+activityVO.getActivityId()+ " " +activityVO.getCreatorId() + " " + activityVO.getStatus()
                 + " " + activityVO.getSportIconUUID()+ " "+ activityVO.getSportIconPath() + " " + activityVO.getSportName() + " "
                 + activityVO.getStartTime() + " " + activityVO.getEndTime() + " " +String.valueOf(activityVO.getLatitude()  + " "
                 + String.valueOf(activityVO.getLongitude()) + " " + activityVO.getAddress()  + " "+ activityVO.getCapacity() + " "

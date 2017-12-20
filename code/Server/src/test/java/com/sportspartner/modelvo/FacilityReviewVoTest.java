@@ -31,6 +31,7 @@ public class FacilityReviewVoTest {
         facilityReviewVO.setReviewer("u1");
         facilityReviewVO.setReviewee("u2");
         facilityReviewVO.setScore(5);
+        facilityReviewVO.setComments("null");
 
         facilityReviewVO.getActivityid();
 
