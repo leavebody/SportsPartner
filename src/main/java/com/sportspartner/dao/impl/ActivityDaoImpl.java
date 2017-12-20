@@ -552,7 +552,10 @@ public class ActivityDaoImpl implements ActivityDao {
                 String SD = df.format(date);
                 System.out.println(SD);
 
-                if (start.getYear()!= 0 && end.getYear() != 1990){
+                System.out.println("start "+String.valueOf(start.getYear())+ " " +start.toString());
+                System.out.println("end "+end.getYear()+" "+end.toString());
+
+                if (start.getYear()!= 0 && end.getYear() != 0){
                     //date and time
                     sql += "\"startTime\">=? AND \"startTime\"<=? AND ";
 
@@ -640,7 +643,7 @@ public class ActivityDaoImpl implements ActivityDao {
                 DateFormat df = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
                 Date end = df.parse(activitySearchVO.getEndtime());
 
-                if (end.getYear() != 1990){
+                if (end.getYear() != 0){
                     //date and time
                     sql += "EXTRACT(YEAR from \"endTime\")=? AND EXTRACT(MONTH from \"endTime\") =? AND EXTRACT(DAY from \"endTime\") =? AND "
                             + "EXTRACT(HOUR from \"endTime\")>? AND EXTRACT(HOUR from \"endTime\")<? AND ";
