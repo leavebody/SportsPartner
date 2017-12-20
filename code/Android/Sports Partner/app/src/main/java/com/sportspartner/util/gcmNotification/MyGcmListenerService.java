@@ -42,6 +42,7 @@ import java.util.UUID;
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
+    private static final int ACCEPT_JOIN_APPLICATION = 21;
 
     /**
      * Called when message is received.
@@ -156,9 +157,14 @@ public class MyGcmListenerService extends GcmListenerService {
             }
         }
         else {
+            try {
+                detail = new JSONObject(detail).getString("detail");
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
             // if the activity joining application is accepted
             // the user will have a new upcoming activity
-            if(priority==21) {
+            if(priority==ACCEPT_JOIN_APPLICATION) {
                 String activityId = null;
                 try {
                     activityId = new JSONObject(detail).getString("activityId");
