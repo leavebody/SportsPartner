@@ -135,6 +135,8 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
         location.setOnClickListener(myLocationListener);
         capacity.setOnClickListener(myCapacityListener);
 
+        activityDetail.setSportId("002");
+
         pickPlaceResult = new PickPlaceResult();
 
         //fill the content
@@ -415,7 +417,7 @@ public class EditSaActivity extends BasicActivity implements NumberPicker.OnValu
             }
 
             //set activity
-            activityDetail.setSportId(listSports.get(sportPosition).getSportId());
+            //activityDetail.setSportId(listSports.get(sportPosition).getSportId());
             activityDetail.setDescription(detail);
             activityDetail.setCapacity(Integer.parseInt((String) capacity.getText()));
             activityDetail.setSize(memberInfo.size());

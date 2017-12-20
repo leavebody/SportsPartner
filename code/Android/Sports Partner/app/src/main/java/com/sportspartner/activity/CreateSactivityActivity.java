@@ -169,6 +169,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 d.dismiss();
                 Log.d("CreateActivity length",String.valueOf(listSports.size()));
                 Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
+                Log.d("CreateActivity sportPos",String.valueOf(listSports.get(sportPosition).getSportId()));
             }
         });
         b2.setOnClickListener(new View.OnClickListener()

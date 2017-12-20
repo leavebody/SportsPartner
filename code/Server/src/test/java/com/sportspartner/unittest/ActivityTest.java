@@ -801,8 +801,9 @@ public class ActivityTest {
 
     }
 
+
     @Test
-    public void testSearchActivity(){
+    public void testSearchActivityDateAndTime(){
         String responseBody = new String();
         String API_CONTEXT = "/api.sportspartner.com/v1";
 
@@ -813,7 +814,6 @@ public class ActivityTest {
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
             String body = "{\"sportId\":\"NULL\", \"startTime\":\"2017.11.18 AD at 07:11:00 UTC\", \"endTime\":\"2017.11.18 AD at 09:11:00 UTC\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
 
             try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
@@ -829,6 +829,152 @@ public class ActivityTest {
         }
         assertEquals(true, !responseBody.isEmpty());
     }
+
+
+    @Test
+    public void testSearchActivityOnlyTime(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"1900.11.18 AD at 07:11:00 UTC\", \"endTime\":\"1900.11.18 AD at 09:11:00 UTC\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }
+
+    @Test
+    public void testSearchActivityOnlyStartOnlyTime(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"1900.11.18 AD at 07:11:00 UTC\", \"endTime\":\"NULL\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }
+
+    @Test
+    public void testSearchActivityOnlyStart(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"1900.11.18 AD at 07:11:00 UTC\", \"endTime\":\"NULL\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }
+
+    @Test
+    public void testSearchActivityOnlyEnd(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"NULL\", \"endTime\":\"2017.11.18 AD at 09:11:00 UTC\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }@Test
+    public void testSearchActivityOnlyEndOnlyTime(){
+        String responseBody = new String();
+        String API_CONTEXT = "/api.sportspartner.com/v1";
+
+        try{
+            URL url = new URL("http", Bootstrap.IP_ADDRESS, PORT, API_CONTEXT + "/search?type=activity&limit=3&offset=0");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            //String body = new Gson().toJson(new ActivitySearchVO("NULL","2018.11.18 AD at 07:11:00 UTC",  "1900.11.18 AD at 07:11:00 UTC",  "NULL",  1000, 1000, -1));
+            String body = "{\"sportId\":\"NULL\", \"startTime\":\"NULL\", \"endTime\":\"1900.11.18 AD at 09:11:00 UTC\", \"longitude\":\"1000\", \"latitude\":\"1000\", \"capacity\":\"-1\"}";
+
+            try(DataOutputStream wr = new DataOutputStream( connection.getOutputStream())){
+                wr.writeBytes(body);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            responseBody = IOUtils.toString(connection.getInputStream());
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        assertEquals(true, !responseBody.isEmpty());
+    }
+
+
 
     @Test
     public void testRecommendActivity(){
