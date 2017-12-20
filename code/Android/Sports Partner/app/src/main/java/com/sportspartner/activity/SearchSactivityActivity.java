@@ -364,6 +364,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
             int size = searchResults.size();
             searchResultCount += size;
             if (size < REFRESH_LIMIT) {
+                Log.d("searchSize", String.valueOf(size));
                 searchResultFinished = true;
             }
             if (size > 0) {
@@ -381,7 +382,7 @@ public class SearchSactivityActivity extends BasicActivity implements NumberPick
     private void refresh() {
         if (!searchResultFinished) {
             //get upcomming activities
-            ActivityService.searchActivity(getApplication(), activitySearch, 3, 0, new ActivityCallBack() {
+            ActivityService.searchActivity(getApplication(), activitySearch, 3, searchResultCount, new ActivityCallBack() {
                 @Override
                 public void getModelOnSuccess(ModelResult modelResult) {
                     searchActivitiesHandler(modelResult);

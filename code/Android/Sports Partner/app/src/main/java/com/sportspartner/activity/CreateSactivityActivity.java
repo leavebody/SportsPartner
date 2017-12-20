@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class CreateSactivityActivity extends BasicActivity implements NumberPicker.OnValueChangeListener {
     //Android widget
@@ -166,7 +167,7 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
                 textView.setText(np.getDisplayedValues()[np.getValue()]);
                 sportPosition = np.getValue()%listSports.size();
                 d.dismiss();
-                Log.d("CreateActivity length",String.valueOf(listSports.size()) + String.valueOf(listSports.size()));
+                Log.d("CreateActivity length",String.valueOf(listSports.size()));
                 Log.d("CreateActivity sportPos",String.valueOf(sportPosition));
             }
         });
@@ -301,8 +302,10 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
             sActivity.setActivityId("NULL");
             sActivity.setStatus("OPEN");
             sActivity.setSportId(listSports.get(sportPosition).getSportId());
+            Log.d("CreateActivity sportId",listSports.get(sportPosition).getSportId());
+
             sActivity.setCapacity(Integer.parseInt((String)textCapacity.getText()));
-            sActivity.setSize(1);
+            sActivity.setSize(0);
             sActivity.setCreatorId(myEmail);
             sActivity.setDescription(detail);
             sActivity.setFacilityId(id);
@@ -419,6 +422,9 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
 
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy.MM.dd hh:mm a");
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        //formatDate.setTimeZone(TimeZone.getDefault());
+        format.setTimeZone(TimeZone.getDefault());
 
         try {
             start = formatDate.parse(startString);
@@ -433,6 +439,8 @@ public class CreateSactivityActivity extends BasicActivity implements NumberPick
         if (start.before(end)){
             sActivity.setStartTime(start);
             sActivity.setEndTime(end);
+            Log.d("format1",format1.format(start));
+            Log.d("format",format.format(start));
             return true;
         }
         else{
