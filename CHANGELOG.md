@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
    * Add DAOutility
    * User can choose gender from a list now
    * Update refresh logic in main activity
-   * UI improvement: fix typos and capitalize some texts
+   * UI improvement: fix typos and capitalize some texts
    * Fix a bug that causes the recomendated activities have no sport icon
    * Add more test case for backend
    
