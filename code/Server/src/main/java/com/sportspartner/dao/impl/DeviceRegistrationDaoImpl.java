@@ -9,10 +9,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
+public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao {
 
     /**
      * Get all device registrations of a user
+     *
      * @param userId Id of User
      * @return List of DeviceRegistration
      */
@@ -33,18 +34,16 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDao(rs,stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDao(rs, stmt, c);
+
         }
         return deviceRegistrations;
     }
 
     /**
      * Check whether the authorization item is in database.
+     *
      * @return "true" or "false" for whether the database has the item
      */
     @Override
@@ -67,18 +66,16 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDao(rs,stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDao(rs, stmt, c);
+
         }
         return hasDeviceRegistration;
     }
 
     /**
      * Create a new authorization item.
+     *
      * @return "true" or "false" for whether successfully created a new authorization
      */
     @Override
@@ -89,7 +86,7 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
         String userId = deviceRegistration.getUserId();
         String registrationId = deviceRegistration.getRegistrationId();
         try {
-            statement =c.prepareStatement("INSERT INTO \"Device_Registration\" (\"userId\", \"registrationId\") VALUES (?, ?)");
+            statement = c.prepareStatement("INSERT INTO \"Device_Registration\" (\"userId\", \"registrationId\") VALUES (?, ?)");
             statement.setString(1, userId);
             statement.setString(2, registrationId);
             int rs = statement.executeUpdate();
@@ -99,19 +96,17 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
-            try {
-                DaoUtil.CloseDaoNoRs(statement,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        } finally {
+
+            DaoUtil.CloseDaoNoRs(statement, c);
+
         }
         return indicator;
     }
 
     /**
      * Delete an authorization item from database.
+     *
      * @return "true" or "false" for whether successfully deleted the authorization item.
      */
     @Override
@@ -129,17 +124,14 @@ public class DeviceRegistrationDaoImpl implements DeviceRegistrationDao{
             stmt.setString(1, userId);
             stmt.setString(2, registrationId);
             rs = stmt.executeUpdate();
-            if(rs>0)
+            if (rs > 0)
                 result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                DaoUtil.CloseDaoNoRs(stmt,c);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
+            DaoUtil.CloseDaoNoRs(stmt, c);
+
         }
         return result;
     }
