@@ -17,31 +17,31 @@ public class FacilityCommentDaoImpl implements FacilityCommentDao {
      * @param facilityId Id of the facility
      * @return List of ProfileComment
      */
-    public List<FacilityComment> getAllFacilityComments(String facilityId) throws SQLException {
-        Connection c = new ConnectionUtil().connectDB();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<FacilityComment> facilityComments = new ArrayList<>();
-        try {
-            stmt = c.prepareStatement("SELECT * FROM \"Comment_Facility\" \" WHERE \"facilityId\"=?;");
-            stmt.setString(1, facilityId);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                String commentId = rs.getString("commentId");
-                String authorId = rs.getString("authorId");
-                String providerId = rs.getString("providerId");
-                Timestamp timestamp = rs.getTimestamp("time");
-                java.util.Date time = new java.util.Date(timestamp.getTime());
-                String content = rs.getString("content");
-                facilityComments.add(new FacilityComment(facilityId, commentId, authorId, providerId, content, time));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DaoUtil.CloseDao(rs,stmt,c);
-        }
-        return facilityComments;
-    }
+//    public List<FacilityComment> getAllFacilityComments(String facilityId) throws SQLException {
+//        Connection c = new ConnectionUtil().connectDB();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        List<FacilityComment> facilityComments = new ArrayList<>();
+//        try {
+//            stmt = c.prepareStatement("SELECT * FROM \"Comment_Facility\" \" WHERE \"facilityId\"=?;");
+//            stmt.setString(1, facilityId);
+//            rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                String commentId = rs.getString("commentId");
+//                String authorId = rs.getString("authorId");
+//                String providerId = rs.getString("providerId");
+//                Timestamp timestamp = rs.getTimestamp("time");
+//                java.util.Date time = new java.util.Date(timestamp.getTime());
+//                String content = rs.getString("content");
+//                facilityComments.add(new FacilityComment(facilityId, commentId, authorId, providerId, content, time));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            DaoUtil.CloseDao(rs,stmt,c);
+//        }
+//        return facilityComments;
+//    }
 
 
     /**

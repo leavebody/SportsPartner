@@ -29,6 +29,6 @@ public class ActivityMemberTest {
         activityMember.setUserId("u1");
         activityMember.setActivityId("a001");
 
-        assertEquals("u1 a001", activityMember.getUserId()+" " + activityMember.getActivityId());
+        assertEquals("u1 a001ActivityMember{activityId='a001', userId='u1'}", activityMember.getUserId()+" " + activityMember.getActivityId()+activityMember.toString());
     }
 }
