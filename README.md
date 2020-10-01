@@ -1,7 +1,7 @@
 # Sports Partner
 [![Build Status](https://travis-ci.com/jhu-oose/2017-group-4.svg?token=qu7s5Cf7sE84eRpgCzqR&branch=master)](https://travis-ci.com/jhu-oose/2017-group-4)
 
-Playing sports with others is a good way to experience the goodness of life. Nowadays, many people want to play sports but they cannot find a companion. Sports Partner aims at sports enthusiasts who want to find sports partners. Users can create or join a sports activity with location and time specified. They can chat with fellows, share their moments and rate the activities and the sports facilities in our app. The goal of our app is to facilitate sports matching, promote social networking and encourage healthy lifestyle.
+Playing sports with others is a good way to experience the goodness of life. Nowadays, many people want to play sports but they cannot find a companion. Sports Partner aims at sports enthusiasts who want to find sports partners. Users can create or join a sports activity with location and time specified. They can chat with fellows, share their moments and rate the activities and the sports facilities in our app. The goal of our app is to facilitate sports matching, promote social networking and encourage a healthy lifestyle.
 ## Deployment(New!)
 The Server has been deployed in heroku and it becomes the subtree of this git repo. The git address of the Server now becomes ``https://git.heroku.com/oosesportspartner.git``. We need to use git subtree command to manage the repo, some command examples are (authentication is needed for the heroku repo):
 ```
@@ -12,7 +12,7 @@ git subtree pull --prefix code/Server heroku master
 git pull origin dev
 ```
 
-The address of the Server is ``https://oosesportspartner.herokuapp.com``. The default setting of heroku repo is private, so please let our members know if you want to be the collaborator and see the details of the deployment.
+The address of the Server is ``https://oosesportspartner.herokuapp.com``. The default setting of Heroku repo is private, so please let our members know if you want to be the collaborator and see the details of the deployment.
 ## Database(New!)
 The database has moved to heroku postgreSQL database. Although our original database is also an online postgreSQL databse, we move it to heroku because we can get rid of the "To many connections" problem and keep the integrity of the server.
 ## Build and Run
@@ -41,15 +41,15 @@ Our code consists of two part. The Server part is in ``/code/Server`` folder. Th
 
 After you build both the Android and the server projects, you can play with our app!
 
-For the iterration 3, you can do the following things in our app.
-- Signup: enter your name and password, then the app will login automaticly.
+For iterration 3, you can do the following things in our app.
+- Signup: enter your name and password, then the app will log in automatically.
 - Login: Since our app is still in developing, we suggest you login with username: ``u1``, password: ''p1'' to explore the current functions.
 - Profile: After you login in using ``u1``, you will jump to the profile page to view the basic info of ``u1``.
-  Besides, you can see the upcomming activities in the bottom of this page. 
-  - Scroll down to the bottom to refresh the page. You will see more upcomming activities as well as the history activities.
-- Navigation bar: Click on the top left button to arouse the navigation bar, press the button then you will jump to the correspoding page.
+  Besides, you can see the upcomming activities at the bottom of this page. 
+  - Scroll down to the bottom to refresh the page. You will see more upcomming activities as well as history activities.
+- Navigation bar: Click on the top left button to arouse the navigation bar, press the button then you will jump to the corresponding page.
 - Home Page: You can view your upcomming activities and recommended activities. If you want to create or search certain activities, just click on the corresponding buttons.
-- Create new Activity Page: You can choose type of sports, date, time and write description for you activity. However, the ``Create`` and ``Cancel`` buttons do nothing at this moment.
-- Search new Activity Page: You can choose type of sports, date, time and write description for you activity. However, the ``Join`` button does nothing at this moment.
-- Other Pages: They are empty and needed to be impelemented.
-- Logout: Go to the navigation bar and click signout, you will successfully signout.
+- Create new Activity Page: You can choose the type of sports, date, time and write a description for your activity. However, the ``Create`` and ``Cancel`` buttons do nothing at this moment.
+- Search new Activity Page: You can choose the type of sports, date, time and write a description for your activity. However, the ``Join`` button does nothing at this moment.
+- Other Pages: They are empty and needed to be implemented.
+- Logout: Go to the navigation bar and click sign out, you will successfully signout.
